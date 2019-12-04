@@ -1,11 +1,11 @@
 /**
- * @brief ArduinoUAVCAN is a Arduino library wrapper for libcanard.
- * @author Alexander Entinger, MSc / LXRobotics GmbH
+ * @brief   Arduino library for controlling the Zubax Orel 20.
+ * @author  Alexander Entinger, MSc / LXRobotics GmbH
  * @license LGPL 3.0
  */
 
-#ifndef ARDUINO_UAVCAN_H_
-#define ARDUINO_UAVCAN_H_
+#ifndef ARDUINO_OREL_20_H_
+#define ARDUINO_OREL_20_H_
 
 /**************************************************************************************
  * INCLUDE
@@ -20,14 +20,11 @@
  * CLASS DECLARATION
  **************************************************************************************/
 
-class ArduinoUAVCAN
+class ArduinoOrel20
 {
 public:
 
-  ArduinoUAVCAN();
-
-
-  static size_t const LIBCANARD_MEMORY_POOL_SIZE_BYTES = 1024;
+  ArduinoOrel20();
 
 
   static void onTransferReception(CanardInstance* ins, CanardRxTransfer* transfer);
@@ -38,8 +35,9 @@ private:
 
   CanardInstance _canard_inst;
 
+  static size_t const LIBCANARD_MEMORY_POOL_SIZE_BYTES = 1024;
   uint8_t _libcanard_memory_pool[LIBCANARD_MEMORY_POOL_SIZE_BYTES];
 
 };
 
-#endif /* ARDUINO_UAVCAN_H_ */
+#endif /* ARDUINO_OREL_20_H_ */
