@@ -1,7 +1,7 @@
 /**
  * @brief ArduinoUAVCAN is a Arduino library wrapper for libcanard.
  * @author Alexander Entinger, MSc / LXRobotics GmbH
- * @license MIT
+ * @license LGPL 3.0
  */
 
 /**************************************************************************************
