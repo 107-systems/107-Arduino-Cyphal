@@ -126,7 +126,7 @@ typedef struct CanardInternalTxQueueItem
 
     // Intentional violation of MISRA: this flex array is the lesser of three evils. The other two are:
     //  - Use pointer, make it point to the remainder of the allocated memory following this structure.
-    //    The pointer is bad because it requires us to use pointer arithmetics and adds sizeof(void*) of waste per item.
+    //    The pointer is bad because it requires us to use pointer arithmetic and adds sizeof(void*) of waste per item.
     //  - Use a separate memory allocation for data. This is terribly wasteful.
     uint8_t payload[];  // NOSONAR
 } CanardInternalTxQueueItem;
