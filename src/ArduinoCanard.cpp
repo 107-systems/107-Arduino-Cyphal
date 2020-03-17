@@ -1,32 +1,22 @@
 /**
  * @brief   Arduino library for controlling the Zubax Orel 20.
  * @author  Alexander Entinger, MSc / LXRobotics GmbH
- * @license LGPL 3.0
+ * @license MIT
  */
-
-#ifndef ARDUINO_OREL_20_H_
-#define ARDUINO_OREL_20_H_
 
 /**************************************************************************************
  * INCLUDE
  **************************************************************************************/
 
-#include <stdint.h>
-#include <stdbool.h>
+#include "ArduinoCanard.h"
 
 /**************************************************************************************
- * CLASS DECLARATION
+ * CTOR/DTOR
  **************************************************************************************/
 
-class ArduinoOrel20
+ArduinoCanard::ArduinoCanard(uint8_t const node_id, CanardMemoryAllocate const memory_allocate, CanardMemoryFree const memory_free)
+: _canard_ins{canardInit(memory_allocate, memory_free)}
 {
-public:
-
-  ArduinoOrel20();
-
-
-private:
-
-};
-
-#endif /* ARDUINO_OREL_20_H_ */
+  _canard_ins.node_id = node_id;
+  _canard_ins.mtu_bytes = CANARD_MTU_CAN_CLASSIC;
+}
