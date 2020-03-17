@@ -10,12 +10,27 @@
 
 #include "ArduinoO1Heap.h"
 
+#include <Arduino.h>
+
+/**************************************************************************************
+ * FUNCTION DECLARATION
+ **************************************************************************************/
+
+void crit_sec_enter();
+void crit_sec_leave();
+
+/**************************************************************************************
+ * GLOBAL VARIABLES
+ **************************************************************************************/
+
+static uint8_t irestore = 0;
+
 /**************************************************************************************
  * CTOR/DTOR
  **************************************************************************************/
 
 ArduinoO1Heap::ArduinoO1Heap()
-: _o1heap_ins{o1heapInit(_base, HEAP_SIZE, nullptr, nullptr)}
+: _o1heap_ins{o1heapInit(_base, HEAP_SIZE, crit_sec_enter, crit_sec_leave)}
 {
 
 }
@@ -32,4 +47,22 @@ void * ArduinoO1Heap::allocate(size_t const amount)
 void ArduinoO1Heap::free(void * const pointer)
 {
   o1heapFree(_o1heap_ins, pointer);
+}
+
+/**************************************************************************************
+ * FUNCTION DEFINITION
+ **************************************************************************************/
+
+void crit_sec_enter()
+{
+  irestore = (__get_PRIMASK() ? 0 : 1);
+  noInterrupts();
+}
+
+void crit_sec_leave()
+{
+  if (irestore)
+  {
+    interrupts();
+  }
 }
