@@ -11,6 +11,8 @@
  * INCLUDE
  **************************************************************************************/
 
+#include <ArduinoO1Heap.h>
+
 #include <libcanard/canard.h>
 
 /**************************************************************************************
@@ -21,12 +23,16 @@ class ArduinoCanard
 {
 public:
 
-  ArduinoCanard(uint8_t const node_id, CanardMemoryAllocate const memory_allocate, CanardMemoryFree const memory_free);
+  ArduinoCanard(uint8_t const node_id);
 
 
 private:
 
+  ArduinoO1Heap _o1heap;
   CanardInstance _canard_ins;
+
+  static void * o1heap_allocate(CanardInstance * const ins, size_t const amount);
+  static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
 
 };
 
