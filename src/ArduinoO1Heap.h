@@ -1,32 +1,40 @@
 /**
  * @brief   Arduino library for controlling the Zubax Orel 20.
  * @author  Alexander Entinger, MSc / LXRobotics GmbH
- * @license LGPL 3.0
+ * @license MIT
  */
 
-#ifndef ARDUINO_OREL_20_H_
-#define ARDUINO_OREL_20_H_
+#ifndef ARDUINO_O1_HEAP_H_
+#define ARDUINO_O1_HEAP_H_
 
 /**************************************************************************************
  * INCLUDE
  **************************************************************************************/
 
-#include <stdint.h>
-#include <stdbool.h>
+#include <o1heap/o1heap.h>
 
 /**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
 
-class ArduinoOrel20
+class ArduinoO1Heap
 {
 public:
 
-  ArduinoOrel20();
+  ArduinoO1Heap();
+
+
+  void * allocate(size_t const amount);
+  void   free    (void * const pointer);
 
 
 private:
 
+  static size_t constexpr HEAP_SIZE = 4096;
+
+  uint8_t _base[HEAP_SIZE] __attribute__ ((aligned (O1HEAP_ALIGNMENT)));
+  O1HeapInstance * _o1heap_ins;
+
 };
 
-#endif /* ARDUINO_OREL_20_H_ */
+#endif /* ARDUINO_O1_HEAP_H_ */
