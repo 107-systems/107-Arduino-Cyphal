@@ -1,5 +1,5 @@
 /**
- * @brief   Arduino library for controlling the Zubax Orel 20.
+ * @brief   Arduino library for providing a convenient C++ interface for accessing UAVCAN.
  * @author  Alexander Entinger, MSc / LXRobotics GmbH
  * @license LGPL 3.0
  */
@@ -8,13 +8,13 @@
  * INCLUDE
  **************************************************************************************/
 
-#include <ArduinoOrel20.h>
+#include <ArduinoUAVCAN.h>
 
 /**************************************************************************************
  * CTOR/DTOR
  **************************************************************************************/
 
-ArduinoOrel20::ArduinoOrel20()
+ArduinoUAVCAN::ArduinoUAVCAN()
 {
   /* TODO */
 }
