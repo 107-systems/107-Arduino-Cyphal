@@ -1,6 +1,5 @@
 /**
  * @brief   Arduino library for controlling the Zubax Orel 20.
- * @author  Alexander Entinger, MSc / LXRobotics GmbH
  * @license MIT
  */
 

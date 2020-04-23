@@ -1,6 +1,5 @@
 /**
  * @brief   Arduino library for providing a convenient C++ interface for accessing UAVCAN.
- * @author  Alexander Entinger, MSc / LXRobotics GmbH
  * @license LGPL 3.0
  */
 
