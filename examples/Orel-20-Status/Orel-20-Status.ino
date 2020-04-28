@@ -8,6 +8,8 @@
  * FUNCTION DECLARATIONS
  **************************************************************************************/
 
+void onUAVCANTransferReceived(CanardTransfer & transfer);
+
 /**************************************************************************************
  * GLOBAL CONSTANTS
  **************************************************************************************/
@@ -18,7 +20,7 @@ static uint8_t const THIS_NODE_ID = 1;
  * GLOBAL VARIABLES
  **************************************************************************************/
 
-ArduinoUAVCAN uavcan(THIS_NODE_ID);
+ArduinoUAVCAN uavcan(THIS_NODE_ID, micros, onUAVCANTransferReceived);
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -32,4 +34,13 @@ void setup()
 void loop()
 {
 
+}
+
+/**************************************************************************************
+ * FUNCTION DEFINITIONS
+ **************************************************************************************/
+
+void onUAVCANTransferReceived(CanardTransfer & transfer)
+{
+  /* TODO */
 }
