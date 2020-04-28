@@ -20,7 +20,7 @@ matrix:
       - install_library
     script:
       # Compile all example sketches
-      - build_sketch "${SKETCHBOOK_FOLDER}/libraries/107-Arduino-Orel-20/examples" 'arduino:samd:mkrvidor4000' 'false' 'newest'
+      - build_sketch "${SKETCHBOOK_FOLDER}/libraries/107-Arduino-UAVCAN/examples" 'arduino:samd:mkrvidor4000' 'false' 'newest'
     after_script:
       # Print a tab separated report of all sketch verification results to the log
       - display_report
