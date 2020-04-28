@@ -7,30 +7,30 @@
  * INCLUDE
  **************************************************************************************/
 
-#include "ArduinoO1Heap.h"
+#include "CritSec.h"
 
-#include "utility/CritSec.h"
-
-/**************************************************************************************
- * CTOR/DTOR
- **************************************************************************************/
-
-ArduinoO1Heap::ArduinoO1Heap()
-: _o1heap_ins{o1heapInit(_base, HEAP_SIZE, crit_sec_enter, crit_sec_leave)}
-{
-
-}
+#include <Arduino.h>
 
 /**************************************************************************************
- * PUBLIC MEMBER FUNCTIONS
+ * GLOBAL VARIABLES
  **************************************************************************************/
 
-void * ArduinoO1Heap::allocate(size_t const amount)
+static uint8_t irestore = 0;
+
+/**************************************************************************************
+ * FUNCTION DEFINITION
+ **************************************************************************************/
+
+void crit_sec_enter()
 {
-  return o1heapAllocate(_o1heap_ins, amount);
+  irestore = (__get_PRIMASK() ? 0 : 1);
+  noInterrupts();
 }
 
-void ArduinoO1Heap::free(void * const pointer)
+void crit_sec_leave()
 {
-  o1heapFree(_o1heap_ins, pointer);
+  if (irestore)
+  {
+    interrupts();
+  }
 }
