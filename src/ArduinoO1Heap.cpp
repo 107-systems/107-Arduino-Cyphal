@@ -15,8 +15,8 @@
  * FUNCTION DECLARATION
  **************************************************************************************/
 
-void crit_sec_enter();
-void crit_sec_leave();
+void crit_sec_enter() __attribute__((always_inline));
+void crit_sec_leave() __attribute__((always_inline));
 
 /**************************************************************************************
  * GLOBAL VARIABLES
