@@ -9,6 +9,29 @@ env:
 
 matrix:
   include:
+  - name: 'Unit tests'
+    language: cpp
+    # Define an empty before_install phase to override the default definition
+    before_install:
+    install:
+      - sudo apt-get install --quiet=2 lcov
+    before_script:
+      - cd "${TRAVIS_BUILD_DIR}/extras/test" && mkdir build && cd build
+    script:
+      - cmake ..
+      - make
+    after_success:
+      # Check code coverage
+      - lcov --directory . --zerocounters
+      - bin/test-107-Arduino-UAVCAN
+      - lcov --directory . --capture --output-file coverage.info
+      - lcov --remove coverage.info 'test/*' '/usr/*' 'libcanard/*' 'o1heap/*' --output-file coverage.info
+      - lcov --list coverage.info
+      - bash <(curl -s https://codecov.io/bash) -f coverage.info
+      - cd ..
+      - rm -rf build
+
+
   - name: "Compilation tests"
     language: minimal
     install:
@@ -44,7 +67,7 @@ matrix:
       # https://github.com/codespell-project/codespell
       - pip install codespell
     script:
-      - codespell --skip="${TRAVIS_BUILD_DIR}/.git,${TRAVIS_BUILD_DIR}/libcanard" --ignore-words="${TRAVIS_BUILD_DIR}/extras/codespell-ignore-words-list.txt" "${TRAVIS_BUILD_DIR}"
+      - codespell --skip="${TRAVIS_BUILD_DIR}/.git,${TRAVIS_BUILD_DIR}/src/libcanard,${TRAVIS_BUILD_DIR}/src/o1heap,${TRAVIS_BUILD_DIR}/extras/test/external" --ignore-words="${TRAVIS_BUILD_DIR}/extras/codespell-ignore-words-list.txt" "${TRAVIS_BUILD_DIR}"
 
 
   - name: 'File formatting checks'
@@ -53,17 +76,17 @@ matrix:
     before_install:
     script:
       # Check for files starting with a blank line
-      - find . -path './.git' -prune -or -path './libcanard' -prune -or -type f -print0 | xargs -0 -L1 bash -c 'head -1 "$0" | grep --binary-files=without-match --regexp="^$"; if [[ "$?" == "0" ]]; then echo "Blank line found at start of $0."; false; fi'
+      - find . -path './.git' -prune -or -path './libcanard' -prune -or -path './extras/test/external' -prune -or -type f -print0 | xargs -0 -L1 bash -c 'head -1 "$0" | grep --binary-files=without-match --regexp="^$"; if [[ "$?" == "0" ]]; then echo "Blank line found at start of $0."; false; fi'
       # Check for tabs
-      - find . -path './.git' -prune -or -path './libcanard' -prune -or \( -not -name 'keywords.txt' -and  -not -name '.gitmodules' -and -type f \) -exec grep --with-filename --line-number --binary-files=without-match --regexp=$'\t' '{}' \; -exec echo 'Tab found.' \; -exec false '{}' +
+      - find . -path './.git' -prune -or -path './libcanard' -prune -or -path './extras/test/external' -prune -or \( -not -name 'keywords.txt' -and  -not -name '.gitmodules' -and -type f \) -exec grep --with-filename --line-number --binary-files=without-match --regexp=$'\t' '{}' \; -exec echo 'Tab found.' \; -exec false '{}' +
       # Check for trailing whitespace
-      - find . -path './.git' -prune -or -path './libcanard' -prune -or -type f -exec grep --with-filename --line-number --binary-files=without-match --regexp='[[:blank:]]$' '{}' \; -exec echo 'Trailing whitespace found.' \; -exec false '{}' +
+      - find . -path './.git' -prune -or -path './libcanard' -prune -or -path './extras/test/external' -prune -or -type f -exec grep --with-filename --line-number --binary-files=without-match --regexp='[[:blank:]]$' '{}' \; -exec echo 'Trailing whitespace found.' \; -exec false '{}' +
       # Check for non-Unix line endings
-      - find . -path './.git' -prune -or -path './libcanard' -prune -or -type f -exec grep --files-with-matches --binary-files=without-match --regexp=$'\r$' '{}' \; -exec echo 'Non-Unix EOL detected.' \; -exec false '{}' +
+      - find . -path './.git' -prune -or -path './libcanard' -prune -or -path './extras/test/external' -prune -or -type f -exec grep --files-with-matches --binary-files=without-match --regexp=$'\r$' '{}' \; -exec echo 'Non-Unix EOL detected.' \; -exec false '{}' +
       # Check for blank lines at end of files
-      - find . -path './.git' -prune -or -path './libcanard' -prune -or -type f -print0 | xargs -0 -L1 bash -c 'tail -1 "$0" | grep --binary-files=without-match --regexp="^$"; if [[ "$?" == "0" ]]; then echo "Blank line found at end of $0."; false; fi'
+      - find . -path './.git' -prune -or -path './libcanard' -prune -or -path './extras/test/external' -prune -or -type f -print0 | xargs -0 -L1 bash -c 'tail -1 "$0" | grep --binary-files=without-match --regexp="^$"; if [[ "$?" == "0" ]]; then echo "Blank line found at end of $0."; false; fi'
       # Check for files that don't end in a newline (https://stackoverflow.com/a/25686825)
-      - find . -path './.git' -prune -or -path './libcanard' -prune -or -type f -print0 | xargs -0 -L1 bash -c 'if test "$(grep --files-with-matches --binary-files=without-match --max-count=1 --regexp='.*' "$0")" && test "$(tail --bytes=1 "$0")"; then echo "No new line at end of $0."; false; fi'
+      - find . -path './.git' -prune -or -path './libcanard' -prune -or -path './extras/test/external' -prune -or -type f -print0 | xargs -0 -L1 bash -c 'if test "$(grep --files-with-matches --binary-files=without-match --max-count=1 --regexp='.*' "$0")" && test "$(tail --bytes=1 "$0")"; then echo "No new line at end of $0."; false; fi'
 
 
 # default phase definitions
