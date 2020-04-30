@@ -56,7 +56,7 @@ bool ArduinoUAVCAN::subscribeMessage(CanardPortID const port_id, size_t const pa
    * goes out of scope.
    */
   std::shared_ptr<CanardRxSubscription> rx_subscription = std::make_shared<CanardRxSubscription>();
-  _rx_subscription_list.push_back(rx_subscription);
+  _rx_subscription_map[port_id] = rx_subscription;
 
   int8_t const result = canardRxSubscribe(&_canard_ins,
                                           CanardTransferKindMessage,
@@ -64,6 +64,21 @@ bool ArduinoUAVCAN::subscribeMessage(CanardPortID const port_id, size_t const pa
                                           payload_size_max,
                                           CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC,
                                           rx_subscription.get());
+  bool const success = (result >= 0);
+  return success;
+}
+
+bool ArduinoUAVCAN::unsubscribeMessage(CanardPortID const port_id)
+{
+  int8_t const result = canardRxUnsubscribe(&_canard_ins,
+                                            CanardTransferKindMessage,
+                                            port_id);
+
+  /* Remove CanardRxSubscription instance from internal list since the
+   * structure is no longed needed.
+   */
+  _rx_subscription_map.erase(port_id);
+
   bool const success = (result >= 0);
   return success;
 }
