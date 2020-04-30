@@ -49,6 +49,25 @@ void ArduinoUAVCAN::onCanFrameReceive(uint32_t const id, uint8_t const * data, u
   }
 }
 
+bool ArduinoUAVCAN::subscribeMessage(CanardPortID const port_id, size_t const payload_size_max)
+{
+  /* Create new rx subscription instance and keep it in internal list
+   * in order to prevent it from being deleted once 'rx_subscription'
+   * goes out of scope.
+   */
+  std::shared_ptr<CanardRxSubscription> rx_subscription = std::make_shared<CanardRxSubscription>();
+  _rx_subscription_list.push_back(rx_subscription);
+
+  int8_t const result = canardRxSubscribe(&_canard_ins,
+                                          CanardTransferKindMessage,
+                                          port_id,
+                                          payload_size_max,
+                                          CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC,
+                                          rx_subscription.get());
+  bool const success = (result >= 0);
+  return success;
+}
+
 /**************************************************************************************
  * PRIVATE MEMBER FUNCTIONS
  **************************************************************************************/

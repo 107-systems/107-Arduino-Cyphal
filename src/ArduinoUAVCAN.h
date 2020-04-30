@@ -12,6 +12,8 @@
 
 #undef max
 #undef min
+#include <list>
+#include <memory>
 #include <functional>
 
 #include <ArduinoO1Heap.h>
@@ -41,12 +43,16 @@ public:
   void onCanFrameReceive(uint32_t const id, uint8_t const * data, uint8_t const len);
 
 
+  bool subscribeMessage(CanardPortID const port_id, size_t const payload_size_max);
+
+
 private:
 
   ArduinoO1Heap _o1heap;
   CanardInstance _canard_ins;
   MicroSecondFunc _micros;
   OnTransferReceivedFunc _on_transfer_received;
+  std::list<std::shared_ptr<CanardRxSubscription>> _rx_subscription_list;
 
   static void * o1heap_allocate(CanardInstance * const ins, size_t const amount);
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
