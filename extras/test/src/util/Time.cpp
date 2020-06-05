@@ -7,7 +7,7 @@
  * INCLUDE
  **************************************************************************************/
 
-#include <test/util/micros.h>
+#include <test/util/Time.h>
 
 #include <chrono>
 
@@ -19,10 +19,19 @@ namespace util
 {
 
 /**************************************************************************************
- * FUNCTION DEFINITION
+ * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-unsigned long micros()
+MicroSecondFunc Time::micros()
+{
+  return std::bind(&Time::internal_micros, this);
+}
+
+/**************************************************************************************
+ * PRIVATE MEMBER FUNCTIONS
+ **************************************************************************************/
+
+unsigned long Time::internal_micros()
 {
   using namespace std::chrono;
   auto const now    = system_clock::now();
