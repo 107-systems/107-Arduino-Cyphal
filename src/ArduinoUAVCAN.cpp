@@ -33,7 +33,7 @@ ArduinoUAVCAN::ArduinoUAVCAN(uint8_t const node_id,
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-void ArduinoUAVCAN::onCanFrameReceive(uint32_t const id, uint8_t const * data, uint8_t const len)
+void ArduinoUAVCAN::onCanFrameReceived(uint32_t const id, uint8_t const * data, uint8_t const len)
 {
   CanardFrame frame;
   convertToCanardFrame(_micros(), id, data, len, frame);

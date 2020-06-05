@@ -40,7 +40,7 @@ public:
                 OnTransferReceivedFunc on_transfer_received);
 
 
-  void onCanFrameReceive(uint32_t const id, uint8_t const * data, uint8_t const len);
+  void onCanFrameReceived(uint32_t const id, uint8_t const * data, uint8_t const len);
 
 
   bool subscribeMessage  (CanardPortID const port_id, size_t const payload_size_max);
