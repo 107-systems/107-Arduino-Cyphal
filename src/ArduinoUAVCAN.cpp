@@ -47,7 +47,7 @@ void ArduinoUAVCAN::onCanFrameReceived(uint32_t const id, uint8_t const * data, 
   {
     if(transfer.port_id == 32085 && _on_heartbeat_1_0_func)
     {
-      _on_heartbeat_1_0_func(Heartbeat_1_0(transfer));
+      _on_heartbeat_1_0_func(transfer.remote_node_id, (transfer));
     }
     _o1heap.free(const_cast<void *>(transfer.payload));
   }
