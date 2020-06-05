@@ -8,8 +8,9 @@ project(test-107-Arduino-UAVCAN)
 
 ##########################################################################
 
-include_directories(external/catch/v2.12.1/include)
+include_directories(include)
 include_directories(../../src)
+include_directories(external/catch/v2.12.1/include)
 
 ##########################################################################
 
@@ -20,7 +21,9 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 ##########################################################################
 
 set(TEST_SRCS
+  src/util/micros.cpp
   src/test_main.cpp
+  src/test_Heartbeat.cpp
   ../../src/libcanard/canard_dsdl.c
   ../../src/libcanard/canard.c
   ../../src/o1heap/o1heap.c
