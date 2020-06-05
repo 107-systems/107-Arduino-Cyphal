@@ -22,7 +22,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(TEST_SRCS
   src/util/Time.cpp
-  src/util/onTransferReceived.cpp
+  src/util/Transfer.cpp
 
   src/test_main.cpp
   src/test_Heartbeat.cpp

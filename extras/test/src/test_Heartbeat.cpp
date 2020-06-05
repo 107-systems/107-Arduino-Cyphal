@@ -10,7 +10,7 @@
 #include <catch.hpp>
 
 #include <test/util/Time.h>
-#include <test/util/onTransferReceived.h>
+#include <test/util/Transfer.h>
 
 #include <ArduinoUAVCAN.h>
 
@@ -21,9 +21,9 @@
 TEST_CASE("")
 {
   util::Time time_util;
-  util::Transfer tf_util;
+  util::Transfer transfer_util;
   
-  ArduinoUAVCAN uavcan(13, time_util.micros(), tf_util.onTransferReceived());
+  ArduinoUAVCAN uavcan(13, time_util.micros(), transfer_util.onTransferReceived());
   
-  REQUIRE(tf_util.received());
+  REQUIRE(transfer_util.received());
 }
