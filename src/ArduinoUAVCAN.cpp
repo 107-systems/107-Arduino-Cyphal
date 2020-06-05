@@ -44,8 +44,10 @@ void ArduinoUAVCAN::onCanFrameReceived(uint32_t const id, uint8_t const * data, 
                                        0,
                                        &transfer);
 
-  if((result == 1) && _on_transfer_received) {
+  if((result == 1) && _on_transfer_received)
+  {
     _on_transfer_received(transfer);
+    _o1heap.free(const_cast<void *>(transfer.payload));
   }
 }
 
