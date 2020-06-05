@@ -10,6 +10,7 @@
 #include <catch.hpp>
 
 #include <test/util/micros.h>
+#include <test/util/onTransferReceived.h>
 
 #include <ArduinoUAVCAN.h>
 
@@ -19,6 +20,9 @@
 
 TEST_CASE("")
 {
-  ArduinoUAVCAN uavcan(13, util::micros, nullptr);
-  REQUIRE(true);
+  util::Transfer tf_util;
+  
+  ArduinoUAVCAN uavcan(13, util::micros, tf_util.onTransferReceived());
+  
+  REQUIRE(tf_util.received());
 }
