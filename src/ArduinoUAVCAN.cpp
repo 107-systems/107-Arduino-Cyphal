@@ -16,11 +16,10 @@
  **************************************************************************************/
 
 ArduinoUAVCAN::ArduinoUAVCAN(uint8_t const node_id,
-                             MicroSecondFunc micros,
-                             OnTransferReceivedFunc on_transfer_received)
+                             MicroSecondFunc micros)
 : _canard_ins{canardInit(ArduinoUAVCAN::o1heap_allocate, ArduinoUAVCAN::o1heap_free)}
 , _micros{micros}
-, _on_transfer_received{on_transfer_received}
+, _on_heartbeat_1_0_func{nullptr}
 {
   assert(_micros != nullptr);
 
@@ -44,11 +43,48 @@ void ArduinoUAVCAN::onCanFrameReceived(uint32_t const id, uint8_t const * data, 
                                        0,
                                        &transfer);
 
-  if((result == 1) && _on_transfer_received)
+  if(result == 1)
   {
-    _on_transfer_received(transfer);
+    if(transfer.port_id == 32085 && _on_heartbeat_1_0_func)
+    {
+      _on_heartbeat_1_0_func(Heartbeat_1_0(transfer));
+    }
     _o1heap.free(const_cast<void *>(transfer.payload));
   }
+}
+
+bool ArduinoUAVCAN::subscribe_Heartbeat_1_0(OnHeartbeat_1_0_ReceivedFunc func)
+{
+  _on_heartbeat_1_0_func = func;
+  return subscribeMessage(32085, 8);
+}
+
+/**************************************************************************************
+ * PRIVATE MEMBER FUNCTIONS
+ **************************************************************************************/
+
+void * ArduinoUAVCAN::o1heap_allocate(CanardInstance * const ins, size_t const amount)
+{
+  ArduinoO1Heap * o1heap = reinterpret_cast<ArduinoO1Heap *>(ins->user_reference);
+  return o1heap->allocate(amount);
+}
+
+void ArduinoUAVCAN::o1heap_free(CanardInstance * const ins, void * const pointer)
+{
+  ArduinoO1Heap * o1heap = reinterpret_cast<ArduinoO1Heap *>(ins->user_reference);
+  o1heap->free(pointer);
+}
+
+void ArduinoUAVCAN::convertToCanardFrame(unsigned long const rx_timestamp_us, uint32_t const id, uint8_t const * data, uint8_t const len, CanardFrame & frame)
+{
+  /* Get the reception timestamp */
+  frame.timestamp_usec = rx_timestamp_us;
+  /* Blank the 3 MSBits */
+  frame.extended_can_id = id & 0x1FFFFFFF;
+  /* Set the length */
+  frame.payload_size = static_cast<size_t>(len);
+  /* Set pointer to data */
+  frame.payload = reinterpret_cast<const void *>(data);
 }
 
 bool ArduinoUAVCAN::subscribeMessage(CanardPortID const port_id, size_t const payload_size_max)
@@ -83,32 +119,4 @@ bool ArduinoUAVCAN::unsubscribeMessage(CanardPortID const port_id)
 
   bool const success = (result >= 0);
   return success;
-}
-
-/**************************************************************************************
- * PRIVATE MEMBER FUNCTIONS
- **************************************************************************************/
-
-void * ArduinoUAVCAN::o1heap_allocate(CanardInstance * const ins, size_t const amount)
-{
-  ArduinoO1Heap * o1heap = reinterpret_cast<ArduinoO1Heap *>(ins->user_reference);
-  return o1heap->allocate(amount);
-}
-
-void ArduinoUAVCAN::o1heap_free(CanardInstance * const ins, void * const pointer)
-{
-  ArduinoO1Heap * o1heap = reinterpret_cast<ArduinoO1Heap *>(ins->user_reference);
-  o1heap->free(pointer);
-}
-
-void ArduinoUAVCAN::convertToCanardFrame(unsigned long const rx_timestamp_us, uint32_t const id, uint8_t const * data, uint8_t const len, CanardFrame & frame)
-{
-  /* Get the reception timestamp */
-  frame.timestamp_usec = rx_timestamp_us;
-  /* Blank the 3 MSBits */
-  frame.extended_can_id = id & 0x1FFFFFFF;
-  /* Set the length */
-  frame.payload_size = static_cast<size_t>(len);
-  /* Set pointer to data */
-  frame.payload = reinterpret_cast<const void *>(data);
 }
