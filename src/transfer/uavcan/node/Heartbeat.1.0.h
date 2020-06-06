@@ -43,7 +43,7 @@ public:
     OFFLINE          = 7,
   };
 
-  typedef struct 
+  typedef struct
   {
     uint32_t uptime;
     Health health;
@@ -67,7 +67,7 @@ public:
 
 
 private:
-  
+
   Data _data;
 
 };
