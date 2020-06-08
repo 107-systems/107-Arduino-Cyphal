@@ -19,7 +19,6 @@ ArduinoUAVCAN::ArduinoUAVCAN(uint8_t const node_id,
                              MicroSecondFunc micros)
 : _canard_ins{canardInit(ArduinoUAVCAN::o1heap_allocate, ArduinoUAVCAN::o1heap_free)}
 , _micros{micros}
-, _on_heartbeat_1_0_func{nullptr}
 {
   assert(_micros != nullptr);
 
@@ -45,18 +44,25 @@ void ArduinoUAVCAN::onCanFrameReceived(uint32_t const id, uint8_t const * data, 
 
   if(result == 1)
   {
-    if(transfer.port_id == 32085 && _on_heartbeat_1_0_func)
+    if (_rx_sub_map.count(transfer.port_id) > 0)
     {
-      _on_heartbeat_1_0_func(transfer.remote_node_id, (transfer));
+      _rx_sub_map[transfer.port_id].transfer_complete_callback(transfer);
     }
     _o1heap.free(const_cast<void *>(transfer.payload));
   }
 }
 
-bool ArduinoUAVCAN::subscribe_Heartbeat_1_0(OnHeartbeat_1_0_ReceivedFunc func)
+bool ArduinoUAVCAN::subscribe(CanardPortID const port_id, size_t const payload_size_max, std::function<void(CanardTransfer const &)> func)
 {
-  _on_heartbeat_1_0_func = func;
-  return subscribeMessage(32085, 8);
+  if (_rx_sub_map.count(port_id) > 0)
+    return false;
+
+  _rx_sub_map[port_id].transfer_complete_callback = func;
+
+  if (!subscribeMessage(port_id, payload_size_max, &(_rx_sub_map[port_id].canard_rx_sub)))
+    return false;
+
+  return true;
 }
 
 /**************************************************************************************
@@ -87,21 +93,14 @@ void ArduinoUAVCAN::convertToCanardFrame(unsigned long const rx_timestamp_us, ui
   frame.payload = reinterpret_cast<const void *>(data);
 }
 
-bool ArduinoUAVCAN::subscribeMessage(CanardPortID const port_id, size_t const payload_size_max)
+bool ArduinoUAVCAN::subscribeMessage(CanardPortID const port_id, size_t const payload_size_max, CanardRxSubscription * canard_rx_sub)
 {
-  /* Create new rx subscription instance and keep it in internal list
-   * in order to prevent it from being deleted once 'rx_subscription'
-   * goes out of scope.
-   */
-  std::shared_ptr<CanardRxSubscription> rx_subscription = std::make_shared<CanardRxSubscription>();
-  _rx_subscription_map[port_id] = rx_subscription;
-
   int8_t const result = canardRxSubscribe(&_canard_ins,
                                           CanardTransferKindMessage,
                                           port_id,
                                           payload_size_max,
                                           CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC,
-                                          rx_subscription.get());
+                                          canard_rx_sub);
   bool const success = (result >= 0);
   return success;
 }
@@ -115,7 +114,7 @@ bool ArduinoUAVCAN::unsubscribeMessage(CanardPortID const port_id)
   /* Remove CanardRxSubscription instance from internal list since the
    * structure is no longed needed.
    */
-  _rx_subscription_map.erase(port_id);
+  _rx_sub_map.erase(port_id);
 
   bool const success = (result >= 0);
   return success;

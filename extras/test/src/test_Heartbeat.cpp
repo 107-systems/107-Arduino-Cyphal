@@ -24,9 +24,11 @@ static CanardNodeID        hb_node_id = 0;
  * PRIVATE FUNCTION DEFINITION
  **************************************************************************************/
 
-void onHeatbeat_1_0_Received(CanardNodeID const node_id, Heartbeat_1_0 const & hb)
+void onHeatbeat_1_0_Received(CanardTransfer const & transfer)
 {
-  hb_node_id     = node_id;
+  Heartbeat_1_0 hb(transfer);
+
+  hb_node_id     = transfer.remote_node_id;
   hb_data.uptime = hb.uptime();
   hb_data.health = hb.health();
   hb_data.mode   = hb.mode();
@@ -43,7 +45,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' transfer was received", "[heatbeat-01]
 
   ArduinoUAVCAN uavcan(13, time_util.micros());
 
-  REQUIRE(uavcan.subscribe_Heartbeat_1_0(onHeatbeat_1_0_Received));
+  REQUIRE(uavcan.subscribe(32085, 8, onHeatbeat_1_0_Received));
 
   /* Create:
    *   pyuavcan publish 32085.uavcan.node.Heartbeat.1.0 '{uptime: 1337, health: 2, mode: 7}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),59)'
