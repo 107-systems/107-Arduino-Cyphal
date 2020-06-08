@@ -1,5 +1,5 @@
 /**
- * @brief   Arduino library for controlling the Zubax Orel 20.
+ * @brief   Arduino library for providing a convenient C++ interface for accessing UAVCAN.
  * @license MIT
  */
 
