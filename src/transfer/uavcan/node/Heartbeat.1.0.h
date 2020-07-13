@@ -10,6 +10,8 @@
  * INCLUDE
  **************************************************************************************/
 
+#include "../../MessageBase.h"
+
 #undef max
 #undef min
 #include <functional>
@@ -21,7 +23,7 @@
  * CLASS DECLARATION
  **************************************************************************************/
 
-class Heartbeat_1_0
+class Heartbeat_1_0 : public MessageBase
 {
 
 public:
@@ -44,10 +46,14 @@ public:
   };
 
 
-  Heartbeat_1_0(uint32_t const uptime, Health const health, Mode const mode, uint32_t const vssc);
+           Heartbeat_1_0(uint32_t const uptime, Health const health, Mode const mode, uint32_t const vssc);
+  virtual ~Heartbeat_1_0() { }
 
 
   static Heartbeat_1_0 create(CanardTransfer const & transfer);
+
+
+  virtual void encode(size_t * payload_size, void ** payload) override;
 
 
   inline uint32_t uptime() const { return _uptime; }
@@ -62,6 +68,7 @@ private:
   Health _health;
   Mode _mode;
   uint32_t _vssc;
+  uint8_t _transfer_buf[7];
 
 };
 

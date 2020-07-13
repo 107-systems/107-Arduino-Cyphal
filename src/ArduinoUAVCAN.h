@@ -20,7 +20,7 @@
 
 #include <libcanard/canard.h>
 
-#include <transfer/uavcan/node/Heartbeat.1.0.h>
+#include <transfer/MessageBase.h>
 
 /**************************************************************************************
  * TYPEDEF
@@ -47,7 +47,7 @@ public:
 
 
   bool subscribe(CanardPortID const port_id, size_t const payload_size_max, std::function<void(CanardTransfer const &)> func);
-  bool publish  (CanardPortID const port_id, size_t const payload_size, void * payload);
+  bool publish  (CanardPortID const port_id, MessageBase & msg);
 
 
 private:

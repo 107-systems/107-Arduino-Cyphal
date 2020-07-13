@@ -82,9 +82,14 @@ bool ArduinoUAVCAN::subscribe(CanardPortID const port_id, size_t const payload_s
   return true;
 }
 
-bool ArduinoUAVCAN::publish(CanardPortID const port_id, size_t const payload_size, void * payload)
+bool ArduinoUAVCAN::publish(CanardPortID const port_id, MessageBase & msg)
 {
   uint8_t message_transfer_id = (_tx_pub_transfer_id_map.count(port_id) > 0) ? _tx_pub_transfer_id_map[port_id] : 0;
+
+  size_t payload_size = 0;
+  void * payload = nullptr;
+
+  msg.encode(&payload_size, &payload);
 
   CanardTransfer const transfer =
   {

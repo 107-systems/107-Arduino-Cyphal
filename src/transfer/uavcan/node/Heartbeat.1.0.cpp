@@ -18,6 +18,7 @@ Heartbeat_1_0::Heartbeat_1_0(uint32_t const uptime, Health const health, Mode co
 , _health{health}
 , _mode{mode}
 , _vssc{vssc}
+, _transfer_buf{0}
 {
 
 }
@@ -34,4 +35,15 @@ Heartbeat_1_0 Heartbeat_1_0::create(CanardTransfer const & transfer)
   uint32_t const vssc   =                     canardDSDLGetU32(reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size, 37, 19);
 
   return Heartbeat_1_0(uptime, health, mode, vssc);
+}
+
+void Heartbeat_1_0::encode(size_t * payload_size, void ** payload)
+{
+  canardDSDLSetUxx(_transfer_buf, 34, static_cast<uint8_t>(_mode),    3);
+  canardDSDLSetUxx(_transfer_buf,  0,                      _uptime,  32);
+  canardDSDLSetUxx(_transfer_buf, 37,                      _vssc,    19);
+  canardDSDLSetUxx(_transfer_buf, 32, static_cast<uint8_t>(_health),  2);
+
+  *payload_size = sizeof(_transfer_buf);
+  *payload = &_transfer_buf;
 }
