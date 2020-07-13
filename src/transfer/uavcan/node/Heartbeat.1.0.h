@@ -43,32 +43,25 @@ public:
     OFFLINE          = 7,
   };
 
-  typedef struct
-  {
-    uint32_t uptime;
-    Health health;
-    Mode mode;
-    uint32_t vssc;
-  } Data;
 
-  Heartbeat_1_0(CanardTransfer const & transfer)
-  {
-    _data.mode   = static_cast<Mode>  (canardDSDLGetU8 (reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size, 34,  3));
-    _data.uptime =                     canardDSDLGetU32(reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size,  0, 32);
-    _data.vssc   =                     canardDSDLGetU32(reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size, 37, 19);
-    _data.health = static_cast<Health>(canardDSDLGetU8 (reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size, 32,  2));
-  }
+  Heartbeat_1_0(uint32_t const uptime, Health const health, Mode const mode, uint32_t const vssc);
 
 
-  inline uint32_t uptime() const { return _data.uptime; }
-  inline Health   health() const { return _data.health; }
-  inline Mode     mode  () const { return _data.mode; }
-  inline uint32_t vssc  () const { return _data.vssc; }
+  static Heartbeat_1_0 create(CanardTransfer const & transfer);
+
+
+  inline uint32_t uptime() const { return _uptime; }
+  inline Health   health() const { return _health; }
+  inline Mode     mode  () const { return _mode; }
+  inline uint32_t vssc  () const { return _vssc; }
 
 
 private:
 
-  Data _data;
+  uint32_t _uptime;
+  Health _health;
+  Mode _mode;
+  uint32_t _vssc;
 
 };
 
