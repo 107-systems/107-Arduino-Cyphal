@@ -24,6 +24,11 @@ static CanardNodeID        hb_node_id = 0;
  * PRIVATE FUNCTION DEFINITION
  **************************************************************************************/
 
+bool transmitCanFrame(uint32_t const /* id */, uint8_t const * /* data */, uint8_t const /* len */)
+{
+  return true;
+}
+
 void onHeatbeat_1_0_Received(CanardTransfer const & transfer)
 {
   Heartbeat_1_0 hb(transfer);
@@ -43,7 +48,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' transfer was received", "[heatbeat-01]
 {
   util::Time time_util;
 
-  ArduinoUAVCAN uavcan(13, time_util.micros());
+  ArduinoUAVCAN uavcan(13, time_util.micros(), transmitCanFrame);
 
   REQUIRE(uavcan.subscribe(32085, 8, onHeatbeat_1_0_Received));
 
