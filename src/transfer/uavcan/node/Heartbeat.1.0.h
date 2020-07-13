@@ -65,10 +65,4 @@ private:
 
 };
 
-/**************************************************************************************
- * TYPEDEF
- **************************************************************************************/
-
-typedef std::function<void(CanardNodeID const node_id, Heartbeat_1_0 const &)> OnHeartbeat_1_0_ReceivedFunc;
-
 #endif /* ARDUINO_TRANSFER_UAVCAN_NODE_HEARTBEAT_1_0_H_ */
