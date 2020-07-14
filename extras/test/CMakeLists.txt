@@ -24,6 +24,7 @@ set(TEST_SRCS
   src/util/Time.cpp
 
   src/test_main.cpp
+  src/test_ArduinoUAVCAN.cpp
   src/test_Heartbeat.cpp
 
   ../../src/libcanard/canard_dsdl.c

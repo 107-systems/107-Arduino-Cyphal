@@ -35,7 +35,7 @@ static std::vector<uint8_t>  can_rx_data;
  * PRIVATE FUNCTION DEFINITION
  **************************************************************************************/
 
-bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len)
+static bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len)
 {
 /*
   std::cout << "[" << std::hex << id << std::dec << "] ";
@@ -74,7 +74,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' transfer is received", "[heatbeat-01]"
 
   ArduinoUAVCAN uavcan(13, time_util.micros(), transmitCanFrame);
 
-  REQUIRE(uavcan.subscribe(32085, 8, onHeatbeat_1_0_Received));
+  REQUIRE(uavcan.subscribe(32085, 7, onHeatbeat_1_0_Received));
 
   /* Create:
    *   pyuavcan publish 32085.uavcan.node.Heartbeat.1.0 '{uptime: 1337, health: 2, mode: 7}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),59)'
@@ -105,7 +105,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' transfer is sent", "[heatbeat-02]")
 
   WHEN("A heartbeat message is published")
   {
-    uavcan.publish(32085, hb);
+    REQUIRE(uavcan.publish(32085, hb) == true);
 
     REQUIRE(uavcan.transmitCanFrame() == true);
 
