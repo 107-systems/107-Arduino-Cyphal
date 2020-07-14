@@ -21,14 +21,16 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 ##########################################################################
 
 set(TEST_SRCS
-  src/util/Time.cpp
+  src/util/micros.cpp
 
   src/test_main.cpp
+  src/test_ArduinoUAVCAN.cpp
   src/test_Heartbeat.cpp
 
   ../../src/libcanard/canard_dsdl.c
   ../../src/libcanard/canard.c
   ../../src/o1heap/o1heap.c
+  ../../src/uavcan/node/Heartbeat.1.0.cpp
   ../../src/ArduinoO1Heap.cpp
   ../../src/ArduinoUAVCAN.cpp
 )
