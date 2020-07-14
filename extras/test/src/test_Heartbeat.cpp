@@ -11,7 +11,7 @@
 
 #include <catch.hpp>
 
-#include <test/util/Time.h>
+#include <test/util/micros.h>
 
 #include <ArduinoUAVCAN.h>
 #include <transfer/uavcan/node/Heartbeat.1.0.h>
@@ -70,9 +70,7 @@ void onHeatbeat_1_0_Received(CanardTransfer const & transfer)
 
 TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heatbeat-01]")
 {
-  util::Time time_util;
-
-  ArduinoUAVCAN uavcan(13, time_util.micros(), transmitCanFrame);
+  ArduinoUAVCAN uavcan(13, util::micros, transmitCanFrame);
 
   REQUIRE(uavcan.subscribe(Heartbeat_1_0::PORT_ID, Heartbeat_1_0::PAYLOAD_SIZE, onHeatbeat_1_0_Received));
 
@@ -97,9 +95,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heatbeat-01]")
 
 TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is sent", "[heatbeat-02]")
 {
-  util::Time time_util;
-
-  ArduinoUAVCAN uavcan(13, time_util.micros(), transmitCanFrame);
+  ArduinoUAVCAN uavcan(13, util::micros, transmitCanFrame);
 
   Heartbeat_1_0 hb_1(9876, Heartbeat_1_0::Health::NOMINAL, Heartbeat_1_0::Mode::SOFTWARE_UPDATE, 5);
   uavcan.publish(Heartbeat_1_0::PORT_ID, hb_1);

@@ -9,7 +9,7 @@
 
 #include <catch.hpp>
 
-#include <test/util/Time.h>
+#include <test/util/micros.h>
 
 #include <ArduinoUAVCAN.h>
 #include <transfer/uavcan/node/Heartbeat.1.0.h>
@@ -29,9 +29,7 @@ static bool transmitCanFrame(uint32_t const /* id */, uint8_t const * /* data */
 
 TEST_CASE("The transfer id should be increased after each message of the same type", "[uavcan-01]")
 {
-  util::Time time_util;
-
-  ArduinoUAVCAN uavcan(13, time_util.micros(), transmitCanFrame);
+  ArduinoUAVCAN uavcan(13, util::micros, transmitCanFrame);
 
   Heartbeat_1_0 hb(0, Heartbeat_1_0::Health::NOMINAL, Heartbeat_1_0::Mode::INITIALIZATION, 1);
   uint8_t hb_transfer_id;
