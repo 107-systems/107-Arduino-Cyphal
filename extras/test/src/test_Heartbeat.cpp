@@ -14,7 +14,7 @@
 #include <test/util/micros.h>
 
 #include <ArduinoUAVCAN.h>
-#include <transfer/uavcan/node/Heartbeat.1.0.h>
+#include <uavcan/node/Heartbeat.1.0.h>
 
 #include <iostream>
 

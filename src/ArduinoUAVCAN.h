@@ -20,7 +20,7 @@
 
 #include <libcanard/canard.h>
 
-#include <transfer/MessageBase.h>
+#include <uavcan/MessageBase.h>
 
 /**************************************************************************************
  * TYPEDEF

@@ -30,7 +30,7 @@ set(TEST_SRCS
   ../../src/libcanard/canard_dsdl.c
   ../../src/libcanard/canard.c
   ../../src/o1heap/o1heap.c
-  ../../src/transfer/uavcan/node/Heartbeat.1.0.cpp
+  ../../src/uavcan/node/Heartbeat.1.0.cpp
   ../../src/ArduinoO1Heap.cpp
   ../../src/ArduinoUAVCAN.cpp
 )

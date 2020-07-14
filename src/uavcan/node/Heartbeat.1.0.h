@@ -10,7 +10,7 @@
  * INCLUDE
  **************************************************************************************/
 
-#include "../../MessageBase.h"
+#include "../MessageBase.h"
 
 #undef max
 #undef min
