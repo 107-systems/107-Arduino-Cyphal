@@ -48,6 +48,7 @@ public:
   static CanardPortID constexpr PORT_ID = 32085;
   static size_t       constexpr PAYLOAD_SIZE = 7;
 
+
            Heartbeat_1_0(uint32_t const uptime, Health const health, Mode const mode, uint32_t const vssc);
   virtual ~Heartbeat_1_0() { }
 
@@ -62,6 +63,12 @@ public:
   inline Health   health() const { return _health; }
   inline Mode     mode  () const { return _mode; }
   inline uint32_t vssc  () const { return _vssc; }
+
+  inline void     uptime(uint32_t const uptime) { _uptime = uptime; }
+  inline void     health(Health const health)   { _health = health; }
+  inline void     mode  (Mode const mode)       { _mode = mode; }
+  inline void     vssc  (uint32_t const vssc)   { _vssc = vssc; }
+
 
 
 private:
