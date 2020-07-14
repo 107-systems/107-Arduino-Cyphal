@@ -70,7 +70,7 @@ private:
   Health _health;
   Mode _mode;
   uint32_t _vssc;
-  uint8_t _transfer_buf[PAYLOAD_SIZE];
+  uint8_t _payload[PAYLOAD_SIZE];
 
 };
 
