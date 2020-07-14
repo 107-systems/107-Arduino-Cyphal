@@ -46,6 +46,7 @@ public:
   };
 
   static CanardPortID constexpr PORT_ID = 32085;
+  static size_t       constexpr PAYLOAD_SIZE = 7;
 
            Heartbeat_1_0(uint32_t const uptime, Health const health, Mode const mode, uint32_t const vssc);
   virtual ~Heartbeat_1_0() { }
@@ -69,7 +70,7 @@ private:
   Health _health;
   Mode _mode;
   uint32_t _vssc;
-  uint8_t _transfer_buf[7];
+  uint8_t _transfer_buf[PAYLOAD_SIZE];
 
 };
 

@@ -44,6 +44,6 @@ void Heartbeat_1_0::encode(size_t * payload_size, void ** payload)
   canardDSDLSetUxx(_transfer_buf, 37,                      _vssc,    19);
   canardDSDLSetUxx(_transfer_buf, 32, static_cast<uint8_t>(_health),  2);
 
-  *payload_size = sizeof(_transfer_buf);
+  *payload_size = PAYLOAD_SIZE;
   *payload = &_transfer_buf;
 }

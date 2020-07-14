@@ -74,7 +74,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' transfer is received", "[heatbeat-01]"
 
   ArduinoUAVCAN uavcan(13, time_util.micros(), transmitCanFrame);
 
-  REQUIRE(uavcan.subscribe(Heartbeat_1_0::PORT_ID, 7, onHeatbeat_1_0_Received));
+  REQUIRE(uavcan.subscribe(Heartbeat_1_0::PORT_ID, Heartbeat_1_0::PAYLOAD_SIZE, onHeatbeat_1_0_Received));
 
   /* Create:
    *   pyuavcan publish 32085.uavcan.node.Heartbeat.1.0 '{uptime: 1337, health: 2, mode: 7}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),59)'
