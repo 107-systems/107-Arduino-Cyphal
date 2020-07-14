@@ -45,6 +45,7 @@ public:
     OFFLINE          = 7,
   };
 
+  static CanardPortID constexpr PORT_ID = 32085;
 
            Heartbeat_1_0(uint32_t const uptime, Health const health, Mode const mode, uint32_t const vssc);
   virtual ~Heartbeat_1_0() { }

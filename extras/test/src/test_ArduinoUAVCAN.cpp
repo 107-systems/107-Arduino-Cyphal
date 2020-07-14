@@ -38,15 +38,15 @@ TEST_CASE("The transfer id should be increased after each message of the same ty
 
   WHEN("the first message is sent")
   {
-    uavcan.publish(32085, hb, &hb_transfer_id);
+    uavcan.publish(Heartbeat_1_0::PORT_ID, hb, &hb_transfer_id);
     THEN("the transfer id should be 0")
       REQUIRE(hb_transfer_id == 0);
   }
 
   WHEN("the two message are sent")
   {
-    uavcan.publish(32085, hb, &hb_transfer_id);
-    uavcan.publish(32085, hb, &hb_transfer_id);
+    uavcan.publish(Heartbeat_1_0::PORT_ID, hb, &hb_transfer_id);
+    uavcan.publish(Heartbeat_1_0::PORT_ID, hb, &hb_transfer_id);
     THEN("the transfer id should be 1")
       REQUIRE(hb_transfer_id == 1);
   }
