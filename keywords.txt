@@ -1,0 +1,26 @@
+#######################################
+# Syntax Coloring Map for 107-Arduino-UAVCAN
+#######################################
+
+#######################################
+# Class (KEYWORD1)
+#######################################
+
+ArduinoUAVCAN	KEYWORD1
+Heartbeat_1_0	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+onCanFrameReceived	KEYWORD2
+transmitCanFrame	KEYWORD2
+subscribe	KEYWORD2
+publish	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+PORT_ID	LITERAL1
+PAYLOAD_SIZE	LITERAL1
