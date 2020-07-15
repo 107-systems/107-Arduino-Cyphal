@@ -1,6 +1,9 @@
-/**
- * @brief   This example enables the loopback mode to test the transmission and reception of CAN frames via MCP2515 without any physical bus connection.
- * @author  Alexander Entinger, MSc / LXRobotics GmbH
+/*
+ * This example shows periodic tranmission of a UAVCAN heartbeat message via CAN.
+ * 
+ * Hardware:
+ *   - Arduino MKR family board, e.g. MKR VIDOR 4000
+ *   - Arduino MKR CAN shield
  */
 
 /**************************************************************************************
@@ -13,10 +16,6 @@
 #include <ArduinoMCP2515.h>
 
 #include <types/uavcan/node/Heartbeat.1.0.h>
-
-#undef max
-#undef min
-#include <algorithm>
 
 /**************************************************************************************
  * CONSTANTS
@@ -36,17 +35,6 @@ void    onExternalEvent      ();
 void    onReceiveBufferFull  (uint32_t const, uint8_t const *, uint8_t const);
 void    onTransmitBufferEmpty(ArduinoMCP2515 *);
 bool    transmitCanFrame     (uint32_t const id, uint8_t const * data, uint8_t const len);
-
-/**************************************************************************************
- * TYPEDEF
- **************************************************************************************/
-
-typedef struct
-{
-  uint32_t id;
-  uint8_t  data[8];
-  uint8_t  len;
-} sCanTestFrame;
 
 /**************************************************************************************
  * GLOBAL VARIABLES
