@@ -96,10 +96,10 @@ void loop()
   static unsigned long prev = 0;
   unsigned long const now = millis();
   if(now - prev > 1000) {
-    hb.publish(uavcan);    
+    hb.publish(uavcan);
     prev = now;
   }
-  
+
   /* Transmit all enqeued CAN frames */
   while(uavcan.transmitCanFrame()) { }
 }
