@@ -12,7 +12,7 @@
 #include <test/util/micros.h>
 
 #include <ArduinoUAVCAN.h>
-#include <uavcan/node/Heartbeat.1.0.h>
+#include <types/uavcan/node/Heartbeat.1.0.h>
 
 /**************************************************************************************
  * PRIVATE FUNCTION DEFINITION

@@ -9,7 +9,7 @@
 
 #include "Heartbeat.1.0.h"
 
-#include "../../ArduinoUAVCAN.h"
+#include "../../../ArduinoUAVCAN.h"
 
 /**************************************************************************************
  * CTOR/DTOR
