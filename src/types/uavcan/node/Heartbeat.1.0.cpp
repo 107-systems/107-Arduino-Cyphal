@@ -9,6 +9,8 @@
 
 #include "Heartbeat.1.0.h"
 
+#include "../../../ArduinoUAVCAN.h"
+
 /**************************************************************************************
  * CTOR/DTOR
  **************************************************************************************/
@@ -18,7 +20,6 @@ Heartbeat_1_0::Heartbeat_1_0(uint32_t const uptime, Health const health, Mode co
 , _health{health}
 , _mode{mode}
 , _vssc{vssc}
-, _payload{0}
 {
 
 }
@@ -37,13 +38,14 @@ Heartbeat_1_0 Heartbeat_1_0::create(CanardTransfer const & transfer)
   return Heartbeat_1_0(uptime, health, mode, vssc);
 }
 
-void Heartbeat_1_0::encode(size_t * payload_size, void ** payload)
+bool Heartbeat_1_0::publish(ArduinoUAVCAN & uavcan, uint8_t * transfer_id) const
 {
-  canardDSDLSetUxx(_payload, 34, static_cast<uint8_t>(_mode),    3);
-  canardDSDLSetUxx(_payload,  0,                      _uptime,  32);
-  canardDSDLSetUxx(_payload, 37,                      _vssc,    19);
-  canardDSDLSetUxx(_payload, 32, static_cast<uint8_t>(_health),  2);
+  uint8_t payload[PAYLOAD_SIZE];
 
-  *payload_size = PAYLOAD_SIZE;
-  *payload = &_payload;
+  canardDSDLSetUxx(payload, 34, static_cast<uint8_t>(_mode),    3);
+  canardDSDLSetUxx(payload,  0,                      _uptime,  32);
+  canardDSDLSetUxx(payload, 37,                      _vssc,    19);
+  canardDSDLSetUxx(payload, 32, static_cast<uint8_t>(_health),  2);
+
+  return uavcan.publish(CanardTransferKindMessage, PORT_ID, PAYLOAD_SIZE, payload, transfer_id);
 }

@@ -10,7 +10,7 @@
  * INCLUDE
  **************************************************************************************/
 
-#include "../MessageBase.h"
+#include "../../MessageBase.h"
 
 #undef max
 #undef min
@@ -56,7 +56,7 @@ public:
   static Heartbeat_1_0 create(CanardTransfer const & transfer);
 
 
-  virtual void encode(size_t * payload_size, void ** payload) override;
+  virtual bool publish(ArduinoUAVCAN & uavcan, uint8_t * transfer_id = nullptr) const override;
 
 
   inline uint32_t uptime() const { return _uptime; }
@@ -77,7 +77,6 @@ private:
   Health _health;
   Mode _mode;
   uint32_t _vssc;
-  uint8_t _payload[PAYLOAD_SIZE];
 
 };
 

@@ -82,23 +82,18 @@ bool ArduinoUAVCAN::subscribe(CanardPortID const port_id, size_t const payload_s
   return true;
 }
 
-bool ArduinoUAVCAN::publish(CanardPortID const port_id, MessageBase & msg, uint8_t * transfer_id)
+bool ArduinoUAVCAN::publish(CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload, uint8_t * transfer_id)
 {
   uint8_t const message_transfer_id = (_tx_pub_transfer_id_map.count(port_id) > 0) ? _tx_pub_transfer_id_map[port_id] : 0;
 
   if (transfer_id)
     *transfer_id = message_transfer_id;
 
-  size_t payload_size = 0;
-  void * payload = nullptr;
-
-  msg.encode(&payload_size, &payload);
-
   CanardTransfer const transfer =
   {
     /* .timestamp_usec = */ 0,                          /* No deadline on transmission */
     /* .priority       = */ CanardPriorityNominal,
-    /* .transfer_kind  = */ CanardTransferKindMessage,
+    /* .transfer_kind  = */ transfer_kind,
     /* .port_id        = */ port_id,
     /* .remote_node_id = */ CANARD_NODE_ID_UNSET,       /* Messages cannot be unicast, so use UNSET. */
     /* .transfer_id    = */ message_transfer_id,
