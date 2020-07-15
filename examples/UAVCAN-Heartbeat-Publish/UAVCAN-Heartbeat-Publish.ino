@@ -28,13 +28,11 @@ static int const MKRCAN_MCP2515_INT_PIN = 7;
  * FUNCTION DECLARATION
  **************************************************************************************/
 
-void    spi_select           ();
-void    spi_deselect         ();
-uint8_t spi_transfer         (uint8_t const);
-void    onExternalEvent      ();
-void    onReceiveBufferFull  (uint32_t const, uint8_t const *, uint8_t const);
-void    onTransmitBufferEmpty(ArduinoMCP2515 *);
-bool    transmitCanFrame     (uint32_t const id, uint8_t const * data, uint8_t const len);
+void    spi_select      ();
+void    spi_deselect    ();
+uint8_t spi_transfer    (uint8_t const);
+void    onExternalEvent ();
+bool    transmitCanFrame(uint32_t const, uint8_t const *, uint8_t const);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -43,8 +41,8 @@ bool    transmitCanFrame     (uint32_t const id, uint8_t const * data, uint8_t c
 ArduinoMCP2515 mcp2515(spi_select,
                        spi_deselect,
                        spi_transfer,
-                       onReceiveBufferFull,
-                       onTransmitBufferEmpty);
+                       nullptr,
+                       nullptr);
 
 ArduinoUAVCAN uavcan(13, micros, transmitCanFrame);
 
@@ -114,16 +112,6 @@ uint8_t spi_transfer(uint8_t const data)
 void onExternalEvent()
 {
   mcp2515.onExternalEventHandler();
-}
-
-void onReceiveBufferFull(uint32_t const id, uint8_t const * data, uint8_t const len)
-{
-  uavcan.onCanFrameReceived(id, data, len);
-}
-
-void onTransmitBufferEmpty(ArduinoMCP2515 * this_ptr)
-{
-  /* One could use this to load the next frame from a CAN transmit ringbuffer into the MCP2515 CAN controller for transmission */
 }
 
 bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len)
