@@ -1,6 +1,9 @@
-/**
- * @brief   This example enables the loopback mode to test the transmission and reception of CAN frames via MCP2515 without any physical bus connection.
- * @author  Alexander Entinger, MSc / LXRobotics GmbH
+/*
+ * This example shows periodic transmission of a UAVCAN heartbeat message via CAN.
+ *
+ * Hardware:
+ *   - Arduino MKR family board, e.g. MKR VIDOR 4000
+ *   - Arduino MKR CAN shield
  */
 
 /**************************************************************************************
@@ -14,10 +17,6 @@
 
 #include <types/uavcan/node/Heartbeat.1.0.h>
 
-#undef max
-#undef min
-#include <algorithm>
-
 /**************************************************************************************
  * CONSTANTS
  **************************************************************************************/
@@ -29,24 +28,11 @@ static int const MKRCAN_MCP2515_INT_PIN = 7;
  * FUNCTION DECLARATION
  **************************************************************************************/
 
-void    spi_select           ();
-void    spi_deselect         ();
-uint8_t spi_transfer         (uint8_t const);
-void    onExternalEvent      ();
-void    onReceiveBufferFull  (uint32_t const, uint8_t const *, uint8_t const);
-void    onTransmitBufferEmpty(ArduinoMCP2515 *);
-bool    transmitCanFrame     (uint32_t const id, uint8_t const * data, uint8_t const len);
-
-/**************************************************************************************
- * TYPEDEF
- **************************************************************************************/
-
-typedef struct
-{
-  uint32_t id;
-  uint8_t  data[8];
-  uint8_t  len;
-} sCanTestFrame;
+void    spi_select      ();
+void    spi_deselect    ();
+uint8_t spi_transfer    (uint8_t const);
+void    onExternalEvent ();
+bool    transmitCanFrame(uint32_t const, uint8_t const *, uint8_t const);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -55,8 +41,8 @@ typedef struct
 ArduinoMCP2515 mcp2515(spi_select,
                        spi_deselect,
                        spi_transfer,
-                       onReceiveBufferFull,
-                       onTransmitBufferEmpty);
+                       nullptr,
+                       nullptr);
 
 ArduinoUAVCAN uavcan(13, micros, transmitCanFrame);
 
@@ -126,16 +112,6 @@ uint8_t spi_transfer(uint8_t const data)
 void onExternalEvent()
 {
   mcp2515.onExternalEventHandler();
-}
-
-void onReceiveBufferFull(uint32_t const id, uint8_t const * data, uint8_t const len)
-{
-  uavcan.onCanFrameReceived(id, data, len);
-}
-
-void onTransmitBufferEmpty(ArduinoMCP2515 * this_ptr)
-{
-  /* One could use this to load the next frame from a CAN transmit ringbuffer into the MCP2515 CAN controller for transmission */
 }
 
 bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len)
