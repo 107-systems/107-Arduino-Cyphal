@@ -10,7 +10,13 @@
  * INCLUDE
  **************************************************************************************/
 
-#include <stdlib.h>
+#include <stdint.h>
+
+/**************************************************************************************
+ * FORWARD DECLARATION
+ **************************************************************************************/
+
+class ArduinoUAVCAN;
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -23,7 +29,7 @@ public:
 
   virtual ~MessageBase() { }
 
-  virtual void encode(size_t * payload_size, void ** payload) = 0;
+  virtual bool publish(ArduinoUAVCAN & uavcan, uint8_t * transfer_id = nullptr) const = 0;
 
 };
 
