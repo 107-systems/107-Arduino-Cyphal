@@ -18,7 +18,6 @@
 
 #include "ArduinoO1Heap.h"
 #include "libcanard/canard.h"
-#include "types/uavcan/MessageBase.h"
 
 /**************************************************************************************
  * TYPEDEF
