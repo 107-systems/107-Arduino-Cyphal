@@ -82,12 +82,9 @@ bool ArduinoUAVCAN::subscribe(CanardPortID const port_id, size_t const payload_s
   return true;
 }
 
-bool ArduinoUAVCAN::publish(CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload, uint8_t * transfer_id)
+int ArduinoUAVCAN::publish(CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload)
 {
   uint8_t const message_transfer_id = (_tx_pub_transfer_id_map.count(port_id) > 0) ? _tx_pub_transfer_id_map[port_id] : 0;
-
-  if (transfer_id)
-    *transfer_id = message_transfer_id;
 
   CanardTransfer const transfer =
   {
@@ -107,7 +104,11 @@ bool ArduinoUAVCAN::publish(CanardTransferKind const transfer_kind, CanardPortID
   /* Serialize transfer into a series of CAN frames */
   int32_t result = canardTxPush(&_canard_ins, &transfer);
   bool const success = (result >= 0);
-  return success;
+
+  if (success)
+    return message_transfer_id;
+  else
+    return ERROR;
 }
 
 /**************************************************************************************
