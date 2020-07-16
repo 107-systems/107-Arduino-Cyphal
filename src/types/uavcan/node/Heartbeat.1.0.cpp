@@ -38,14 +38,10 @@ Heartbeat_1_0 Heartbeat_1_0::create(CanardTransfer const & transfer)
   return Heartbeat_1_0(uptime, health, mode, vssc);
 }
 
-bool Heartbeat_1_0::publish(ArduinoUAVCAN & uavcan, uint8_t * transfer_id) const
+void Heartbeat_1_0::encode(uint8_t * payload) const
 {
-  uint8_t payload[PAYLOAD_SIZE];
-
   canardDSDLSetUxx(payload, 34, static_cast<uint8_t>(_mode),    3);
   canardDSDLSetUxx(payload,  0,                      _uptime,  32);
   canardDSDLSetUxx(payload, 37,                      _vssc,    19);
   canardDSDLSetUxx(payload, 32, static_cast<uint8_t>(_health),  2);
-
-  return uavcan.publish(CanardTransferKindMessage, PORT_ID, PAYLOAD_SIZE, payload, transfer_id);
 }

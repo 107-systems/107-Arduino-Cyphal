@@ -10,8 +10,6 @@
  * INCLUDE
  **************************************************************************************/
 
-#include "../../MessageBase.h"
-
 #undef max
 #undef min
 #include <functional>
@@ -23,7 +21,7 @@
  * CLASS DECLARATION
  **************************************************************************************/
 
-class Heartbeat_1_0 : public MessageBase
+class Heartbeat_1_0
 {
 
 public:
@@ -56,7 +54,7 @@ public:
   static Heartbeat_1_0 create(CanardTransfer const & transfer);
 
 
-  virtual bool publish(ArduinoUAVCAN & uavcan, uint8_t * transfer_id = nullptr) const override;
+  void encode(uint8_t * payload) const;
 
 
   inline uint32_t uptime() const { return _uptime; }

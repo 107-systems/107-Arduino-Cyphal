@@ -46,6 +46,8 @@ public:
   bool subscribe(CanardPortID const port_id, size_t const payload_size_max, std::function<void(CanardTransfer const &)> func);
   bool publish  (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload, uint8_t * transfer_id = nullptr);
 
+  template <typename T>
+  bool publish(T const & msg, uint8_t * transfer_id = nullptr);
 
 private:
 
@@ -71,5 +73,11 @@ private:
   bool unsubscribeMessage(CanardPortID const port_id);
 
 };
+
+/**************************************************************************************
+ * TEMPLATE SOURCE FILE
+ **************************************************************************************/
+
+#include "ArduinoUAVCAN.ipp"
 
 #endif /* ARDUINO_UAVCAN_H_ */
