@@ -82,35 +82,6 @@ bool ArduinoUAVCAN::subscribe(CanardPortID const port_id, size_t const payload_s
   return true;
 }
 
-int ArduinoUAVCAN::publish(CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload)
-{
-  uint8_t const message_transfer_id = (_tx_pub_transfer_id_map.count(port_id) > 0) ? _tx_pub_transfer_id_map[port_id] : 0;
-
-  CanardTransfer const transfer =
-  {
-    /* .timestamp_usec = */ 0,                          /* No deadline on transmission */
-    /* .priority       = */ CanardPriorityNominal,
-    /* .transfer_kind  = */ transfer_kind,
-    /* .port_id        = */ port_id,
-    /* .remote_node_id = */ CANARD_NODE_ID_UNSET,       /* Messages cannot be unicast, so use UNSET. */
-    /* .transfer_id    = */ message_transfer_id,
-    /* .payload_size   = */ payload_size,
-    /* .payload        = */ payload,
-  };
-
-  /* Increment message transfer id for the next message */
-  _tx_pub_transfer_id_map[port_id] = message_transfer_id + 1;
-
-  /* Serialize transfer into a series of CAN frames */
-  int32_t result = canardTxPush(&_canard_ins, &transfer);
-  bool const success = (result >= 0);
-
-  if (success)
-    return message_transfer_id;
-  else
-    return ERROR;
-}
-
 /**************************************************************************************
  * PRIVATE MEMBER FUNCTIONS
  **************************************************************************************/
@@ -164,4 +135,33 @@ bool ArduinoUAVCAN::unsubscribeMessage(CanardPortID const port_id)
 
   bool const success = (result >= 0);
   return success;
+}
+
+int ArduinoUAVCAN::publish(CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload)
+{
+  uint8_t const message_transfer_id = (_tx_pub_transfer_id_map.count(port_id) > 0) ? _tx_pub_transfer_id_map[port_id] : 0;
+
+  CanardTransfer const transfer =
+  {
+    /* .timestamp_usec = */ 0,                          /* No deadline on transmission */
+    /* .priority       = */ CanardPriorityNominal,
+    /* .transfer_kind  = */ transfer_kind,
+    /* .port_id        = */ port_id,
+    /* .remote_node_id = */ CANARD_NODE_ID_UNSET,       /* Messages cannot be unicast, so use UNSET. */
+    /* .transfer_id    = */ message_transfer_id,
+    /* .payload_size   = */ payload_size,
+    /* .payload        = */ payload,
+  };
+
+  /* Increment message transfer id for the next message */
+  _tx_pub_transfer_id_map[port_id] = message_transfer_id + 1;
+
+  /* Serialize transfer into a series of CAN frames */
+  int32_t result = canardTxPush(&_canard_ins, &transfer);
+  bool const success = (result >= 0);
+
+  if (success)
+    return message_transfer_id;
+  else
+    return ERROR;
 }

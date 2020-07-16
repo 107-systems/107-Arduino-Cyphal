@@ -46,10 +46,10 @@ public:
 
 
   bool subscribe(CanardPortID const port_id, size_t const payload_size_max, std::function<void(CanardTransfer const &)> func);
-  int  publish  (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload);
 
   template <typename T>
   int publish(T const & msg);
+
 
 private:
 
@@ -73,6 +73,7 @@ private:
 
   bool subscribeMessage  (CanardPortID const port_id, size_t const payload_size_max, CanardRxSubscription * canard_rx_sub);
   bool unsubscribeMessage(CanardPortID const port_id);
+  int  publish           (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload);
 
 };
 
