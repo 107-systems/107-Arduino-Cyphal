@@ -98,7 +98,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is sent", "[heatbeat-02]")
   ArduinoUAVCAN uavcan(13, util::micros, transmitCanFrame);
 
   Heartbeat_1_0 hb_1(9876, Heartbeat_1_0::Health::NOMINAL, Heartbeat_1_0::Mode::SOFTWARE_UPDATE, 5);
-  hb_1.publish(uavcan);
+  uavcan.publish(hb_1);
   uavcan.transmitCanFrame();
   /*
    * pyuavcan publish 32085.uavcan.node.Heartbeat.1.0 '{uptime: 9876, health: 0, mode: 3, vendor_specific_status_code: 5}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'
@@ -107,7 +107,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is sent", "[heatbeat-02]")
   REQUIRE(can_rx_data == std::vector<uint8_t>{0x94, 0x26, 0x00, 0x00, 0xAC, 0x00, 0x00, 0xE0});
 
   Heartbeat_1_0 hb_2(9881, Heartbeat_1_0::Health::ADVISORY, Heartbeat_1_0::Mode::MAINTENANCE, 123);
-  hb_2.publish(uavcan);
+  uavcan.publish(hb_2);
   uavcan.transmitCanFrame();
   /*
    * pyuavcan publish 32085.uavcan.node.Heartbeat.1.0 '{uptime: 9881, health: 1, mode: 2, vendor_specific_status_code: 123}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'

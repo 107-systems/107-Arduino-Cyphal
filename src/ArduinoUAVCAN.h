@@ -34,6 +34,8 @@ class ArduinoUAVCAN
 {
 public:
 
+  static int constexpr ERROR = -1;
+
   ArduinoUAVCAN(uint8_t const node_id,
                 MicroSecondFunc micros,
                 CanFrameTransmitFunc transmit_func);
@@ -44,7 +46,9 @@ public:
 
 
   bool subscribe(CanardPortID const port_id, size_t const payload_size_max, std::function<void(CanardTransfer const &)> func);
-  bool publish  (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload, uint8_t * transfer_id = nullptr);
+
+  template <typename T>
+  int publish(T const & msg);
 
 
 private:
@@ -69,7 +73,14 @@ private:
 
   bool subscribeMessage  (CanardPortID const port_id, size_t const payload_size_max, CanardRxSubscription * canard_rx_sub);
   bool unsubscribeMessage(CanardPortID const port_id);
+  int  publish           (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload);
 
 };
+
+/**************************************************************************************
+ * TEMPLATE SOURCE FILE
+ **************************************************************************************/
+
+#include "ArduinoUAVCAN.ipp"
 
 #endif /* ARDUINO_UAVCAN_H_ */

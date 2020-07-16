@@ -32,21 +32,18 @@ TEST_CASE("The transfer id should be increased after each message of the same ty
   ArduinoUAVCAN uavcan(13, util::micros, transmitCanFrame);
 
   Heartbeat_1_0 hb(0, Heartbeat_1_0::Health::NOMINAL, Heartbeat_1_0::Mode::INITIALIZATION, 1);
-  uint8_t hb_transfer_id;
 
   WHEN("the first message is sent")
   {
-    hb.publish(uavcan, &hb_transfer_id);
     THEN("the transfer id should be 0")
-      REQUIRE(hb_transfer_id == 0);
+      REQUIRE(uavcan.publish(hb) == 0);
   }
 
   WHEN("the two message are sent")
   {
-    hb.publish(uavcan, &hb_transfer_id);
-    hb.publish(uavcan, &hb_transfer_id);
+    uavcan.publish(hb);
     THEN("the transfer id should be 1")
-      REQUIRE(hb_transfer_id == 1);
+      REQUIRE(uavcan.publish(hb) == 1);
   }
 
 }
