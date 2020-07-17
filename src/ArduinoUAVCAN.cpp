@@ -71,9 +71,6 @@ bool ArduinoUAVCAN::transmitCanFrame()
 
 bool ArduinoUAVCAN::subscribe(CanardPortID const port_id, size_t const payload_size_max, std::function<void(CanardTransfer const &)> func)
 {
-  if (_rx_sub_map.count(port_id) > 0)
-    return false;
-
   _rx_sub_map[port_id].transfer_complete_callback = func;
 
   if (!subscribeMessage(port_id, payload_size_max, &(_rx_sub_map[port_id].canard_rx_sub)))
