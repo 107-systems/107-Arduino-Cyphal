@@ -11,6 +11,7 @@
 
 #include <catch.hpp>
 
+#include <test/util/Const.h>
 #include <test/util/micros.h>
 
 #include <ArduinoUAVCAN.h>
@@ -70,9 +71,9 @@ void onHeatbeat_1_0_Received(CanardTransfer const & transfer)
 
 TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heatbeat-01]")
 {
-  ArduinoUAVCAN uavcan(13, util::micros, transmitCanFrame);
+  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros);
 
-  REQUIRE(uavcan.subscribe(Heartbeat_1_0::PORT_ID, Heartbeat_1_0::PAYLOAD_SIZE, onHeatbeat_1_0_Received));
+  REQUIRE(uavcan.subscribe(Heartbeat_1_0::PORT_ID, Heartbeat_1_0::MAX_PAYLOAD_SIZE, onHeatbeat_1_0_Received));
 
   /* Create:
    *   pyuavcan publish 32085.uavcan.node.Heartbeat.1.0 '{uptime: 1337, health: 2, mode: 7, vendor_specific_status_code: 42}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),59)'
@@ -95,11 +96,11 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heatbeat-01]")
 
 TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is sent", "[heatbeat-02]")
 {
-  ArduinoUAVCAN uavcan(13, util::micros, transmitCanFrame);
+  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros);
 
   Heartbeat_1_0 hb_1(9876, Heartbeat_1_0::Health::NOMINAL, Heartbeat_1_0::Mode::SOFTWARE_UPDATE, 5);
   uavcan.publish(hb_1);
-  uavcan.transmitCanFrame();
+  uavcan.transmitCanFrame(transmitCanFrame);
   /*
    * pyuavcan publish 32085.uavcan.node.Heartbeat.1.0 '{uptime: 9876, health: 0, mode: 3, vendor_specific_status_code: 5}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'
    */
@@ -108,7 +109,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is sent", "[heatbeat-02]")
 
   Heartbeat_1_0 hb_2(9881, Heartbeat_1_0::Health::ADVISORY, Heartbeat_1_0::Mode::MAINTENANCE, 123);
   uavcan.publish(hb_2);
-  uavcan.transmitCanFrame();
+  uavcan.transmitCanFrame(transmitCanFrame);
   /*
    * pyuavcan publish 32085.uavcan.node.Heartbeat.1.0 '{uptime: 9881, health: 1, mode: 2, vendor_specific_status_code: 123}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'
    */

@@ -12,15 +12,19 @@
 #include <assert.h>
 
 /**************************************************************************************
+ * STATIC CONSTEXPR DEFINITION
+ **************************************************************************************/
+
+constexpr int8_t ArduinoUAVCAN::ERROR;
+
+/**************************************************************************************
  * CTOR/DTOR
  **************************************************************************************/
 
 ArduinoUAVCAN::ArduinoUAVCAN(uint8_t const node_id,
-                             MicroSecondFunc micros,
-                             CanFrameTransmitFunc transmit_func)
+                             MicroSecondFunc micros)
 : _canard_ins{canardInit(ArduinoUAVCAN::o1heap_allocate, ArduinoUAVCAN::o1heap_free)}
 , _micros{micros}
-, _transmit_func{transmit_func}
 {
   assert(_micros != nullptr);
 
@@ -46,22 +50,22 @@ void ArduinoUAVCAN::onCanFrameReceived(uint32_t const id, uint8_t const * data, 
 
   if(result == 1)
   {
-    if (_rx_sub_map.count(transfer.port_id) > 0)
+    if (_rx_sub_msg_map.count(transfer.port_id) > 0)
     {
-      _rx_sub_map[transfer.port_id].transfer_complete_callback(transfer);
+      _rx_sub_msg_map[transfer.port_id].transfer_complete_callback(transfer);
     }
     _o1heap.free(const_cast<void *>(transfer.payload));
   }
 }
 
-bool ArduinoUAVCAN::transmitCanFrame()
+bool ArduinoUAVCAN::transmitCanFrame(CanFrameTransmitFunc transmit_func)
 {
   CanardFrame const * txf = canardTxPeek(&_canard_ins);
 
   if (txf == nullptr)
     return false;
 
-  if (!_transmit_func(txf->extended_can_id, reinterpret_cast<uint8_t const *>(txf->payload), static_cast<uint8_t const>(txf->payload_size)))
+  if (!transmit_func(txf->extended_can_id, reinterpret_cast<uint8_t const *>(txf->payload), static_cast<uint8_t const>(txf->payload_size)))
     return false;
 
   canardTxPop(&_canard_ins);
@@ -69,14 +73,9 @@ bool ArduinoUAVCAN::transmitCanFrame()
   return true;
 }
 
-bool ArduinoUAVCAN::subscribe(CanardPortID const port_id, size_t const payload_size_max, std::function<void(CanardTransfer const &)> func)
+bool ArduinoUAVCAN::subscribe(CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func)
 {
-  _rx_sub_map[port_id].transfer_complete_callback = func;
-
-  if (!subscribe(port_id, payload_size_max, &(_rx_sub_map[port_id].canard_rx_sub)))
-    return false;
-
-  return true;
+  return ArduinoUAVCAN::subscribeMessage(port_id, payload_size_max, func);
 }
 
 /**************************************************************************************
@@ -107,10 +106,23 @@ void ArduinoUAVCAN::convertToCanardFrame(unsigned long const rx_timestamp_us, ui
   frame.payload = reinterpret_cast<const void *>(data);
 }
 
-bool ArduinoUAVCAN::subscribe(CanardPortID const port_id, size_t const payload_size_max, CanardRxSubscription * canard_rx_sub)
+bool ArduinoUAVCAN::subscribeMessage(CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func)
+{
+  _rx_sub_msg_map[port_id].transfer_complete_callback = func;
+  return subscribe(CanardTransferKindMessage, port_id, payload_size_max, &(_rx_sub_msg_map[port_id].canard_rx_sub));
+}
+
+bool ArduinoUAVCAN::subscribeResponse(CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func)
+{
+  _rx_sub_rsp_map[port_id].transfer_complete_callback = func;
+  _rx_sub_rsp_map[port_id].request_transfer_id = -1;
+  return subscribe(CanardTransferKindResponse, port_id, payload_size_max, &(_rx_sub_rsp_map[port_id].canard_rx_sub));
+}
+
+bool ArduinoUAVCAN::subscribe(CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size_max, CanardRxSubscription * canard_rx_sub)
 {
   int8_t const result = canardRxSubscribe(&_canard_ins,
-                                          CanardTransferKindMessage,
+                                          transfer_kind,
                                           port_id,
                                           payload_size_max,
                                           CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC,
@@ -128,30 +140,30 @@ bool ArduinoUAVCAN::unsubscribe(CanardPortID const port_id)
   /* Remove CanardRxSubscription instance from internal list since the
    * structure is no longed needed.
    */
-  _rx_sub_map.erase(port_id);
+  _rx_sub_msg_map.erase(port_id);
 
   bool const success = (result >= 0);
   return success;
 }
 
-int ArduinoUAVCAN::publish(CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload)
+int8_t ArduinoUAVCAN::publish(CanardNodeID const remote_node_id, CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload)
 {
   uint8_t const message_transfer_id = (_tx_pub_transfer_id_map.count(port_id) > 0) ? _tx_pub_transfer_id_map[port_id] : 0;
 
   CanardTransfer const transfer =
   {
-    /* .timestamp_usec = */ 0,                          /* No deadline on transmission */
+    /* .timestamp_usec = */ 0, /* No deadline on transmission */
     /* .priority       = */ CanardPriorityNominal,
     /* .transfer_kind  = */ transfer_kind,
     /* .port_id        = */ port_id,
-    /* .remote_node_id = */ CANARD_NODE_ID_UNSET,       /* Messages cannot be unicast, so use UNSET. */
+    /* .remote_node_id = */ remote_node_id,
     /* .transfer_id    = */ message_transfer_id,
     /* .payload_size   = */ payload_size,
     /* .payload        = */ payload,
   };
 
   /* Increment message transfer id for the next message */
-  _tx_pub_transfer_id_map[port_id] = message_transfer_id + 1;
+  _tx_pub_transfer_id_map[port_id] = (message_transfer_id + 1) % CANARD_TRANSFER_ID_MAX;
 
   /* Serialize transfer into a series of CAN frames */
   int32_t result = canardTxPush(&_canard_ins, &transfer);

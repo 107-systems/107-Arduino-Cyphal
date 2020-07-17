@@ -9,19 +9,11 @@
 
 #include <catch.hpp>
 
+#include <test/util/Const.h>
 #include <test/util/micros.h>
 
 #include <ArduinoUAVCAN.h>
 #include <types/uavcan/node/Heartbeat.1.0.h>
-
-/**************************************************************************************
- * PRIVATE FUNCTION DEFINITION
- **************************************************************************************/
-
-static bool transmitCanFrame(uint32_t const /* id */, uint8_t const * /* data */, uint8_t const /* len */)
-{
-  return true;
-}
 
 /**************************************************************************************
  * TEST CODE
@@ -29,7 +21,7 @@ static bool transmitCanFrame(uint32_t const /* id */, uint8_t const * /* data */
 
 TEST_CASE("The transfer id should be increased after each message of the same type", "[uavcan-01]")
 {
-  ArduinoUAVCAN uavcan(13, util::micros, transmitCanFrame);
+  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros);
 
   Heartbeat_1_0 hb(0, Heartbeat_1_0::Health::NOMINAL, Heartbeat_1_0::Mode::INITIALIZATION, 1);
 

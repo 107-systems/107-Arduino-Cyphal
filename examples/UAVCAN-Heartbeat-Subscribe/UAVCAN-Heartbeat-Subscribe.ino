@@ -33,19 +33,7 @@ void    spi_deselect           ();
 uint8_t spi_transfer           (uint8_t const);
 void    onExternalEvent        ();
 void    onReceiveBufferFull    (uint32_t const, uint8_t const *, uint8_t const);
-bool    transmitCanFrame       (uint32_t const, uint8_t const *, uint8_t const);
 void    onHeatbeat_1_0_Received(CanardTransfer const &);
-
-/**************************************************************************************
- * TYPEDEF
- **************************************************************************************/
-
-typedef struct
-{
-  uint32_t id;
-  uint8_t  data[8];
-  uint8_t  len;
-} sCanTestFrame;
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -57,7 +45,7 @@ ArduinoMCP2515 mcp2515(spi_select,
                        onReceiveBufferFull,
                        nullptr);
 
-ArduinoUAVCAN uavcan(13, micros, transmitCanFrame);
+ArduinoUAVCAN uavcan(13, micros);
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -83,7 +71,7 @@ void setup()
   mcp2515.setNormalMode();
 
   /* Subscribe to the reception of Heartbeat message. */
-  uavcan.subscribe(Heartbeat_1_0::PORT_ID, Heartbeat_1_0::PAYLOAD_SIZE, onHeatbeat_1_0_Received);
+  uavcan.subscribe(Heartbeat_1_0::PORT_ID, Heartbeat_1_0::MAX_PAYLOAD_SIZE, onHeatbeat_1_0_Received);
 }
 
 void loop()
@@ -118,11 +106,6 @@ void onExternalEvent()
 void onReceiveBufferFull(uint32_t const id, uint8_t const * data, uint8_t const len)
 {
   uavcan.onCanFrameReceived(id, data, len);
-}
-
-bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len)
-{
-  return mcp2515.transmit(id, data, len);
 }
 
 void onHeatbeat_1_0_Received(CanardTransfer const & transfer)
