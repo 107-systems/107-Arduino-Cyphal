@@ -119,7 +119,7 @@ bool ArduinoUAVCAN::subscribe(CanardPortID const port_id, size_t const payload_s
   return success;
 }
 
-bool ArduinoUAVCAN::unsubscribeMessage(CanardPortID const port_id)
+bool ArduinoUAVCAN::unsubscribe(CanardPortID const port_id)
 {
   int8_t const result = canardRxUnsubscribe(&_canard_ins,
                                             CanardTransferKindMessage,

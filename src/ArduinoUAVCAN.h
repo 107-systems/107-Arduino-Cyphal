@@ -72,8 +72,8 @@ private:
   static void convertToCanardFrame(unsigned long const rx_timestamp_us, uint32_t const id, uint8_t const * data, uint8_t const len, CanardFrame & frame);
 
   bool subscribe  (CanardPortID const port_id, size_t const payload_size_max, CanardRxSubscription * canard_rx_sub);
-  bool unsubscribeMessage(CanardPortID const port_id);
-  int  publish           (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload);
+  bool unsubscribe(CanardPortID const port_id);
+  int  publish    (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload);
 
 };
 
