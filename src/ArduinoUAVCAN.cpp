@@ -73,7 +73,7 @@ bool ArduinoUAVCAN::subscribe(CanardPortID const port_id, size_t const payload_s
 {
   _rx_sub_map[port_id].transfer_complete_callback = func;
 
-  if (!subscribeMessage(port_id, payload_size_max, &(_rx_sub_map[port_id].canard_rx_sub)))
+  if (!subscribe(port_id, payload_size_max, &(_rx_sub_map[port_id].canard_rx_sub)))
     return false;
 
   return true;
@@ -107,7 +107,7 @@ void ArduinoUAVCAN::convertToCanardFrame(unsigned long const rx_timestamp_us, ui
   frame.payload = reinterpret_cast<const void *>(data);
 }
 
-bool ArduinoUAVCAN::subscribeMessage(CanardPortID const port_id, size_t const payload_size_max, CanardRxSubscription * canard_rx_sub)
+bool ArduinoUAVCAN::subscribe(CanardPortID const port_id, size_t const payload_size_max, CanardRxSubscription * canard_rx_sub)
 {
   int8_t const result = canardRxSubscribe(&_canard_ins,
                                           CanardTransferKindMessage,
