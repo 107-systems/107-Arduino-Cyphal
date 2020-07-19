@@ -16,8 +16,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-   env:
-     LIBRARIES: ArduinoMCP2515
+    env:
+      LIBRARIES: ArduinoMCP2515
 
     steps:
       - name: Checkout
