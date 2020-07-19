@@ -27,6 +27,7 @@ jobs:
         uses: arduino/actions/libraries/compile-examples@master
         with:
           fqbn: arduino:samd:mkrvidor4000
+          libraries: ${{ env.LIBRARIES }}
           size-report-sketch: Orel-20-Status
           enable-size-deltas-report: true
 
