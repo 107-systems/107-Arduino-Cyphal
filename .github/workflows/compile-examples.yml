@@ -16,8 +16,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-   env:
-     LIBRARIES: ArduinoMCP2515
+    env:
+      LIBRARIES: 107-Arduino-MCP2515
 
     steps:
       - name: Checkout
@@ -27,7 +27,7 @@ jobs:
         uses: arduino/actions/libraries/compile-examples@master
         with:
           fqbn: arduino:samd:mkrvidor4000
-          size-report-sketch: Orel-20-Status
+          libraries: ${{ env.LIBRARIES }}
           enable-size-deltas-report: true
 
       - name: Save memory usage change report as artifact
