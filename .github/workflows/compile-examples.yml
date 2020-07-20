@@ -28,7 +28,6 @@ jobs:
         with:
           fqbn: arduino:samd:mkrvidor4000
           libraries: ${{ env.LIBRARIES }}
-          size-report-sketch: Orel-20-Status
           enable-size-deltas-report: true
 
       - name: Save memory usage change report as artifact
