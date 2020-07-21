@@ -112,10 +112,10 @@ bool ArduinoUAVCAN::subscribeMessage(CanardPortID const port_id, size_t const pa
   return subscribe(CanardTransferKindMessage, port_id, payload_size_max, &(_rx_sub_msg_map[port_id].canard_rx_sub));
 }
 
-bool ArduinoUAVCAN::subscribeResponse(CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func)
+bool ArduinoUAVCAN::subscribeResponse(CanardPortID const port_id, size_t const payload_size_max, CanardTransferID const request_transfer_id, OnTransferReceivedFunc func)
 {
   _rx_sub_rsp_map[port_id].transfer_complete_callback = func;
-  _rx_sub_rsp_map[port_id].request_transfer_id = -1;
+  _rx_sub_rsp_map[port_id].request_transfer_id = request_transfer_id;
   return subscribe(CanardTransferKindResponse, port_id, payload_size_max, &(_rx_sub_rsp_map[port_id].canard_rx_sub));
 }
 

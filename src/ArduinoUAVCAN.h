@@ -88,7 +88,7 @@ private:
   static void convertToCanardFrame(unsigned long const rx_timestamp_us, uint32_t const id, uint8_t const * data, uint8_t const len, CanardFrame & frame);
 
   bool   subscribeMessage (CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func);
-  bool   subscribeResponse(CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func);
+  bool   subscribeResponse(CanardPortID const port_id, size_t const payload_size_max, CanardTransferID const request_transfer_id, OnTransferReceivedFunc func);
   bool   subscribe        (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size_max, CanardRxSubscription * canard_rx_sub);
   bool   unsubscribe      (CanardPortID const port_id);
   int8_t publish          (CanardNodeID const remote_node_id, CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload);
