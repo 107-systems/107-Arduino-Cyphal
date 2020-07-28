@@ -10,22 +10,13 @@
 #include <catch.hpp>
 
 #include <test/util/Const.h>
+#include <test/util/Types.h>
 #include <test/util/micros.h>
 
 #include <ArduinoUAVCAN.h>
 #include <types/uavcan/node/ExecuteCommand.1.0.Request.h>
 
 #include <iostream>
-
-/**************************************************************************************
- * TYPEDEF
- **************************************************************************************/
-
-typedef struct
-{
-  uint32_t id;
-  std::vector<uint8_t> data;
-} CanRxFrame;
 
 /**************************************************************************************
  * GLOBAL CONSTANTS
@@ -37,7 +28,7 @@ static CanardNodeID const REMOTE_NODE_ID = 27;
  * GLOBAL VARIABLES
  **************************************************************************************/
 
-static std::vector<CanRxFrame> can_rx_frame_vect;
+static util::CanFrameVect can_frame_vect;
 
 /**************************************************************************************
  * PRIVATE FUNCTION DEFINITION
@@ -45,8 +36,8 @@ static std::vector<CanRxFrame> can_rx_frame_vect;
 
 static bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len)
 {
-  CanRxFrame frame{id, std::vector<uint8_t>(data, data + len)};
-  can_rx_frame_vect.push_back(frame);
+  util::CanFrame frame{id, std::vector<uint8_t>(data, data + len)};
+  can_frame_vect.push_back(frame);
   return true;
 }
 
@@ -70,7 +61,7 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent", "[execute-command-01]")
   /* Transmit all the CAN frames. */
   while(uavcan.transmitCanFrame(transmitCanFrame)) { }
   /* Verify the content of the CAN frames. */
-  static std::vector<CanRxFrame> const EXPECTED_CAN_FRAMES = 
+  static util::CanFrameVect const EXPECTED_CAN_FRAMES = 
   {
     {0x136CCD8D, {0xfe, 0xca, 0x49, 0x20, 0x77, 0x61, 0x6e, 0xa0}},
     {0x136CCD8D, {0x74, 0x20, 0x61, 0x20, 0x64, 0x6f, 0x75, 0x00}},
@@ -79,15 +70,15 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent", "[execute-command-01]")
     {0x136CCD8D, {0x69, 0x74, 0x68, 0x20, 0x63, 0x72, 0x65, 0x20}},
     {0x136CCD8D, {0x61, 0x6d, 0x4d, 0x8, 0x40}}
   };
-  REQUIRE(can_rx_frame_vect.size() == EXPECTED_CAN_FRAMES.size());
+  REQUIRE(can_frame_vect.size() == EXPECTED_CAN_FRAMES.size());
 
-  auto iter = std::begin(can_rx_frame_vect);
+  auto actual = std::begin(can_frame_vect);
   std::for_each(std::begin(EXPECTED_CAN_FRAMES),
                 std::end  (EXPECTED_CAN_FRAMES),
-                [&iter](CanRxFrame const frame)
+                [&actual](util::CanFrame const frame)
                 {
-                  REQUIRE(iter->id   == frame.id);
-                  REQUIRE(iter->data == frame.data);
-                  iter++;
+                  REQUIRE(actual->id   == frame.id);
+                  REQUIRE(actual->data == frame.data);
+                  actual++;
                 });
 }
