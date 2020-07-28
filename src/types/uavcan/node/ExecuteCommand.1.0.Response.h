@@ -37,7 +37,7 @@ public:
   };
 
   static constexpr CanardPortID PORT_ID = ExecuteCommand_1_0_Request::PORT_ID;
-  static constexpr size_t       MAX_PAYLOAD_SIZE = 1;
+  static constexpr size_t       MAX_PAYLOAD_SIZE = 7;
 
   ExecuteCommand_1_0_Response(Status const status);
 
