@@ -18,8 +18,6 @@
 #include <ArduinoUAVCAN.h>
 #include <types/uavcan/node/Heartbeat.1.0.h>
 
-#include <iostream>
-
 /**************************************************************************************
  * PRIVATE GLOBAL VARIABLES
  **************************************************************************************/
@@ -38,16 +36,6 @@ static util::CanFrame        can_frame;
 
 static bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len)
 {
-/*
-  std::cout << "[" << std::hex << id << std::dec << "] ";
-  std::for_each(data,
-                data+len,
-                [](uint8_t const d)
-                {
-                  std::cout << std::hex << (int)d << std::dec << " ";
-                });
-  std::cout << std::endl;
-*/
   util::CanFrame frame{id, std::vector<uint8_t>(data, data + len)};
   can_frame = frame;
   return true;

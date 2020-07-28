@@ -3,17 +3,13 @@
  * @license LGPL 3.0
  */
 
-#ifndef TEST_UTIL_TYPES_H_
-#define TEST_UTIL_TYPES_H_
-
 /**************************************************************************************
- * INCLUDES
+ * INCLUDE
  **************************************************************************************/
 
-#include <stdint.h>
+#include <test/util/Types.h>
 
-#include <vector>
-#include <iostream>
+#include <algorithm>
 
 /**************************************************************************************
  * NAMESPACE
@@ -23,28 +19,34 @@ namespace util
 {
 
 /**************************************************************************************
- * TYPEDEF
+ * FUNCTION DEFINITION
  **************************************************************************************/
 
-typedef struct
+std::ostream & operator << (std::ostream & os, CanFrame const & f)
 {
-  uint32_t id;
-  std::vector<uint8_t> data;
-} CanFrame;
+  os << "[" << std::hex << f.id << std::dec << "] ";
+  std::for_each(std::begin(f.data),
+                std::end  (f.data),
+                [&os](uint8_t const d)
+                {
+                  os << std::hex << (int)d << std::dec << " ";
+                });
+  return os;
+}
 
-typedef std::vector<CanFrame> CanFrameVect;
-
-/**************************************************************************************
- * FUNCTION DECLARATION
- **************************************************************************************/
-
-std::ostream & operator << (std::ostream & os, CanFrame const & f);
-std::ostream & operator << (std::ostream & os, CanFrameVect const & fv);
+std::ostream & operator << (std::ostream & os, CanFrameVect const & fv)
+{
+  std::for_each(std::begin(fv),
+                std::end  (fv),
+                [&os](CanFrame const f)
+                {
+                  os << f << std::endl;
+                });
+  return os;
+}
 
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
 
 } /* util */
-
-#endif /* TEST_UTIL_TYPES_H_ */

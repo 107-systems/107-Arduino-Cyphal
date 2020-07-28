@@ -16,8 +16,6 @@
 #include <ArduinoUAVCAN.h>
 #include <types/uavcan/node/ExecuteCommand.1.0.Request.h>
 
-#include <iostream>
-
 /**************************************************************************************
  * GLOBAL CONSTANTS
  **************************************************************************************/
