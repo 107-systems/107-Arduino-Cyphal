@@ -15,6 +15,7 @@
 
 #include <ArduinoUAVCAN.h>
 #include <types/uavcan/node/ExecuteCommand.1.0.Request.h>
+#include <types/uavcan/node/ExecuteCommand.1.0.Response.h>
 
 /**************************************************************************************
  * GLOBAL CONSTANTS
@@ -27,6 +28,7 @@ static CanardNodeID const REMOTE_NODE_ID = 27;
  **************************************************************************************/
 
 static util::CanFrameVect can_frame_vect;
+static ExecuteCommand_1_0_Response::Status response_status = ExecuteCommand_1_0_Response::Status::INTERNAL_ERROR;
 
 /**************************************************************************************
  * PRIVATE FUNCTION DEFINITION
@@ -39,9 +41,10 @@ static bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t co
   return true;
 }
 
-void onExecuteCommand_1_0_Response_Received(CanardTransfer const & /*transfer*/)
+void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer)
 {
-
+  ExecuteCommand_1_0_Response const response = ExecuteCommand_1_0_Response::create(transfer);
+  response_status = response.status();
 }
 
 /**************************************************************************************
@@ -55,9 +58,10 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent", "[execute-command-01]")
   std::string const cmd_param = "I want a double espresso with cream";
   ExecuteCommand_1_0_Request req(0xCAFE, reinterpret_cast<uint8_t const *>(cmd_param.c_str()), cmd_param.length());
 
-  REQUIRE(uavcan.request(req, REMOTE_NODE_ID, onExecuteCommand_1_0_Response_Received) != ArduinoUAVCAN::ERROR);
+  REQUIRE(uavcan.request<ExecuteCommand_1_0_Request, ExecuteCommand_1_0_Response>(req, REMOTE_NODE_ID, onExecuteCommand_1_0_Response_Received) != ArduinoUAVCAN::ERROR);
   /* Transmit all the CAN frames. */
   while(uavcan.transmitCanFrame(transmitCanFrame)) { }
+
   /* Verify the content of the CAN frames. */
   static util::CanFrameVect const EXPECTED_CAN_FRAMES = 
   {
@@ -79,4 +83,9 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent", "[execute-command-01]")
                   REQUIRE(actual->data == frame.data);
                   actual++;
                 });
+
+  /* Feed back the command response to the uavcan node. In a
+   * real system the answer would come back from the remote node.
+   */
+  /* ... ? ... */
 }

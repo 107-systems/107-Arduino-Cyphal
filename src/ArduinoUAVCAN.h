@@ -55,9 +55,11 @@ public:
 
 
   /* This is the public API by which this library is used. */
-                        bool   subscribe(CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func);
-  template <typename T> int8_t publish  (T const & msg);
-  template <typename T> int8_t request  (T const & req, CanardNodeID const remote_node_id, OnTransferReceivedFunc func);
+  bool   subscribe(CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func);
+  template <typename T>
+  int8_t publish  (T const & msg);
+  template <typename T_REQ, typename T_RESP>
+  int8_t request  (T_REQ const & req, CanardNodeID const remote_node_id, OnTransferReceivedFunc func);
 
 
 private:
