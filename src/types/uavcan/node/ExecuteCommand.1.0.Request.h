@@ -24,10 +24,10 @@ class ExecuteCommand_1_0_Request
 public:
 
   static constexpr CanardPortID PORT_ID = 435;
-  static constexpr size_t       MAX_PAYLOAD_SIZE = 2;
+  static constexpr size_t       MAX_PAYLOAD_SIZE = 2 + 112;
 
 
-  ExecuteCommand_1_0_Request(uint16_t const command);
+  ExecuteCommand_1_0_Request(uint16_t const command, uint8_t const * param, size_t const param_len);
 
 
   size_t encode(uint8_t * payload) const;
@@ -40,6 +40,8 @@ public:
 private:
 
   uint16_t _command;
+  uint8_t _param[112];
+  size_t _param_len;
 
 };
 
