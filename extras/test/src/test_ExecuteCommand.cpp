@@ -63,6 +63,9 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent", "[execute-command-01]")
   while(uavcan.transmitCanFrame(transmitCanFrame)) { }
 
   /* Verify the content of the CAN frames. */
+  /*
+   * pyuavcan call 27 435.uavcan.node.ExecuteCommand.1.0 '{command: 0xCAFE, parameter: "I want a double espresso with cream"}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'
+   */
   static util::CanFrameVect const EXPECTED_CAN_FRAMES = 
   {
     {0x136CCD8D, {0xfe, 0xca, 0x49, 0x20, 0x77, 0x61, 0x6e, 0xa0}},
