@@ -38,21 +38,36 @@ ExecuteCommand_1_0_Request::ExecuteCommand_1_0_Request(uint16_t const command, u
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
+ExecuteCommand_1_0_Request ExecuteCommand_1_0_Request::create(CanardTransfer const & transfer)
+{
+  uint16_t const command   = canardDSDLGetU16(reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size,  0, 16);
+  uint8_t  const param_len = canardDSDLGetU8 (reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size, 16,  8);
+  
+  uint8_t param[112];
+  for(uint8_t b = 0; b < param_len; b++)
+    param[b] = canardDSDLGetU8(reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size, 16 + 8 + (b*8),  8);
+
+  return ExecuteCommand_1_0_Request(command, param, param_len);
+}
+
 size_t ExecuteCommand_1_0_Request::encode(uint8_t * payload) const
 {
   /* Encode command */
   canardDSDLSetUxx(payload, 0, _command, 16);
 
-  /* Encode payload. */
+  /* Encode payload length */
+  canardDSDLSetUxx(payload, 16, _param_len, 8);
+
+  /* Encode parameter */
   size_t off_bit_cnt = 0;
   std::for_each(_param,
                 _param + _param_len,
                 [&payload, &off_bit_cnt](uint8_t const elem)
                 {
-                  size_t const off_bit = 16 /* _command */ + off_bit_cnt;
+                  size_t const off_bit = 16 /* _command */ + 8 /* _param_len */ + off_bit_cnt;
                   canardDSDLSetUxx(payload, off_bit, elem, 8);
                   off_bit_cnt += 8;
                 });
 
-  return (2 + (off_bit_cnt / 8));
+  return (2 + 1 + (off_bit_cnt / 8));
 }

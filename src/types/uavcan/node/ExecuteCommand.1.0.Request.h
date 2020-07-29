@@ -29,12 +29,15 @@ public:
 
   ExecuteCommand_1_0_Request(uint16_t const command, uint8_t const * param, size_t const param_len);
 
+  static ExecuteCommand_1_0_Request create(CanardTransfer const & transfer);
 
   size_t encode(uint8_t * payload) const;
 
 
-  inline uint16_t command()                       const { return _command; }
-  inline void     command(uint16_t const command)       { _command = command; }
+  inline uint16_t  command  ()                       const { return _command; }
+  inline void      command  (uint16_t const command)       { _command = command; }
+  inline uint8_t * param    ()                             { return _param; }
+  inline size_t    param_len()                       const { return _param_len; }
 
 
 private:

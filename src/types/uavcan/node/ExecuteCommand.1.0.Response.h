@@ -43,6 +43,9 @@ public:
 
   static ExecuteCommand_1_0_Response create(CanardTransfer const & transfer);
 
+  size_t encode(uint8_t * payload) const;
+
+
   inline Status status() const { return _status; }
 
 

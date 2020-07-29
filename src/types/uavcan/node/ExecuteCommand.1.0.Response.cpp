@@ -38,3 +38,14 @@ ExecuteCommand_1_0_Response ExecuteCommand_1_0_Response::create(CanardTransfer c
 
   return ExecuteCommand_1_0_Response(status);
 }
+
+size_t ExecuteCommand_1_0_Response::encode(uint8_t * payload) const
+{
+  /* Encode status */
+  canardDSDLSetUxx(payload, 0, static_cast<uint8_t>(_status), 8);
+
+  /* The rest of the payload is empty ... */
+  canardDSDLSetUxx(payload, 8, 0, 48);
+
+  return MAX_PAYLOAD_SIZE;
+}

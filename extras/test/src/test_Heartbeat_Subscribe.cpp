@@ -32,7 +32,7 @@ static CanardNodeID          hb_node_id = 0;
  * PRIVATE FUNCTION DEFINITION
  **************************************************************************************/
 
-void onHeatbeat_1_0_Received(CanardTransfer const & transfer)
+void onHeatbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
   Heartbeat_1_0 const hb = Heartbeat_1_0::create(transfer);
 
