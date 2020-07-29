@@ -21,7 +21,7 @@
 
 TEST_CASE("The transfer id should be increased after each message of the same type", "[uavcan-01]")
 {
-  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros);
+  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, nullptr);
 
   Heartbeat_1_0 hb(0, Heartbeat_1_0::Health::NOMINAL, Heartbeat_1_0::Mode::INITIALIZATION, 1);
 

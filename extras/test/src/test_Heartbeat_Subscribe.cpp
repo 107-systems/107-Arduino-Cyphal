@@ -49,7 +49,7 @@ void onHeatbeat_1_0_Received(CanardTransfer const & transfer)
 
 TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heatbeat-subscribe-01]")
 {
-  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros);
+  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, nullptr);
 
   REQUIRE(uavcan.subscribe(Heartbeat_1_0::PORT_ID, Heartbeat_1_0::MAX_PAYLOAD_SIZE, onHeatbeat_1_0_Received));
 

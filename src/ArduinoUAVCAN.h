@@ -40,7 +40,8 @@ public:
   static constexpr int8_t ERROR = -1;
 
   ArduinoUAVCAN(uint8_t const node_id,
-                MicroSecondFunc micros);
+                MicroSecondFunc micros,
+                CanFrameTransmitFunc transmit_func);
 
 
   /* Must be called from the application upon the
@@ -51,7 +52,7 @@ public:
    * in order to transmit all CAN pushed on the internal
    * stack via publish/request.
    */
-  bool transmitCanFrame(CanFrameTransmitFunc transmit_func);
+  bool transmitCanFrame();
 
 
   /* This is the public API by which this library is used. */
@@ -80,6 +81,7 @@ private:
   ArduinoO1Heap _o1heap;
   CanardInstance _canard_ins;
   MicroSecondFunc _micros;
+  CanFrameTransmitFunc _transmit_func;
   std::map<CanardPortID, RxSubMessageData> _rx_sub_msg_map;
   std::map<CanardPortID, RxSubResponseData> _rx_sub_rsp_map;
   std::map<CanardPortID, uint8_t> _tx_pub_transfer_id_map;

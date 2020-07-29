@@ -41,11 +41,11 @@ static bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t co
 
 TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is sent", "[heatbeat-publish-01]")
 {
-  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros);
+  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, transmitCanFrame);
 
   Heartbeat_1_0 hb_1(9876, Heartbeat_1_0::Health::NOMINAL, Heartbeat_1_0::Mode::SOFTWARE_UPDATE, 5);
   uavcan.publish(hb_1);
-  uavcan.transmitCanFrame(transmitCanFrame);
+  uavcan.transmitCanFrame();
   /*
    * pyuavcan publish 32085.uavcan.node.Heartbeat.1.0 '{uptime: 9876, health: 0, mode: 3, vendor_specific_status_code: 5}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'
    */
@@ -54,7 +54,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is sent", "[heatbeat-publish-0
 
   Heartbeat_1_0 hb_2(9881, Heartbeat_1_0::Health::ADVISORY, Heartbeat_1_0::Mode::MAINTENANCE, 123);
   uavcan.publish(hb_2);
-  uavcan.transmitCanFrame(transmitCanFrame);
+  uavcan.transmitCanFrame();
   /*
    * pyuavcan publish 32085.uavcan.node.Heartbeat.1.0 '{uptime: 9881, health: 1, mode: 2, vendor_specific_status_code: 123}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'
    */

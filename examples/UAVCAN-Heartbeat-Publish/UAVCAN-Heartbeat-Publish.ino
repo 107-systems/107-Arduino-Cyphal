@@ -44,7 +44,7 @@ ArduinoMCP2515 mcp2515(spi_select,
                        nullptr,
                        nullptr);
 
-ArduinoUAVCAN uavcan(13, micros);
+ArduinoUAVCAN uavcan(13, micros, transmitCanFrame);
 
 Heartbeat_1_0 hb(0, Heartbeat_1_0::Health::NOMINAL, Heartbeat_1_0::Mode::INITIALIZATION, 0);
 
@@ -87,7 +87,7 @@ void loop()
   }
 
   /* Transmit all enqeued CAN frames */
-  while(uavcan.transmitCanFrame(transmitCanFrame)) { }
+  while(uavcan.transmitCanFrame()) { }
 }
 
 /**************************************************************************************

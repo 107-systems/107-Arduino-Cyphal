@@ -53,14 +53,14 @@ void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer)
 
 TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-command-client-01]")
 {
-  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros);
+  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, transmitCanFrame);
 
   std::string const cmd_param = "I want a double espresso with cream";
   ExecuteCommand_1_0_Request req(0xCAFE, reinterpret_cast<uint8_t const *>(cmd_param.c_str()), cmd_param.length());
 
   REQUIRE(uavcan.request<ExecuteCommand_1_0_Request, ExecuteCommand_1_0_Response>(req, REMOTE_NODE_ID, onExecuteCommand_1_0_Response_Received) != ArduinoUAVCAN::ERROR);
   /* Transmit all the CAN frames. */
-  while(uavcan.transmitCanFrame(transmitCanFrame)) { }
+  while(uavcan.transmitCanFrame()) { }
 
   /* Verify the content of the CAN frames. */
   /*

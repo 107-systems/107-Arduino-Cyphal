@@ -22,9 +22,11 @@ constexpr int8_t ArduinoUAVCAN::ERROR;
  **************************************************************************************/
 
 ArduinoUAVCAN::ArduinoUAVCAN(uint8_t const node_id,
-                             MicroSecondFunc micros)
+                             MicroSecondFunc micros,
+                             CanFrameTransmitFunc transmit_func)
 : _canard_ins{canardInit(ArduinoUAVCAN::o1heap_allocate, ArduinoUAVCAN::o1heap_free)}
 , _micros{micros}
+, _transmit_func{transmit_func}
 {
   assert(_micros != nullptr);
 
@@ -58,14 +60,17 @@ void ArduinoUAVCAN::onCanFrameReceived(uint32_t const id, uint8_t const * data, 
   }
 }
 
-bool ArduinoUAVCAN::transmitCanFrame(CanFrameTransmitFunc transmit_func)
+bool ArduinoUAVCAN::transmitCanFrame()
 {
+  if (!_transmit_func)
+    return false;
+
   CanardFrame const * txf = canardTxPeek(&_canard_ins);
 
   if (txf == nullptr)
     return false;
 
-  if (!transmit_func(txf->extended_can_id, reinterpret_cast<uint8_t const *>(txf->payload), static_cast<uint8_t const>(txf->payload_size)))
+  if (!_transmit_func(txf->extended_can_id, reinterpret_cast<uint8_t const *>(txf->payload), static_cast<uint8_t const>(txf->payload_size)))
     return false;
 
   canardTxPop(&_canard_ins);
