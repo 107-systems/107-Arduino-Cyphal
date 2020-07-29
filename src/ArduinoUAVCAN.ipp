@@ -7,12 +7,12 @@
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-template <typename T>
-int8_t ArduinoUAVCAN::publish(T const & msg)
+template <typename T_MSG>
+int8_t ArduinoUAVCAN::publish(T_MSG const & msg)
 {
-  uint8_t payload_buf[T::MAX_PAYLOAD_SIZE];
+  uint8_t payload_buf[T_MSG::MAX_PAYLOAD_SIZE];
   size_t const payload_size = msg.encode(payload_buf);
-  return publish(CANARD_NODE_ID_UNSET, CanardTransferKindMessage, T::PORT_ID, payload_size, payload_buf);
+  return publish(CANARD_NODE_ID_UNSET, CanardTransferKindMessage, T_MSG::PORT_ID, payload_size, payload_buf);
 }
 
 template <typename T_REQ, typename T_RESP>
