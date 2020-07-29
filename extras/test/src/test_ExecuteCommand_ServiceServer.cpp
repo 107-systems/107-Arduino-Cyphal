@@ -71,7 +71,7 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is received from a client", "[exec
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, transmitCanFrame);
 
   /* Subscribe to incoming server requests. */
-  REQUIRE(uavcan.subscribe<ExecuteCommand_1_0_Request>(onExecuteCommand_1_0_Request_Received) == true);
+  REQUIRE(uavcan.subscribeRequest<ExecuteCommand_1_0_Request>(onExecuteCommand_1_0_Request_Received) == true);
 
   /*
    * pyuavcan call 13 435.uavcan.node.ExecuteCommand.1.0 '{"command": 0xCAFE, "parameter": "I want a double espresso with cream"}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),27)'
