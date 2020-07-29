@@ -51,7 +51,7 @@ void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer)
  * TEST CODE
  **************************************************************************************/
 
-TEST_CASE("A '435.ExecuteCommand.1.0' request is sent", "[execute-command-01]")
+TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-command-client-01]")
 {
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros);
 
