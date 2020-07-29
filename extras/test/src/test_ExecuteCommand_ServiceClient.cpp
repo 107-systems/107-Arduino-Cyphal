@@ -58,7 +58,7 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
   std::string const cmd_param = "I want a double espresso with cream";
   ExecuteCommand_1_0_Request req(0xCAFE, reinterpret_cast<uint8_t const *>(cmd_param.c_str()), cmd_param.length());
 
-  REQUIRE(uavcan.request<ExecuteCommand_1_0_Request, ExecuteCommand_1_0_Response>(req, REMOTE_NODE_ID, onExecuteCommand_1_0_Response_Received) != ArduinoUAVCAN::ERROR);
+  REQUIRE(uavcan.request<ExecuteCommand_1_0_Request, ExecuteCommand_1_0_Response>(req, REMOTE_NODE_ID, onExecuteCommand_1_0_Response_Received) == true);
   /* Transmit all the CAN frames. */
   while(uavcan.transmitCanFrame()) { }
 
@@ -90,5 +90,9 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
   /* Feed back the command response to the uavcan node. In a
    * real system the answer would come back from the remote node.
    */
-  /* ... ? ... */
+  uint8_t const data[] = {0x02, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xE0};
+  uavcan.onCanFrameReceived(0x126CCD8D, data, 8);
+
+  /* Check if the expected response has been indeed received. */
+  REQUIRE(response_status == ExecuteCommand_1_0_Response::Status::NOT_AUTHORIZED);
 }

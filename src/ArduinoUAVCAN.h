@@ -57,13 +57,13 @@ public:
 
 
   /* publish/subscribe API for "message" data exchange paradigm */
-  bool                             subscribe(CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func);
-  template <typename T_MSG> int8_t publish  (T_MSG const & msg);
+                            bool subscribe(CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func);
+  template <typename T_MSG> bool publish  (T_MSG const & msg);
 
   /* request/response API for "service" data exchange paradigm */
-  template <typename T_REQ>                  bool   subscribe(OnTransferReceivedFunc func);
-  template <typename T_RSP>                  bool   respond  (T_RSP const & rsp, CanardNodeID const remote_node_id, CanardTransferID const transfer_id);
-  template <typename T_REQ, typename T_RESP> int8_t request  (T_REQ const & req, CanardNodeID const remote_node_id, OnTransferReceivedFunc func);
+  template <typename T_REQ>                  bool subscribe(OnTransferReceivedFunc func);
+  template <typename T_RSP>                  bool respond  (T_RSP const & rsp, CanardNodeID const remote_node_id, CanardTransferID const transfer_id);
+  template <typename T_REQ, typename T_RESP> bool request  (T_REQ const & req, CanardNodeID const remote_node_id, OnTransferReceivedFunc func);
 
 
 private:
@@ -72,22 +72,14 @@ private:
   {
     CanardRxSubscription canard_rx_sub;
     OnTransferReceivedFunc transfer_complete_callback;
-  } RxSubMessageData;
-
-  typedef struct
-  {
-    CanardRxSubscription canard_rx_sub;
-    CanardTransferID request_transfer_id;
-    OnTransferReceivedFunc transfer_complete_callback;
-  } RxSubResponseData;
+  } RxMessageData;
 
   ArduinoO1Heap _o1heap;
   CanardInstance _canard_ins;
   MicroSecondFunc _micros;
   CanFrameTransmitFunc _transmit_func;
-  std::map<CanardPortID, RxSubMessageData> _rx_sub_msg_map;
-  std::map<CanardPortID, RxSubResponseData> _rx_sub_rsp_map;
-  std::map<CanardPortID, uint8_t> _tx_pub_transfer_id_map;
+  std::map<CanardPortID, RxMessageData> _rx_msg_map;
+  std::map<CanardPortID, CanardTransferID> _tx_pub_transfer_id_map;
 
   static void * o1heap_allocate(CanardInstance * const ins, size_t const amount);
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
