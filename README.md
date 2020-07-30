@@ -45,11 +45,6 @@ void onHeatbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /*
 ArduinoUAVCAN uavcan(13, micros, nullptr);
 Heartbeat_1_0 hb(0, Heartbeat_1_0::Health::NOMINAL, Heartbeat_1_0::Mode::INITIALIZATION, 0);
 /* ... */
-void setup() {
-  /* ... */
-  uavcan.subscribe<Heartbeat_1_0>(onHeatbeat_1_0_Received);
-}
-
 void loop() {
   /* Update the heartbeat object */
   hb.uptime(millis() / 1000);
