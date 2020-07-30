@@ -22,14 +22,19 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(TEST_SRCS
   src/util/micros.cpp
+  src/util/Types.cpp
 
   src/test_main.cpp
-  src/test_ArduinoUAVCAN.cpp
-  src/test_Heartbeat.cpp
+  src/test_ExecuteCommand_ServiceClient.cpp
+  src/test_ExecuteCommand_ServiceServer.cpp
+  src/test_Heartbeat_Publish.cpp
+  src/test_Heartbeat_Subscribe.cpp
 
   ../../src/libcanard/canard_dsdl.c
   ../../src/libcanard/canard.c
   ../../src/o1heap/o1heap.c
+  ../../src/types/uavcan/node/ExecuteCommand.1.0.Request.cpp
+  ../../src/types/uavcan/node/ExecuteCommand.1.0.Response.cpp
   ../../src/types/uavcan/node/Heartbeat.1.0.cpp
   ../../src/ArduinoO1Heap.cpp
   ../../src/ArduinoUAVCAN.cpp

@@ -10,12 +10,9 @@
  * INCLUDE
  **************************************************************************************/
 
-#undef max
-#undef min
-#include <functional>
+#include <stdlib.h>
 
 #include <libcanard/canard.h>
-#include <libcanard/canard_dsdl.h>
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -43,18 +40,16 @@ public:
     OFFLINE          = 7,
   };
 
-  static CanardPortID constexpr PORT_ID = 32085;
-  static size_t       constexpr PAYLOAD_SIZE = 7;
+  static constexpr CanardPortID       PORT_ID = 32085;
+  static constexpr size_t             MAX_PAYLOAD_SIZE = 7;
+  static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindMessage;
 
-
-           Heartbeat_1_0(uint32_t const uptime, Health const health, Mode const mode, uint32_t const vssc);
-  virtual ~Heartbeat_1_0() { }
-
+  Heartbeat_1_0(uint32_t const uptime, Health const health, Mode const mode, uint32_t const vssc);
 
   static Heartbeat_1_0 create(CanardTransfer const & transfer);
 
 
-  void encode(uint8_t * payload) const;
+  size_t encode(uint8_t * payload) const;
 
 
   inline uint32_t uptime() const { return _uptime; }
@@ -66,7 +61,6 @@ public:
   inline void     health(Health const health)   { _health = health; }
   inline void     mode  (Mode const mode)       { _mode = mode; }
   inline void     vssc  (uint32_t const vssc)   { _vssc = vssc; }
-
 
 
 private:
