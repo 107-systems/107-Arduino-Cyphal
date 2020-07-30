@@ -1,5 +1,5 @@
 /*
- * This example shows how to use the UAVCAN library to set up a service server 
+ * This example shows how to use the UAVCAN library to set up a service server
  * responding to requests from service clients.
  *
  * Hardware:

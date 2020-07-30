@@ -115,7 +115,7 @@ bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len
 void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
   ExecuteCommand_1_0::Response const rsp = ExecuteCommand_1_0::Response::create(transfer);
-  
+
   if (rsp.status() == ExecuteCommand_1_0::Response::Status::SUCCESS)
     Serial.println("Coffee successful retrieved");
   else
