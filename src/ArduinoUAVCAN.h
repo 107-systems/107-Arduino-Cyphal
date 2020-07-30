@@ -38,8 +38,6 @@ class ArduinoUAVCAN
 {
 public:
 
-  static constexpr int8_t ERROR = -1;
-
   ArduinoUAVCAN(uint8_t const node_id,
                 MicroSecondFunc micros,
                 CanFrameTransmitFunc transmit_func);
