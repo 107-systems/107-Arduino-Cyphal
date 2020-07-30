@@ -15,10 +15,17 @@
 #include <libcanard/canard.h>
 
 /**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+namespace ExecuteCommand_1_0
+{
+
+/**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
 
-class ExecuteCommand_1_0_Request
+class Request
 {
 
 public:
@@ -27,9 +34,9 @@ public:
   static constexpr size_t       MAX_PAYLOAD_SIZE = 2 + 112;
 
 
-  ExecuteCommand_1_0_Request(uint16_t const command, uint8_t const * param, size_t const param_len);
+  Request(uint16_t const command, uint8_t const * param, size_t const param_len);
 
-  static ExecuteCommand_1_0_Request create(CanardTransfer const & transfer);
+  static Request create(CanardTransfer const & transfer);
 
   size_t encode(uint8_t * payload) const;
 
@@ -47,5 +54,11 @@ private:
   size_t _param_len;
 
 };
+
+/**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+} /* ExecuteCommand_1_0 */
 
 #endif /* ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_H_ */

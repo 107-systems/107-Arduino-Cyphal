@@ -17,10 +17,17 @@
 #include "ExecuteCommand.1.0.Request.h"
 
 /**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+namespace ExecuteCommand_1_0
+{
+
+/**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
 
-class ExecuteCommand_1_0_Response
+class Response
 {
 
 public:
@@ -36,12 +43,12 @@ public:
     INTERNAL_ERROR = 6,
   };
 
-  static constexpr CanardPortID PORT_ID = ExecuteCommand_1_0_Request::PORT_ID;
+  static constexpr CanardPortID PORT_ID = Request::PORT_ID;
   static constexpr size_t       MAX_PAYLOAD_SIZE = 7;
 
-  ExecuteCommand_1_0_Response(Status const status);
+  Response(Status const status);
 
-  static ExecuteCommand_1_0_Response create(CanardTransfer const & transfer);
+  static Response create(CanardTransfer const & transfer);
 
   size_t encode(uint8_t * payload) const;
 
@@ -54,5 +61,11 @@ private:
   Status _status;
 
 };
+
+/**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+} /* ExecuteCommand_1_0 */
 
 #endif /* ARDUINO_TYPES_UAVCAN_NODE_EXECUTECOMMAND_1_0_RESPONSE_H_ */

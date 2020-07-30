@@ -16,17 +16,24 @@
 #include <algorithm>
 
 /**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+namespace ExecuteCommand_1_0
+{
+
+/**************************************************************************************
  * STATIC CONSTEXPR DEFINITION
  **************************************************************************************/
 
-constexpr CanardPortID ExecuteCommand_1_0_Request::PORT_ID;
-constexpr size_t       ExecuteCommand_1_0_Request::MAX_PAYLOAD_SIZE;
+constexpr CanardPortID Request::PORT_ID;
+constexpr size_t       Request::MAX_PAYLOAD_SIZE;
 
 /**************************************************************************************
  * CTOR/DTOR
  **************************************************************************************/
 
-ExecuteCommand_1_0_Request::ExecuteCommand_1_0_Request(uint16_t const command, uint8_t const * param, size_t const param_len)
+Request::Request(uint16_t const command, uint8_t const * param, size_t const param_len)
 : _command{command}
 , _param{0}
 , _param_len{std::min(param_len, 112UL)}
@@ -38,7 +45,7 @@ ExecuteCommand_1_0_Request::ExecuteCommand_1_0_Request(uint16_t const command, u
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-ExecuteCommand_1_0_Request ExecuteCommand_1_0_Request::create(CanardTransfer const & transfer)
+Request Request::create(CanardTransfer const & transfer)
 {
   uint16_t const command   = canardDSDLGetU16(reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size,  0, 16);
   uint8_t  const param_len = canardDSDLGetU8 (reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size, 16,  8);
@@ -47,10 +54,10 @@ ExecuteCommand_1_0_Request ExecuteCommand_1_0_Request::create(CanardTransfer con
   for(uint8_t b = 0; b < param_len; b++)
     param[b] = canardDSDLGetU8(reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size, 16 + 8 + (b*8),  8);
 
-  return ExecuteCommand_1_0_Request(command, param, param_len);
+  return Request(command, param, param_len);
 }
 
-size_t ExecuteCommand_1_0_Request::encode(uint8_t * payload) const
+size_t Request::encode(uint8_t * payload) const
 {
   /* Encode command */
   canardDSDLSetUxx(payload, 0, _command, 16);
@@ -71,3 +78,9 @@ size_t ExecuteCommand_1_0_Request::encode(uint8_t * payload) const
 
   return (2 + 1 + (off_bit_cnt / 8));
 }
+
+/**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+} /* ExecuteCommand_1_0 */

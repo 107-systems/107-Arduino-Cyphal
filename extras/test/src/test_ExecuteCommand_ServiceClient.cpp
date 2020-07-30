@@ -28,7 +28,7 @@ static CanardNodeID const REMOTE_NODE_ID = 27;
  **************************************************************************************/
 
 static util::CanFrameVect can_frame_vect;
-static ExecuteCommand_1_0_Response::Status response_status = ExecuteCommand_1_0_Response::Status::INTERNAL_ERROR;
+static ExecuteCommand_1_0::Response::Status response_status = ExecuteCommand_1_0::Response::Status::INTERNAL_ERROR;
 
 /**************************************************************************************
  * PRIVATE FUNCTION DEFINITION
@@ -43,7 +43,7 @@ static bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t co
 
 void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
-  ExecuteCommand_1_0_Response const response = ExecuteCommand_1_0_Response::create(transfer);
+  ExecuteCommand_1_0::Response const response = ExecuteCommand_1_0::Response::create(transfer);
   response_status = response.status();
 }
 
@@ -56,9 +56,9 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, transmitCanFrame);
 
   std::string const cmd_param = "I want a double espresso with cream";
-  ExecuteCommand_1_0_Request req(0xCAFE, reinterpret_cast<uint8_t const *>(cmd_param.c_str()), cmd_param.length());
+  ExecuteCommand_1_0::Request req(0xCAFE, reinterpret_cast<uint8_t const *>(cmd_param.c_str()), cmd_param.length());
 
-  REQUIRE(uavcan.request<ExecuteCommand_1_0_Request, ExecuteCommand_1_0_Response>(req, REMOTE_NODE_ID, onExecuteCommand_1_0_Response_Received) == true);
+  REQUIRE(uavcan.request<ExecuteCommand_1_0::Request, ExecuteCommand_1_0::Response>(req, REMOTE_NODE_ID, onExecuteCommand_1_0_Response_Received) == true);
   /* Transmit all the CAN frames. */
   while(uavcan.transmitCanFrame()) { }
 
@@ -94,5 +94,5 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
   uavcan.onCanFrameReceived(0x126CCD8D, data, 8);
 
   /* Check if the expected response has been indeed received. */
-  REQUIRE(response_status == ExecuteCommand_1_0_Response::Status::NOT_AUTHORIZED);
+  REQUIRE(response_status == ExecuteCommand_1_0::Response::Status::NOT_AUTHORIZED);
 }
