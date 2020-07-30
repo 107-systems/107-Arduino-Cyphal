@@ -79,7 +79,7 @@ private:
   MicroSecondFunc _micros;
   CanFrameTransmitFunc _transmit_func;
   std::map<CanardPortID, RxMessageData> _rx_msg_map;
-  std::map<CanardPortID, CanardTransferID> _tx_pub_transfer_id_map;
+  std::map<CanardPortID, CanardTransferID> _tx_transfer_id_map;
 
   static void * o1heap_allocate(CanardInstance * const ins, size_t const amount);
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
