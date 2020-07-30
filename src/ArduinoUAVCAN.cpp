@@ -32,7 +32,7 @@ ArduinoUAVCAN::ArduinoUAVCAN(uint8_t const node_id,
 /**************************************************************************************
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
-#include <iostream>
+
 void ArduinoUAVCAN::onCanFrameReceived(uint32_t const id, uint8_t const * data, uint8_t const len)
 {
   CanardFrame frame;
@@ -44,15 +44,8 @@ void ArduinoUAVCAN::onCanFrameReceived(uint32_t const id, uint8_t const * data, 
                                        0,
                                        &transfer);
 
-  std::cout << __FUNCTION__ << std::endl;
-  std::cout << "result = " << (int)result << std::endl;
-
   if(result == 1)
   {
-    std::cout << __FUNCTION__ << std::endl;
-    std::cout << "PORT ID = " << (int)transfer.port_id << std::endl;
-    std::cout << "TRANSFER ID = " << (int)transfer.transfer_id << std::endl;
-
     if (_rx_transfer_map.count(transfer.port_id) > 0)
     {
       _rx_transfer_map[transfer.port_id].transfer_complete_callback(transfer, *this);
@@ -109,9 +102,6 @@ void ArduinoUAVCAN::convertToCanardFrame(unsigned long const rx_timestamp_us, ui
 
 bool ArduinoUAVCAN::subscribe(CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func)
 {
-  std::cout << __FUNCTION__ << std::endl;
-  std::cout << "transfer_kind = " << (int)transfer_kind << std::endl;
-  std::cout << "port_id = " << (int)port_id << std::endl;
   _rx_transfer_map[port_id].transfer_complete_callback = func;
   int8_t const result = canardRxSubscribe(&_canard_ins,
                                           transfer_kind,
