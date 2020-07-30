@@ -70,14 +70,14 @@ private:
   {
     CanardRxSubscription canard_rx_sub;
     OnTransferReceivedFunc transfer_complete_callback;
-  } RxMessageData;
+  } RxTransferData;
 
   ArduinoO1Heap _o1heap;
   CanardInstance _canard_ins;
   MicroSecondFunc _micros;
   CanFrameTransmitFunc _transmit_func;
-  std::map<CanardPortID, RxMessageData> _rx_msg_map;
-  std::map<CanardPortID, CanardTransferID> _tx_transfer_id_map;
+  std::map<CanardPortID, RxTransferData> _rx_transfer_map;
+  std::map<CanardPortID, CanardTransferID> _tx_transfer_map;
 
   static void * o1heap_allocate(CanardInstance * const ins, size_t const amount);
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
