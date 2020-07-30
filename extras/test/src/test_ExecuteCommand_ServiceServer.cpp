@@ -14,8 +14,7 @@
 #include <test/util/micros.h>
 
 #include <ArduinoUAVCAN.h>
-#include <types/uavcan/node/ExecuteCommand.1.0.Request.h>
-#include <types/uavcan/node/ExecuteCommand.1.0.Response.h>
+#include <types/uavcan/node/ExecuteCommand.1.0.h>
 
 #include <iostream>
 

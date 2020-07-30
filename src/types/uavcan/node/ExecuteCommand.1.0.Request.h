@@ -3,8 +3,8 @@
  * @license MIT
  */
 
-#ifndef ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_H_
-#define ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_H_
+#ifndef ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_REQUEST_H_
+#define ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_REQUEST_H_
 
 /**************************************************************************************
  * INCLUDE
@@ -61,4 +61,4 @@ private:
 
 } /* ExecuteCommand_1_0 */
 
-#endif /* ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_H_ */
+#endif /* ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_REQUEST_H_ */
