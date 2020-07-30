@@ -90,7 +90,7 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
    * real system the answer would come back from the remote node.
    */
   uint8_t const data[] = {0x02, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xE0};
-  uavcan.onCanFrameReceived(0x126CCD8D, data, 8);
+  uavcan.onCanFrameReceived(0x126CC69B, data, 8);
 
   /* Check if the expected response has been indeed received. */
   REQUIRE(response_status == ExecuteCommand_1_0::Response::Status::NOT_AUTHORIZED);
