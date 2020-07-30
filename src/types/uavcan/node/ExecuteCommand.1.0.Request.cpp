@@ -50,7 +50,7 @@ Request Request::create(CanardTransfer const & transfer)
 {
   uint16_t const command   = canardDSDLGetU16(reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size,  0, 16);
   uint8_t  const param_len = canardDSDLGetU8 (reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size, 16,  8);
-  
+
   uint8_t param[112];
   for(uint8_t b = 0; b < param_len; b++)
     param[b] = canardDSDLGetU8(reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size, 16 + 8 + (b*8),  8);

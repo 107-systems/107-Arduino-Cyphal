@@ -20,7 +20,7 @@ bool ArduinoUAVCAN::publish(T_MSG const & msg)
 
   uint8_t payload_buf[T_MSG::MAX_PAYLOAD_SIZE];
   size_t const payload_size = msg.encode(payload_buf);
-  
+
   return enqeueTransfer(CANARD_NODE_ID_UNSET, T_MSG::TRANSFER_KIND, T_MSG::PORT_ID, payload_size, payload_buf, nullptr);
 }
 
@@ -43,7 +43,7 @@ bool ArduinoUAVCAN::request(T_REQ const & req, CanardNodeID const remote_node_id
 
   uint8_t payload_buf[T_REQ::MAX_PAYLOAD_SIZE];
   size_t const payload_size = req.encode(payload_buf);
-  
+
   CanardTransferID transfer_id;
   if (!enqeueTransfer(remote_node_id, T_REQ::TRANSFER_KIND, T_REQ::PORT_ID, payload_size, payload_buf, &transfer_id))
     return false;

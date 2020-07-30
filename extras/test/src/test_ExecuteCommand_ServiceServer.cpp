@@ -44,7 +44,7 @@ static bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t co
 void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, ArduinoUAVCAN & uavcan)
 {
   ExecuteCommand_1_0::Request request = ExecuteCommand_1_0::Request::create(transfer);
-  
+
   /* The next 2 lines are just for test purposes, you won't
    * have them in your real application.
    */
@@ -73,7 +73,7 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is received from a client", "[exec
   /*
    * pyuavcan call 13 435.uavcan.node.ExecuteCommand.1.0 '{"command": 0xCAFE, "parameter": "I want a double espresso with cream"}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),27)'
    */
-  static util::CanFrameVect const SERVER_REQUEST_CAN_FRAMES = 
+  static util::CanFrameVect const SERVER_REQUEST_CAN_FRAMES =
   {
     {0x136CC69B, {0xFE, 0xCA, 0x23, 0x49, 0x20, 0x77, 0x61, 0xA0}},
     {0x136CC69B, {0x6E, 0x74, 0x20, 0x61, 0x20, 0x64, 0x6F, 0x00}},
@@ -96,7 +96,7 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is received from a client", "[exec
   std::string const EXP_CMD_PARAM_STR = "I want a double espresso with cream";
   std::vector<uint8_t> const EXP_CMD_PARAM_VECT(EXP_CMD_PARAM_STR.begin(), EXP_CMD_PARAM_STR.end());
   REQUIRE(request_param == EXP_CMD_PARAM_VECT);
- 
+
   /* We should now have one CAN frame in the transmit pipeline */
   REQUIRE(uavcan.transmitCanFrame() == true);
 
