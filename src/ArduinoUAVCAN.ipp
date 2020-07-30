@@ -7,10 +7,10 @@
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-template <typename T_MSG>
+template <typename T>
 bool ArduinoUAVCAN::subscribe(OnTransferReceivedFunc func)
 {
-  return subscribe(CanardTransferKindMessage, T_MSG::PORT_ID, T_MSG::MAX_PAYLOAD_SIZE, func);
+  return subscribe(T::TRANSFER_KIND, T::PORT_ID, T::MAX_PAYLOAD_SIZE, func);
 }
 
 template <typename T_MSG>
@@ -20,12 +20,6 @@ bool ArduinoUAVCAN::publish(T_MSG const & msg)
   size_t const payload_size = msg.encode(payload_buf);
   
   return publish(CANARD_NODE_ID_UNSET, CanardTransferKindMessage, T_MSG::PORT_ID, payload_size, payload_buf, nullptr);
-}
-
-template <typename T_REQ>
-bool ArduinoUAVCAN::subscribeRequest(OnTransferReceivedFunc func)
-{
-  return subscribe(CanardTransferKindRequest, T_REQ::PORT_ID, T_REQ::MAX_PAYLOAD_SIZE, func);
 }
 
 template <typename T_RSP>
@@ -47,5 +41,5 @@ bool ArduinoUAVCAN::request(T_REQ const & req, CanardNodeID const remote_node_id
   if (!publish(remote_node_id, CanardTransferKindRequest, T_REQ::PORT_ID, payload_size, payload_buf, &transfer_id))
     return false;
 
-  return subscribe(CanardTransferKindResponse, T_RESP::PORT_ID, T_RESP::MAX_PAYLOAD_SIZE, func);
+  return subscribe(T_RESP::TRANSFER_KIND, T_RESP::PORT_ID, T_RESP::MAX_PAYLOAD_SIZE, func);
 }

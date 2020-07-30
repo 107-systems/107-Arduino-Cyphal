@@ -15,8 +15,9 @@
  * STATIC CONSTEXPR DEFINITION
  **************************************************************************************/
 
-constexpr CanardPortID Heartbeat_1_0::PORT_ID;
-constexpr size_t       Heartbeat_1_0::MAX_PAYLOAD_SIZE;
+constexpr CanardPortID       Heartbeat_1_0::PORT_ID;
+constexpr size_t             Heartbeat_1_0::MAX_PAYLOAD_SIZE;
+constexpr CanardTransferKind Heartbeat_1_0::TRANSFER_KIND;
 
 /**************************************************************************************
  * CTOR/DTOR

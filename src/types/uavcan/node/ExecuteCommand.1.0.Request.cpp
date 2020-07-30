@@ -26,8 +26,9 @@ namespace ExecuteCommand_1_0
  * STATIC CONSTEXPR DEFINITION
  **************************************************************************************/
 
-constexpr CanardPortID Request::PORT_ID;
-constexpr size_t       Request::MAX_PAYLOAD_SIZE;
+constexpr CanardPortID       Request::PORT_ID;
+constexpr size_t             Request::MAX_PAYLOAD_SIZE;
+constexpr CanardTransferKind Request::TRANSFER_KIND;
 
 /**************************************************************************************
  * CTOR/DTOR

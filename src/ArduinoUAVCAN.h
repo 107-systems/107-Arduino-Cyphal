@@ -56,12 +56,12 @@ public:
   bool transmitCanFrame();
 
 
+  template <typename T>                      bool subscribe       (OnTransferReceivedFunc func);
+  
   /* publish/subscribe API for "message" data exchange paradigm */
-  template <typename T_MSG>                  bool subscribe       (OnTransferReceivedFunc func);
   template <typename T_MSG>                  bool publish         (T_MSG const & msg);
 
   /* request/response API for "service" data exchange paradigm */
-  template <typename T_REQ>                  bool subscribeRequest(OnTransferReceivedFunc func);
   template <typename T_RSP>                  bool respond         (T_RSP const & rsp, CanardNodeID const remote_node_id, CanardTransferID const transfer_id);
   template <typename T_REQ, typename T_RESP> bool request         (T_REQ const & req, CanardNodeID const remote_node_id, OnTransferReceivedFunc func);
 

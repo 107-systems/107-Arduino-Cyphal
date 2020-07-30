@@ -40,8 +40,9 @@ public:
     OFFLINE          = 7,
   };
 
-  static constexpr CanardPortID PORT_ID = 32085;
-  static constexpr size_t       MAX_PAYLOAD_SIZE = 7;
+  static constexpr CanardPortID       PORT_ID = 32085;
+  static constexpr size_t             MAX_PAYLOAD_SIZE = 7;
+  static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindMessage;
 
   Heartbeat_1_0(uint32_t const uptime, Health const health, Mode const mode, uint32_t const vssc);
 

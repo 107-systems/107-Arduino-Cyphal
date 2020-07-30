@@ -30,8 +30,9 @@ class Request
 
 public:
 
-  static constexpr CanardPortID PORT_ID = 435;
-  static constexpr size_t       MAX_PAYLOAD_SIZE = 2 + 112;
+  static constexpr CanardPortID       PORT_ID = 435;
+  static constexpr size_t             MAX_PAYLOAD_SIZE = 2 + 112;
+  static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindRequest;
 
 
   Request(uint16_t const command, uint8_t const * param, size_t const param_len);

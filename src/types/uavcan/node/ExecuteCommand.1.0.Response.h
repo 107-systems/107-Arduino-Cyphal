@@ -43,8 +43,10 @@ public:
     INTERNAL_ERROR = 6,
   };
 
-  static constexpr CanardPortID PORT_ID = Request::PORT_ID;
-  static constexpr size_t       MAX_PAYLOAD_SIZE = 7;
+  static constexpr CanardPortID       PORT_ID = Request::PORT_ID;
+  static constexpr size_t             MAX_PAYLOAD_SIZE = 7;
+  static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindResponse;
+
 
   Response(Status const status);
 
