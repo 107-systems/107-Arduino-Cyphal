@@ -144,7 +144,7 @@ bool ArduinoUAVCAN::unsubscribe(CanardPortID const port_id)
   return success;
 }
 
-bool ArduinoUAVCAN::publish(CanardNodeID const remote_node_id, CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload, CanardTransferID * transfer_id)
+bool ArduinoUAVCAN::enqeueTransfer(CanardNodeID const remote_node_id, CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload, CanardTransferID * transfer_id)
 {
   CanardTransferID message_transfer_id;
   if (transfer_id)

@@ -21,7 +21,7 @@ bool ArduinoUAVCAN::publish(T_MSG const & msg)
   uint8_t payload_buf[T_MSG::MAX_PAYLOAD_SIZE];
   size_t const payload_size = msg.encode(payload_buf);
   
-  return publish(CANARD_NODE_ID_UNSET, T_MSG::TRANSFER_KIND, T_MSG::PORT_ID, payload_size, payload_buf, nullptr);
+  return enqeueTransfer(CANARD_NODE_ID_UNSET, T_MSG::TRANSFER_KIND, T_MSG::PORT_ID, payload_size, payload_buf, nullptr);
 }
 
 template <typename T_RSP>
@@ -32,7 +32,7 @@ bool ArduinoUAVCAN::respond(T_RSP const & rsp, CanardNodeID const remote_node_id
   uint8_t payload_buf[T_RSP::MAX_PAYLOAD_SIZE];
   size_t const payload_size = rsp.encode(payload_buf);
 
-  return publish(remote_node_id, T_RSP::TRANSFER_KIND, T_RSP::PORT_ID, payload_size, payload_buf, const_cast<CanardTransferID *>(&transfer_id));
+  return enqeueTransfer(remote_node_id, T_RSP::TRANSFER_KIND, T_RSP::PORT_ID, payload_size, payload_buf, const_cast<CanardTransferID *>(&transfer_id));
 }
 
 template <typename T_REQ, typename T_RSP>
@@ -45,7 +45,7 @@ bool ArduinoUAVCAN::request(T_REQ const & req, CanardNodeID const remote_node_id
   size_t const payload_size = req.encode(payload_buf);
   
   CanardTransferID transfer_id;
-  if (!publish(remote_node_id, T_REQ::TRANSFER_KIND, T_REQ::PORT_ID, payload_size, payload_buf, &transfer_id))
+  if (!enqeueTransfer(remote_node_id, T_REQ::TRANSFER_KIND, T_REQ::PORT_ID, payload_size, payload_buf, &transfer_id))
     return false;
 
   return subscribe(T_RSP::TRANSFER_KIND, T_RSP::PORT_ID, T_RSP::MAX_PAYLOAD_SIZE, func);
