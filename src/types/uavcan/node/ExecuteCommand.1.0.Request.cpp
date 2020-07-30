@@ -37,7 +37,7 @@ constexpr CanardTransferKind Request::TRANSFER_KIND;
 Request::Request(uint16_t const command, uint8_t const * param, size_t const param_len)
 : _command{command}
 , _param{0}
-, _param_len{std::min(param_len, 112UL)}
+, _param_len{std::min(param_len, static_cast<size_t>(112UL))}
 {
   std::copy(param, param + param_len, _param);
 }
