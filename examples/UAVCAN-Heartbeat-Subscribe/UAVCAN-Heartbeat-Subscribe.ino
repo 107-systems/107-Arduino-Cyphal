@@ -33,7 +33,7 @@ void    spi_deselect           ();
 uint8_t spi_transfer           (uint8_t const);
 void    onExternalEvent        ();
 void    onReceiveBufferFull    (uint32_t const, uint8_t const *, uint8_t const);
-void    onHeatbeat_1_0_Received(CanardTransfer const &);
+void    onHeatbeat_1_0_Received(CanardTransfer const &, ArduinoUAVCAN &);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -71,7 +71,7 @@ void setup()
   mcp2515.setNormalMode();
 
   /* Subscribe to the reception of Heartbeat message. */
-  uavcan.subscribe(Heartbeat_1_0::PORT_ID, Heartbeat_1_0::MAX_PAYLOAD_SIZE, onHeatbeat_1_0_Received);
+  uavcan.subscribe<Heartbeat_1_0>(onHeatbeat_1_0_Received);
 }
 
 void loop()
@@ -108,7 +108,7 @@ void onReceiveBufferFull(uint32_t const id, uint8_t const * data, uint8_t const 
   uavcan.onCanFrameReceived(id, data, len);
 }
 
-void onHeatbeat_1_0_Received(CanardTransfer const & transfer)
+void onHeatbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
   Heartbeat_1_0 const hb = Heartbeat_1_0::create(transfer);
 
