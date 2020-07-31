@@ -1,6 +1,8 @@
 /**
- * @brief   Test code for testing 107-Arduino-UAVCAN.
- * @license LGPL 3.0
+ * This software is distributed under the terms of the MIT License.
+ * Copyright (c) 2020 LXRobotics.
+ * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
+ * Contributors: https://github.com/107-systems/107-Arduino-UAVCAN/graphs/contributors.
  */
 
 #ifndef TEST_UTIL_CONST_H_
