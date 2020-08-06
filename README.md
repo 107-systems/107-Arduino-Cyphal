@@ -17,7 +17,6 @@ Arduino library for providing a convenient C++ interface for accessing [UAVCAN](
 ### Subscribe
 ```C++
 #include <ArduinoUAVCAN.h>
-#include <types/uavcan/node/Heartbeat.1.0.h>
 /* ... */
 ArduinoUAVCAN uavcan(13, micros, nullptr);
 /* ... */
@@ -40,9 +39,8 @@ void onHeatbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /*
 ### Publish
 ```C++
 #include <ArduinoUAVCAN.h>
-#include <types/uavcan/node/Heartbeat.1.0.h>
 /* ... */
-ArduinoUAVCAN uavcan(13, micros, nullptr);
+ArduinoUAVCAN uavcan(13, micros, transmitCanFrame);
 Heartbeat_1_0 hb(0, Heartbeat_1_0::Health::NOMINAL, Heartbeat_1_0::Mode::INITIALIZATION, 0);
 /* ... */
 void loop() {
@@ -61,14 +59,17 @@ void loop() {
   /* Transmit all enqeued CAN frames */
   while(uavcan.transmitCanFrame()) { }
 }
+/* ... */
+bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len) {
+  /* ... */
+}
 ```
 
 ### Service Client
 ```C++
 #include <ArduinoUAVCAN.h>
-#include <types/uavcan/node/ExecuteCommand.1.0.h>
 /* ... */
-ArduinoUAVCAN uavcan(13, micros, nullptr);
+ArduinoUAVCAN uavcan(13, micros, transmitCanFrame);
 /* ... */
 void setup() {
   /* ... */
@@ -91,15 +92,18 @@ void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, Ard
   else
     Serial.println("Error when retrieving coffee");
 }
+/* ... */
+bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len) {
+  /* ... */
+}
 ```
 
 
 ### Service Server
 ```C++
 #include <ArduinoUAVCAN.h>
-#include <types/uavcan/node/ExecuteCommand.1.0.h>
 /* ... */
-ArduinoUAVCAN uavcan(13, micros, nullptr);
+ArduinoUAVCAN uavcan(13, micros, transmitCanFrame);
 /* ... */
 void setup() {
   /* ... */
@@ -122,5 +126,9 @@ void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, Ardu
     ExecuteCommand_1_0::Response rsp(ExecuteCommand_1_0::Response::Status::NOT_AUTHORIZED);
     uavcan.respond(rsp, transfer.remote_node_id, transfer.transfer_id);
   }
+}
+/* ... */
+bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len) {
+  /* ... */
 }
 ```

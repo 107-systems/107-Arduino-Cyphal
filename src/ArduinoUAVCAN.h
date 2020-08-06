@@ -21,6 +21,8 @@
 #include <functional>
 
 #include "ArduinoO1Heap.h"
+#include "ArduinoUAVCANTypes.h"
+
 #include "libcanard/canard.h"
 
 /**************************************************************************************

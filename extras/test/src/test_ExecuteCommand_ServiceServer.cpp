@@ -16,7 +16,6 @@
 #include <test/util/micros.h>
 
 #include <ArduinoUAVCAN.h>
-#include <types/uavcan/node/ExecuteCommand.1.0.h>
 
 /**************************************************************************************
  * GLOBAL CONSTANTS

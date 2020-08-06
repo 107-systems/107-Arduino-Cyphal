@@ -18,7 +18,6 @@
 #include <test/util/micros.h>
 
 #include <ArduinoUAVCAN.h>
-#include <types/uavcan/node/Heartbeat.1.0.h>
 
 /**************************************************************************************
  * PRIVATE GLOBAL VARIABLES
