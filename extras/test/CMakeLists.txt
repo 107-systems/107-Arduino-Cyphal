@@ -42,7 +42,7 @@ set(TEST_SRCS
 
 ##########################################################################
 
-add_compile_options(-Wall -Wextra -Wpedantic -Werror)
+add_compile_options(-Wall -Wextra -Wpedantic -Werror -Wno-ignored-qualifiers)
 add_compile_definitions(HOST)
 
 set(CMAKE_C_FLAGS   ${CMAKE_C_FLAGS}   "--coverage")
