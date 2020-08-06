@@ -88,7 +88,7 @@ private:
 
   CanardTransferID getNextTransferId(CanardPortID const port_id);
   bool             subscribe        (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func);
-  bool             unsubscribe      (CanardPortID const port_id);
+  bool             unsubscribe      (CanardTransferKind const transfer_kind, CanardPortID const port_id);
   bool             enqeueTransfer   (CanardNodeID const remote_node_id, CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload, CanardTransferID const transfer_id);
 
 };

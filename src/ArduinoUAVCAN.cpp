@@ -56,7 +56,7 @@ void ArduinoUAVCAN::onCanFrameReceived(uint32_t const id, uint8_t const * data, 
         if ((_tx_transfer_map.count(transfer.port_id) > 0) && (_tx_transfer_map[transfer.port_id] == transfer.transfer_id))
         {
           transfer_received_func(transfer, *this);
-          unsubscribe(transfer.port_id);
+          unsubscribe(CanardTransferKindResponse, transfer.port_id);
         }
       }
       else
@@ -133,10 +133,10 @@ bool ArduinoUAVCAN::subscribe(CanardTransferKind const transfer_kind, CanardPort
   return success;
 }
 
-bool ArduinoUAVCAN::unsubscribe(CanardPortID const port_id)
+bool ArduinoUAVCAN::unsubscribe(CanardTransferKind const transfer_kind, CanardPortID const port_id)
 {
   int8_t const result = canardRxUnsubscribe(&_canard_ins,
-                                            CanardTransferKindMessage,
+                                            transfer_kind,
                                             port_id);
 
   /* Remove CanardRxSubscription instance from internal list since the
