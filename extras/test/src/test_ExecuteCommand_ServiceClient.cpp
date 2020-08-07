@@ -91,7 +91,7 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
    * real system the answer would come back from the remote node.
    */
   uint8_t const data_1[] = {0x02, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xE0};
-  uavcan.onCanFrameReceived(0x126CC69B, data_1, 8);
+  uavcan.onCanFrameReceived(0x126CC69B, data_1, sizeof(data_1));
 
   /* Check if the expected response has been indeed received. */
   REQUIRE(response_status == ExecuteCommand_1_0::Response::Status::NOT_AUTHORIZED);
@@ -133,7 +133,7 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
    * real system the answer would come back from the remote node.
    */
   uint8_t const data_2[] = {0x05, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xE1};
-  uavcan.onCanFrameReceived(0x126CC69B, data_2, 8);
+  uavcan.onCanFrameReceived(0x126CC69B, data_2, sizeof(data_2));
 
   /* Check if the expected response has been indeed received. */
   REQUIRE(response_status == ExecuteCommand_1_0::Response::Status::BAD_STATE);

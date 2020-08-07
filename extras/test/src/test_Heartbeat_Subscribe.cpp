@@ -64,7 +64,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heatbeat-subsc
    *   candump -decaxta vcan0
    */
   uint8_t const data[] = {0x39, 0x05, 0x00, 0x00, 0x5E, 0x05, 0x00, 0xE1};
-  uavcan.onCanFrameReceived(0x107D553B, data, 8);
+  uavcan.onCanFrameReceived(0x107D553B, data, sizeof(data));
 
   REQUIRE(hb_node_id == 59);
   REQUIRE(hb_uptime  == 1337);
