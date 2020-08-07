@@ -12,6 +12,14 @@
 #include <libcanard/canard_dsdl.h>
 
 /**************************************************************************************
+ * STATIC CONSTEXPR DEFINITION
+ **************************************************************************************/
+
+template <CanardPortID ID> constexpr CanardPortID       Version_1_0<ID>::PORT_ID;
+template <CanardPortID ID> constexpr size_t             Version_1_0<ID>::MAX_PAYLOAD_SIZE;
+template <CanardPortID ID> constexpr CanardTransferKind Version_1_0<ID>::TRANSFER_KIND;
+
+/**************************************************************************************
  * CTOR/DTOR
  **************************************************************************************/
 
