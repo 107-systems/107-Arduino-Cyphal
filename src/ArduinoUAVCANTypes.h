@@ -12,7 +12,8 @@
  * INCLUDE
  **************************************************************************************/
 
-#include "types/uavcan/node/Heartbeat.1.0.h"
 #include "types/uavcan/node/ExecuteCommand.1.0.h"
+#include "types/uavcan/node/Heartbeat.1.0.h"
+#include "types/uavcan/node/Version.1.0.hpp"
 
 #endif /* ARDUINO_UAVCAN_TYPES_H_ */
