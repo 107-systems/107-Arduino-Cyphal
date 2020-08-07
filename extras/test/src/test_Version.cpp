@@ -30,9 +30,9 @@ static CanardPortID const VERSION_PORT_ID = 12345;
  **************************************************************************************/
 
 static util::CanFrame can_frame;
-static uint8_t version_major = 0;
-static uint8_t version_minor = 0;
-static CanardNodeID version_node_id = 0;
+static uint8_t        version_major   = 0;
+static uint8_t        version_minor   = 0;
+static CanardNodeID   version_node_id = 0;
 
 /**************************************************************************************
  * PRIVATE FUNCTION DEFINITION

@@ -27,8 +27,7 @@ set(TEST_SRCS
   src/test_main.cpp
   src/test_ExecuteCommand_ServiceClient.cpp
   src/test_ExecuteCommand_ServiceServer.cpp
-  src/test_Heartbeat_Publish.cpp
-  src/test_Heartbeat_Subscribe.cpp
+  src/test_Heartbeat.cpp
   src/test_Version.cpp
 
   ../../src/libcanard/canard_dsdl.c
