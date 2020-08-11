@@ -11,7 +11,7 @@
   <a href="https://github.com/107-systems/107-Arduino-Viper"><img src="extras/logo/viper-logo.jpg" width="40%"></a>
 </p>
 
-Arduino library for providing a convenient C++ interface for accessing [UAVCAN](https://uavcan.org/) [(v1.0-alpha)](https://uavcan.org/specification/UAVCAN_Specification_v1.0-alpha.pdf) utilizing [libcanard](https://github.com/UAVCAN/libcanard).
+Arduino library for providing a convenient C++ interface for accessing [UAVCAN](https://uavcan.org/) ([v1.0-alpha](https://uavcan.org/specification/UAVCAN_Specification_v1.0-alpha.pdf)) utilizing [libcanard](https://github.com/UAVCAN/libcanard).
 
 ## Example
 ### Subscribe
