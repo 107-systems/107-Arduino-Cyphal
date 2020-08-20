@@ -11,28 +11,22 @@
 
 #include "CritSec.h"
 
-#include <Arduino.h>
+#ifdef ARDUINO_ARCH_MBED
 
-/**************************************************************************************
- * GLOBAL VARIABLES
- **************************************************************************************/
-
-static uint8_t irestore = 0;
+#include <CriticalSectionLock.h>
 
 /**************************************************************************************
  * FUNCTION DEFINITION
  **************************************************************************************/
 
-void crit_sec_enter()
+extern "C" void crit_sec_enter()
 {
-  irestore = (__get_PRIMASK() ? 0 : 1);
-  noInterrupts();
+  mbed::CriticalSectionLock::enable();
 }
 
-void crit_sec_leave()
+extern "C" void crit_sec_leave()
 {
-  if (irestore)
-  {
-    interrupts();
-  }
+  mbed::CriticalSectionLock::disable();
 }
+
+#endif /* ARDUINO_ARCH_MBED */
