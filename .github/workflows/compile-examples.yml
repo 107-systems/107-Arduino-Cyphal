@@ -19,6 +19,15 @@ jobs:
     env:
       LIBRARIES: 107-Arduino-MCP2515
 
+    strategy:
+      fail-fast: false
+
+      matrix:
+        fqbn:
+          - "arduino:samd:mkrvidor4000"
+          - "arduino-beta:mbed:envie_m7"
+          - "arduino-beta:mbed:envie_m4"
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -26,7 +35,7 @@ jobs:
       - name: Compile examples
         uses: arduino/actions/libraries/compile-examples@master
         with:
-          fqbn: arduino:samd:mkrvidor4000
+          fqbn: ${{ matrix.fqbn }}
           libraries: ${{ env.LIBRARIES }}
           enable-size-deltas-report: true
 
