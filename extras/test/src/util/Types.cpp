@@ -13,6 +13,8 @@
 
 #include <algorithm>
 
+#include <iomanip>
+
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
@@ -31,7 +33,7 @@ std::ostream & operator << (std::ostream & os, CanFrame const & f)
                 std::end  (f.data),
                 [&os](uint8_t const d)
                 {
-                  os << std::hex << (int)d << std::dec << " ";
+                  os << std::hex << std::setw(2) << std::setfill('0') << (int)d << std::dec << " ";
                 });
   return os;
 }
