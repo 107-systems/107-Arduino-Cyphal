@@ -19,6 +19,17 @@ jobs:
     env:
       LIBRARIES: 107-Arduino-MCP2515
 
+    strategy:
+      fail-fast: false
+
+      matrix:
+        fqbn:
+          - "arduino:samd:mkrvidor4000"
+          # These should be changed from to the "arduino-beta" vendor to "arduino" once there is a production release of Arduino mbed-Enabled Boards
+          - "arduino-beta:mbed:envie_m7"
+          - "arduino-beta:mbed:envie_m4"
+          - "arduino-beta:mbed:nano33ble"
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -26,7 +37,7 @@ jobs:
       - name: Compile examples
         uses: arduino/actions/libraries/compile-examples@master
         with:
-          fqbn: arduino:samd:mkrvidor4000
+          fqbn: ${{ matrix.fqbn }}
           libraries: ${{ env.LIBRARIES }}
           enable-size-deltas-report: true
 
