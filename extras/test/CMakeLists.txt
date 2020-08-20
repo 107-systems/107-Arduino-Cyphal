@@ -27,6 +27,7 @@ set(TEST_SRCS
   src/test_main.cpp
   src/test_ExecuteCommand_ServiceClient.cpp
   src/test_ExecuteCommand_ServiceServer.cpp
+  src/test_GetInfo-Client.cpp
   src/test_Heartbeat.cpp
   src/test_ID.cpp
   src/test_Version.cpp
@@ -36,6 +37,8 @@ set(TEST_SRCS
   ../../src/o1heap/o1heap.c
   ../../src/types/uavcan/node/ExecuteCommand.1.0.Request.cpp
   ../../src/types/uavcan/node/ExecuteCommand.1.0.Response.cpp
+  ../../src/types/uavcan/node/GetInfo.1.0.Request.cpp
+  ../../src/types/uavcan/node/GetInfo.1.0.Response.cpp
   ../../src/types/uavcan/node/Heartbeat.1.0.cpp
   ../../src/ArduinoO1Heap.cpp
   ../../src/ArduinoUAVCAN.cpp

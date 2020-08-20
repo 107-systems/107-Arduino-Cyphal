@@ -13,5 +13,6 @@
  **************************************************************************************/
 
 #include "GetInfo.1.0.Request.h"
+#include "GetInfo.1.0.Response.h"
 
 #endif /* ARDUINO_TYPES_UAVCAN_NODE_EXECUTECOMMAND_1_0_H_ */
