@@ -7,11 +7,15 @@
 [![General Formatting Checks](https://github.com/107-systems/107-Arduino-UAVCAN/workflows/General%20Formatting%20Checks/badge.svg)](https://github.com/107-systems/107-Arduino-UAVCAN/actions?workflow=General+Formatting+Checks)
 [![Spell Check](https://github.com/107-systems/107-Arduino-UAVCAN/workflows/Spell%20Check/badge.svg)](https://github.com/107-systems/107-Arduino-UAVCAN/actions?workflow=Spell+Check)
 
+Arduino library for providing a convenient C++ interface for accessing [UAVCAN](https://uavcan.org/) ([v1.0-alpha](https://uavcan.org/specification/UAVCAN_Specification_v1.0-alpha.pdf)) utilizing [libcanard](https://github.com/UAVCAN/libcanard).
+
 <p align="center">
   <a href="https://github.com/107-systems/107-Arduino-Viper"><img src="extras/logo/viper-logo.jpg" width="40%"></a>
 </p>
 
-Arduino library for providing a convenient C++ interface for accessing [UAVCAN](https://uavcan.org/) ([v1.0-alpha](https://uavcan.org/specification/UAVCAN_Specification_v1.0-alpha.pdf)) utilizing [libcanard](https://github.com/UAVCAN/libcanard).
+This library works for
+* [ArduinoCore-samd](https://github.com/arduino/ArduinoCore-samd): [`Arduino Zero`](https://store.arduino.cc/arduino-zero), [`MKR 1000`](https://store.arduino.cc/arduino-mkr1000-wifi), [`MKR WiFi 1010`](https://store.arduino.cc/arduino-mkr-wifi-1010), [`Nano 33 IoT`](https://store.arduino.cc/arduino-nano-33-iot), [`MKR GSM 1400`](https://store.arduino.cc/arduino-mkr-gsm-1400-1415), [`MKR NB 1500`](https://store.arduino.cc/arduino-mkr-nb-1500-1413), [`MKR WAN 1300/1310`](https://store.arduino.cc/mkr-wan-1310) :heavy_check_mark:
+* [ArduinoCore-mbed](https://github.com/arduino/ArduinoCore-mbed): [`Portenta H7`](https://store.arduino.cc/portenta-h7), [`Nano 33 BLE`](https://store.arduino.cc/arduino-nano-33-ble) :heavy_check_mark:
 
 ## Example
 ### Subscribe
