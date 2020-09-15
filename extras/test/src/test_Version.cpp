@@ -28,9 +28,8 @@ static CanardPortID const VERSION_PORT_ID = 12345;
  **************************************************************************************/
 
 static util::CanFrame can_frame;
-static uint8_t        version_major   = 0;
-static uint8_t        version_minor   = 0;
-static CanardNodeID   version_node_id = 0;
+uavcan_node_Version_1_0 version;
+static CanardNodeID version_node_id = 0;
 
 /**************************************************************************************
  * PRIVATE FUNCTION DEFINITION
@@ -45,11 +44,11 @@ static bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t co
 
 void onVersion_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
-  Version_1_0<VERSION_PORT_ID> const version = Version_1_0<VERSION_PORT_ID>::create(transfer);
+  Version_1_0<VERSION_PORT_ID> const received_version = Version_1_0<VERSION_PORT_ID>::create(transfer);
 
   version_node_id = transfer.remote_node_id;
-  version_major   = version.get_major();
-  version_minor   = version.get_minor();
+  version.major   = received_version.data.major;
+  version.minor   = received_version.data.minor;
 }
 
 /**************************************************************************************
@@ -72,6 +71,7 @@ TEST_CASE("A 'Version.1.0.uavcan' message is sent", "[version-01]")
 
 TEST_CASE("A 'Version.1.0.uavcan' message is received", "[version-02]")
 {
+  uavcan_node_Version_1_0_init(&version);
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, transmitCanFrame);
 
   REQUIRE(uavcan.subscribe<Version_1_0<VERSION_PORT_ID>>(onVersion_1_0_Received));
@@ -82,6 +82,6 @@ TEST_CASE("A 'Version.1.0.uavcan' message is received", "[version-02]")
   uavcan.onCanFrameReceived(0x1030391B, data, sizeof(data));
 
   REQUIRE(version_node_id == 27);
-  REQUIRE(version_major == 0x13);
-  REQUIRE(version_minor == 0x37);
+  REQUIRE(version.major == 0x13);
+  REQUIRE(version.minor == 0x37);
 }

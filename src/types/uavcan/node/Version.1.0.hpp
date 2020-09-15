@@ -12,9 +12,9 @@
  * INCLUDE
  **************************************************************************************/
 
-#include <stdlib.h>
-
 #include <libcanard/canard.h>
+
+#include "Version.1.0.nnvg.h"
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -26,29 +26,16 @@ class Version_1_0
 
 public:
 
-  static constexpr CanardPortID       PORT_ID = ID;
-  static constexpr size_t             MAX_PAYLOAD_SIZE = 2;
-  static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindMessage;
+  uavcan_node_Version_1_0 data;
 
+  static constexpr CanardPortID       PORT_ID = ID;
+  static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_Version_1_0_MAX_SERIALIZED_REPRESENTATION_SIZE_BYTES;
+  static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindMessage;
 
   Version_1_0(uint8_t const major, uint8_t const minor);
 
   static Version_1_0 create(CanardTransfer const & transfer);
-
-
   size_t encode(uint8_t * payload) const;
-
-
-  inline uint8_t get_major() const { return _major; }
-  inline uint8_t get_minor() const { return _minor; }
-
-  inline void    set_major(uint8_t const major) { _major = major; }
-  inline void    set_minor(uint8_t const minor) { _minor = minor; }
-
-
-private:
-
-  uint8_t _major, _minor;
 
 };
 
