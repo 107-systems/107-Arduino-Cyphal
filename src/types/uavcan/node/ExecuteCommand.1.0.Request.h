@@ -12,9 +12,9 @@
  * INCLUDE
  **************************************************************************************/
 
-#include <stdlib.h>
-
 #include <libcanard/canard.h>
+
+#include "ExecuteCommand.1.0.nnvg.h"
 
 /**************************************************************************************
  * NAMESPACE
@@ -32,29 +32,16 @@ class Request
 
 public:
 
-  static constexpr CanardPortID       PORT_ID = 435;
-  static constexpr size_t             MAX_PAYLOAD_SIZE = 2 + 112;
+  uavcan_node_ExecuteCommand_1_0_Request data;
+
+  static constexpr CanardPortID       PORT_ID = uavcan_node_ExecuteCommand_1_0_FIXED_PORT_ID;
+  static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_ExecuteCommand_1_0_Request_MAX_SERIALIZED_REPRESENTATION_SIZE_BYTES;
   static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindRequest;
 
-
-  Request(uint16_t const command, uint8_t const * param, size_t const param_len);
+  Request(uint16_t const command, uint8_t const * parameter, size_t const parameter_length);
 
   static Request create(CanardTransfer const & transfer);
-
   size_t encode(uint8_t * payload) const;
-
-
-  inline uint16_t  command  ()                       const { return _command; }
-  inline void      command  (uint16_t const command)       { _command = command; }
-  inline uint8_t * param    ()                             { return _param; }
-  inline size_t    param_len()                       const { return _param_len; }
-
-
-private:
-
-  uint16_t _command;
-  uint8_t _param[112];
-  size_t _param_len;
 
 };
 

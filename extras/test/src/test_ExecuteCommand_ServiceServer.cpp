@@ -27,9 +27,8 @@ static CanardNodeID const REMOTE_NODE_ID = 27;
  * GLOBAL VARIABLES
  **************************************************************************************/
 
-static util::CanFrame       response_can_frame;
-static uint16_t             request_command = 0;
-static std::vector<uint8_t> request_param = {0};
+static util::CanFrame response_can_frame;
+static uavcan_node_ExecuteCommand_1_0_Request request;
 
 /**************************************************************************************
  * PRIVATE FUNCTION DEFINITION
@@ -44,13 +43,14 @@ static bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t co
 
 void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, ArduinoUAVCAN & uavcan)
 {
-  ExecuteCommand_1_0::Request request = ExecuteCommand_1_0::Request::create(transfer);
+  ExecuteCommand_1_0::Request received_request = ExecuteCommand_1_0::Request::create(transfer);
 
   /* The next 2 lines are just for test purposes, you won't
    * have them in your real application.
    */
-  request_command = request.command();
-  request_param = std::vector<uint8_t>{request.param(), request.param() + request.param_len()};
+  request.command = received_request.data.command;
+  request.parameter_length = received_request.data.parameter_length;
+  std::copy(received_request.data.parameter, received_request.data.parameter + received_request.data.parameter_length, request.parameter);
 
   /* Deal with the command ... */
 
@@ -66,6 +66,7 @@ void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, Ardu
 
 TEST_CASE("A '435.ExecuteCommand.1.0' request is received from a client", "[execute-command-server-01]")
 {
+  uavcan_node_ExecuteCommand_1_0_Request_init(&request);
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, transmitCanFrame);
 
   /* Subscribe to incoming server requests. */
@@ -93,15 +94,17 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is received from a client", "[exec
                 });
 
   /* Check if the correct request has been received. */
-  REQUIRE(request_command == 0xCAFE);
+  REQUIRE(request.command == 0xCAFE);
   std::string const EXP_CMD_PARAM_STR = "I want a double espresso with cream";
   std::vector<uint8_t> const EXP_CMD_PARAM_VECT(EXP_CMD_PARAM_STR.begin(), EXP_CMD_PARAM_STR.end());
-  REQUIRE(request_param == EXP_CMD_PARAM_VECT);
+  REQUIRE(request.parameter_length == EXP_CMD_PARAM_VECT.size());
+  REQUIRE(std::equal(EXP_CMD_PARAM_VECT.begin(), EXP_CMD_PARAM_VECT.end(), request.parameter) == true);
 
   /* We should now have one CAN frame in the transmit pipeline */
   REQUIRE(uavcan.transmitCanFrame() == true);
 
   /* Check if the sent response is identical with what we expect. */
   REQUIRE(response_can_frame.id   == 0x126CCD8D);
+    std::cout << response_can_frame << std::endl;
   REQUIRE(response_can_frame.data == std::vector<uint8_t>{0x02, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xE0});
 }
