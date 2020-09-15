@@ -112,7 +112,7 @@ void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, Ardu
 {
   ExecuteCommand_1_0::Request req = ExecuteCommand_1_0::Request::create(transfer);
 
-  if (req.command() == 0xCAFE)
+  if (req.data.command == 0xCAFE)
   {
     ExecuteCommand_1_0::Response rsp(ExecuteCommand_1_0::Response::Status::SUCCESS);
     uavcan.respond(rsp, transfer.remote_node_id, transfer.transfer_id);
