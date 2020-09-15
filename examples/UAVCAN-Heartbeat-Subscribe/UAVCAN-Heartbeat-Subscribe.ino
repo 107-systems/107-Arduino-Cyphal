@@ -113,7 +113,7 @@ void onHeatbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /*
   char msg[64];
   snprintf(msg, 64,
            "ID %02X, Uptime = %d, Health = %d, Mode = %d, VSSC = %d",
-           transfer.remote_node_id, hb.uptime(), (int)hb.health(), (int)hb.mode(), hb.vssc());
+           transfer.remote_node_id, hb.data.uptime, hb.data.health, hb.data.mode, hb.data.vendor_specific_status_code);
 
   Serial.println(msg);
 }
