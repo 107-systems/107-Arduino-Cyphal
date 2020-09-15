@@ -136,3 +136,14 @@ bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len
   /* ... */
 }
 ```
+
+### How to generate C header files from DSDL via nunavut/nnvg
+```bash
+cd ~
+https://github.com/UAVCAN/nunavut && cd nunavut
+python3.8 -m pip install .
+
+cd ~
+git clone https://github.com/UAVCAN/public_regulated_data_types && cd public_regulated_data_types
+nnvg --outdir include --templates c_jinja --pp-trim-trailing-whitespace -e .h uavcan
+```
