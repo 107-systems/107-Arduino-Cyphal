@@ -12,11 +12,9 @@
  * INCLUDE
  **************************************************************************************/
 
-#include <stdlib.h>
-
 #include <libcanard/canard.h>
 
-#include "ExecuteCommand.1.0.Request.h"
+#include "ExecuteCommand.1.0.nnvg.h"
 
 /**************************************************************************************
  * NAMESPACE
@@ -45,24 +43,17 @@ public:
     INTERNAL_ERROR = 6,
   };
 
-  static constexpr CanardPortID       PORT_ID = Request::PORT_ID;
-  static constexpr size_t             MAX_PAYLOAD_SIZE = 7;
+  uavcan_node_ExecuteCommand_1_0_Response data;
+
+  static constexpr CanardPortID       PORT_ID = uavcan_node_ExecuteCommand_1_0_FIXED_PORT_ID;
+  static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_ExecuteCommand_1_0_Response_MAX_SERIALIZED_REPRESENTATION_SIZE_BYTES;
   static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindResponse;
 
-
+  Response(uint8_t const status);
   Response(Status const status);
 
   static Response create(CanardTransfer const & transfer);
-
   size_t encode(uint8_t * payload) const;
-
-
-  inline Status status() const { return _status; }
-
-
-private:
-
-  Status _status;
 
 };
 

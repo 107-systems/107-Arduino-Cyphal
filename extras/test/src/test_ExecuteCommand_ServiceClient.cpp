@@ -28,7 +28,7 @@ static CanardNodeID const REMOTE_NODE_ID = 27;
  **************************************************************************************/
 
 static util::CanFrameVect can_frame_vect;
-static ExecuteCommand_1_0::Response::Status response_status = ExecuteCommand_1_0::Response::Status::INTERNAL_ERROR;
+static uavcan_node_ExecuteCommand_1_0_Response response;
 
 /**************************************************************************************
  * PRIVATE FUNCTION DEFINITION
@@ -43,8 +43,8 @@ static bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t co
 
 void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
-  ExecuteCommand_1_0::Response const response = ExecuteCommand_1_0::Response::create(transfer);
-  response_status = response.status();
+  ExecuteCommand_1_0::Response const received_response = ExecuteCommand_1_0::Response::create(transfer);
+  response.status = received_response.data.status;
 }
 
 /**************************************************************************************
@@ -53,6 +53,7 @@ void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, Ard
 
 TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-command-client-01]")
 {
+  uavcan_node_ExecuteCommand_1_0_Response_init(&response);
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, transmitCanFrame);
 
   std::string const cmd_1_param = "I want a double espresso with cream";
@@ -94,7 +95,7 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
   uavcan.onCanFrameReceived(0x126CC69B, data_1, sizeof(data_1));
 
   /* Check if the expected response has been indeed received. */
-  REQUIRE(response_status == ExecuteCommand_1_0::Response::Status::NOT_AUTHORIZED);
+  REQUIRE(response.status == to_integer(ExecuteCommand_1_0::Response::Status::NOT_AUTHORIZED));
 
   /* Send a second request. */
   std::string const cmd_2_param = "I do not need coffee anymore";
@@ -136,5 +137,5 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
   uavcan.onCanFrameReceived(0x126CC69B, data_2, sizeof(data_2));
 
   /* Check if the expected response has been indeed received. */
-  REQUIRE(response_status == ExecuteCommand_1_0::Response::Status::BAD_STATE);
+  REQUIRE(response.status == to_integer(ExecuteCommand_1_0::Response::Status::BAD_STATE));
 }

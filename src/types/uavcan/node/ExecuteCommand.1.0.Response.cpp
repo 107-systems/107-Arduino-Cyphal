@@ -11,7 +11,7 @@
 
 #include "ExecuteCommand.1.0.Response.h"
 
-#include <libcanard/canard_dsdl.h>
+#include "../../../utility/convert.hpp"
 
 /**************************************************************************************
  * NAMESPACE
@@ -32,8 +32,14 @@ constexpr CanardTransferKind Response::TRANSFER_KIND;
  * CTOR/DTOR
  **************************************************************************************/
 
+Response::Response(uint8_t const status)
+: data{status}
+{
+
+}
+
 Response::Response(Status const status)
-: _status{status}
+: Response{to_integer(status)}
 {
 
 }
@@ -44,20 +50,16 @@ Response::Response(Status const status)
 
 Response Response::create(CanardTransfer const & transfer)
 {
-  Status const status = static_cast<Status>(canardDSDLGetU8(reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size, 0, 8));
-
-  return Response(status);
+  uavcan_node_ExecuteCommand_1_0_Response d;
+  uavcan_node_ExecuteCommand_1_0_Response_init(&d);
+  uavcan_node_ExecuteCommand_1_0_Response_deserialize(&d, 0, (uint8_t *)(transfer.payload), transfer.payload_size);
+  return Response(d.status);
 }
 
 size_t Response::encode(uint8_t * payload) const
 {
-  /* Encode status */
-  canardDSDLSetUxx(payload, 0, static_cast<uint8_t>(_status), 8);
-
-  /* The rest of the payload is empty ... */
-  canardDSDLSetUxx(payload, 8, 0, 48);
-
-  return MAX_PAYLOAD_SIZE;
+  size_t const offset = uavcan_node_ExecuteCommand_1_0_Response_serialize(&data, 0, payload);
+  return (offset / 8);
 }
 
 /**************************************************************************************

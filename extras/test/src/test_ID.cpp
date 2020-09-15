@@ -28,8 +28,8 @@ static CanardPortID const ID_PORT_ID = 1337;
  **************************************************************************************/
 
 static util::CanFrame can_frame;
-static uint16_t       id_val = 0;
-static CanardNodeID   id_node_id = 0;
+static uavcan_node_ID_1_0 id;
+static CanardNodeID id_node_id = 0;
 
 /**************************************************************************************
  * PRIVATE FUNCTION DEFINITION
@@ -44,10 +44,10 @@ static bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t co
 
 void onID_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
-  ID_1_0<ID_PORT_ID> const id = ID_1_0<ID_PORT_ID>::create(transfer);
+  ID_1_0<ID_PORT_ID> const received_id = ID_1_0<ID_PORT_ID>::create(transfer);
 
   id_node_id = transfer.remote_node_id;
-  id_val     = id.get_id();
+  id.value = received_id.data.value;
 }
 
 /**************************************************************************************
@@ -70,6 +70,7 @@ TEST_CASE("A 'ID.1.0.uavcan' message is sent", "[id-01]")
 
 TEST_CASE("A 'ID.1.0.uavcan' message is received", "[id-02]")
 {
+  uavcan_node_ID_1_0_init(&id);
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, transmitCanFrame);
 
   REQUIRE(uavcan.subscribe<ID_1_0<ID_PORT_ID>>(onID_1_0_Received));
@@ -80,5 +81,5 @@ TEST_CASE("A 'ID.1.0.uavcan' message is received", "[id-02]")
   uavcan.onCanFrameReceived(0x1005391B, data, sizeof(data));
 
   REQUIRE(id_node_id == 27);
-  REQUIRE(id_val == 13);
+  REQUIRE(id.value == 13);
 }
