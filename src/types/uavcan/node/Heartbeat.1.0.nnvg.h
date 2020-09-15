@@ -91,7 +91,7 @@ static inline int32_t uavcan_node_Heartbeat_1_0_serialize(const uavcan_node_Hear
     {
         return -NUNAVUT_ERR_INVALID_BUF;
     }
-    
+
     // Begin Structure: saturated uint32
     nunavutSetUxx(out_buffer, offset, in_instance->uptime, 32);
     offset += 32;
@@ -127,7 +127,7 @@ static inline int32_t uavcan_node_Heartbeat_1_0_deserialize(uavcan_node_Heartbea
     {
         return -NUNAVUT_ERR_INVALID_BUF;
     }
-    
+
     // Begin Structure: saturated uint32
     out_instance->uptime = nunavutGetU32(in_buffer, buf_size_bytes, offset, 32);
     offset += 32;
