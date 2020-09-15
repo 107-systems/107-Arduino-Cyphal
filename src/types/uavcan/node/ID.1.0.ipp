@@ -6,12 +6,6 @@
  */
 
 /**************************************************************************************
- * INCLUDE
- **************************************************************************************/
-
-#include <libcanard/canard_dsdl.h>
-
-/**************************************************************************************
  * STATIC CONSTEXPR DEFINITION
  **************************************************************************************/
 
@@ -25,7 +19,7 @@ template <CanardPortID ID> constexpr CanardTransferKind ID_1_0<ID>::TRANSFER_KIN
 
 template <CanardPortID ID>
 ID_1_0<ID>::ID_1_0(uint16_t const id)
-: _id{id}
+: data{id}
 {
 
 }
@@ -37,13 +31,15 @@ ID_1_0<ID>::ID_1_0(uint16_t const id)
 template <CanardPortID ID>
 ID_1_0<ID> ID_1_0<ID>::create(CanardTransfer const & transfer)
 {
-  uint16_t const id = canardDSDLGetU16(reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size, 0, 16);
-  return ID_1_0<ID>(id);
+  uavcan_node_ID_1_0 d;
+  uavcan_node_ID_1_0_init(&d);
+  uavcan_node_ID_1_0_deserialize(&d, 0, (uint8_t *)(transfer.payload), transfer.payload_size);
+  return ID_1_0<ID>(d.value);
 }
 
 template <CanardPortID ID>
 size_t ID_1_0<ID>::encode(uint8_t * payload) const
 {
-  canardDSDLSetUxx(payload, 0, _id, 16);
-  return MAX_PAYLOAD_SIZE;
+  size_t const offset = uavcan_node_ID_1_0_serialize(&data, 0, payload);
+  return (offset / 8);
 }

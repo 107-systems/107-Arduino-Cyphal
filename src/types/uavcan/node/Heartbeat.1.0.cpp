@@ -11,8 +11,6 @@
 
 #include "Heartbeat.1.0.h"
 
-#include <libcanard/canard_dsdl.h>
-
 #include "../../../utility/convert.hpp"
 
 /**************************************************************************************
