@@ -73,8 +73,8 @@ void setup()
 void loop()
 {
   /* Update the heartbeat object */
-  hb.uptime(millis() / 1000);
-  hb.mode(Heartbeat_1_0::Mode::OPERATIONAL);
+  hb.data.uptime = millis() / 1000;
+  hb.data.mode = to_integer(Heartbeat_1_0::Mode::OPERATIONAL);
 
   /* Publish the heartbeat once/second */
   static unsigned long prev = 0;

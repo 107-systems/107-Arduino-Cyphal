@@ -13,6 +13,8 @@
 
 #include <libcanard/canard_dsdl.h>
 
+#include "../../../utility/convert.hpp"
+
 /**************************************************************************************
  * STATIC CONSTEXPR DEFINITION
  **************************************************************************************/
@@ -25,11 +27,14 @@ constexpr CanardTransferKind Heartbeat_1_0::TRANSFER_KIND;
  * CTOR/DTOR
  **************************************************************************************/
 
+Heartbeat_1_0::Heartbeat_1_0(uint32_t const uptime, uint8_t const health, uint8_t const mode, uint32_t const vssc)
+: data{uptime, health, mode, vssc}
+{
+
+}
+
 Heartbeat_1_0::Heartbeat_1_0(uint32_t const uptime, Health const health, Mode const mode, uint32_t const vssc)
-: _uptime{uptime}
-, _health{health}
-, _mode{mode}
-, _vssc{vssc}
+: Heartbeat_1_0{uptime, to_integer(health), to_integer(mode), vssc}
 {
 
 }
@@ -40,20 +45,14 @@ Heartbeat_1_0::Heartbeat_1_0(uint32_t const uptime, Health const health, Mode co
 
 Heartbeat_1_0 Heartbeat_1_0::create(CanardTransfer const & transfer)
 {
-  Mode     const mode   = static_cast<Mode>  (canardDSDLGetU8 (reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size, 34,  3));
-  uint32_t const uptime =                     canardDSDLGetU32(reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size,  0, 32);
-  Health   const health = static_cast<Health>(canardDSDLGetU8 (reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size, 32,  2));
-  uint32_t const vssc   =                     canardDSDLGetU32(reinterpret_cast<uint8_t const *>(transfer.payload), transfer.payload_size, 37, 19);
-
-  return Heartbeat_1_0(uptime, health, mode, vssc);
+  uavcan_node_Heartbeat_1_0 d;
+  uavcan_node_Heartbeat_1_0_init(&d);
+  uavcan_node_Heartbeat_1_0_deserialize(&d, 0, (uint8_t *)(transfer.payload), transfer.payload_size);
+  return Heartbeat_1_0(d.uptime, d.health, d.mode, d.vendor_specific_status_code);
 }
 
 size_t Heartbeat_1_0::encode(uint8_t * payload) const
 {
-  canardDSDLSetUxx(payload, 34, static_cast<uint8_t>(_mode),    3);
-  canardDSDLSetUxx(payload,  0,                      _uptime,  32);
-  canardDSDLSetUxx(payload, 37,                      _vssc,    19);
-  canardDSDLSetUxx(payload, 32, static_cast<uint8_t>(_health),  2);
-
-  return MAX_PAYLOAD_SIZE;
+  size_t const offset = uavcan_node_Heartbeat_1_0_serialize(&data, 0, payload);
+  return (offset / 8);
 }
