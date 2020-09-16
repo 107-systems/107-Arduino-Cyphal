@@ -32,6 +32,8 @@ public:
   static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_ID_1_0_MAX_SERIALIZED_REPRESENTATION_SIZE_BYTES;
   static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindMessage;
 
+  ID_1_0();
+  ID_1_0(ID_1_0 const & other);
   ID_1_0(uint16_t const id);
 
   static ID_1_0 create(CanardTransfer const & transfer);

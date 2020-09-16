@@ -18,6 +18,18 @@ template <CanardPortID ID> constexpr CanardTransferKind Version_1_0<ID>::TRANSFE
  **************************************************************************************/
 
 template <CanardPortID ID>
+Version_1_0<ID>::Version_1_0()
+{
+  uavcan_node_Version_1_0_init(&data);
+}
+
+template <CanardPortID ID>
+Version_1_0<ID>::Version_1_0(Version_1_0 const & other)
+{
+  memcpy(&data, &other.data, sizeof(data));
+}
+
+template <CanardPortID ID>
 Version_1_0<ID>::Version_1_0(uint8_t const major, uint8_t const minor)
 : data{major, minor}
 {
@@ -31,10 +43,9 @@ Version_1_0<ID>::Version_1_0(uint8_t const major, uint8_t const minor)
 template <CanardPortID ID>
 Version_1_0<ID> Version_1_0<ID>::create(CanardTransfer const & transfer)
 {
-  uavcan_node_Version_1_0 d;
-  uavcan_node_Version_1_0_init(&d);
-  uavcan_node_Version_1_0_deserialize(&d, 0, (uint8_t *)(transfer.payload), transfer.payload_size);
-  return Version_1_0<ID>(d.major, d.minor);
+  Version_1_0<ID> v;
+  uavcan_node_Version_1_0_deserialize(&v.data, 0, (uint8_t *)(transfer.payload), transfer.payload_size);
+  return v;
 }
 
 template <CanardPortID ID>

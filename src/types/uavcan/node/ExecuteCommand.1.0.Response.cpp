@@ -32,6 +32,16 @@ constexpr CanardTransferKind Response::TRANSFER_KIND;
  * CTOR/DTOR
  **************************************************************************************/
 
+Response::Response()
+{
+  uavcan_node_ExecuteCommand_1_0_Response_init(&data);
+}
+
+Response::Response(Response const & other)
+{
+  memcpy(&data, &other.data, sizeof(data));
+}
+
 Response::Response(uint8_t const status)
 : data{status}
 {
@@ -50,10 +60,9 @@ Response::Response(Status const status)
 
 Response Response::create(CanardTransfer const & transfer)
 {
-  uavcan_node_ExecuteCommand_1_0_Response d;
-  uavcan_node_ExecuteCommand_1_0_Response_init(&d);
-  uavcan_node_ExecuteCommand_1_0_Response_deserialize(&d, 0, (uint8_t *)(transfer.payload), transfer.payload_size);
-  return Response(d.status);
+  Response r;
+  uavcan_node_ExecuteCommand_1_0_Response_deserialize(&r.data, 0, (uint8_t *)(transfer.payload), transfer.payload_size);
+  return r;
 }
 
 size_t Response::encode(uint8_t * payload) const

@@ -49,6 +49,8 @@ public:
   static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_ExecuteCommand_1_0_Response_MAX_SERIALIZED_REPRESENTATION_SIZE_BYTES;
   static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindResponse;
 
+  Response();
+  Response(Response const & other);
   Response(uint8_t const status);
   Response(Status const status);
 
