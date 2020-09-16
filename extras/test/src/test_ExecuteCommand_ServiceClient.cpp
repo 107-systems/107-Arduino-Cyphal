@@ -57,7 +57,11 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, transmitCanFrame);
 
   std::string const cmd_1_param = "I want a double espresso with cream";
-  ExecuteCommand_1_0::Request req_1(0xCAFE, reinterpret_cast<uint8_t const *>(cmd_1_param.c_str()), cmd_1_param.length());
+  ExecuteCommand_1_0::Request req_1;
+  req_1.data.command = 0xCAFE;
+  req_1.data.parameter_length = std::min(cmd_1_param.length(), uavcan_node_ExecuteCommand_1_0_Request_parameter_array_capacity());
+  std::copy(cmd_1_param.c_str(), cmd_1_param.c_str() + req_1.data.parameter_length, req_1.data.parameter);
+
 
   REQUIRE(uavcan.request<ExecuteCommand_1_0::Request, ExecuteCommand_1_0::Response>(req_1, REMOTE_NODE_ID, onExecuteCommand_1_0_Response_Received) == true);
   /* Transmit all the CAN frames. */
@@ -99,7 +103,10 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
 
   /* Send a second request. */
   std::string const cmd_2_param = "I do not need coffee anymore";
-  ExecuteCommand_1_0::Request req_2(0xDEAD, reinterpret_cast<uint8_t const *>(cmd_2_param.c_str()), cmd_2_param.length());
+  ExecuteCommand_1_0::Request req_2;
+  req_2.data.command = 0xDEAD;
+  req_2.data.parameter_length = std::min(cmd_2_param.length(), uavcan_node_ExecuteCommand_1_0_Request_parameter_array_capacity());
+  std::copy(cmd_2_param.c_str(), cmd_2_param.c_str() + req_2.data.parameter_length, req_2.data.parameter);
 
   REQUIRE(uavcan.request<ExecuteCommand_1_0::Request, ExecuteCommand_1_0::Response>(req_2, REMOTE_NODE_ID, onExecuteCommand_1_0_Response_Received) == true);
   /* Transmit all the CAN frames. */

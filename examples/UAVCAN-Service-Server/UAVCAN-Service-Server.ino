@@ -114,12 +114,14 @@ void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, Ardu
 
   if (req.data.command == 0xCAFE)
   {
-    ExecuteCommand_1_0::Response rsp(ExecuteCommand_1_0::Response::Status::SUCCESS);
+    ExecuteCommand_1_0::Response rsp;
+    rsp = ExecuteCommand_1_0::Response::Status::SUCCESS;
     uavcan.respond(rsp, transfer.remote_node_id, transfer.transfer_id);
   }
   else
   {
-    ExecuteCommand_1_0::Response rsp(ExecuteCommand_1_0::Response::Status::NOT_AUTHORIZED);
+    ExecuteCommand_1_0::Response rsp;
+    rsp = ExecuteCommand_1_0::Response::Status::NOT_AUTHORIZED;
     uavcan.respond(rsp, transfer.remote_node_id, transfer.transfer_id);
   }
 }

@@ -36,11 +36,14 @@ constexpr CanardTransferKind Request::TRANSFER_KIND;
  * CTOR/DTOR
  **************************************************************************************/
 
-Request::Request(uint16_t const command, uint8_t const * parameter, size_t const parameter_length)
+Request::Request()
 {
-  data.command = command;
-  data.parameter_length = std::min(parameter_length, static_cast<size_t>(uavcan_node_ExecuteCommand_1_0_Request_parameter_array_capacity()));
-  std::copy(parameter, parameter + data.parameter_length, data.parameter);
+  uavcan_node_ExecuteCommand_1_0_Request_init(&data);
+}
+
+Request::Request(Request const & other)
+{
+  memcpy(&data, &other.data, sizeof(data));
 }
 
 /**************************************************************************************
@@ -49,10 +52,9 @@ Request::Request(uint16_t const command, uint8_t const * parameter, size_t const
 
 Request Request::create(CanardTransfer const & transfer)
 {
-  uavcan_node_ExecuteCommand_1_0_Request d;
-  uavcan_node_ExecuteCommand_1_0_Request_init(&d);
-  uavcan_node_ExecuteCommand_1_0_Request_deserialize(&d, 0, (uint8_t *)(transfer.payload), transfer.payload_size);
-  return Request(d.command, d.parameter, d.parameter_length);
+  Request r;
+  uavcan_node_ExecuteCommand_1_0_Request_deserialize(&r.data, 0, (uint8_t *)(transfer.payload), transfer.payload_size);
+  return r;
 }
 
 size_t Request::encode(uint8_t * payload) const

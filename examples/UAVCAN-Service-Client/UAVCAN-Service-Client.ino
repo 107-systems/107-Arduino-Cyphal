@@ -71,7 +71,11 @@ void setup()
 
   /* Request some coffee. */
   char const cmd_param[] = "I want a double espresso with cream";
-  ExecuteCommand_1_0::Request req(0xCAFE, reinterpret_cast<uint8_t const *>(cmd_param), sizeof(cmd_param));
+  ExecuteCommand_1_0::Request req;
+  req.data.command = 0xCAFE;
+  req.data.parameter_length = std::min(sizeof(cmd_param), uavcan_node_ExecuteCommand_1_0_Request_parameter_array_capacity());
+  std::copy(cmd_param, cmd_param + req.data.parameter_length, req.data.parameter);
+
   uavcan.request<ExecuteCommand_1_0::Request, ExecuteCommand_1_0::Response>(req, 27 /* remote node id */, onExecuteCommand_1_0_Response_Received);
 }
 

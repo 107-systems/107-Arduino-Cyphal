@@ -44,7 +44,7 @@ ArduinoMCP2515 mcp2515(spi_select,
 
 ArduinoUAVCAN uavcan(13, micros, transmitCanFrame);
 
-Heartbeat_1_0 hb(0, Heartbeat_1_0::Health::NOMINAL, Heartbeat_1_0::Mode::INITIALIZATION, 0);
+Heartbeat_1_0 hb;
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -68,13 +68,19 @@ void setup()
   mcp2515.begin();
   mcp2515.setBitRate(CanBitRate::BR_250kBPS);
   mcp2515.setNormalMode();
+
+  /* Configure initial heartbeat */
+  hb.data.uptime = 0;
+  hb = Heartbeat_1_0::Health::NOMINAL;
+  hb = Heartbeat_1_0::Mode::INITIALIZATION;
+  hb.data.vendor_specific_status_code = 0;
 }
 
 void loop()
 {
   /* Update the heartbeat object */
   hb.data.uptime = millis() / 1000;
-  hb.data.mode = to_integer(Heartbeat_1_0::Mode::OPERATIONAL);
+  hb = Heartbeat_1_0::Mode::OPERATIONAL;
 
   /* Publish the heartbeat once/second */
   static unsigned long prev = 0;
