@@ -54,10 +54,10 @@ size_t Heartbeat_1_0::encode(uint8_t * payload) const
 
 void Heartbeat_1_0::operator = (Health const health)
 {
-  data.health = to_integer(health);
+  data.health = arduino::_107_::uavcan::to_integer(health);
 }
 
 void Heartbeat_1_0::operator = (Mode const mode)
 {
-  data.mode = to_integer(mode);
+  data.mode = arduino::_107_::uavcan::to_integer(mode);
 }

@@ -99,7 +99,7 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
   uavcan.onCanFrameReceived(0x126CC69B, data_1, sizeof(data_1));
 
   /* Check if the expected response has been indeed received. */
-  REQUIRE(response.status == to_integer(ExecuteCommand_1_0::Response::Status::NOT_AUTHORIZED));
+  REQUIRE(response.status == arduino::_107_::uavcan::to_integer(ExecuteCommand_1_0::Response::Status::NOT_AUTHORIZED));
 
   /* Send a second request. */
   std::string const cmd_2_param = "I do not need coffee anymore";
@@ -144,5 +144,5 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
   uavcan.onCanFrameReceived(0x126CC69B, data_2, sizeof(data_2));
 
   /* Check if the expected response has been indeed received. */
-  REQUIRE(response.status == to_integer(ExecuteCommand_1_0::Response::Status::BAD_STATE));
+  REQUIRE(response.status == arduino::_107_::uavcan::to_integer(ExecuteCommand_1_0::Response::Status::BAD_STATE));
 }
