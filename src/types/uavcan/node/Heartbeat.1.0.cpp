@@ -35,18 +35,6 @@ Heartbeat_1_0::Heartbeat_1_0(Heartbeat_1_0 const & other)
   memcpy(&data, &other.data, sizeof(data));
 }
 
-Heartbeat_1_0::Heartbeat_1_0(uint32_t const uptime, uint8_t const health, uint8_t const mode, uint32_t const vssc)
-: data{uptime, health, mode, vssc}
-{
-
-}
-
-Heartbeat_1_0::Heartbeat_1_0(uint32_t const uptime, Health const health, Mode const mode, uint32_t const vssc)
-: Heartbeat_1_0{uptime, to_integer(health), to_integer(mode), vssc}
-{
-
-}
-
 /**************************************************************************************
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
@@ -62,4 +50,14 @@ size_t Heartbeat_1_0::encode(uint8_t * payload) const
 {
   size_t const offset = uavcan_node_Heartbeat_1_0_serialize(&data, 0, payload);
   return (offset / 8);
+}
+
+void Heartbeat_1_0::operator = (Health const health)
+{
+  data.health = to_integer(health);
+}
+
+void Heartbeat_1_0::operator = (Mode const mode)
+{
+  data.mode = to_integer(mode);
 }

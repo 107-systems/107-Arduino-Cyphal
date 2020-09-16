@@ -24,7 +24,7 @@
  **************************************************************************************/
 
 static util::CanFrame can_frame;
-static uavcan_node_Heartbeat_1_0 hb;
+static uavcan_node_Heartbeat_1_0 hb_data;
 static CanardNodeID hb_node_id = 0;
 
 /**************************************************************************************
@@ -42,11 +42,11 @@ void onHeatbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /*
 {
   Heartbeat_1_0 const received_hb = Heartbeat_1_0::create(transfer);
 
-  hb_node_id                     = transfer.remote_node_id;
-  hb.uptime                      = received_hb.data.uptime;
-  hb.health                      = received_hb.data.health;
-  hb.mode                        = received_hb.data.mode;
-  hb.vendor_specific_status_code = received_hb.data.vendor_specific_status_code;
+  hb_node_id                          = transfer.remote_node_id;
+  hb_data.uptime                      = received_hb.data.uptime;
+  hb_data.health                      = received_hb.data.health;
+  hb_data.mode                        = received_hb.data.mode;
+  hb_data.vendor_specific_status_code = received_hb.data.vendor_specific_status_code;
 }
 
 /**************************************************************************************
@@ -57,7 +57,11 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is sent", "[heartbeat-01]")
 {
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, transmitCanFrame);
 
-  Heartbeat_1_0 hb(9876, Heartbeat_1_0::Health::NOMINAL, Heartbeat_1_0::Mode::SOFTWARE_UPDATE, 5);
+  Heartbeat_1_0 hb;
+  hb.data.uptime = 9876;
+  hb = Heartbeat_1_0::Health::NOMINAL;
+  hb = Heartbeat_1_0::Mode::SOFTWARE_UPDATE;
+  hb.data.vendor_specific_status_code = 5;
   uavcan.publish(hb);
   while(uavcan.transmitCanFrame()) { }
   /*
@@ -67,8 +71,8 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is sent", "[heartbeat-01]")
   REQUIRE(can_frame.data == std::vector<uint8_t>{0x94, 0x26, 0x00, 0x00, 0xAC, 0x00, 0x00, 0xE0});
 
   hb.data.uptime = 9881;
-  hb.data.health = to_integer(Heartbeat_1_0::Health::ADVISORY);
-  hb.data.mode = to_integer(Heartbeat_1_0::Mode::MAINTENANCE);
+  hb = Heartbeat_1_0::Health::ADVISORY;
+  hb = Heartbeat_1_0::Mode::MAINTENANCE;
   hb.data.vendor_specific_status_code = 123;
   uavcan.publish(hb);
   while(uavcan.transmitCanFrame()) { }
@@ -81,7 +85,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is sent", "[heartbeat-01]")
 
 TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heartbeat-02]")
 {
-  uavcan_node_Heartbeat_1_0_init(&hb);
+  uavcan_node_Heartbeat_1_0_init(&hb_data);
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, nullptr);
 
   REQUIRE(uavcan.subscribe<Heartbeat_1_0>(onHeatbeat_1_0_Received));
@@ -98,9 +102,9 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heartbeat-02]"
   uint8_t const data[] = {0x39, 0x05, 0x00, 0x00, 0x5E, 0x05, 0x00, 0xE1};
   uavcan.onCanFrameReceived(0x107D553B, data, sizeof(data));
 
-  REQUIRE(hb_node_id                     == 59);
-  REQUIRE(hb.uptime                      == 1337);
-  REQUIRE(hb.health                      == to_integer(Heartbeat_1_0::Health::CAUTION));
-  REQUIRE(hb.mode                        == to_integer(Heartbeat_1_0::Mode::OFFLINE));
-  REQUIRE(hb.vendor_specific_status_code == 42);
+  REQUIRE(hb_node_id                          == 59);
+  REQUIRE(hb_data.uptime                      == 1337);
+  REQUIRE(hb_data.health                      == to_integer(Heartbeat_1_0::Health::CAUTION));
+  REQUIRE(hb_data.mode                        == to_integer(Heartbeat_1_0::Mode::OFFLINE));
+  REQUIRE(hb_data.vendor_specific_status_code == 42);
 }

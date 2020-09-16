@@ -50,12 +50,12 @@ public:
 
   Heartbeat_1_0();
   Heartbeat_1_0(Heartbeat_1_0 const & other);
-  Heartbeat_1_0(uint32_t const uptime, uint8_t const health, uint8_t const mode, uint32_t const vssc);
-  Heartbeat_1_0(uint32_t const uptime, Health const health, Mode const mode, uint32_t const vssc);
 
   static Heartbeat_1_0 create(CanardTransfer const & transfer);
   size_t encode(uint8_t * payload) const;
 
+  void operator = (Health const health);
+  void operator = (Mode const mode);
 };
 
 #endif /* ARDUINO_TRANSFER_UAVCAN_NODE_HEARTBEAT_1_0_H_ */
