@@ -118,7 +118,7 @@ void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, Ard
 {
   ExecuteCommand_1_0::Response const rsp = ExecuteCommand_1_0::Response::create(transfer);
 
-  if (rsp.data.status == to_integer(ExecuteCommand_1_0::Response::Status::SUCCESS))
+  if (rsp.data.status == arduino::_107_::uavcan::to_integer(ExecuteCommand_1_0::Response::Status::SUCCESS))
     Serial.println("Coffee successful retrieved");
   else
     Serial.println("Error when retrieving coffee");

@@ -61,7 +61,7 @@ size_t Response::encode(uint8_t * payload) const
 
 void Response::operator = (Status const status)
 {
-  data.status = to_integer(status);
+  data.status = arduino::_107_::uavcan::to_integer(status);
 }
 
 /**************************************************************************************
