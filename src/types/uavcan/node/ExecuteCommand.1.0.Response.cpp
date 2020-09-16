@@ -42,18 +42,6 @@ Response::Response(Response const & other)
   memcpy(&data, &other.data, sizeof(data));
 }
 
-Response::Response(uint8_t const status)
-: data{status}
-{
-
-}
-
-Response::Response(Status const status)
-: Response{to_integer(status)}
-{
-
-}
-
 /**************************************************************************************
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
@@ -69,6 +57,11 @@ size_t Response::encode(uint8_t * payload) const
 {
   size_t const offset = uavcan_node_ExecuteCommand_1_0_Response_serialize(&data, 0, payload);
   return (offset / 8);
+}
+
+void Response::operator = (Status const status)
+{
+  data.status = to_integer(status);
 }
 
 /**************************************************************************************

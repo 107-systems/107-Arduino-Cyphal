@@ -46,13 +46,6 @@ Request::Request(Request const & other)
   memcpy(&data, &other.data, sizeof(data));
 }
 
-Request::Request(uint16_t const command, uint8_t const * parameter, size_t const parameter_length)
-{
-  data.command = command;
-  data.parameter_length = std::min(parameter_length, static_cast<size_t>(uavcan_node_ExecuteCommand_1_0_Request_parameter_array_capacity()));
-  std::copy(parameter, parameter + data.parameter_length, data.parameter);
-}
-
 /**************************************************************************************
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/

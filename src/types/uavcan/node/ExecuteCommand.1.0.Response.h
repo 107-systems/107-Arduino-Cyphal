@@ -51,12 +51,11 @@ public:
 
   Response();
   Response(Response const & other);
-  Response(uint8_t const status);
-  Response(Status const status);
 
   static Response create(CanardTransfer const & transfer);
   size_t encode(uint8_t * payload) const;
 
+  void operator = (Status const status);
 };
 
 /**************************************************************************************

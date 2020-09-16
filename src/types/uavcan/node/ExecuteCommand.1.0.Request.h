@@ -40,11 +40,9 @@ public:
 
   Request();
   Request(Request const & other);
-  Request(uint16_t const command, uint8_t const * parameter, size_t const parameter_length);
 
   static Request create(CanardTransfer const & transfer);
   size_t encode(uint8_t * payload) const;
-
 };
 
 /**************************************************************************************

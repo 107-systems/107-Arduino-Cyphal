@@ -55,7 +55,8 @@ void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, Ardu
   /* Deal with the command ... */
 
   /* ... and construct and send the response. */
-  ExecuteCommand_1_0::Response response(ExecuteCommand_1_0::Response::Status::NOT_AUTHORIZED);
+  ExecuteCommand_1_0::Response response;
+  response = ExecuteCommand_1_0::Response::Status::NOT_AUTHORIZED;
 
   uavcan.respond(response, transfer.remote_node_id, transfer.transfer_id);
 }
