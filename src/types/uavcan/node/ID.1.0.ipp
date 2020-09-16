@@ -29,13 +29,6 @@ ID_1_0<ID>::ID_1_0(ID_1_0 const & other)
   memcpy(&data, &other.data, sizeof(data));
 }
 
-template <CanardPortID ID>
-ID_1_0<ID>::ID_1_0(uint16_t const id)
-: data{id}
-{
-
-}
-
 /**************************************************************************************
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/

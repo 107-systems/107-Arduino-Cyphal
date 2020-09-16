@@ -34,7 +34,6 @@ public:
 
   ID_1_0();
   ID_1_0(ID_1_0 const & other);
-  ID_1_0(uint16_t const id);
 
   static ID_1_0 create(CanardTransfer const & transfer);
   size_t encode(uint8_t * payload) const;

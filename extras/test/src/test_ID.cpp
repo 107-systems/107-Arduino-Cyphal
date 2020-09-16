@@ -58,7 +58,8 @@ TEST_CASE("A 'ID.1.0.uavcan' message is sent", "[id-01]")
 {
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, transmitCanFrame);
 
-  ID_1_0<ID_PORT_ID> id(65);
+  ID_1_0<ID_PORT_ID> id;
+  id.data.value = 65;
   uavcan.publish(id);
   uavcan.transmitCanFrame();
   /*
