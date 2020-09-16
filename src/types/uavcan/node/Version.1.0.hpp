@@ -34,7 +34,6 @@ public:
 
   Version_1_0();
   Version_1_0(Version_1_0 const & other);
-  Version_1_0(uint8_t const major, uint8_t const minor);
 
   static Version_1_0 create(CanardTransfer const & transfer);
   size_t encode(uint8_t * payload) const;

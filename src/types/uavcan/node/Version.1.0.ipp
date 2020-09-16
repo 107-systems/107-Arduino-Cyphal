@@ -29,13 +29,6 @@ Version_1_0<ID>::Version_1_0(Version_1_0 const & other)
   memcpy(&data, &other.data, sizeof(data));
 }
 
-template <CanardPortID ID>
-Version_1_0<ID>::Version_1_0(uint8_t const major, uint8_t const minor)
-: data{major, minor}
-{
-
-}
-
 /**************************************************************************************
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/

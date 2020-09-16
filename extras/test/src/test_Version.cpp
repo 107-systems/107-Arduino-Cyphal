@@ -59,7 +59,9 @@ TEST_CASE("A 'Version.1.0.uavcan' message is sent", "[version-01]")
 {
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, transmitCanFrame);
 
-  Version_1_0<VERSION_PORT_ID> version(0xCA, 0xFE);
+  Version_1_0<VERSION_PORT_ID> version;
+  version.data.major = 0xCA;
+  version.data.minor = 0xFE;
   uavcan.publish(version);
   uavcan.transmitCanFrame();
   /*
