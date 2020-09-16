@@ -9,6 +9,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # See: https://github.com/arduino/actions/blob/master/libraries/report-size-deltas/README.md
+      # See: https://github.com/arduino/report-size-deltas/README.md
       - name: Comment size deltas reports to PRs
-        uses: arduino/actions/libraries/report-size-deltas@master
+        uses: arduino/report-size-deltas@main
