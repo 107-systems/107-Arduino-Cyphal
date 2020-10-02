@@ -15,7 +15,6 @@
 
 #include <test/util/Const.h>
 #include <test/util/Types.h>
-#include <test/util/micros.h>
 
 #include <ArduinoUAVCAN.h>
 
@@ -31,14 +30,15 @@ static CanardNodeID hb_node_id = 0;
  * PRIVATE FUNCTION DEFINITION
  **************************************************************************************/
 
-static bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len)
+static bool transmitCanFrame(CanardFrame const & f)
 {
-  util::CanFrame frame{id, std::vector<uint8_t>(data, data + len)};
+  util::CanFrame const frame{f.extended_can_id,
+                             std::vector<uint8_t>(reinterpret_cast<uint8_t const *>(f.payload), reinterpret_cast<uint8_t const *>(f.payload) + f.payload_size)};
   can_frame = frame;
   return true;
 }
 
-void onHeatbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
+static void onHeatbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
   Heartbeat_1_0 const received_hb = Heartbeat_1_0::create(transfer);
 
@@ -55,7 +55,7 @@ void onHeatbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /*
 
 TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is sent", "[heartbeat-01]")
 {
-  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, transmitCanFrame);
+  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
 
   Heartbeat_1_0 hb;
   hb.data.uptime = 9876;
@@ -86,7 +86,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is sent", "[heartbeat-01]")
 TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heartbeat-02]")
 {
   uavcan_node_Heartbeat_1_0_init(&hb_data);
-  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, nullptr);
+  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, nullptr);
 
   REQUIRE(uavcan.subscribe<Heartbeat_1_0>(onHeatbeat_1_0_Received));
 
@@ -99,8 +99,8 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heartbeat-02]"
    *   sudo ip link set up vcan0
    *   candump -decaxta vcan0
    */
-  uint8_t const data[] = {0x39, 0x05, 0x00, 0x00, 0x5E, 0x05, 0x00, 0xE1};
-  uavcan.onCanFrameReceived(0x107D553B, data, sizeof(data));
+  std::vector<uint8_t> const data{0x39, 0x05, 0x00, 0x00, 0x5E, 0x05, 0x00, 0xE1};
+  uavcan.onCanFrameReceived(util::toCanardFrame(0x107D553B, data));
 
   REQUIRE(hb_node_id                          == 59);
   REQUIRE(hb_data.uptime                      == 1337);

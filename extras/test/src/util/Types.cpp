@@ -47,6 +47,19 @@ std::ostream & operator << (std::ostream & os, CanFrameVect const & fv)
   return os;
 }
 
+CanardFrame toCanardFrame(uint32_t const id, std::vector<uint8_t> const & data)
+{
+  CanardFrame const frame
+  {
+    0,                                          /* timestamp_usec  */
+    id,                                         /* extended_can_id */
+    data.size(),                                /* payload_size    */
+    reinterpret_cast<const void *>(data.data()) /* payload         */
+  };
+
+  return frame;
+}
+
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/

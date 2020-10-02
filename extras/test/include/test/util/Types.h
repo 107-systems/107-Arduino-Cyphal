@@ -17,6 +17,8 @@
 #include <vector>
 #include <iostream>
 
+#include <libcanard/canard.h>
+
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
@@ -42,6 +44,7 @@ typedef std::vector<CanFrame> CanFrameVect;
 
 std::ostream & operator << (std::ostream & os, CanFrame const & f);
 std::ostream & operator << (std::ostream & os, CanFrameVect const & fv);
+CanardFrame toCanardFrame(uint32_t const id, std::vector<uint8_t> const & data);
 
 /**************************************************************************************
  * NAMESPACE
