@@ -22,7 +22,7 @@ This library works for
 ```C++
 #include <ArduinoUAVCAN.h>
 /* ... */
-ArduinoUAVCAN uavcan(13, micros, nullptr);
+ArduinoUAVCAN uavcan(13, nullptr);
 /* ... */
 void setup() {
   /* ... */
@@ -44,7 +44,7 @@ void onHeatbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /*
 ```C++
 #include <ArduinoUAVCAN.h>
 /* ... */
-ArduinoUAVCAN uavcan(13, micros, transmitCanFrame);
+ArduinoUAVCAN uavcan(13, transmitCanFrame);
 Heartbeat_1_0 hb;
 /* ... */
 void loop() {
@@ -73,7 +73,7 @@ bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len
 ```C++
 #include <ArduinoUAVCAN.h>
 /* ... */
-ArduinoUAVCAN uavcan(13, micros, transmitCanFrame);
+ArduinoUAVCAN uavcan(13, transmitCanFrame);
 /* ... */
 void setup() {
   /* ... */
@@ -101,7 +101,7 @@ void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, Ard
     Serial.println("Error when retrieving coffee");
 }
 /* ... */
-bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len) {
+bool transmitCanFrame(CanardFrame const & frame) {
   /* ... */
 }
 ```
@@ -111,7 +111,7 @@ bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len
 ```C++
 #include <ArduinoUAVCAN.h>
 /* ... */
-ArduinoUAVCAN uavcan(13, micros, transmitCanFrame);
+ArduinoUAVCAN uavcan(13, transmitCanFrame);
 /* ... */
 void setup() {
   /* ... */
@@ -137,7 +137,7 @@ void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, Ardu
   }
 }
 /* ... */
-bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len) {
+bool transmitCanFrame(CanardFrame const & frame) {
   /* ... */
 }
 ```
