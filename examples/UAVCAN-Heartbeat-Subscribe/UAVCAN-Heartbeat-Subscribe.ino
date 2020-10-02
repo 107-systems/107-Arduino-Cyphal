@@ -30,7 +30,7 @@ void    spi_select             ();
 void    spi_deselect           ();
 uint8_t spi_transfer           (uint8_t const);
 void    onExternalEvent        ();
-void    onReceiveBufferFull    (CanardFrame const & frame);
+void    onReceiveBufferFull    (CanardFrame const &);
 void    onHeatbeat_1_0_Received(CanardTransfer const &, ArduinoUAVCAN &);
 
 /**************************************************************************************

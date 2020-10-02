@@ -27,11 +27,12 @@ static int const MKRCAN_MCP2515_INT_PIN = 7;
  * FUNCTION DECLARATION
  **************************************************************************************/
 
-void    spi_select      ();
-void    spi_deselect    ();
-uint8_t spi_transfer    (uint8_t const);
-void    onExternalEvent ();
-bool    transmitCanFrame(CanardFrame const & frame);
+void    spi_select         ();
+void    spi_deselect       ();
+uint8_t spi_transfer       (uint8_t const);
+void    onExternalEvent    ();
+void    onReceiveBufferFull(CanardFrame const &);
+bool    transmitCanFrame   (CanardFrame const &);
 void    onExecuteCommand_1_0_Request_Received(CanardTransfer const &, ArduinoUAVCAN &);
 
 /**************************************************************************************
@@ -42,7 +43,7 @@ ArduinoMCP2515 mcp2515(spi_select,
                        spi_deselect,
                        spi_transfer,
                        micros,
-                       nullptr,
+                       onReceiveBufferFull,
                        nullptr);
 
 ArduinoUAVCAN uavcan(13 /* local node id */, transmitCanFrame);
@@ -102,6 +103,11 @@ uint8_t spi_transfer(uint8_t const data)
 void onExternalEvent()
 {
   mcp2515.onExternalEventHandler();
+}
+
+void onReceiveBufferFull(CanardFrame const & frame)
+{
+  uavcan.onCanFrameReceived(frame);
 }
 
 bool transmitCanFrame(CanardFrame const & frame)

@@ -30,7 +30,7 @@ void    spi_select      ();
 void    spi_deselect    ();
 uint8_t spi_transfer    (uint8_t const);
 void    onExternalEvent ();
-bool    transmitCanFrame(CanardFrame const & frame);
+bool    transmitCanFrame(CanardFrame const &);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
