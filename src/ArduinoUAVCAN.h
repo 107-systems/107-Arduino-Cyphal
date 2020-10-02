@@ -31,7 +31,6 @@
  * TYPEDEF
  **************************************************************************************/
 
-typedef std::function<unsigned long()> MicroSecondFunc;
 class ArduinoUAVCAN;
 typedef std::function<void(CanardTransfer const &, ArduinoUAVCAN &)> OnTransferReceivedFunc;
 typedef std::function<bool(CanardFrame const &)> CanFrameTransmitFunc;
@@ -45,7 +44,6 @@ class ArduinoUAVCAN
 public:
 
   ArduinoUAVCAN(uint8_t const node_id,
-                MicroSecondFunc micros,
                 CanFrameTransmitFunc transmit_func);
 
 
@@ -80,7 +78,6 @@ private:
 
   ArduinoO1Heap _o1heap;
   CanardInstance _canard_ins;
-  MicroSecondFunc _micros;
   CanFrameTransmitFunc _transmit_func;
   std::map<CanardPortID, RxTransferData> _rx_transfer_map;
   std::map<CanardPortID, CanardTransferID> _tx_transfer_map;

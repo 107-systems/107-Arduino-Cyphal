@@ -45,7 +45,7 @@ ArduinoMCP2515 mcp2515(spi_select,
                        nullptr,
                        nullptr);
 
-ArduinoUAVCAN uavcan(13 /* local node id */, micros, transmitCanFrame);
+ArduinoUAVCAN uavcan(13 /* local node id */, transmitCanFrame);
 
 /**************************************************************************************
  * SETUP/LOOP

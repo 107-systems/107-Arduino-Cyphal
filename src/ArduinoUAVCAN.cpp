@@ -11,21 +11,15 @@
 
 #include "ArduinoUAVCAN.h"
 
-#include <assert.h>
-
 /**************************************************************************************
  * CTOR/DTOR
  **************************************************************************************/
 
 ArduinoUAVCAN::ArduinoUAVCAN(uint8_t const node_id,
-                             MicroSecondFunc micros,
                              CanFrameTransmitFunc transmit_func)
 : _canard_ins{canardInit(ArduinoUAVCAN::o1heap_allocate, ArduinoUAVCAN::o1heap_free)}
-, _micros{micros}
 , _transmit_func{transmit_func}
 {
-  assert(_micros != nullptr);
-
   _canard_ins.node_id = node_id;
   _canard_ins.mtu_bytes = CANARD_MTU_CAN_CLASSIC;
   _canard_ins.user_reference = reinterpret_cast<void *>(&_o1heap);
@@ -58,7 +52,6 @@ void ArduinoUAVCAN::onCanFrameReceived(CanardFrame const & frame)
       }
       else
         transfer_received_func(transfer, *this);
-
     }
     _o1heap.free(const_cast<void *>(transfer.payload));
   }
