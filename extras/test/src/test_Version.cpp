@@ -13,7 +13,6 @@
 
 #include <test/util/Const.h>
 #include <test/util/Types.h>
-#include <test/util/micros.h>
 
 #include <ArduinoUAVCAN.h>
 
@@ -35,14 +34,15 @@ static CanardNodeID version_node_id = 0;
  * PRIVATE FUNCTION DEFINITION
  **************************************************************************************/
 
-static bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len)
+static bool transmitCanFrame(CanardFrame const & f)
 {
-  util::CanFrame frame{id, std::vector<uint8_t>(data, data + len)};
+  util::CanFrame const frame{f.extended_can_id,
+                             std::vector<uint8_t>(reinterpret_cast<uint8_t const *>(f.payload), reinterpret_cast<uint8_t const *>(f.payload) + f.payload_size)};
   can_frame = frame;
   return true;
 }
 
-void onVersion_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
+static void onVersion_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
   Version_1_0<VERSION_PORT_ID> const received_version = Version_1_0<VERSION_PORT_ID>::create(transfer);
 
@@ -57,7 +57,7 @@ void onVersion_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* 
 
 TEST_CASE("A 'Version.1.0.uavcan' message is sent", "[version-01]")
 {
-  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, transmitCanFrame);
+  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
 
   Version_1_0<VERSION_PORT_ID> version;
   version.data.major = 0xCA;
@@ -74,14 +74,14 @@ TEST_CASE("A 'Version.1.0.uavcan' message is sent", "[version-01]")
 TEST_CASE("A 'Version.1.0.uavcan' message is received", "[version-02]")
 {
   uavcan_node_Version_1_0_init(&version);
-  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, transmitCanFrame);
+  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
 
   REQUIRE(uavcan.subscribe<Version_1_0<VERSION_PORT_ID>>(onVersion_1_0_Received));
   /*
    * pyuavcan publish 12345.uavcan.node.Version.1.0 '{major: 0x13, minor: 0x37}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),27)'
    */
-  uint8_t const data[] = {0x13, 0x37, 0xE0};
-  uavcan.onCanFrameReceived(0x1030391B, data, sizeof(data));
+  std::vector<uint8_t> const data{0x13, 0x37, 0xE0};
+  uavcan.onCanFrameReceived(util::toCanardFrame(0x1030391B, data));
 
   REQUIRE(version_node_id == 27);
   REQUIRE(version.major == 0x13);

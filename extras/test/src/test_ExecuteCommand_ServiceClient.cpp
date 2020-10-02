@@ -13,7 +13,6 @@
 
 #include <test/util/Const.h>
 #include <test/util/Types.h>
-#include <test/util/micros.h>
 
 #include <ArduinoUAVCAN.h>
 
@@ -34,14 +33,15 @@ static uavcan_node_ExecuteCommand_1_0_Response response;
  * PRIVATE FUNCTION DEFINITION
  **************************************************************************************/
 
-static bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len)
+static bool transmitCanFrame(CanardFrame const & f)
 {
-  util::CanFrame frame{id, std::vector<uint8_t>(data, data + len)};
+  util::CanFrame const frame{f.extended_can_id,
+                             std::vector<uint8_t>(reinterpret_cast<uint8_t const *>(f.payload), reinterpret_cast<uint8_t const *>(f.payload) + f.payload_size)};
   can_frame_vect.push_back(frame);
   return true;
 }
 
-void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
+static void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
   ExecuteCommand_1_0::Response const received_response = ExecuteCommand_1_0::Response::create(transfer);
   response.status = received_response.data.status;
@@ -54,7 +54,7 @@ void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, Ard
 TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-command-client-01]")
 {
   uavcan_node_ExecuteCommand_1_0_Response_init(&response);
-  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, transmitCanFrame);
+  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
 
   std::string const cmd_1_param = "I want a double espresso with cream";
   ExecuteCommand_1_0::Request req_1;
@@ -95,8 +95,8 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
   /* Feed back the command response to the uavcan node. In a
    * real system the answer would come back from the remote node.
    */
-  uint8_t const data_1[] = {0x02, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xE0};
-  uavcan.onCanFrameReceived(0x126CC69B, data_1, sizeof(data_1));
+  std::vector<uint8_t> const data_1{0x02, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xE0};
+  uavcan.onCanFrameReceived(util::toCanardFrame(0x126CC69B, data_1));
 
   /* Check if the expected response has been indeed received. */
   REQUIRE(response.status == arduino::_107_::uavcan::to_integer(ExecuteCommand_1_0::Response::Status::NOT_AUTHORIZED));
@@ -140,8 +140,8 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
   /* Feed back the command response to the uavcan node. In a
    * real system the answer would come back from the remote node.
    */
-  uint8_t const data_2[] = {0x05, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xE1};
-  uavcan.onCanFrameReceived(0x126CC69B, data_2, sizeof(data_2));
+  std::vector<uint8_t> const data_2{0x05, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xE1};
+  uavcan.onCanFrameReceived(util::toCanardFrame(0x126CC69B, data_2));
 
   /* Check if the expected response has been indeed received. */
   REQUIRE(response.status == arduino::_107_::uavcan::to_integer(ExecuteCommand_1_0::Response::Status::BAD_STATE));

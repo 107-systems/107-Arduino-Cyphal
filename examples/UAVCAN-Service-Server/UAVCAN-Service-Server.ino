@@ -27,11 +27,12 @@ static int const MKRCAN_MCP2515_INT_PIN = 7;
  * FUNCTION DECLARATION
  **************************************************************************************/
 
-void    spi_select      ();
-void    spi_deselect    ();
-uint8_t spi_transfer    (uint8_t const);
-void    onExternalEvent ();
-bool    transmitCanFrame(uint32_t const, uint8_t const *, uint8_t const);
+void    spi_select         ();
+void    spi_deselect       ();
+uint8_t spi_transfer       (uint8_t const);
+void    onExternalEvent    ();
+void    onReceiveBufferFull(CanardFrame const &);
+bool    transmitCanFrame   (CanardFrame const &);
 void    onExecuteCommand_1_0_Request_Received(CanardTransfer const &, ArduinoUAVCAN &);
 
 /**************************************************************************************
@@ -41,10 +42,11 @@ void    onExecuteCommand_1_0_Request_Received(CanardTransfer const &, ArduinoUAV
 ArduinoMCP2515 mcp2515(spi_select,
                        spi_deselect,
                        spi_transfer,
-                       nullptr,
+                       micros,
+                       onReceiveBufferFull,
                        nullptr);
 
-ArduinoUAVCAN uavcan(13 /* local node id */, micros, transmitCanFrame);
+ArduinoUAVCAN uavcan(13 /* local node id */, transmitCanFrame);
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -103,9 +105,14 @@ void onExternalEvent()
   mcp2515.onExternalEventHandler();
 }
 
-bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len)
+void onReceiveBufferFull(CanardFrame const & frame)
 {
-  return mcp2515.transmit(id, data, len);
+  uavcan.onCanFrameReceived(frame);
+}
+
+bool transmitCanFrame(CanardFrame const & frame)
+{
+  return mcp2515.transmit(frame);
 }
 
 void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, ArduinoUAVCAN & uavcan)

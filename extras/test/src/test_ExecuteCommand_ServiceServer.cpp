@@ -13,7 +13,6 @@
 
 #include <test/util/Const.h>
 #include <test/util/Types.h>
-#include <test/util/micros.h>
 
 #include <ArduinoUAVCAN.h>
 
@@ -34,14 +33,15 @@ static uavcan_node_ExecuteCommand_1_0_Request request;
  * PRIVATE FUNCTION DEFINITION
  **************************************************************************************/
 
-static bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len)
+static bool transmitCanFrame(CanardFrame const & f)
 {
-  util::CanFrame frame{id, std::vector<uint8_t>(data, data + len)};
+  util::CanFrame const frame{f.extended_can_id,
+                             std::vector<uint8_t>(reinterpret_cast<uint8_t const *>(f.payload), reinterpret_cast<uint8_t const *>(f.payload) + f.payload_size)};
   response_can_frame = frame;
   return true;
 }
 
-void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, ArduinoUAVCAN & uavcan)
+static void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, ArduinoUAVCAN & uavcan)
 {
   ExecuteCommand_1_0::Request received_request = ExecuteCommand_1_0::Request::create(transfer);
 
@@ -68,7 +68,7 @@ void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, Ardu
 TEST_CASE("A '435.ExecuteCommand.1.0' request is received from a client", "[execute-command-server-01]")
 {
   uavcan_node_ExecuteCommand_1_0_Request_init(&request);
-  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, util::micros, transmitCanFrame);
+  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
 
   /* Subscribe to incoming server requests. */
   REQUIRE(uavcan.subscribe<ExecuteCommand_1_0::Request>(onExecuteCommand_1_0_Request_Received) == true);
@@ -91,7 +91,7 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is received from a client", "[exec
                 std::end  (SERVER_REQUEST_CAN_FRAMES),
                 [&uavcan](util::CanFrame const frame)
                 {
-                  uavcan.onCanFrameReceived(frame.id, &frame.data.front(), frame.data.size());
+                  uavcan.onCanFrameReceived(util::toCanardFrame(frame.id, frame.data));
                 });
 
   /* Check if the correct request has been received. */

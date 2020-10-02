@@ -30,7 +30,7 @@ void    spi_select      ();
 void    spi_deselect    ();
 uint8_t spi_transfer    (uint8_t const);
 void    onExternalEvent ();
-bool    transmitCanFrame(uint32_t const, uint8_t const *, uint8_t const);
+bool    transmitCanFrame(CanardFrame const &);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -39,10 +39,11 @@ bool    transmitCanFrame(uint32_t const, uint8_t const *, uint8_t const);
 ArduinoMCP2515 mcp2515(spi_select,
                        spi_deselect,
                        spi_transfer,
+                       micros,
                        nullptr,
                        nullptr);
 
-ArduinoUAVCAN uavcan(13, micros, transmitCanFrame);
+ArduinoUAVCAN uavcan(13, transmitCanFrame);
 
 Heartbeat_1_0 hb;
 
@@ -118,7 +119,7 @@ void onExternalEvent()
   mcp2515.onExternalEventHandler();
 }
 
-bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len)
+bool transmitCanFrame(CanardFrame const & frame)
 {
-  return mcp2515.transmit(id, data, len);
+  return mcp2515.transmit(frame);
 }

@@ -11,21 +11,15 @@
 
 #include "ArduinoUAVCAN.h"
 
-#include <assert.h>
-
 /**************************************************************************************
  * CTOR/DTOR
  **************************************************************************************/
 
 ArduinoUAVCAN::ArduinoUAVCAN(uint8_t const node_id,
-                             MicroSecondFunc micros,
                              CanFrameTransmitFunc transmit_func)
 : _canard_ins{canardInit(ArduinoUAVCAN::o1heap_allocate, ArduinoUAVCAN::o1heap_free)}
-, _micros{micros}
 , _transmit_func{transmit_func}
 {
-  assert(_micros != nullptr);
-
   _canard_ins.node_id = node_id;
   _canard_ins.mtu_bytes = CANARD_MTU_CAN_CLASSIC;
   _canard_ins.user_reference = reinterpret_cast<void *>(&_o1heap);
@@ -35,11 +29,8 @@ ArduinoUAVCAN::ArduinoUAVCAN(uint8_t const node_id,
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-void ArduinoUAVCAN::onCanFrameReceived(uint32_t const id, uint8_t const * data, uint8_t const len)
+void ArduinoUAVCAN::onCanFrameReceived(CanardFrame const & frame)
 {
-  CanardFrame frame;
-  convertToCanardFrame(_micros(), id, data, len, frame);
-
   CanardTransfer transfer;
   int8_t const result = canardRxAccept(&_canard_ins,
                                        &frame,
@@ -61,7 +52,6 @@ void ArduinoUAVCAN::onCanFrameReceived(uint32_t const id, uint8_t const * data, 
       }
       else
         transfer_received_func(transfer, *this);
-
     }
     _o1heap.free(const_cast<void *>(transfer.payload));
   }
@@ -77,7 +67,7 @@ bool ArduinoUAVCAN::transmitCanFrame()
   if (txf == nullptr)
     return false;
 
-  if (!_transmit_func(txf->extended_can_id, reinterpret_cast<uint8_t const *>(txf->payload), static_cast<uint8_t const>(txf->payload_size)))
+  if (!_transmit_func(*txf))
     return false;
 
   canardTxPop(&_canard_ins);
@@ -99,18 +89,6 @@ void ArduinoUAVCAN::o1heap_free(CanardInstance * const ins, void * const pointer
 {
   ArduinoO1Heap * o1heap = reinterpret_cast<ArduinoO1Heap *>(ins->user_reference);
   o1heap->free(pointer);
-}
-
-void ArduinoUAVCAN::convertToCanardFrame(unsigned long const rx_timestamp_us, uint32_t const id, uint8_t const * data, uint8_t const len, CanardFrame & frame)
-{
-  /* Get the reception timestamp */
-  frame.timestamp_usec = rx_timestamp_us;
-  /* Blank the 3 MSBits */
-  frame.extended_can_id = id & 0x1FFFFFFF;
-  /* Set the length */
-  frame.payload_size = static_cast<size_t>(len);
-  /* Set pointer to data */
-  frame.payload = reinterpret_cast<const void *>(data);
 }
 
 CanardTransferID ArduinoUAVCAN::getNextTransferId(CanardPortID const port_id)

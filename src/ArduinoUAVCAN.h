@@ -31,10 +31,9 @@
  * TYPEDEF
  **************************************************************************************/
 
-typedef std::function<unsigned long()> MicroSecondFunc;
 class ArduinoUAVCAN;
 typedef std::function<void(CanardTransfer const &, ArduinoUAVCAN &)> OnTransferReceivedFunc;
-typedef std::function<bool(uint32_t const, uint8_t const *, uint8_t const)> CanFrameTransmitFunc;
+typedef std::function<bool(CanardFrame const &)> CanFrameTransmitFunc;
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -45,14 +44,13 @@ class ArduinoUAVCAN
 public:
 
   ArduinoUAVCAN(uint8_t const node_id,
-                MicroSecondFunc micros,
                 CanFrameTransmitFunc transmit_func);
 
 
   /* Must be called from the application upon the
    * reception of a can frame.
    */
-  void onCanFrameReceived(uint32_t const id, uint8_t const * data, uint8_t const len);
+  void onCanFrameReceived(CanardFrame const & frame);
   /* Must be called regularly from within the application
    * in order to transmit all CAN pushed on the internal
    * stack via publish/request.
@@ -80,15 +78,12 @@ private:
 
   ArduinoO1Heap _o1heap;
   CanardInstance _canard_ins;
-  MicroSecondFunc _micros;
   CanFrameTransmitFunc _transmit_func;
   std::map<CanardPortID, RxTransferData> _rx_transfer_map;
   std::map<CanardPortID, CanardTransferID> _tx_transfer_map;
 
   static void * o1heap_allocate(CanardInstance * const ins, size_t const amount);
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
-
-  static void convertToCanardFrame(unsigned long const rx_timestamp_us, uint32_t const id, uint8_t const * data, uint8_t const len, CanardFrame & frame);
 
   CanardTransferID getNextTransferId(CanardPortID const port_id);
   bool             subscribe        (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func);
