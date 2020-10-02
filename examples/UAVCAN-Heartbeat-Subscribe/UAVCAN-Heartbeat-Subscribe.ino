@@ -30,7 +30,7 @@ void    spi_select             ();
 void    spi_deselect           ();
 uint8_t spi_transfer           (uint8_t const);
 void    onExternalEvent        ();
-void    onReceiveBufferFull    (uint32_t const, uint8_t const *, uint8_t const);
+void    onReceiveBufferFull    (CanardFrame const & frame);
 void    onHeatbeat_1_0_Received(CanardTransfer const &, ArduinoUAVCAN &);
 
 /**************************************************************************************
@@ -40,6 +40,7 @@ void    onHeatbeat_1_0_Received(CanardTransfer const &, ArduinoUAVCAN &);
 ArduinoMCP2515 mcp2515(spi_select,
                        spi_deselect,
                        spi_transfer,
+                       micros,
                        onReceiveBufferFull,
                        nullptr);
 
@@ -101,9 +102,9 @@ void onExternalEvent()
   mcp2515.onExternalEventHandler();
 }
 
-void onReceiveBufferFull(uint32_t const id, uint8_t const * data, uint8_t const len)
+void onReceiveBufferFull(CanardFrame const & frame)
 {
-  uavcan.onCanFrameReceived(id, data, len);
+  uavcan.onCanFrameReceived(frame);
 }
 
 void onHeatbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)

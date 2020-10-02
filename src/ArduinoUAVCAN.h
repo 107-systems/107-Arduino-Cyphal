@@ -34,7 +34,7 @@
 typedef std::function<unsigned long()> MicroSecondFunc;
 class ArduinoUAVCAN;
 typedef std::function<void(CanardTransfer const &, ArduinoUAVCAN &)> OnTransferReceivedFunc;
-typedef std::function<bool(uint32_t const, uint8_t const *, uint8_t const)> CanFrameTransmitFunc;
+typedef std::function<bool(CanardFrame const &)> CanFrameTransmitFunc;
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -52,7 +52,7 @@ public:
   /* Must be called from the application upon the
    * reception of a can frame.
    */
-  void onCanFrameReceived(uint32_t const id, uint8_t const * data, uint8_t const len);
+  void onCanFrameReceived(CanardFrame const & frame);
   /* Must be called regularly from within the application
    * in order to transmit all CAN pushed on the internal
    * stack via publish/request.

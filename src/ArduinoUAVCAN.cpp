@@ -35,11 +35,8 @@ ArduinoUAVCAN::ArduinoUAVCAN(uint8_t const node_id,
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-void ArduinoUAVCAN::onCanFrameReceived(uint32_t const id, uint8_t const * data, uint8_t const len)
+void ArduinoUAVCAN::onCanFrameReceived(CanardFrame const & frame)
 {
-  CanardFrame frame;
-  convertToCanardFrame(_micros(), id, data, len, frame);
-
   CanardTransfer transfer;
   int8_t const result = canardRxAccept(&_canard_ins,
                                        &frame,
@@ -77,7 +74,7 @@ bool ArduinoUAVCAN::transmitCanFrame()
   if (txf == nullptr)
     return false;
 
-  if (!_transmit_func(txf->extended_can_id, reinterpret_cast<uint8_t const *>(txf->payload), static_cast<uint8_t const>(txf->payload_size)))
+  if (!_transmit_func(*txf))
     return false;
 
   canardTxPop(&_canard_ins);

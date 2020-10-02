@@ -31,7 +31,7 @@ void    spi_select      ();
 void    spi_deselect    ();
 uint8_t spi_transfer    (uint8_t const);
 void    onExternalEvent ();
-bool    transmitCanFrame(uint32_t const, uint8_t const *, uint8_t const);
+bool    transmitCanFrame(CanardFrame const & frame);
 void    onExecuteCommand_1_0_Response_Received(CanardTransfer const &, ArduinoUAVCAN &);
 
 /**************************************************************************************
@@ -41,6 +41,7 @@ void    onExecuteCommand_1_0_Response_Received(CanardTransfer const &, ArduinoUA
 ArduinoMCP2515 mcp2515(spi_select,
                        spi_deselect,
                        spi_transfer,
+                       micros,
                        nullptr,
                        nullptr);
 
@@ -109,9 +110,9 @@ void onExternalEvent()
   mcp2515.onExternalEventHandler();
 }
 
-bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len)
+bool transmitCanFrame(CanardFrame const & frame)
 {
-  return mcp2515.transmit(id, data, len);
+  return mcp2515.transmit(frame);
 }
 
 void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
