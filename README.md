@@ -64,7 +64,7 @@ void loop() {
   while(uavcan.transmitCanFrame()) { }
 }
 /* ... */
-bool transmitCanFrame(uint32_t const id, uint8_t const * data, uint8_t const len) {
+bool transmitCanFrame(CanardFrame const & frame) {
   /* ... */
 }
 ```
