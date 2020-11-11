@@ -34,7 +34,7 @@ constexpr CanardTransferKind Response::TRANSFER_KIND;
 
 Response::Response()
 {
-  uavcan_node_ExecuteCommand_1_0_Response_init(&data);
+  uavcan_node_ExecuteCommand_Response_1_0_initialize_(&data);
 }
 
 Response::Response(Response const & other)
@@ -49,14 +49,19 @@ Response::Response(Response const & other)
 Response Response::create(CanardTransfer const & transfer)
 {
   Response r;
-  uavcan_node_ExecuteCommand_1_0_Response_deserialize(&r.data, 0, (uint8_t *)(transfer.payload), transfer.payload_size);
+  size_t inout_buffer_size_bytes = transfer.payload_size;
+  uavcan_node_ExecuteCommand_Response_1_0_deserialize_(&r.data, (uint8_t *)(transfer.payload), &inout_buffer_size_bytes);
   return r;
 }
 
 size_t Response::encode(uint8_t * payload) const
 {
-  size_t const offset = uavcan_node_ExecuteCommand_1_0_Response_serialize(&data, 0, payload);
-  return (offset / 8);
+  size_t inout_buffer_size_bytes = Response::MAX_PAYLOAD_SIZE;
+  
+  if (uavcan_node_ExecuteCommand_Response_1_0_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS)
+    return 0;
+  else
+    return inout_buffer_size_bytes;
 }
 
 void Response::operator = (Status const status)

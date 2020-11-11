@@ -73,7 +73,7 @@ TEST_CASE("A 'Version.1.0.uavcan' message is sent", "[version-01]")
 
 TEST_CASE("A 'Version.1.0.uavcan' message is received", "[version-02]")
 {
-  uavcan_node_Version_1_0_init(&version);
+  uavcan_node_Version_1_0_initialize_(&version);
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
 
   REQUIRE(uavcan.subscribe<Version_1_0<VERSION_PORT_ID>>(onVersion_1_0_Received));

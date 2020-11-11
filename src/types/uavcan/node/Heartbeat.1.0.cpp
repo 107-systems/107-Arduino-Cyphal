@@ -27,7 +27,7 @@ constexpr CanardTransferKind Heartbeat_1_0::TRANSFER_KIND;
 
 Heartbeat_1_0::Heartbeat_1_0()
 {
-  uavcan_node_Heartbeat_1_0_init(&data);
+  uavcan_node_Heartbeat_1_0_initialize_(&data);
 }
 
 Heartbeat_1_0::Heartbeat_1_0(Heartbeat_1_0 const & other)
@@ -42,22 +42,27 @@ Heartbeat_1_0::Heartbeat_1_0(Heartbeat_1_0 const & other)
 Heartbeat_1_0 Heartbeat_1_0::create(CanardTransfer const & transfer)
 {
   Heartbeat_1_0 h;
-  uavcan_node_Heartbeat_1_0_deserialize(&h.data, 0, (uint8_t *)(transfer.payload), transfer.payload_size);
+  size_t inout_buffer_size_bytes = transfer.payload_size;
+  uavcan_node_Heartbeat_1_0_deserialize_(&h.data, (uint8_t *)(transfer.payload), &inout_buffer_size_bytes);
   return h;
 }
 
 size_t Heartbeat_1_0::encode(uint8_t * payload) const
 {
-  size_t const offset = uavcan_node_Heartbeat_1_0_serialize(&data, 0, payload);
-  return (offset / 8);
+  size_t inout_buffer_size_bytes = Heartbeat_1_0::MAX_PAYLOAD_SIZE;
+  
+  if (uavcan_node_Heartbeat_1_0_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS)
+    return 0;
+  else
+    return inout_buffer_size_bytes;
 }
 
 void Heartbeat_1_0::operator = (Health const health)
 {
-  data.health = arduino::_107_::uavcan::to_integer(health);
+  data.health.value = arduino::_107_::uavcan::to_integer(health);
 }
 
 void Heartbeat_1_0::operator = (Mode const mode)
 {
-  data.mode = arduino::_107_::uavcan::to_integer(mode);
+  data.mode.value = arduino::_107_::uavcan::to_integer(mode);
 }

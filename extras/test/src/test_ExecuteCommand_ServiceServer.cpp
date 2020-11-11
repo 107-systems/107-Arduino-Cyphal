@@ -27,7 +27,7 @@ static CanardNodeID const REMOTE_NODE_ID = 27;
  **************************************************************************************/
 
 static util::CanFrame response_can_frame;
-static uavcan_node_ExecuteCommand_1_0_Request request;
+static uavcan_node_ExecuteCommand_Request_1_0 request;
 
 /**************************************************************************************
  * PRIVATE FUNCTION DEFINITION
@@ -49,8 +49,10 @@ static void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfe
    * have them in your real application.
    */
   request.command = received_request.data.command;
-  request.parameter_length = received_request.data.parameter_length;
-  std::copy(received_request.data.parameter, received_request.data.parameter + received_request.data.parameter_length, request.parameter);
+  request.parameter.count = received_request.data.parameter.count;
+  std::copy(received_request.data.parameter.elements,
+            received_request.data.parameter.elements + received_request.data.parameter.count,
+            request.parameter.elements);
 
   /* Deal with the command ... */
 
@@ -67,7 +69,7 @@ static void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfe
 
 TEST_CASE("A '435.ExecuteCommand.1.0' request is received from a client", "[execute-command-server-01]")
 {
-  uavcan_node_ExecuteCommand_1_0_Request_init(&request);
+  uavcan_node_ExecuteCommand_Request_1_0_initialize_(&request);
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
 
   /* Subscribe to incoming server requests. */
@@ -98,8 +100,8 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is received from a client", "[exec
   REQUIRE(request.command == 0xCAFE);
   std::string const EXP_CMD_PARAM_STR = "I want a double espresso with cream";
   std::vector<uint8_t> const EXP_CMD_PARAM_VECT(EXP_CMD_PARAM_STR.begin(), EXP_CMD_PARAM_STR.end());
-  REQUIRE(request.parameter_length == EXP_CMD_PARAM_VECT.size());
-  REQUIRE(std::equal(EXP_CMD_PARAM_VECT.begin(), EXP_CMD_PARAM_VECT.end(), request.parameter) == true);
+  REQUIRE(request.parameter.count == EXP_CMD_PARAM_VECT.size());
+  REQUIRE(std::equal(EXP_CMD_PARAM_VECT.begin(), EXP_CMD_PARAM_VECT.end(), request.parameter.elements) == true);
 
   /* We should now have one CAN frame in the transmit pipeline */
   REQUIRE(uavcan.transmitCanFrame() == true);

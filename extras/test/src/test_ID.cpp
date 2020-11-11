@@ -71,7 +71,7 @@ TEST_CASE("A 'ID.1.0.uavcan' message is sent", "[id-01]")
 
 TEST_CASE("A 'ID.1.0.uavcan' message is received", "[id-02]")
 {
-  uavcan_node_ID_1_0_init(&id);
+  uavcan_node_ID_1_0_initialize_(&id);
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
 
   REQUIRE(uavcan.subscribe<ID_1_0<ID_PORT_ID>>(onID_1_0_Received));

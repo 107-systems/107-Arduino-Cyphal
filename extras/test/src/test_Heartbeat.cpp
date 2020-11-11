@@ -85,7 +85,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is sent", "[heartbeat-01]")
 
 TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heartbeat-02]")
 {
-  uavcan_node_Heartbeat_1_0_init(&hb_data);
+  uavcan_node_Heartbeat_1_0_initialize_(&hb_data);
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, nullptr);
 
   REQUIRE(uavcan.subscribe<Heartbeat_1_0>(onHeatbeat_1_0_Received));
@@ -104,7 +104,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heartbeat-02]"
 
   REQUIRE(hb_node_id                          == 59);
   REQUIRE(hb_data.uptime                      == 1337);
-  REQUIRE(hb_data.health                      == arduino::_107_::uavcan::to_integer(Heartbeat_1_0::Health::CAUTION));
-  REQUIRE(hb_data.mode                        == arduino::_107_::uavcan::to_integer(Heartbeat_1_0::Mode::OFFLINE));
+  REQUIRE(hb_data.health.value                == arduino::_107_::uavcan::to_integer(Heartbeat_1_0::Health::CAUTION));
+  REQUIRE(hb_data.mode.value                  == 7); /* TODO: FIX THIS (uint8_t)arduino::_107_::uavcan::to_integer(Heartbeat_1_0::Mode::OFFLINE)); */
   REQUIRE(hb_data.vendor_specific_status_code == 42);
 }

@@ -27,25 +27,24 @@ public:
 
   enum class Health : uint8_t
   {
-    NOMINAL  = uavcan_node_Heartbeat_1_0_HEALTH_NOMINAL,
-    ADVISORY = uavcan_node_Heartbeat_1_0_HEALTH_ADVISORY,
-    CAUTION  = uavcan_node_Heartbeat_1_0_HEALTH_CAUTION,
-    WARNING  = uavcan_node_Heartbeat_1_0_HEALTH_WARNING,
+    NOMINAL  = uavcan_node_Health_1_0_NOMINAL,
+    ADVISORY = uavcan_node_Health_1_0_ADVISORY,
+    CAUTION  = uavcan_node_Health_1_0_CAUTION,
+    WARNING  = uavcan_node_Health_1_0_WARNING,
   };
 
   enum class Mode : uint8_t
   {
-    OPERATIONAL      = uavcan_node_Heartbeat_1_0_MODE_OPERATIONAL,
-    INITIALIZATION   = uavcan_node_Heartbeat_1_0_MODE_INITIALIZATION,
-    MAINTENANCE      = uavcan_node_Heartbeat_1_0_MODE_MAINTENANCE,
-    SOFTWARE_UPDATE  = uavcan_node_Heartbeat_1_0_MODE_SOFTWARE_UPDATE,
-    OFFLINE          = uavcan_node_Heartbeat_1_0_MODE_OFFLINE,
+    OPERATIONAL      = uavcan_node_Mode_1_0_OPERATIONAL,
+    INITIALIZATION   = uavcan_node_Mode_1_0_INITIALIZATION,
+    MAINTENANCE      = uavcan_node_Mode_1_0_MAINTENANCE,
+    SOFTWARE_UPDATE  = uavcan_node_Mode_1_0_SOFTWARE_UPDATE,
   };
 
   uavcan_node_Heartbeat_1_0 data;
 
-  static constexpr CanardPortID       PORT_ID = uavcan_node_Heartbeat_1_0_FIXED_PORT_ID;
-  static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_Heartbeat_1_0_MAX_SERIALIZED_REPRESENTATION_SIZE_BYTES;
+  static constexpr CanardPortID       PORT_ID = uavcan_node_Heartbeat_1_0_FIXED_PORT_ID_;
+  static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_Health_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_;
   static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindMessage;
 
   Heartbeat_1_0();
