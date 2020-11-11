@@ -17,7 +17,7 @@ This library works for
 * [ArduinoCore-samd](https://github.com/arduino/ArduinoCore-samd): [`Arduino Zero`](https://store.arduino.cc/arduino-zero), [`MKR 1000`](https://store.arduino.cc/arduino-mkr1000-wifi), [`MKR WiFi 1010`](https://store.arduino.cc/arduino-mkr-wifi-1010), [`Nano 33 IoT`](https://store.arduino.cc/arduino-nano-33-iot), [`MKR GSM 1400`](https://store.arduino.cc/arduino-mkr-gsm-1400-1415), [`MKR NB 1500`](https://store.arduino.cc/arduino-mkr-nb-1500-1413), [`MKR WAN 1300/1310`](https://store.arduino.cc/mkr-wan-1310) :heavy_check_mark:
 * [ArduinoCore-mbed](https://github.com/arduino/ArduinoCore-mbed): [`Portenta H7`](https://store.arduino.cc/portenta-h7), [`Nano 33 BLE`](https://store.arduino.cc/arduino-nano-33-ble) :heavy_check_mark:
 
-## Example
+### Example
 ```C++
 #include <ArduinoUAVCAN.h>
 /* ... */
@@ -46,13 +46,6 @@ bool transmitCanFrame(CanardFrame const & frame) {
 }
 ```
 
-### How to generate C header files from DSDL via nunavut/nnvg
-```bash
-cd ~
-https://github.com/UAVCAN/nunavut && cd nunavut
-python3.8 -m pip install .
+### Contribution
+Please take a look at the [wiki](https://github.com/107-systems/107-Arduino-UAVCAN/wiki) for notes pertaining development of `107-Arduino-UAVCAN`.
 
-cd ~
-git clone https://github.com/UAVCAN/public_regulated_data_types && cd public_regulated_data_types
-nnvg --target-language c --pp-max-emptylines=1 --pp-trim-trailing-whitespace --target-endianness=little --enable-serialization-asserts --outdir include uavcan
-```
