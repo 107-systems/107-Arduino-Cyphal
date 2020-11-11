@@ -46,7 +46,7 @@ template <CanardPortID ID>
 size_t Version_1_0<ID>::encode(uint8_t * payload) const
 {
   size_t inout_buffer_size_bytes = Version_1_0<ID>::MAX_PAYLOAD_SIZE;
-  
+
   if (uavcan_node_Version_1_0_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS)
     return 0;
   else

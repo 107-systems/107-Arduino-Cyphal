@@ -50,7 +50,7 @@ Heartbeat_1_0 Heartbeat_1_0::create(CanardTransfer const & transfer)
 size_t Heartbeat_1_0::encode(uint8_t * payload) const
 {
   size_t inout_buffer_size_bytes = Heartbeat_1_0::MAX_PAYLOAD_SIZE;
-  
+
   if (uavcan_node_Heartbeat_1_0_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS)
     return 0;
   else
