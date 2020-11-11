@@ -48,4 +48,3 @@ bool transmitCanFrame(CanardFrame const & frame) {
 
 ### Contribution
 Please take a look at the [wiki](https://github.com/107-systems/107-Arduino-UAVCAN/wiki) for notes pertaining development of `107-Arduino-UAVCAN`.
-
