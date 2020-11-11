@@ -150,5 +150,5 @@ python3.8 -m pip install .
 
 cd ~
 git clone https://github.com/UAVCAN/public_regulated_data_types && cd public_regulated_data_types
-nnvg --outdir include --templates c_jinja --pp-trim-trailing-whitespace -e .h uavcan
+nnvg --target-language c --pp-max-emptylines=1 --pp-trim-trailing-whitespace --target-endianness=little --enable-serialization-asserts --outdir include uavcan
 ```
