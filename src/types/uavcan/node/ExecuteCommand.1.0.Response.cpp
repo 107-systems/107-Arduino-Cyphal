@@ -54,7 +54,7 @@ Response Response::deserialize(CanardTransfer const & transfer)
   return r;
 }
 
-size_t Response::encode(uint8_t * payload) const
+size_t Response::serialize(uint8_t * payload) const
 {
   size_t inout_buffer_size_bytes = Response::MAX_PAYLOAD_SIZE;
 

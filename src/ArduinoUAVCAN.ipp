@@ -22,7 +22,7 @@ bool ArduinoUAVCAN::publish(T_MSG const & msg)
 
   std::array<uint8_t, T_MSG::MAX_PAYLOAD_SIZE> payload_buf;
   payload_buf.fill(0);
-  size_t const payload_size = msg.encode(payload_buf.data());
+  size_t const payload_size = msg.serialize(payload_buf.data());
   CanardTransferID const transfer_id = getNextTransferId(T_MSG::PORT_ID);
 
   return enqeueTransfer(CANARD_NODE_ID_UNSET, T_MSG::TRANSFER_KIND, T_MSG::PORT_ID, payload_size, payload_buf.data(), transfer_id);
@@ -35,7 +35,7 @@ bool ArduinoUAVCAN::respond(T_RSP const & rsp, CanardNodeID const remote_node_id
 
   std::array<uint8_t, T_RSP::MAX_PAYLOAD_SIZE> payload_buf;
   payload_buf.fill(0);
-  size_t const payload_size = rsp.encode(payload_buf.data());
+  size_t const payload_size = rsp.serialize(payload_buf.data());
 
   return enqeueTransfer(remote_node_id, T_RSP::TRANSFER_KIND, T_RSP::PORT_ID, payload_size, payload_buf.data(), transfer_id);
 }
@@ -48,7 +48,7 @@ bool ArduinoUAVCAN::request(T_REQ const & req, CanardNodeID const remote_node_id
 
   std::array<uint8_t, T_REQ::MAX_PAYLOAD_SIZE> payload_buf;
   payload_buf.fill(0);
-  size_t const payload_size = req.encode(payload_buf.data());
+  size_t const payload_size = req.serialize(payload_buf.data());
   CanardTransferID const transfer_id = getNextTransferId(T_REQ::PORT_ID);
 
   if (!enqeueTransfer(remote_node_id, T_REQ::TRANSFER_KIND, T_REQ::PORT_ID, payload_size, payload_buf.data(), transfer_id))

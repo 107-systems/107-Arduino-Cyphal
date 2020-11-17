@@ -51,7 +51,7 @@ public:
   Heartbeat_1_0(Heartbeat_1_0 const & other);
 
   static Heartbeat_1_0 deserialize(CanardTransfer const & transfer);
-  size_t encode(uint8_t * payload) const;
+  size_t serialize(uint8_t * payload) const;
 
   void operator = (Health const health);
   void operator = (Mode const mode);

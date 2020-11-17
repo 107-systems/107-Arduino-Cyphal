@@ -43,7 +43,7 @@ Version_1_0<ID> Version_1_0<ID>::deserialize(CanardTransfer const & transfer)
 }
 
 template <CanardPortID ID>
-size_t Version_1_0<ID>::encode(uint8_t * payload) const
+size_t Version_1_0<ID>::serialize(uint8_t * payload) const
 {
   size_t inout_buffer_size_bytes = Version_1_0<ID>::MAX_PAYLOAD_SIZE;
 

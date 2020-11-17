@@ -42,7 +42,7 @@ public:
   Request(Request const & other);
 
   static Request deserialize(CanardTransfer const & transfer);
-  size_t encode(uint8_t * payload) const;
+  size_t serialize(uint8_t * payload) const;
 };
 
 /**************************************************************************************

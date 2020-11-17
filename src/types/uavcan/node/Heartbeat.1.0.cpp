@@ -47,7 +47,7 @@ Heartbeat_1_0 Heartbeat_1_0::deserialize(CanardTransfer const & transfer)
   return h;
 }
 
-size_t Heartbeat_1_0::encode(uint8_t * payload) const
+size_t Heartbeat_1_0::serialize(uint8_t * payload) const
 {
   size_t inout_buffer_size_bytes = Heartbeat_1_0::MAX_PAYLOAD_SIZE;
 
