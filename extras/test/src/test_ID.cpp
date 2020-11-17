@@ -65,7 +65,7 @@ TEST_CASE("A 'ID.1.0.uavcan' message is sent", "[id-01]")
   /*
    * pyuavcan publish 1337.uavcan.node.ID.1.0 '{value: 65}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'
    */
-  REQUIRE(can_frame.id   == 0x1005390D);
+  REQUIRE(can_frame.id   == 0x1065390D);
   REQUIRE(can_frame.data == std::vector<uint8_t>{0x41, 0x00, 0xE0});
 }
 

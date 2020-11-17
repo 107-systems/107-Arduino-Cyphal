@@ -44,7 +44,7 @@ public:
   uavcan_node_Heartbeat_1_0 data;
 
   static constexpr CanardPortID       PORT_ID = uavcan_node_Heartbeat_1_0_FIXED_PORT_ID_;
-  static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_Health_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_;
+  static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_Heartbeat_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_;
   static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindMessage;
 
   Heartbeat_1_0();

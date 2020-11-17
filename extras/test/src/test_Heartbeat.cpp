@@ -65,10 +65,10 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is sent", "[heartbeat-01]")
   uavcan.publish(hb);
   while(uavcan.transmitCanFrame()) { }
   /*
-   * pyuavcan publish 32085.uavcan.node.Heartbeat.1.0 '{uptime: 9876, health: 0, mode: 3, vendor_specific_status_code: 5}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'
+   * pyuavcan publish 7509.uavcan.node.Heartbeat.1.0 '{uptime: 9876, health: {value: 0}, mode: {value: 3}, vendor_specific_status_code: 5}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'
    */
   REQUIRE(can_frame.id   == 0x107D550D);
-  REQUIRE(can_frame.data == std::vector<uint8_t>{0x94, 0x26, 0x00, 0x00, 0xAC, 0x00, 0x00, 0xE0});
+  REQUIRE(can_frame.data == std::vector<uint8_t>{0x94, 0x26, 0x00, 0x00, 0x00, 0x03, 0x05, 0xE0});
 
   hb.data.uptime = 9881;
   hb = Heartbeat_1_0::Health::ADVISORY;
@@ -77,10 +77,10 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is sent", "[heartbeat-01]")
   uavcan.publish(hb);
   while(uavcan.transmitCanFrame()) { }
   /*
-   * pyuavcan publish 32085.uavcan.node.Heartbeat.1.0 '{uptime: 9881, health: 1, mode: 2, vendor_specific_status_code: 123}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'
+   * pyuavcan publish 7509.uavcan.node.Heartbeat.1.0 '{uptime: 9881, health: {value: 1}, mode: {value: 2}, vendor_specific_status_code: 123}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'
    */
   REQUIRE(can_frame.id   == 0x107D550D);
-  REQUIRE(can_frame.data == std::vector<uint8_t>{0x99, 0x26, 0x00, 0x00, 0x69, 0x0F, 0x00, 0xE1});
+  REQUIRE(can_frame.data == std::vector<uint8_t>{0x99, 0x26, 0x00, 0x00, 0x01, 0x02, 0x7B, 0xE1});
 }
 
 TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heartbeat-02]")
@@ -91,7 +91,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heartbeat-02]"
   REQUIRE(uavcan.subscribe<Heartbeat_1_0>(onHeatbeat_1_0_Received));
 
   /* Create:
-   *   pyuavcan publish 32085.uavcan.node.Heartbeat.1.0 '{uptime: 1337, health: 2, mode: 7, vendor_specific_status_code: 42}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),59)'
+   *   pyuavcan publish 7509.uavcan.node.Heartbeat.1.0 '{uptime: 1337, health: {value: 2}, mode: {value: 2}, vendor_specific_status_code: 42}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),59)'
    *
    * Capture:
    *   sudo modprobe vcan
@@ -99,12 +99,12 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heartbeat-02]"
    *   sudo ip link set up vcan0
    *   candump -decaxta vcan0
    */
-  std::vector<uint8_t> const data{0x39, 0x05, 0x00, 0x00, 0x5E, 0x05, 0x00, 0xE1};
+  std::vector<uint8_t> const data{0x39, 0x05, 0x00, 0x00, 0x02, 0x02, 0x2A, 0xE1};
   uavcan.onCanFrameReceived(util::toCanardFrame(0x107D553B, data));
 
   REQUIRE(hb_node_id                          == 59);
   REQUIRE(hb_data.uptime                      == 1337);
   REQUIRE(hb_data.health.value                == arduino::_107_::uavcan::to_integer(Heartbeat_1_0::Health::CAUTION));
-  REQUIRE(hb_data.mode.value                  == 7); /* TODO: FIX THIS (uint8_t)arduino::_107_::uavcan::to_integer(Heartbeat_1_0::Mode::OFFLINE)); */
+  REQUIRE(hb_data.mode.value                  == arduino::_107_::uavcan::to_integer(Heartbeat_1_0::Mode::MAINTENANCE));
   REQUIRE(hb_data.vendor_specific_status_code == 42);
 }

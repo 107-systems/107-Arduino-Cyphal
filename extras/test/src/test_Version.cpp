@@ -20,7 +20,7 @@
  * CONSTANTS
  **************************************************************************************/
 
-static CanardPortID const VERSION_PORT_ID = 12345;
+static CanardPortID const VERSION_PORT_ID = 1234;
 
 /**************************************************************************************
  * PRIVATE GLOBAL VARIABLES
@@ -65,9 +65,9 @@ TEST_CASE("A 'Version.1.0.uavcan' message is sent", "[version-01]")
   uavcan.publish(version);
   uavcan.transmitCanFrame();
   /*
-   * pyuavcan publish 12345.uavcan.node.Version.1.0 '{major: 0xCA, minor: 0xFE}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'
+   * pyuavcan publish 1234.uavcan.node.Version.1.0 '{major: 0xCA, minor: 0xFE}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'
    */
-  REQUIRE(can_frame.id   == 0x1030390D);
+  REQUIRE(can_frame.id   == 0x1064D20D);
   REQUIRE(can_frame.data == std::vector<uint8_t>{0xCA, 0xFE, 0xE0});
 }
 
@@ -78,10 +78,10 @@ TEST_CASE("A 'Version.1.0.uavcan' message is received", "[version-02]")
 
   REQUIRE(uavcan.subscribe<Version_1_0<VERSION_PORT_ID>>(onVersion_1_0_Received));
   /*
-   * pyuavcan publish 12345.uavcan.node.Version.1.0 '{major: 0x13, minor: 0x37}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),27)'
+   * pyuavcan publish 1234.uavcan.node.Version.1.0 '{major: 0x13, minor: 0x37}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),27)'
    */
   std::vector<uint8_t> const data{0x13, 0x37, 0xE0};
-  uavcan.onCanFrameReceived(util::toCanardFrame(0x1030391B, data));
+  uavcan.onCanFrameReceived(util::toCanardFrame(0x1064D21B, data));
 
   REQUIRE(version_node_id == 27);
   REQUIRE(version.major == 0x13);

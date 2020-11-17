@@ -108,5 +108,5 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is received from a client", "[exec
 
   /* Check if the sent response is identical with what we expect. */
   REQUIRE(response_can_frame.id   == 0x126CCD8D);
-  REQUIRE(response_can_frame.data == std::vector<uint8_t>{0x02, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xE0});
+  REQUIRE(response_can_frame.data == std::vector<uint8_t>{0x02, 0xE0});
 }
