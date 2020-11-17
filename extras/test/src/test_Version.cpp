@@ -44,7 +44,7 @@ static bool transmitCanFrame(CanardFrame const & f)
 
 static void onVersion_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
-  Version_1_0<VERSION_PORT_ID> const received_version = Version_1_0<VERSION_PORT_ID>::create(transfer);
+  Version_1_0<VERSION_PORT_ID> const received_version = Version_1_0<VERSION_PORT_ID>::deserialize(transfer);
 
   version_node_id = transfer.remote_node_id;
   version.major   = received_version.data.major;

@@ -43,7 +43,7 @@ static bool transmitCanFrame(CanardFrame const & f)
 
 static void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
-  ExecuteCommand_1_0::Response const received_response = ExecuteCommand_1_0::Response::create(transfer);
+  ExecuteCommand_1_0::Response const received_response = ExecuteCommand_1_0::Response::deserialize(transfer);
   response.status = received_response.data.status;
 }
 

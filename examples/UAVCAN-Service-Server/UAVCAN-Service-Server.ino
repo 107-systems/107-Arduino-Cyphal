@@ -117,7 +117,7 @@ bool transmitCanFrame(CanardFrame const & frame)
 
 void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, ArduinoUAVCAN & uavcan)
 {
-  ExecuteCommand_1_0::Request req = ExecuteCommand_1_0::Request::create(transfer);
+  ExecuteCommand_1_0::Request req = ExecuteCommand_1_0::Request::deserialize(transfer);
 
   if (req.data.command == 0xCAFE)
   {

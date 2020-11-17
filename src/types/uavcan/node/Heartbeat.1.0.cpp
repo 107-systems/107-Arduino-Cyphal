@@ -39,7 +39,7 @@ Heartbeat_1_0::Heartbeat_1_0(Heartbeat_1_0 const & other)
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-Heartbeat_1_0 Heartbeat_1_0::create(CanardTransfer const & transfer)
+Heartbeat_1_0 Heartbeat_1_0::deserialize(CanardTransfer const & transfer)
 {
   Heartbeat_1_0 h;
   size_t inout_buffer_size_bytes = transfer.payload_size;

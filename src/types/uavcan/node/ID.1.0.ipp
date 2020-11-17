@@ -34,7 +34,7 @@ ID_1_0<ID>::ID_1_0(ID_1_0 const & other)
  **************************************************************************************/
 
 template <CanardPortID ID>
-ID_1_0<ID> ID_1_0<ID>::create(CanardTransfer const & transfer)
+ID_1_0<ID> ID_1_0<ID>::deserialize(CanardTransfer const & transfer)
 {
   ID_1_0<ID> i;
   size_t inout_buffer_size_bytes = transfer.payload_size;

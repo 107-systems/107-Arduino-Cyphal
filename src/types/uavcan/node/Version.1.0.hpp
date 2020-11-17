@@ -35,7 +35,7 @@ public:
   Version_1_0();
   Version_1_0(Version_1_0 const & other);
 
-  static Version_1_0 create(CanardTransfer const & transfer);
+  static Version_1_0 deserialize(CanardTransfer const & transfer);
   size_t encode(uint8_t * payload) const;
 
 };

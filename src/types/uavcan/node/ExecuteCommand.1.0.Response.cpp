@@ -46,7 +46,7 @@ Response::Response(Response const & other)
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-Response Response::create(CanardTransfer const & transfer)
+Response Response::deserialize(CanardTransfer const & transfer)
 {
   Response r;
   size_t inout_buffer_size_bytes = transfer.payload_size;

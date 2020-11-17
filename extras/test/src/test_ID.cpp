@@ -44,7 +44,7 @@ static bool transmitCanFrame(CanardFrame const & f)
 
 static void onID_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
-  ID_1_0<ID_PORT_ID> const received_id = ID_1_0<ID_PORT_ID>::create(transfer);
+  ID_1_0<ID_PORT_ID> const received_id = ID_1_0<ID_PORT_ID>::deserialize(transfer);
 
   id_node_id = transfer.remote_node_id;
   id.value = received_id.data.value;

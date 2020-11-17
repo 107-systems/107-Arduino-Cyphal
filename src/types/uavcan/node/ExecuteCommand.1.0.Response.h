@@ -52,7 +52,7 @@ public:
   Response();
   Response(Response const & other);
 
-  static Response create(CanardTransfer const & transfer);
+  static Response deserialize(CanardTransfer const & transfer);
   size_t encode(uint8_t * payload) const;
 
   void operator = (Status const status);

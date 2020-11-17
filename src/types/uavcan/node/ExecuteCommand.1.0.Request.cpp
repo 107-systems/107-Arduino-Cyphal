@@ -50,7 +50,7 @@ Request::Request(Request const & other)
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-Request Request::create(CanardTransfer const & transfer)
+Request Request::deserialize(CanardTransfer const & transfer)
 {
   Request r;
   size_t inout_buffer_size_bytes = transfer.payload_size;

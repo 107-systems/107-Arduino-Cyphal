@@ -40,7 +40,7 @@ static bool transmitCanFrame(CanardFrame const & f)
 
 static void onHeatbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
-  Heartbeat_1_0 const received_hb = Heartbeat_1_0::create(transfer);
+  Heartbeat_1_0 const received_hb = Heartbeat_1_0::deserialize(transfer);
 
   hb_node_id                          = transfer.remote_node_id;
   hb_data.uptime                      = received_hb.data.uptime;
