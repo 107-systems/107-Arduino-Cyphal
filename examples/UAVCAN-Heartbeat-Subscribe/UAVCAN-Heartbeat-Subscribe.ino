@@ -109,7 +109,7 @@ void onReceiveBufferFull(CanardFrame const & frame)
 
 void onHeatbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
-  Heartbeat_1_0 const hb = Heartbeat_1_0::create(transfer);
+  Heartbeat_1_0 const hb = Heartbeat_1_0::deserialize(transfer);
 
   char msg[64];
   snprintf(msg, 64,

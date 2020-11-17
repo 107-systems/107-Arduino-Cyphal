@@ -34,26 +34,26 @@ public:
 
   enum class Status : uint8_t
   {
-    SUCCESS        = 0,
-    FAILURE        = 1,
-    NOT_AUTHORIZED = 2,
-    BAD_COMMAND    = 3,
-    BAD_PARAMETER  = 4,
-    BAD_STATE      = 5,
-    INTERNAL_ERROR = 6,
+    SUCCESS        = uavcan_node_ExecuteCommand_Response_1_0_STATUS_SUCCESS,
+    FAILURE        = uavcan_node_ExecuteCommand_Response_1_0_STATUS_FAILURE,
+    NOT_AUTHORIZED = uavcan_node_ExecuteCommand_Response_1_0_STATUS_NOT_AUTHORIZED,
+    BAD_COMMAND    = uavcan_node_ExecuteCommand_Response_1_0_STATUS_BAD_COMMAND,
+    BAD_PARAMETER  = uavcan_node_ExecuteCommand_Response_1_0_STATUS_BAD_PARAMETER,
+    BAD_STATE      = uavcan_node_ExecuteCommand_Response_1_0_STATUS_BAD_STATE,
+    INTERNAL_ERROR = uavcan_node_ExecuteCommand_Response_1_0_STATUS_INTERNAL_ERROR,
   };
 
-  uavcan_node_ExecuteCommand_1_0_Response data;
+  uavcan_node_ExecuteCommand_Response_1_0 data;
 
-  static constexpr CanardPortID       PORT_ID = uavcan_node_ExecuteCommand_1_0_FIXED_PORT_ID;
-  static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_ExecuteCommand_1_0_Response_MAX_SERIALIZED_REPRESENTATION_SIZE_BYTES;
+  static constexpr CanardPortID       PORT_ID = uavcan_node_ExecuteCommand_1_0_FIXED_PORT_ID_;
+  static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_ExecuteCommand_Response_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_;
   static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindResponse;
 
   Response();
   Response(Response const & other);
 
-  static Response create(CanardTransfer const & transfer);
-  size_t encode(uint8_t * payload) const;
+  static Response deserialize(CanardTransfer const & transfer);
+  size_t serialize(uint8_t * payload) const;
 
   void operator = (Status const status);
 };

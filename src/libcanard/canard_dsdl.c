@@ -31,8 +31,17 @@
 #    define CANARD_PRIVATE static
 #endif
 
-#if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 201112L)
-#    error "Unsupported language: ISO C11 or a newer version is required."
+#if !defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L)
+#    error "Unsupported language: ISO C99 or a newer version is required."
+#endif
+
+/// In general, _Static_assert is not present on C99 compilers, except for gnu99
+#if !defined(static_assert)
+// Intentional violation of MISRA: static assertion macro cannot be replaced with a function definition.
+#    define static_assert(x, ...) typedef char _static_assert_gl(_static_assertion_, __LINE__)[(x) ? 1 : -1]  // NOSONAR
+#    define _static_assert_gl(a, b) _static_assert_gl_impl(a, b)                                              // NOSONAR
+// Intentional violation of MISRA: the paste operator ## cannot be avoided in this context.
+#    define _static_assert_gl_impl(a, b) a##b  // NOSONAR
 #endif
 
 /// Detect whether the target platform is compatible with IEEE 754.
@@ -59,22 +68,31 @@ CANARD_PRIVATE size_t chooseMin(size_t a, size_t b)
     return (a < b) ? a : b;
 }
 
-/// The algorithm was originally designed by Ben Dyer for Libuavcan v0:
-/// https://github.com/UAVCAN/libuavcan/blob/ba696029f9625d7ea3eb00/libuavcan/src/marshal/uc_bit_array_copy.cpp#L12-L58
-/// This version is modified for v1 where the bit order is the opposite.
-/// If both offsets and the length are byte-aligned, the algorithm degenerates to memcpy().
-/// The source and the destination shall not overlap.
-CANARD_PRIVATE void copyBitArray(const size_t         length_bit,
-                                 const size_t         src_offset_bit,
-                                 const size_t         dst_offset_bit,
-                                 const uint8_t* const src,
-                                 uint8_t* const       dst);
-CANARD_PRIVATE void copyBitArray(const size_t         length_bit,
-                                 const size_t         src_offset_bit,
-                                 const size_t         dst_offset_bit,
-                                 const uint8_t* const src,
-                                 uint8_t* const       dst)
+CANARD_PRIVATE size_t getBitCopySize(const size_t  buf_size_bytes,
+                                     const size_t  offset_bit,
+                                     const size_t  requested_length_bit,
+                                     const uint8_t value_length_bit);
+CANARD_PRIVATE size_t getBitCopySize(const size_t  buf_size_bytes,
+                                     const size_t  offset_bit,
+                                     const size_t  requested_length_bit,
+                                     const uint8_t value_length_bit)
 {
+    const size_t buf_size_bit  = buf_size_bytes * BYTE_WIDTH;
+    const size_t remaining_bit = buf_size_bit - chooseMin(buf_size_bit, offset_bit);
+    return chooseMin(remaining_bit, chooseMin(requested_length_bit, value_length_bit));
+}
+
+// --------------------------------------------- PUBLIC API - BIT ARRAY ---------------------------------------------
+
+void canardDSDLCopyBits(const size_t         length_bit,
+                        const size_t         src_offset_bit,
+                        const size_t         dst_offset_bit,
+                        const uint8_t* const src,
+                        uint8_t* const       dst)
+{
+    // The algorithm was originally designed by Ben Dyer for Libuavcan v0:
+    // https://github.com/UAVCAN/libuavcan/blob/ba6929f9625d7ea3eb00/libuavcan/src/marshal/uc_bit_array_copy.cpp#L12-L58
+    // This version is modified for v1 where the bit order is the opposite.
     CANARD_ASSERT((src != NULL) && (dst != NULL) && (src != dst));
     CANARD_ASSERT((src < dst) ? ((src + ((src_offset_bit + length_bit + BYTE_WIDTH) / BYTE_WIDTH)) <= dst)
                               : ((dst + ((dst_offset_bit + length_bit + BYTE_WIDTH) / BYTE_WIDTH)) <= src));
@@ -128,36 +146,23 @@ CANARD_PRIVATE void copyBitArray(const size_t         length_bit,
     }
 }
 
-CANARD_PRIVATE size_t getBitCopySize(const size_t  buf_size_bytes,
-                                     const size_t  offset_bit,
-                                     const size_t  requested_length_bit,
-                                     const uint8_t value_length_bit);
-CANARD_PRIVATE size_t getBitCopySize(const size_t  buf_size_bytes,
-                                     const size_t  offset_bit,
-                                     const size_t  requested_length_bit,
-                                     const uint8_t value_length_bit)
-{
-    const size_t buf_size_bit  = buf_size_bytes * BYTE_WIDTH;
-    const size_t remaining_bit = buf_size_bit - chooseMin(buf_size_bit, offset_bit);
-    return chooseMin(remaining_bit, chooseMin(requested_length_bit, value_length_bit));
-}
-
 // --------------------------------------------- PUBLIC API - INTEGER ---------------------------------------------
 
 void canardDSDLSetBit(uint8_t* const buf, const size_t off_bit, const bool value)
 {
     CANARD_ASSERT(buf != NULL);
     const uint8_t val = value ? 1U : 0U;
-    copyBitArray(1U, 0U, off_bit, &val, buf);
+    canardDSDLCopyBits(1U, 0U, off_bit, &val, buf);
 }
+
+static_assert(WIDTH64 == (sizeof(uint64_t) * BYTE_WIDTH), "Unexpected size of uint64_t");
 
 void canardDSDLSetUxx(uint8_t* const buf, const size_t off_bit, const uint64_t value, const uint8_t len_bit)
 {
-    _Static_assert(WIDTH64 == (sizeof(uint64_t) * BYTE_WIDTH), "Unexpected size of uint64_t");
     CANARD_ASSERT(buf != NULL);
     const size_t saturated_len_bit = chooseMin(len_bit, WIDTH64);
 #if CANARD_DSDL_CONFIG_LITTLE_ENDIAN
-    copyBitArray(saturated_len_bit, 0U, off_bit, (const uint8_t*) &value, buf);
+    canardDSDLCopyBits(saturated_len_bit, 0U, off_bit, (const uint8_t*) &value, buf);
 #else
     const uint8_t tmp[sizeof(uint64_t)] = {
         (uint8_t)((value >> 0U) & BYTE_MAX),   // Suppress warnings about the magic numbers. Their purpose is clear.
@@ -169,7 +174,7 @@ void canardDSDLSetUxx(uint8_t* const buf, const size_t off_bit, const uint64_t v
         (uint8_t)((value >> 48U) & BYTE_MAX),  // NOLINT NOSONAR
         (uint8_t)((value >> 56U) & BYTE_MAX),  // NOLINT NOSONAR
     };
-    copyBitArray(saturated_len_bit, 0U, off_bit, &tmp[0], buf);
+    canardDSDLCopyBits(saturated_len_bit, 0U, off_bit, &tmp[0], buf);
 #endif
 }
 
@@ -192,7 +197,7 @@ uint8_t canardDSDLGetU8(const uint8_t* const buf, const size_t buf_size, const s
     const size_t copy_size = getBitCopySize(buf_size, off_bit, len_bit, BYTE_WIDTH);
     CANARD_ASSERT(copy_size <= (sizeof(uint8_t) * BYTE_WIDTH));
     uint8_t val = 0;
-    copyBitArray(copy_size, off_bit, 0U, buf, &val);
+    canardDSDLCopyBits(copy_size, off_bit, 0U, buf, &val);
     return val;
 }
 
@@ -203,11 +208,11 @@ uint16_t canardDSDLGetU16(const uint8_t* const buf, const size_t buf_size, const
     CANARD_ASSERT(copy_size <= (sizeof(uint16_t) * BYTE_WIDTH));
 #if CANARD_DSDL_CONFIG_LITTLE_ENDIAN
     uint16_t val = 0U;
-    copyBitArray(copy_size, off_bit, 0U, buf, (uint8_t*) &val);
+    canardDSDLCopyBits(copy_size, off_bit, 0U, buf, (uint8_t*) &val);
     return val;
 #else
     uint8_t tmp[sizeof(uint16_t)] = {0};
-    copyBitArray(copy_size, off_bit, 0U, buf, &tmp[0]);
+    canardDSDLCopyBits(copy_size, off_bit, 0U, buf, &tmp[0]);
     return (uint16_t)(tmp[0] | (uint16_t)(((uint16_t) tmp[1]) << BYTE_WIDTH));
 #endif
 }
@@ -219,11 +224,11 @@ uint32_t canardDSDLGetU32(const uint8_t* const buf, const size_t buf_size, const
     CANARD_ASSERT(copy_size <= (sizeof(uint32_t) * BYTE_WIDTH));
 #if CANARD_DSDL_CONFIG_LITTLE_ENDIAN
     uint32_t val = 0U;
-    copyBitArray(copy_size, off_bit, 0U, buf, (uint8_t*) &val);
+    canardDSDLCopyBits(copy_size, off_bit, 0U, buf, (uint8_t*) &val);
     return val;
 #else
     uint8_t tmp[sizeof(uint32_t)] = {0};
-    copyBitArray(copy_size, off_bit, 0U, buf, &tmp[0]);
+    canardDSDLCopyBits(copy_size, off_bit, 0U, buf, &tmp[0]);
     return (uint32_t)(tmp[0] |                      // Suppress warnings about the magic numbers.
                       ((uint32_t) tmp[1] << 8U) |   // NOLINT NOSONAR
                       ((uint32_t) tmp[2] << 16U) |  // NOLINT NOSONAR
@@ -238,11 +243,11 @@ uint64_t canardDSDLGetU64(const uint8_t* const buf, const size_t buf_size, const
     CANARD_ASSERT(copy_size <= (sizeof(uint64_t) * BYTE_WIDTH));
 #if CANARD_DSDL_CONFIG_LITTLE_ENDIAN
     uint64_t val = 0U;
-    copyBitArray(copy_size, off_bit, 0U, buf, (uint8_t*) &val);
+    canardDSDLCopyBits(copy_size, off_bit, 0U, buf, (uint8_t*) &val);
     return val;
 #else
     uint8_t tmp[sizeof(uint64_t)] = {0};
-    copyBitArray(copy_size, off_bit, 0U, buf, &tmp[0]);
+    canardDSDLCopyBits(copy_size, off_bit, 0U, buf, &tmp[0]);
     return (uint64_t)(tmp[0] |                      // Suppress warnings about the magic numbers.
                       ((uint64_t) tmp[1] << 8U) |   // NOLINT NOSONAR
                       ((uint64_t) tmp[2] << 16U) |  // NOLINT NOSONAR
@@ -294,7 +299,7 @@ int64_t canardDSDLGetI64(const uint8_t* const buf, const size_t buf_size, const 
 
 #if CANARD_DSDL_PLATFORM_IEEE754_FLOAT
 
-_Static_assert(WIDTH32 == (sizeof(CanardDSDLFloat32) * BYTE_WIDTH), "Unsupported floating point model");
+static_assert(WIDTH32 == (sizeof(CanardDSDLFloat32) * BYTE_WIDTH), "Unsupported floating point model");
 
 // Intentional violation of MISRA: we need this union because the alternative is far more error prone.
 // We have to rely on low-level data representation details to do the conversion; unions are helpful.
@@ -319,7 +324,15 @@ CANARD_PRIVATE uint16_t float16Pack(const CanardDSDLFloat32 value)
     uint16_t out = 0;
     if (in.bits >= f32inf.bits)
     {
-        out = (in.bits > f32inf.bits) ? (uint16_t) 0x7FFFU : (uint16_t) 0x7C00U;  // NOLINT NOSONAR
+        // The no-lint statements suppress the warnings about magic numbers.
+        if ((in.bits & 0x7FFFFFUL) != 0)  // NOLINT NOSONAR
+        {
+            out = 0x7E00U;  // NOLINT NOSONAR
+        }
+        else
+        {
+            out = (in.bits > f32inf.bits) ? (uint16_t) 0x7FFFU : (uint16_t) 0x7C00U;  // NOLINT NOSONAR
+        }
     }
     else
     {
@@ -369,7 +382,7 @@ CanardDSDLFloat32 canardDSDLGetF16(const uint8_t* const buf, const size_t buf_si
 
 #if CANARD_DSDL_PLATFORM_IEEE754_FLOAT
 
-_Static_assert(WIDTH32 == (sizeof(CanardDSDLFloat32) * BYTE_WIDTH), "Unsupported floating point model");
+static_assert(WIDTH32 == (sizeof(CanardDSDLFloat32) * BYTE_WIDTH), "Unsupported floating point model");
 
 void canardDSDLSetF32(uint8_t* const buf, const size_t off_bit, const CanardDSDLFloat32 value)
 {
@@ -403,7 +416,7 @@ CanardDSDLFloat32 canardDSDLGetF32(const uint8_t* const buf, const size_t buf_si
 
 #if CANARD_DSDL_PLATFORM_IEEE754_DOUBLE
 
-_Static_assert(WIDTH64 == (sizeof(CanardDSDLFloat64) * BYTE_WIDTH), "Unsupported floating point model");
+static_assert(WIDTH64 == (sizeof(CanardDSDLFloat64) * BYTE_WIDTH), "Unsupported floating point model");
 
 CanardDSDLFloat64 canardDSDLGetF64(const uint8_t* const buf, const size_t buf_size, const size_t off_bit)
 {

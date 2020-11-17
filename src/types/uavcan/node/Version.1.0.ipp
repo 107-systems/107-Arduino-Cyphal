@@ -20,7 +20,7 @@ template <CanardPortID ID> constexpr CanardTransferKind Version_1_0<ID>::TRANSFE
 template <CanardPortID ID>
 Version_1_0<ID>::Version_1_0()
 {
-  uavcan_node_Version_1_0_init(&data);
+  uavcan_node_Version_1_0_initialize_(&data);
 }
 
 template <CanardPortID ID>
@@ -34,16 +34,21 @@ Version_1_0<ID>::Version_1_0(Version_1_0 const & other)
  **************************************************************************************/
 
 template <CanardPortID ID>
-Version_1_0<ID> Version_1_0<ID>::create(CanardTransfer const & transfer)
+Version_1_0<ID> Version_1_0<ID>::deserialize(CanardTransfer const & transfer)
 {
   Version_1_0<ID> v;
-  uavcan_node_Version_1_0_deserialize(&v.data, 0, (uint8_t *)(transfer.payload), transfer.payload_size);
+  size_t inout_buffer_size_bytes = transfer.payload_size;
+  uavcan_node_Version_1_0_deserialize_(&v.data, (uint8_t *)(transfer.payload), &inout_buffer_size_bytes);
   return v;
 }
 
 template <CanardPortID ID>
-size_t Version_1_0<ID>::encode(uint8_t * payload) const
+size_t Version_1_0<ID>::serialize(uint8_t * payload) const
 {
-  size_t const offset = uavcan_node_Version_1_0_serialize(&data, 0, payload);
-  return (offset / 8);
+  size_t inout_buffer_size_bytes = Version_1_0<ID>::MAX_PAYLOAD_SIZE;
+
+  if (uavcan_node_Version_1_0_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS)
+    return 0;
+  else
+    return inout_buffer_size_bytes;
 }

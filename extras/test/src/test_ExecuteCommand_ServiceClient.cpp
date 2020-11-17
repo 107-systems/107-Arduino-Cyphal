@@ -27,7 +27,7 @@ static CanardNodeID const REMOTE_NODE_ID = 27;
  **************************************************************************************/
 
 static util::CanFrameVect can_frame_vect;
-static uavcan_node_ExecuteCommand_1_0_Response response;
+static uavcan_node_ExecuteCommand_Response_1_0 response;
 
 /**************************************************************************************
  * PRIVATE FUNCTION DEFINITION
@@ -43,7 +43,7 @@ static bool transmitCanFrame(CanardFrame const & f)
 
 static void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
-  ExecuteCommand_1_0::Response const received_response = ExecuteCommand_1_0::Response::create(transfer);
+  ExecuteCommand_1_0::Response const received_response = ExecuteCommand_1_0::Response::deserialize(transfer);
   response.status = received_response.data.status;
 }
 
@@ -53,14 +53,16 @@ static void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transf
 
 TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-command-client-01]")
 {
-  uavcan_node_ExecuteCommand_1_0_Response_init(&response);
+  uavcan_node_ExecuteCommand_Response_1_0_initialize_(&response);
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
 
   std::string const cmd_1_param = "I want a double espresso with cream";
   ExecuteCommand_1_0::Request req_1;
   req_1.data.command = 0xCAFE;
-  req_1.data.parameter_length = std::min(cmd_1_param.length(), uavcan_node_ExecuteCommand_1_0_Request_parameter_array_capacity());
-  std::copy(cmd_1_param.c_str(), cmd_1_param.c_str() + req_1.data.parameter_length, req_1.data.parameter);
+  req_1.data.parameter.count = std::min(cmd_1_param.length(), (size_t)uavcan_node_ExecuteCommand_Request_1_0_parameter_ARRAY_CAPACITY_);
+  std::copy(cmd_1_param.c_str(),
+            cmd_1_param.c_str() + req_1.data.parameter.count,
+            req_1.data.parameter.elements);
 
 
   REQUIRE(uavcan.request<ExecuteCommand_1_0::Request, ExecuteCommand_1_0::Response>(req_1, REMOTE_NODE_ID, onExecuteCommand_1_0_Response_Received) == true);
@@ -105,8 +107,10 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
   std::string const cmd_2_param = "I do not need coffee anymore";
   ExecuteCommand_1_0::Request req_2;
   req_2.data.command = 0xDEAD;
-  req_2.data.parameter_length = std::min(cmd_2_param.length(), uavcan_node_ExecuteCommand_1_0_Request_parameter_array_capacity());
-  std::copy(cmd_2_param.c_str(), cmd_2_param.c_str() + req_2.data.parameter_length, req_2.data.parameter);
+  req_2.data.parameter.count = std::min(cmd_2_param.length(), (size_t)uavcan_node_ExecuteCommand_Request_1_0_parameter_ARRAY_CAPACITY_);
+  std::copy(cmd_2_param.c_str(),
+            cmd_2_param.c_str() + req_2.data.parameter.count,
+            req_2.data.parameter.elements);
 
   REQUIRE(uavcan.request<ExecuteCommand_1_0::Request, ExecuteCommand_1_0::Response>(req_2, REMOTE_NODE_ID, onExecuteCommand_1_0_Response_Received) == true);
   /* Transmit all the CAN frames. */

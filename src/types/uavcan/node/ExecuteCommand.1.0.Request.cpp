@@ -38,7 +38,7 @@ constexpr CanardTransferKind Request::TRANSFER_KIND;
 
 Request::Request()
 {
-  uavcan_node_ExecuteCommand_1_0_Request_init(&data);
+  uavcan_node_ExecuteCommand_Request_1_0_initialize_(&data);
 }
 
 Request::Request(Request const & other)
@@ -50,17 +50,22 @@ Request::Request(Request const & other)
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-Request Request::create(CanardTransfer const & transfer)
+Request Request::deserialize(CanardTransfer const & transfer)
 {
   Request r;
-  uavcan_node_ExecuteCommand_1_0_Request_deserialize(&r.data, 0, (uint8_t *)(transfer.payload), transfer.payload_size);
+  size_t inout_buffer_size_bytes = transfer.payload_size;
+  uavcan_node_ExecuteCommand_Request_1_0_deserialize_(&r.data, (uint8_t *)(transfer.payload), &inout_buffer_size_bytes);
   return r;
 }
 
-size_t Request::encode(uint8_t * payload) const
+size_t Request::serialize(uint8_t * payload) const
 {
-  size_t const offset = uavcan_node_ExecuteCommand_1_0_Request_serialize(&data, 0, payload);
-  return (offset / 8);
+  size_t inout_buffer_size_bytes = Request::MAX_PAYLOAD_SIZE;
+
+  if (uavcan_node_ExecuteCommand_Request_1_0_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS)
+    return 0;
+  else
+    return inout_buffer_size_bytes;
 }
 
 /**************************************************************************************

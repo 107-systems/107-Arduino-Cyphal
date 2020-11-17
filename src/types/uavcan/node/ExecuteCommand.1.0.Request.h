@@ -32,17 +32,17 @@ class Request
 
 public:
 
-  uavcan_node_ExecuteCommand_1_0_Request data;
+  uavcan_node_ExecuteCommand_Request_1_0 data;
 
-  static constexpr CanardPortID       PORT_ID = uavcan_node_ExecuteCommand_1_0_FIXED_PORT_ID;
-  static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_ExecuteCommand_1_0_Request_MAX_SERIALIZED_REPRESENTATION_SIZE_BYTES;
+  static constexpr CanardPortID       PORT_ID = uavcan_node_ExecuteCommand_1_0_FIXED_PORT_ID_;
+  static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_ExecuteCommand_Request_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_;
   static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindRequest;
 
   Request();
   Request(Request const & other);
 
-  static Request create(CanardTransfer const & transfer);
-  size_t encode(uint8_t * payload) const;
+  static Request deserialize(CanardTransfer const & transfer);
+  size_t serialize(uint8_t * payload) const;
 };
 
 /**************************************************************************************

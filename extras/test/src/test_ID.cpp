@@ -44,7 +44,7 @@ static bool transmitCanFrame(CanardFrame const & f)
 
 static void onID_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
-  ID_1_0<ID_PORT_ID> const received_id = ID_1_0<ID_PORT_ID>::create(transfer);
+  ID_1_0<ID_PORT_ID> const received_id = ID_1_0<ID_PORT_ID>::deserialize(transfer);
 
   id_node_id = transfer.remote_node_id;
   id.value = received_id.data.value;
@@ -65,13 +65,13 @@ TEST_CASE("A 'ID.1.0.uavcan' message is sent", "[id-01]")
   /*
    * pyuavcan publish 1337.uavcan.node.ID.1.0 '{value: 65}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'
    */
-  REQUIRE(can_frame.id   == 0x1005390D);
+  REQUIRE(can_frame.id   == 0x1065390D);
   REQUIRE(can_frame.data == std::vector<uint8_t>{0x41, 0x00, 0xE0});
 }
 
 TEST_CASE("A 'ID.1.0.uavcan' message is received", "[id-02]")
 {
-  uavcan_node_ID_1_0_init(&id);
+  uavcan_node_ID_1_0_initialize_(&id);
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
 
   REQUIRE(uavcan.subscribe<ID_1_0<ID_PORT_ID>>(onID_1_0_Received));
