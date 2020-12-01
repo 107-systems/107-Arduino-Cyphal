@@ -2,7 +2,11 @@
  * This software is distributed under the terms of the MIT License.
  * Copyright (c) 2020 LXRobotics.
  * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
- * Contributors: https://github.com/107-systems/UAVCAN-GNSS-node/graphs/contributors.
+ * Contributors: https://github.com/107-systems/UAVCAN-GNSS-node/graphs/contributors
+ */
+
+/* Recommended hardware setup:
+ *  MKR Zero <-> MKR CAN Shield <-> MKR GPS Shield
  */
 
 /**************************************************************************************
@@ -13,6 +17,13 @@
 
 #include <ArduinoUAVCAN.h>
 #include <ArduinoMCP2515.h>
+#include <ArduinoNmeaParser.h>
+#define DBG_ENABLE_ERROR
+#define DBG_ENABLE_WARNING
+#define DBG_ENABLE_INFO
+#define DBG_ENABLE_DEBUG
+//#define DBG_ENABLE_VERBOSE
+#include <ArduinoDebug.hpp>
 
 #undef max
 #undef min
@@ -76,6 +87,12 @@ namespace heartbeat
 void publish(ArduinoUAVCAN &, uint32_t const, Heartbeat_1_0::Mode const);
 }
 
+namespace gnss
+{
+void onRmcUpdate(nmea::RmcData const);
+void onGgaUpdate(nmea::GgaData const);
+}
+
 /**************************************************************************************
  * GLOBAL VARIABLES
  **************************************************************************************/
@@ -89,8 +106,12 @@ ArduinoMCP2515 mcp2515(MCP2515::select,
 
 ArduinoUAVCAN uavcan(UAVCAN_NODE_ID, MCP2515::transmit);
 
+ArduinoNmeaParser nmea_parser(gnss::onRmcUpdate, gnss::onGgaUpdate);
+
 UavcanNodeData node_data = UAVCAN_NODE_INITIAL_DATA;
 UavcanNodeConfiguration node_config = UAVCAN_NODE_INITIAL_CONFIGURATION;
+
+DEBUG_INSTANCE(120, Serial);
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -98,15 +119,24 @@ UavcanNodeConfiguration node_config = UAVCAN_NODE_INITIAL_CONFIGURATION;
 
 void setup()
 {
-  Serial.begin(9600);
+  /* USB serial for debug messages.
+   */
+  Serial.begin(115200);
   while(!Serial) { }
 
-  /* Setup SPI access */
+  /* Serial connected to MKR GPS board.
+   */
+  Serial1.begin(9600);
+
+  /* Setup SPI access
+   */
   SPI.begin();
   pinMode(MKRCAN_MCP2515_CS_PIN, OUTPUT);
   digitalWrite(MKRCAN_MCP2515_CS_PIN, HIGH);
 
-  /* Attach interrupt handler to register MCP2515 signaled by taking INT low */
+  /* Attach interrupt handler to register 
+   * MCP2515 signaled by taking INT low.
+   */
   pinMode(MKRCAN_MCP2515_INT_PIN, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(MKRCAN_MCP2515_INT_PIN), MCP2515::onExternalEvent, FALLING);
 
@@ -122,7 +152,8 @@ void loop()
    */
   unsigned long const now = millis();
 
-  /* Publish the node heartbeat. */
+  /* Publish the node heartbeat.
+   */
   static unsigned long prev_heartbeat = 0;
   if ((now - prev_heartbeat) > node_config.heartbeat_period_ms) {
     heartbeat::publish(uavcan, now / 1000, node_data.mode);
@@ -195,21 +226,37 @@ namespace node
   
 Heartbeat_1_0::Mode handle_INITIALIZATION()
 {
+  DBG_VERBOSE("INITIALIZATION");
+
   return Heartbeat_1_0::Mode::OPERATIONAL;
 }
 
 Heartbeat_1_0::Mode handle_OPERATIONAL()
 {
+  DBG_VERBOSE("OPERATIONAL");
+
+  /* Parse incoming NMEA messages from the
+   * MKG GPS module.
+   */
+  while (Serial1.available())
+  {
+    nmea_parser.encode((char)Serial1.read());
+  }
+
   return Heartbeat_1_0::Mode::OPERATIONAL;
 }
 
 Heartbeat_1_0::Mode handle_MAINTENANCE()
 {
+  DBG_VERBOSE("MAINTENANCE");
+
   return Heartbeat_1_0::Mode::INITIALIZATION;
 }
 
 Heartbeat_1_0::Mode handle_SOFTWARE_UPDATE()
 {
+  DBG_VERBOSE("SOFTWARE_UPDATE");
+
   return Heartbeat_1_0::Mode::INITIALIZATION;
 }
 
@@ -231,3 +278,18 @@ void publish(ArduinoUAVCAN & u, uint32_t const uptime, Heartbeat_1_0::Mode const
 }
 
 } /* heartbeat */
+
+namespace gnss
+{
+
+void onRmcUpdate(nmea::RmcData const rmc)
+{
+  DBG_DEBUG("RMC: %d:%d:%d.%d : LON %.4f° | LAT %.4f° | %.1f m/s | %.1f°", rmc.time_utc.hour, rmc.time_utc.minute, rmc.time_utc.second, rmc.time_utc.microsecond, rmc.longitude, rmc.latitude, rmc.speed, rmc.course);
+}
+
+void onGgaUpdate(nmea::GgaData const gga)
+{
+  DBG_DEBUG("GGA: %d:%d:%d.%d : LON %.4f° | LAT %.4f° | Num. Sat. %d | HDOP = %.1f m | Altitude %.1f m | Geoidal Separation %.1f m", gga.time_utc.hour, gga.time_utc.minute, gga.time_utc.second, gga.time_utc.microsecond, gga.longitude, gga.latitude, gga.num_satellites, gga.hdop, gga.altitude, gga.geoidal_separation);
+}
+
+} /* gnss */
