@@ -10,3 +10,19 @@ In order to assemble the hardware required for the `UAVCAN-GNSS-Node` you need t
 <p align="center">
   <img src="uavcan-gnss-node-arduino-stack.jpg" width="40%">
 </p>
+
+### Quick Start
+* Install [arduino-cli](https://arduino.github.io/arduino-cli/latest/installation)
+* Clone this repository and [compile](https://arduino.github.io/arduino-cli/latest/commands/arduino-cli_compile/):
+```bash
+git clone https://github.com/107-systems/UAVCAN-GNSS-Node && cd UAVCAN-GNSS-Node
+arduino-cli compile -b arduino:samd:mkrzero
+```
+* Connect your MKR Zero based Arduino stack and [upload](https://arduino.github.io/arduino-cli/latest/commands/arduino-cli_upload/):
+```bash
+arduino-cli upload .
+```
+* Or compile and upload in one step:
+```bash
+arduino-cli compile -b arduino:samd:mkrzero -u
+```
