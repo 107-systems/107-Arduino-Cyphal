@@ -5,22 +5,24 @@
  * Contributors: https://github.com/107-systems/107-Arduino-UAVCAN/graphs/contributors.
  */
 
-#ifndef ARDUINO_CRIT_SEC_H_
-#define ARDUINO_CRIT_SEC_H_
-
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifndef ARDUINO_LOCK_GUARD_H_
+#define ARDUINO_LOCK_GUARD_H_
 
 /**************************************************************************************
- * FUNCTION DECLARATION
+ * INCLUDE
  **************************************************************************************/
 
-void crit_sec_enter();
-void crit_sec_leave();
+#include "CritSec.h"
 
-#ifdef __cplusplus
-}
-#endif
+/**************************************************************************************
+ * CLASS DECLARATION
+ **************************************************************************************/
 
-#endif /* ARDUINO_CRIT_SEC_H_ */
+class LockGuard
+{
+public:
+   LockGuard() { crit_sec_enter(); }
+  ~LockGuard() { crit_sec_leave(); }
+};
+
+#endif /* ARDUINO_LOCK_GUARD_H_ */

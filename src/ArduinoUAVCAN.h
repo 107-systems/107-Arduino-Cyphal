@@ -26,6 +26,7 @@
 #include "libcanard/canard.h"
 
 #include "utility/convert.hpp"
+#include "utility/LockGuard.h"
 
 /**************************************************************************************
  * TYPEDEF

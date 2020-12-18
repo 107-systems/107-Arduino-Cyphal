@@ -9,28 +9,30 @@
  * INCLUDE
  **************************************************************************************/
 
-#include "ArduinoO1Heap.h"
+#include "CritSec.h"
+
+#ifdef HOST
+
+#include <mutex>
 
 /**************************************************************************************
- * CTOR/DTOR
+ * GLOBAL VARIABLES
  **************************************************************************************/
 
-ArduinoO1Heap::ArduinoO1Heap()
-: _o1heap_ins{o1heapInit(_base, HEAP_SIZE, nullptr, nullptr)}
-{
-
-}
+std::mutex mtx;
 
 /**************************************************************************************
- * PUBLIC MEMBER FUNCTIONS
+ * FUNCTION DEFINITION
  **************************************************************************************/
 
-void * ArduinoO1Heap::allocate(size_t const amount)
+extern "C" void crit_sec_enter()
 {
-  return o1heapAllocate(_o1heap_ins, amount);
+  mtx.lock();
 }
 
-void ArduinoO1Heap::free(void * const pointer)
+extern "C" void crit_sec_leave()
 {
-  o1heapFree(_o1heap_ins, pointer);
+  mtx.unlock();
 }
+
+#endif /* HOST */

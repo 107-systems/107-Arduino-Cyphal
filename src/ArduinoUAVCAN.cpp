@@ -31,6 +31,8 @@ ArduinoUAVCAN::ArduinoUAVCAN(uint8_t const node_id,
 
 void ArduinoUAVCAN::onCanFrameReceived(CanardFrame const & frame)
 {
+  LockGuard lock;
+
   CanardTransfer transfer;
   int8_t const result = canardRxAccept(&_canard_ins,
                                        &frame,
@@ -59,6 +61,8 @@ void ArduinoUAVCAN::onCanFrameReceived(CanardFrame const & frame)
 
 bool ArduinoUAVCAN::transmitCanFrame()
 {
+  LockGuard lock;
+
   if (!_transmit_func)
     return false;
 
