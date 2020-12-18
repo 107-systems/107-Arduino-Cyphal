@@ -19,6 +19,7 @@ This library works for
 
 ### Reference-Implementation UAVCAN on Arduino
 * [UAVCAN-GNSS-Node](https://github.com/107-systems/UAVCAN-GNSS-Node): A UAVCAN node with a GNSS sensor providing location data.
+* [UAVCAN-ToF-Distance-Sensor-Node](https://github.com/107-systems/UAVCAN-ToF-Distance-Sensor-Node): Demo firmware for UAVCAN ToF Distance Sensor Node utilizing 107-Arduino-UAVCAN.
 
 ### Example
 ```C++
