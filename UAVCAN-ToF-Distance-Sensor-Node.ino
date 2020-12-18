@@ -14,9 +14,11 @@
  **************************************************************************************/
 
 #include <SPI.h>
+#include <Wire.h>
 
 #include <ArduinoUAVCAN.h>
 #include <ArduinoMCP2515.h>
+#include <ArduinoTMF8801.h>
 #define DBG_ENABLE_ERROR
 #define DBG_ENABLE_WARNING
 #define DBG_ENABLE_INFO
@@ -37,9 +39,13 @@ typedef struct
   Heartbeat_1_0::Mode mode;
 } UavcanNodeData;
 
+#warning "Run 'TMF8801-FactoryCalib' once in order to obtain sensor calibration data for node configuration 'calib_data'"
+
 typedef struct
 {
   uint32_t heartbeat_period_ms;
+  TMF8801::CalibData calib_data;
+  TMF8801::AlgoState algo_state;
 } UavcanNodeConfiguration;
 
 /**************************************************************************************
@@ -56,13 +62,17 @@ static UavcanNodeData const UAVCAN_NODE_INITIAL_DATA =
 static UavcanNodeConfiguration const UAVCAN_NODE_INITIAL_CONFIGURATION =
 {
   1000,
+  {0x31, 0x9E, 0x0, 0xB6, 0x9, 0xE0, 0xFB, 0xF7, 0xF8, 0xF1, 0xE3, 0xC7, 0x7, 0xFC},
+  {0xB1, 0xA9, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 };
 
 /**************************************************************************************
  * FUNCTION DECLARATION
  **************************************************************************************/
  
-uint8_t spi_transfer(uint8_t const);
+uint8_t spi_transfer     (uint8_t const);
+void    i2c_generic_write(uint8_t const i2c_slave_addr, uint8_t const reg_addr, uint8_t const * buf, uint8_t const num_bytes);
+void    i2c_generic_read (uint8_t const i2c_slave_addr, uint8_t const reg_addr, uint8_t       * buf, uint8_t const num_bytes);
 
 namespace MCP2515
 {
@@ -102,6 +112,8 @@ ArduinoUAVCAN uavcan(UAVCAN_NODE_ID, MCP2515::transmit);
 UavcanNodeData node_data = UAVCAN_NODE_INITIAL_DATA;
 UavcanNodeConfiguration node_config = UAVCAN_NODE_INITIAL_CONFIGURATION;
 
+ArduinoTMF8801 tmf8801{i2c_generic_write, i2c_generic_read, delay, TMF8801_DEFAULT_I2C_ADDR, node_config.calib_data, node_config.algo_state};
+
 DEBUG_INSTANCE(120, Serial);
 
 /**************************************************************************************
@@ -115,9 +127,9 @@ void setup()
   Serial.begin(115200);
   while(!Serial) { }
 
-  /* Serial connected to MKR GPS board.
+  /* I2C to which the TMF8801 is connected.
    */
-  Serial1.begin(9600);
+  Wire.begin();
 
   /* Setup SPI access
    */
@@ -131,10 +143,19 @@ void setup()
   pinMode(MKRCAN_MCP2515_INT_PIN, INPUT_PULLUP);
   attachInterrupt(digitalPinToInterrupt(MKRCAN_MCP2515_INT_PIN), MCP2515::onExternalEvent, FALLING);
 
-  /* Configure MCP2515 */
+  /* Configure MCP2515
+   */
   mcp2515.begin();
   mcp2515.setBitRate(CanBitRate::BR_250kBPS);
   mcp2515.setListenOnlyMode();
+
+  /* Configure TMF8801
+   */
+  if (!tmf8801.begin()) {
+    DBG_ERROR("ArduinoTMF8801::begin(...) failed, error code %d", (int)tmf8801.error());
+    for(;;) { }
+  }
+
 }
 
 void loop()
@@ -177,6 +198,29 @@ void loop()
 uint8_t spi_transfer(uint8_t const data)
 {
   return SPI.transfer(data);
+}
+
+
+void i2c_generic_write(uint8_t const i2c_slave_addr, uint8_t const reg_addr, uint8_t const * buf, uint8_t const num_bytes)
+{
+  Wire.beginTransmission(i2c_slave_addr);
+  Wire.write(reg_addr);
+  for(uint8_t bytes_written = 0; bytes_written < num_bytes; bytes_written++) {
+    Wire.write(buf[bytes_written]);
+  }
+  Wire.endTransmission();
+}
+
+void i2c_generic_read(uint8_t const i2c_slave_addr, uint8_t const reg_addr, uint8_t * buf, uint8_t const num_bytes)
+{
+  Wire.beginTransmission(i2c_slave_addr);
+  Wire.write(reg_addr);
+  Wire.endTransmission();
+
+  Wire.requestFrom(i2c_slave_addr, num_bytes);
+  for(uint8_t bytes_read = 0; (bytes_read < num_bytes) && Wire.available(); bytes_read++) {
+    buf[bytes_read] = Wire.read();
+  }
 }
 
 /**************************************************************************************
