@@ -16,8 +16,8 @@ extern "C" {
  * FUNCTION DECLARATION
  **************************************************************************************/
 
-void crit_sec_enter() __attribute__((always_inline));
-void crit_sec_leave() __attribute__((always_inline));
+void crit_sec_enter();
+void crit_sec_leave();
 
 #ifdef __cplusplus
 }
