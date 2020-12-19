@@ -7,9 +7,6 @@ In order to assemble the hardware required for the `UAVCAN-ToF-Distance-Sensor-N
 
 ![TMF8801Breakout_Basic_bb wiring rendering](extras/TMF8801Breakout_Basic_bb.png)
 
-
-TMF8801Breakout_Basic_bb.png
-
 The MKR CAN Shield is not pictured. It is simply stacked on top of the MKR Zero.
 
 ### Quick Start
