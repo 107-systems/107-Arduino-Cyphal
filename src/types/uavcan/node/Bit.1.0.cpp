@@ -43,9 +43,11 @@ Bit_1_0 Bit_1_0::deserialize(CanardTransfer const & transfer)
 {
   Bit_1_0 h;
   size_t inout_buffer_size_bytes = transfer.payload_size;
+  uint8_t * x=(uint8_t *)(transfer.payload);
 //  uavcan_node_Real32_1_0_deserialize_(&h.data, (uint8_t *)(transfer.payload), &inout_buffer_size_bytes);
-  if((uint8_t &)(transfer.payload)==0x01) h.data=true;
+//  if((uint8_t &)(transfer.payload)==0x01) h.data=true;
 //  if((uint8_t)(transfer.payload)==0x01) h.data=true;
+  if(*x==0x01) h.data=true;
   else h.data=false;
   return h;
 }
