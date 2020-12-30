@@ -5,7 +5,9 @@ Demo firmware for UAVCAN ToF Distance Sensor Node utilizing [107-Arduino-UAVCAN]
 ### Hardware Setup
 In order to assemble the hardware required for the `UAVCAN-ToF-Distance-Sensor-Node` you need to integrate a [`MKR Zero`](https://store.arduino.cc/mkr-zero) with a [`MKR CAN Shield`](https://store.arduino.cc/arduino-mkr-can-shield) and a [`TMF8801Breakout`](https://github.com/generationmake/TMF8801Breakout) as shown below.
 
-![TMF8801Breakout_Basic_bb wiring rendering](extras/TMF8801Breakout_Basic_bb.png)
+<p align="center">
+  <img src="https://github.com/107-systems/UAVCAN-ToF-Distance-Sensor-Node/blob/main/extras/TMF8801Breakout_Basic_bb.png" width="40%">
+</p>
 
 The MKR CAN Shield is not pictured. It is simply stacked on top of the MKR Zero.
 
