@@ -54,8 +54,6 @@ ArduinoMCP2515 mcp2515(spi_select,
 
 ArduinoUAVCAN uavcan(13, transmitCanFrame);
 
-Bit_1_0 uavcan_led_out;
-Real32_1_0 r32;
 Heartbeat_1_0 hb;
 
 /**************************************************************************************
@@ -67,8 +65,9 @@ void setup()
   Serial.begin(9600);
   while(!Serial) { }
 
-  /* Setup LED*/
+  /* Setup LED and initialize */
   pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, LOW);
 
   /* Setup SPI access */
   SPI.begin();
@@ -84,12 +83,6 @@ void setup()
   mcp2515.setBitRate(CanBitRate::BR_250kBPS);
   mcp2515.setNormalMode();
 
-  /* Configure initial real32 */
-  r32.data = 1.23;
-
-  /* Configure initial uavcan_led_out */
-  uavcan_led_out.data = true;
-
   /* Configure initial heartbeat */
   hb.data.uptime = 0;
   hb = Heartbeat_1_0::Health::NOMINAL;
@@ -98,7 +91,6 @@ void setup()
 
   /* Subscribe to the reception of Bit message. */
   uavcan.subscribe<Bit_1_0>(onBit_1_0_Received);
-  Serial.println("init finished");
 }
 
 void loop()
@@ -112,8 +104,6 @@ void loop()
   unsigned long const now = millis();
   if(now - prev > 1000) {
     uavcan.publish(hb);
-    uavcan.publish(r32);
-//    uavcan.publish(uavcan_led_out);
     prev = now;
   }
 
@@ -152,8 +142,6 @@ bool transmitCanFrame(CanardFrame const & frame)
 
 void onReceiveBufferFull(CanardFrame const & frame)
 {
-  Serial.print("Received frame ");
-  Serial.println(frame.extended_can_id, HEX);
   uavcan.onCanFrameReceived(frame);
 }
 
@@ -164,11 +152,11 @@ void onBit_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavc
   if(uavcan_led.data==true)
   {
     digitalWrite(LED_BUILTIN, HIGH);
-    Serial.println("Received bit true");
+    Serial.println("Received Bit: true");
   }
   else
   {
     digitalWrite(LED_BUILTIN, LOW);
-    Serial.println("Received bit false");
+    Serial.println("Received Bit: false");
   }
 }
