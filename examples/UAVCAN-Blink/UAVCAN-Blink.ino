@@ -107,7 +107,7 @@ void loop()
   if(now - prev > 1000) {
     uavcan.publish(hb);
     uavcan.publish(r32);
-    uavcan.publish(uavcan_led_out);
+//    uavcan.publish(uavcan_led_out);
     prev = now;
   }
 
@@ -146,13 +146,13 @@ bool transmitCanFrame(CanardFrame const & frame)
 
 void onReceiveBufferFull(CanardFrame const & frame)
 {
+  Serial.print("Received frame ");
+  Serial.println(frame.extended_can_id, HEX);
   uavcan.onCanFrameReceived(frame);
-  Serial.println("Received frame");
 }
 
 void onBit_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
-  Serial.println("Received Bit");
   Bit_1_0 const uavcan_led = Bit_1_0::deserialize(transfer);
 
   if(uavcan_led.data==true)
