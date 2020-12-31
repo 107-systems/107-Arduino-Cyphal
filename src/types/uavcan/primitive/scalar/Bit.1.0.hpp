@@ -1,7 +1,7 @@
 /**
  * This software is distributed under the terms of the MIT License.
- * Copyright (c) 2020 generationmake.
- * Author: Bernhard Mayer
+ * Copyright (c) 2020 LXRobotics.
+ * Author: Bernhard Mayer <bernard@generationmake.de>, Alexander Entinger <alexander.entinger@lxrobotics.com>
  * Contributors: https://github.com/107-systems/107-Arduino-UAVCAN/graphs/contributors.
  */
 
