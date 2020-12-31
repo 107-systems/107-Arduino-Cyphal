@@ -34,13 +34,13 @@ static CanardPortID const BIT_PORT_ID   = 1620U;
  * FUNCTION DECLARATION
  **************************************************************************************/
 
-void    spi_select      ();
-void    spi_deselect    ();
-uint8_t spi_transfer    (uint8_t const);
-void    onExternalEvent ();
-bool    transmitCanFrame(CanardFrame const &);
-void    onReceiveBufferFull    (CanardFrame const &);
-void    onBit_1_0_Received(CanardTransfer const &, ArduinoUAVCAN &);
+void    spi_select        ();
+void    spi_deselect       ();
+uint8_t spi_transfer       (uint8_t const);
+void    onExternalEvent    ();
+bool    transmitCanFrame   (CanardFrame const &);
+void    onReceiveBufferFull(CanardFrame const &);
+void    onBit_1_0_Received (CanardTransfer const &, ArduinoUAVCAN &);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
