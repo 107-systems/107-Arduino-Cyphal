@@ -28,6 +28,7 @@
 
 static int const MKRCAN_MCP2515_CS_PIN  = 3;
 static int const MKRCAN_MCP2515_INT_PIN = 7;
+static CanardPortID const BIT_PORT_ID   = 1620U;
 
 /**************************************************************************************
  * FUNCTION DECLARATION
@@ -90,7 +91,7 @@ void setup()
   hb.data.vendor_specific_status_code = 0;
 
   /* Subscribe to the reception of Bit message. */
-  uavcan.subscribe<Bit_1_0>(onBit_1_0_Received);
+  uavcan.subscribe<Bit_1_0<BIT_PORT_ID>>(onBit_1_0_Received);
 }
 
 void loop()
@@ -147,9 +148,9 @@ void onReceiveBufferFull(CanardFrame const & frame)
 
 void onBit_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
-  Bit_1_0 const uavcan_led = Bit_1_0::deserialize(transfer);
+  Bit_1_0<BIT_PORT_ID> const uavcan_led = Bit_1_0<BIT_PORT_ID>::deserialize(transfer);
 
-  if(uavcan_led.data==true)
+  if(uavcan_led.data.value)
   {
     digitalWrite(LED_BUILTIN, HIGH);
     Serial.println("Received Bit: true");

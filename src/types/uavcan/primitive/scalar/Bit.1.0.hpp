@@ -5,29 +5,31 @@
  * Contributors: https://github.com/107-systems/107-Arduino-UAVCAN/graphs/contributors.
  */
 
-#ifndef ARDUINO_TRANSFER_UAVCAN_NODE_BIT_1_0_H_
-#define ARDUINO_TRANSFER_UAVCAN_NODE_BIT_1_0_H_
+#ifndef ARDUINO_TRANSFER_UAVCAN_PRIMITVE_SCALAR_BIT_1_0_H_
+#define ARDUINO_TRANSFER_UAVCAN_PRIMITVE_SCALAR_BIT_1_0_H_
 
 /**************************************************************************************
  * INCLUDE
  **************************************************************************************/
 
 #include <libcanard/canard.h>
-#include "Heartbeat.1.0.nnvg.h"
+
+#include "Bit_1_0.nnvg.h"
 
 /**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
 
+template <CanardPortID ID>
 class Bit_1_0
 {
 
 public:
 
-  bool data;
+  uavcan_primitive_scalar_Bit_1_0 data;
 
-  static constexpr CanardPortID       PORT_ID = 1620U;
-  static constexpr size_t             MAX_PAYLOAD_SIZE = 1UL;
+  static constexpr CanardPortID       PORT_ID = ID;
+  static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_primitive_scalar_Bit_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_;
   static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindMessage;
 
   Bit_1_0();
@@ -35,6 +37,13 @@ public:
 
   static Bit_1_0 deserialize(CanardTransfer const & transfer);
   size_t serialize(uint8_t * payload) const;
+
 };
 
-#endif /* ARDUINO_TRANSFER_UAVCAN_NODE_BIT_1_0_H_ */
+/**************************************************************************************
+ * TEMPLATE SOURCE FILE
+ **************************************************************************************/
+
+#include "Bit.1.0.ipp"
+
+#endif /* ARDUINO_TRANSFER_UAVCAN_PRIMITVE_SCALAR_BIT_1_0_H_ */
