@@ -14,6 +14,7 @@ Health	KEYWORD1
 Mode	KEYWORD1
 ExecuteCommand_1_0	KEYWORD1
 Status	KEYWORD1
+Bit_1_0	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -25,6 +26,7 @@ subscribe	KEYWORD2
 publish	KEYWORD2
 respond	KEYWORD2
 request	KEYWORD2
+deserialize	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
