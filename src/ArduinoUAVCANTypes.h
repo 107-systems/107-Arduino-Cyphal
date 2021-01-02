@@ -12,7 +12,8 @@
  * INCLUDE
  **************************************************************************************/
 
-#include "types/uavcan/node/ExecuteCommand.1.0.h"
+#include "types/uavcan/node/ExecuteCommand.1.0.Request.h"
+#include "types/uavcan/node/ExecuteCommand.1.0.Response.h"
 #include "types/uavcan/node/Heartbeat.1.0.h"
 #include "types/uavcan/node/ID.1.0.hpp"
 #include "types/uavcan/node/Version.1.0.hpp"

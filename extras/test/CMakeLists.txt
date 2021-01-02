@@ -33,9 +33,6 @@ set(TEST_SRCS
   ../../src/libcanard/canard_dsdl.c
   ../../src/libcanard/canard.c
   ../../src/o1heap/o1heap.c
-  ../../src/types/uavcan/node/ExecuteCommand.1.0.Request.cpp
-  ../../src/types/uavcan/node/ExecuteCommand.1.0.Response.cpp
-  ../../src/types/uavcan/node/Heartbeat.1.0.cpp
   ../../src/utility/CritSec-host.cpp
   ../../src/ArduinoUAVCAN.cpp
 )

@@ -38,11 +38,29 @@ public:
   static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_ExecuteCommand_Request_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_;
   static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindRequest;
 
-  Request();
-  Request(Request const & other);
+  Request()
+  {
+    uavcan_node_ExecuteCommand_Request_1_0_initialize_(&data);
+  }
 
-  static Request deserialize(CanardTransfer const & transfer);
-  size_t serialize(uint8_t * payload) const;
+  Request(Request const & other)
+  {
+    memcpy(&data, &other.data, sizeof(data));
+  }
+
+  static Request deserialize(CanardTransfer const & transfer)
+  {
+    Request r;
+    size_t inout_buffer_size_bytes = transfer.payload_size;
+    uavcan_node_ExecuteCommand_Request_1_0_deserialize_(&r.data, (uint8_t *)(transfer.payload), &inout_buffer_size_bytes);
+    return r;
+  }
+
+  size_t serialize(uint8_t * payload) const
+  {
+    size_t inout_buffer_size_bytes = Request::MAX_PAYLOAD_SIZE;
+    return (uavcan_node_ExecuteCommand_Request_1_0_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS) ? 0 : inout_buffer_size_bytes;
+  }
 };
 
 /**************************************************************************************
