@@ -3,10 +3,10 @@
  * It also shows periodic transmission of a UAVCAN heartbeat message via CAN.
  *
  * switch built in LED on with
- *   pyuavcan pub 1620.uavcan.primitive.scalar.Bit.1.0 'value: true' --tr='CAN(can.media.socketcan.SocketCANMedia("can0",8),59)'
+ *   yakut -i 'CAN(can.media.socketcan.SocketCANMedia("can0",8),59)' pub 1620.uavcan.primitive.scalar.Bit.1.0 'value: true'
  *
  * switch built in LED off with
- *   pyuavcan pub 1620.uavcan.primitive.scalar.Bit.1.0 'value: false' --tr='CAN(can.media.socketcan.SocketCANMedia("can0",8),59)'
+ *   yakut -i 'CAN(can.media.socketcan.SocketCANMedia("can0",8),59)' pub 1620.uavcan.primitive.scalar.Bit.1.0 'value: false'
  *
  * Hardware:
  *   - Arduino MKR family board, e.g. MKR VIDOR 4000
