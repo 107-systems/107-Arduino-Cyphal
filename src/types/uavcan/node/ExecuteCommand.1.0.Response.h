@@ -16,6 +16,8 @@
 
 #include "ExecuteCommand.1.0.nnvg.h"
 
+#include "../../../utility/convert.hpp"
+
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
@@ -49,13 +51,34 @@ public:
   static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_ExecuteCommand_Response_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_;
   static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindResponse;
 
-  Response();
-  Response(Response const & other);
+  Response()
+  {
+    uavcan_node_ExecuteCommand_Response_1_0_initialize_(&data);
+  }
 
-  static Response deserialize(CanardTransfer const & transfer);
-  size_t serialize(uint8_t * payload) const;
+  Response(Response const & other)
+  {
+    memcpy(&data, &other.data, sizeof(data));
+  }
 
-  void operator = (Status const status);
+  static Response deserialize(CanardTransfer const & transfer)
+  {
+    Response r;
+    size_t inout_buffer_size_bytes = transfer.payload_size;
+    uavcan_node_ExecuteCommand_Response_1_0_deserialize_(&r.data, (uint8_t *)(transfer.payload), &inout_buffer_size_bytes);
+    return r;
+  }
+
+  size_t serialize(uint8_t * payload) const
+  {
+    size_t inout_buffer_size_bytes = Response::MAX_PAYLOAD_SIZE;
+    return (uavcan_node_ExecuteCommand_Response_1_0_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS) ? 0 : inout_buffer_size_bytes;
+  }
+
+  void operator = (Status const status)
+  {
+    data.status = arduino::_107_::uavcan::to_integer(status);
+  }
 };
 
 /**************************************************************************************

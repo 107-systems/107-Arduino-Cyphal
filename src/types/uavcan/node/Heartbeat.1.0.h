@@ -16,6 +16,8 @@
 
 #include "Heartbeat.1.0.nnvg.h"
 
+#include "../../../utility/convert.hpp"
+
 /**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
@@ -47,14 +49,39 @@ public:
   static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_Heartbeat_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_;
   static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindMessage;
 
-  Heartbeat_1_0();
-  Heartbeat_1_0(Heartbeat_1_0 const & other);
+  Heartbeat_1_0()
+  {
+    uavcan_node_Heartbeat_1_0_initialize_(&data);
+  }
 
-  static Heartbeat_1_0 deserialize(CanardTransfer const & transfer);
-  size_t serialize(uint8_t * payload) const;
+  Heartbeat_1_0(Heartbeat_1_0 const & other)
+  {
+    memcpy(&data, &other.data, sizeof(data));
+  }
 
-  void operator = (Health const health);
-  void operator = (Mode const mode);
+  static Heartbeat_1_0 deserialize(CanardTransfer const & transfer)
+  {
+    Heartbeat_1_0 h;
+    size_t inout_buffer_size_bytes = transfer.payload_size;
+    uavcan_node_Heartbeat_1_0_deserialize_(&h.data, (uint8_t *)(transfer.payload), &inout_buffer_size_bytes);
+    return h;
+  }
+
+  size_t serialize(uint8_t * payload) const
+  {
+    size_t inout_buffer_size_bytes = Heartbeat_1_0::MAX_PAYLOAD_SIZE;
+    return (uavcan_node_Heartbeat_1_0_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS) ? 0 : inout_buffer_size_bytes;
+  }
+
+  void operator = (Health const health)
+  {
+    data.health.value = arduino::_107_::uavcan::to_integer(health);
+  }
+
+  void operator = (Mode const mode)
+  {
+    data.mode.value = arduino::_107_::uavcan::to_integer(mode);
+  }
 };
 
 #endif /* ARDUINO_TRANSFER_UAVCAN_NODE_HEARTBEAT_1_0_H_ */
