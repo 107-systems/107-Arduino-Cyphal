@@ -37,7 +37,6 @@ set(TEST_SRCS
   ../../src/types/uavcan/node/ExecuteCommand.1.0.Response.cpp
   ../../src/types/uavcan/node/Heartbeat.1.0.cpp
   ../../src/utility/CritSec-host.cpp
-  ../../src/ArduinoO1Heap.cpp
   ../../src/ArduinoUAVCAN.cpp
 )
 

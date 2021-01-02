@@ -85,13 +85,13 @@ bool ArduinoUAVCAN::transmitCanFrame()
 
 void * ArduinoUAVCAN::o1heap_allocate(CanardInstance * const ins, size_t const amount)
 {
-  ArduinoO1Heap * o1heap = reinterpret_cast<ArduinoO1Heap *>(ins->user_reference);
+  O1HeapLibcanard * o1heap = reinterpret_cast<O1HeapLibcanard*>(ins->user_reference);
   return o1heap->allocate(amount);
 }
 
 void ArduinoUAVCAN::o1heap_free(CanardInstance * const ins, void * const pointer)
 {
-  ArduinoO1Heap * o1heap = reinterpret_cast<ArduinoO1Heap *>(ins->user_reference);
+  O1HeapLibcanard * o1heap = reinterpret_cast<O1HeapLibcanard*>(ins->user_reference);
   o1heap->free(pointer);
 }
 

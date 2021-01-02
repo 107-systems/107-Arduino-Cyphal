@@ -6,16 +6,11 @@
  */
 
 /**************************************************************************************
- * INCLUDE
- **************************************************************************************/
-
-#include "ArduinoO1Heap.h"
-
-/**************************************************************************************
  * CTOR/DTOR
  **************************************************************************************/
 
-ArduinoO1Heap::ArduinoO1Heap()
+template <size_t HEAP_SIZE>
+ArduinoO1Heap<HEAP_SIZE>::ArduinoO1Heap()
 : _o1heap_ins{o1heapInit(_base, HEAP_SIZE, nullptr, nullptr)}
 {
 
@@ -25,12 +20,14 @@ ArduinoO1Heap::ArduinoO1Heap()
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-void * ArduinoO1Heap::allocate(size_t const amount)
+template <size_t HEAP_SIZE>
+void * ArduinoO1Heap<HEAP_SIZE>::allocate(size_t const amount)
 {
   return o1heapAllocate(_o1heap_ins, amount);
 }
 
-void ArduinoO1Heap::free(void * const pointer)
+template <size_t HEAP_SIZE>
+void ArduinoO1Heap<HEAP_SIZE>::free(void * const pointer)
 {
   o1heapFree(_o1heap_ins, pointer);
 }

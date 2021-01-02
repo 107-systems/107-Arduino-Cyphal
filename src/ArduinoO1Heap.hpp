@@ -5,8 +5,8 @@
  * Contributors: https://github.com/107-systems/107-Arduino-UAVCAN/graphs/contributors.
  */
 
-#ifndef ARDUINO_O1_HEAP_H_
-#define ARDUINO_O1_HEAP_H_
+#ifndef ARDUINO_O1_HEAP_HPP_
+#define ARDUINO_O1_HEAP_HPP_
 
 /**************************************************************************************
  * INCLUDE
@@ -18,6 +18,7 @@
  * CLASS DECLARATION
  **************************************************************************************/
 
+template <size_t HEAP_SIZE>
 class ArduinoO1Heap
 {
 public:
@@ -31,11 +32,15 @@ public:
 
 private:
 
-  static size_t constexpr HEAP_SIZE = 4096;
-
   uint8_t _base[HEAP_SIZE] __attribute__ ((aligned (O1HEAP_ALIGNMENT)));
   O1HeapInstance * _o1heap_ins;
 
 };
 
-#endif /* ARDUINO_O1_HEAP_H_ */
+/**************************************************************************************
+ * TEMPLATE SOURCE
+ **************************************************************************************/
+
+#include "ArduinoO1Heap.ipp"
+
+#endif /* ARDUINO_O1_HEAP_HPP_ */
