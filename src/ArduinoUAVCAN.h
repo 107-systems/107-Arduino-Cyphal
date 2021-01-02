@@ -72,6 +72,7 @@ public:
 private:
 
   static size_t constexpr LIBCANARD_O1HEAP_SIZE = 4096;
+  typedef ArduinoO1Heap<LIBCANARD_O1HEAP_SIZE> O1HeapLibcanard;
 
   typedef struct
   {
@@ -79,7 +80,7 @@ private:
     OnTransferReceivedFunc transfer_complete_callback;
   } RxTransferData;
 
-  ArduinoO1Heap<LIBCANARD_O1HEAP_SIZE> _o1heap;
+  O1HeapLibcanard _o1heap;
   CanardInstance _canard_ins;
   CanFrameTransmitFunc _transmit_func;
   std::map<CanardPortID, RxTransferData> _rx_transfer_map;
