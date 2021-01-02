@@ -20,7 +20,7 @@
 #include <memory>
 #include <functional>
 
-#include "ArduinoO1Heap.h"
+#include "ArduinoO1Heap.hpp"
 #include "ArduinoUAVCANTypes.h"
 
 #include "libcanard/canard.h"
@@ -71,13 +71,15 @@ public:
 
 private:
 
+  static size_t constexpr LIBCANARD_O1HEAP_SIZE = 4096;
+
   typedef struct
   {
     CanardRxSubscription canard_rx_sub;
     OnTransferReceivedFunc transfer_complete_callback;
   } RxTransferData;
 
-  ArduinoO1Heap _o1heap;
+  ArduinoO1Heap<LIBCANARD_O1HEAP_SIZE> _o1heap;
   CanardInstance _canard_ins;
   CanFrameTransmitFunc _transmit_func;
   std::map<CanardPortID, RxTransferData> _rx_transfer_map;
