@@ -57,12 +57,4 @@ public:
   }
 };
 
-/**************************************************************************************
- * STATIC CONSTEXPR DEFINITION
- **************************************************************************************/
-
-template <CanardPortID ID> constexpr CanardPortID       ID_1_0<ID>::PORT_ID;
-template <CanardPortID ID> constexpr size_t             ID_1_0<ID>::MAX_PAYLOAD_SIZE;
-template <CanardPortID ID> constexpr CanardTransferKind ID_1_0<ID>::TRANSFER_KIND;
-
 #endif /* ARDUINO_UAVCAN_TYPES_UAVCAN_NODE_ID_1_0_HPP_ */

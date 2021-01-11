@@ -57,12 +57,4 @@ public:
   }
 };
 
-/**************************************************************************************
- * STATIC CONSTEXPR DEFINITION
- **************************************************************************************/
-
-template <CanardPortID ID> constexpr CanardPortID       Bit_1_0<ID>::PORT_ID;
-template <CanardPortID ID> constexpr size_t             Bit_1_0<ID>::MAX_PAYLOAD_SIZE;
-template <CanardPortID ID> constexpr CanardTransferKind Bit_1_0<ID>::TRANSFER_KIND;
-
 #endif /* ARDUINO_TRANSFER_UAVCAN_PRIMITVE_SCALAR_BIT_1_0_H_ */
