@@ -5,8 +5,8 @@
  * Contributors: https://github.com/107-systems/107-Arduino-UAVCAN/graphs/contributors.
  */
 
-#ifndef ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_REQUEST_H_
-#define ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_REQUEST_H_
+#ifndef ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_HPP_
+#define ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_HPP_
 
 /**************************************************************************************
  * INCLUDE
@@ -123,4 +123,4 @@ public:
 
 } /* ExecuteCommand_1_0 */
 
-#endif /* ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_REQUEST_H_ */
+#endif /* ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_HPP_ */
