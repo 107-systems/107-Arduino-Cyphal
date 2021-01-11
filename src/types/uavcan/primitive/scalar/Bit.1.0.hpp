@@ -14,7 +14,7 @@
 
 #include <libcanard/canard.h>
 
-#include "Bit_1_0.nnvg.h"
+#include "Bit_1_0.h"
 
 /**************************************************************************************
  * CLASS DECLARATION

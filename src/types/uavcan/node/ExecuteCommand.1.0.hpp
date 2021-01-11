@@ -14,7 +14,7 @@
 
 #include <libcanard/canard.h>
 
-#include "ExecuteCommand.1.0.nnvg.h"
+#include "ExecuteCommand.1.0.h"
 
 #include "../../../utility/convert.hpp"
 
