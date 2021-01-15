@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/107-systems/107-Arduino-UAVCAN/branch/master/graph/badge.svg)](https://codecov.io/gh/107-systems/107-Arduino-UAVCAN)
 [![Compile Examples](https://github.com/107-systems/107-Arduino-UAVCAN/workflows/Compile%20Examples/badge.svg)](https://github.com/107-systems/107-Arduino-UAVCAN/actions?workflow=Compile+Examples)
 [![Arduino Lint](https://github.com/107-systems/107-Arduino-UAVCAN/workflows/Arduino%20Lint/badge.svg)](https://github.com/107-systems/107-Arduino-UAVCAN/actions?workflow=Arduino+Lint)
-[![Extra Library Checks](https://github.com/107-systems/107-Arduino-UAVCAN/workflows/Extra%20Library%20Checks/badge.svg)](https://github.com/107-systems/107-Arduino-UAVCAN/actions?workflow=Extra+Library+Checks)
+[![keywords.txt Checks](https://github.com/107-systems/107-Arduino-UAVCAN/workflows/Extra%20Library%20Checks/badge.svg)](https://github.com/107-systems/107-Arduino-UAVCAN/actions?workflow=Extra+Library+Checks)
 [![General Formatting Checks](https://github.com/107-systems/107-Arduino-UAVCAN/workflows/General%20Formatting%20Checks/badge.svg)](https://github.com/107-systems/107-Arduino-UAVCAN/actions?workflow=General+Formatting+Checks)
 [![Spell Check](https://github.com/107-systems/107-Arduino-UAVCAN/workflows/Spell%20Check/badge.svg)](https://github.com/107-systems/107-Arduino-UAVCAN/actions?workflow=Spell+Check)
 
