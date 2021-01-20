@@ -70,7 +70,7 @@ void setup()
   mcp2515.setNormalMode();
 
   /* Header for data printed in callback */
-  Serial.print(Serial.println("Voltage, Current, Temp, SOC"));
+  Serial.println("Voltage, Current, Temp, SOC");
 
   /* Subscribe to the reception of Heartbeat message. */
   uavcan.subscribe<BMSStatus_1_0>(onBMSStatus_1_0_Received);
