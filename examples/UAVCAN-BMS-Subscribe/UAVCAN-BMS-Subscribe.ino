@@ -1,6 +1,5 @@
 /*
- * This example shows how to use the UAVCAN library to request the performance of a
- * service from a service server.
+ * This example shows reception of a UAVCAN heartbeat message via CAN.
  *
  * Hardware:
  *   - Arduino MKR family board, e.g. MKR VIDOR 4000
@@ -27,13 +26,12 @@ static int const MKRCAN_MCP2515_INT_PIN = 7;
  * FUNCTION DECLARATION
  **************************************************************************************/
 
-void    spi_select         ();
-void    spi_deselect       ();
-uint8_t spi_transfer       (uint8_t const);
-void    onExternalEvent    ();
-void    onReceiveBufferFull(CanardFrame const &);
-bool    transmitCanFrame   (CanardFrame const &);
-void    onExecuteCommand_1_0_Response_Received(CanardTransfer const &, ArduinoUAVCAN &);
+void    spi_select             ();
+void    spi_deselect           ();
+uint8_t spi_transfer           (uint8_t const);
+void    onExternalEvent        ();
+void    onReceiveBufferFull    (CanardFrame const &);
+void    onBMSStatus_1_0_Received(CanardTransfer const &, ArduinoUAVCAN &);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -46,7 +44,7 @@ ArduinoMCP2515 mcp2515(spi_select,
                        onReceiveBufferFull,
                        nullptr);
 
-ArduinoUAVCAN uavcan(13 /* local node id */, transmitCanFrame);
+ArduinoUAVCAN uavcan(13, nullptr);
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -71,22 +69,13 @@ void setup()
   mcp2515.setBitRate(CanBitRate::BR_500kBPS_8MHZ);
   mcp2515.setNormalMode();
 
-  /* Request some coffee. */
-  char const cmd_param[] = "I want a double espresso with cream";
-  ExecuteCommand_1_0::Request req;
-  req.data.command = 0xCAFE;
-  req.data.parameter.count = std::min(strlen(cmd_param), (size_t)uavcan_node_ExecuteCommand_Request_1_0_parameter_ARRAY_CAPACITY_);
-  std::copy(cmd_param,
-            cmd_param + req.data.parameter.count,
-            req.data.parameter.elements);
-
-  uavcan.request<ExecuteCommand_1_0::Request, ExecuteCommand_1_0::Response>(req, 27 /* remote node id */, onExecuteCommand_1_0_Response_Received);
+  /* Subscribe to the reception of Heartbeat message. */
+  uavcan.subscribe<BMSStatus_1_0>(onBMSStatus_1_0_Received);
 }
 
 void loop()
 {
-  /* Transmit all enqeued CAN frames */
-  while(uavcan.transmitCanFrame()) { }
+
 }
 
 /**************************************************************************************
@@ -118,17 +107,25 @@ void onReceiveBufferFull(CanardFrame const & frame)
   uavcan.onCanFrameReceived(frame);
 }
 
-bool transmitCanFrame(CanardFrame const & frame)
+void onBMSStatus_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
-  return mcp2515.transmit(frame);
-}
+  BMSStatus_1_0 const bms = BMSStatus_1_0::deserialize(transfer);
 
-void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
-{
-  ExecuteCommand_1_0::Response const rsp = ExecuteCommand_1_0::Response::deserialize(transfer);
+  // TODO: use this message formatting method: 
+  /* char msg[64];
+  snprintf(msg, 64,
+           "ID %02X, Uptime = %d, Health = %d, Mode = %d, VSSC = %d",
+           transfer.remote_node_id, hb.data.uptime, hb.data.health, hb.data.mode, hb.data.vendor_specific_status_code);
+  */
+  Serial.print(Serial.println("Voltage, Current, Temp, SOC"));
+  Serial.print(bms.data.voltage);
+  Serial.print("\t");
+  Serial.print(bms.data.current);
+  Serial.print("\t");
+  Serial.print(bms.data.temperature);
+  Serial.print("\t");
+  Serial.print(bms.data.state_of_charge);
+  Serial.print("\n");
 
-  if (rsp.data.status == arduino::_107_::uavcan::to_integer(ExecuteCommand_1_0::Response::Status::SUCCESS))
-    Serial.println("Coffee successful retrieved");
-  else
-    Serial.println("Error when retrieving coffee");
+  // Serial.println(msg);
 }

@@ -66,7 +66,7 @@ void setup()
 
   /* Initialize MCP2515 */
   mcp2515.begin();
-  mcp2515.setBitRate(CanBitRate::BR_250kBPS);
+  mcp2515.setBitRate(CanBitRate::BR_500kBPS_8MHZ);
   mcp2515.setNormalMode();
 
   /* Subscribe to the reception of Heartbeat message. */

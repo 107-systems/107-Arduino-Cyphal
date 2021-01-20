@@ -18,6 +18,8 @@
 #include "types/uavcan/node/ID.1.0.hpp"
 #include "types/uavcan/node/Version.1.0.hpp"
 
+#include "types/uavcan/node/BMSStatus_1_0.h"
+
 #include "types/uavcan/primitive/scalar/Bit.1.0.hpp"
 
 #endif /* ARDUINO_UAVCAN_TYPES_H_ */
