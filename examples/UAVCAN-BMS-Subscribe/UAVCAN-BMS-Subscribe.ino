@@ -69,6 +69,9 @@ void setup()
   mcp2515.setBitRate(CanBitRate::BR_500kBPS_8MHZ);
   mcp2515.setNormalMode();
 
+  /* Header for data printed in callback */
+  Serial.print(Serial.println("Voltage, Current, Temp, SOC"));
+
   /* Subscribe to the reception of Heartbeat message. */
   uavcan.subscribe<BMSStatus_1_0>(onBMSStatus_1_0_Received);
 }
@@ -117,7 +120,6 @@ void onBMSStatus_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /
            "ID %02X, Uptime = %d, Health = %d, Mode = %d, VSSC = %d",
            transfer.remote_node_id, hb.data.uptime, hb.data.health, hb.data.mode, hb.data.vendor_specific_status_code);
   */
-  Serial.print(Serial.println("Voltage, Current, Temp, SOC"));
   Serial.print(bms.data.voltage);
   Serial.print("\t");
   Serial.print(bms.data.current);
