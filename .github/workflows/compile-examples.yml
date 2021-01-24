@@ -23,11 +23,19 @@ jobs:
       fail-fast: false
 
       matrix:
-        fqbn:
-          - "arduino:samd:mkrvidor4000"
-          - "arduino:mbed:envie_m7"
-          - "arduino:mbed:envie_m4"
-          - "arduino:mbed:nano33ble"
+        board:
+          - fqbn: "arduino:samd:mkrvidor4000"
+            platforms: |
+              - name: "arduino:samd"
+          - fqbn: "arduino:mbed:envie_m7"
+            platforms: |
+              - name: "arduino:mbed"
+          - fqbn: "arduino:mbed:envie_m4"
+            platforms: |
+              - name: "arduino:mbed"
+          - fqbn: "arduino:mbed:nano33ble"
+            platforms: |
+              - name: "arduino:mbed"
 
     steps:
       - name: Checkout
@@ -36,7 +44,8 @@ jobs:
       - name: Compile examples
         uses: arduino/compile-sketches@main
         with:
-          fqbn: ${{ matrix.fqbn }}
+          fqbn: ${{ matrix.board.fqbn }}
+          platforms: ${{ matrix.board.platforms }}
           libraries: ${{ env.LIBRARIES }}
           enable-size-deltas-report: true
 
