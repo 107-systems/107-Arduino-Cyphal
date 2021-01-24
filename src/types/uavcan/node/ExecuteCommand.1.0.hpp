@@ -5,8 +5,8 @@
  * Contributors: https://github.com/107-systems/107-Arduino-UAVCAN/graphs/contributors.
  */
 
-#ifndef ARDUINO_TYPES_UAVCAN_NODE_EXECUTECOMMAND_1_0_RESPONSE_H_
-#define ARDUINO_TYPES_UAVCAN_NODE_EXECUTECOMMAND_1_0_RESPONSE_H_
+#ifndef ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_HPP_
+#define ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_HPP_
 
 /**************************************************************************************
  * INCLUDE
@@ -14,7 +14,7 @@
 
 #include <libcanard/canard.h>
 
-#include "ExecuteCommand.1.0.nnvg.h"
+#include "ExecuteCommand.1.0.h"
 
 #include "../../../utility/convert.hpp"
 
@@ -28,6 +28,42 @@ namespace ExecuteCommand_1_0
 /**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
+
+class Request
+{
+
+public:
+
+  uavcan_node_ExecuteCommand_Request_1_0 data;
+
+  static constexpr CanardPortID       PORT_ID = uavcan_node_ExecuteCommand_1_0_FIXED_PORT_ID_;
+  static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_ExecuteCommand_Request_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_;
+  static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindRequest;
+
+  Request()
+  {
+    uavcan_node_ExecuteCommand_Request_1_0_initialize_(&data);
+  }
+
+  Request(Request const & other)
+  {
+    memcpy(&data, &other.data, sizeof(data));
+  }
+
+  static Request deserialize(CanardTransfer const & transfer)
+  {
+    Request r;
+    size_t inout_buffer_size_bytes = transfer.payload_size;
+    uavcan_node_ExecuteCommand_Request_1_0_deserialize_(&r.data, (uint8_t *)(transfer.payload), &inout_buffer_size_bytes);
+    return r;
+  }
+
+  size_t serialize(uint8_t * payload) const
+  {
+    size_t inout_buffer_size_bytes = Request::MAX_PAYLOAD_SIZE;
+    return (uavcan_node_ExecuteCommand_Request_1_0_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS) ? 0 : inout_buffer_size_bytes;
+  }
+};
 
 class Response
 {
@@ -87,4 +123,4 @@ public:
 
 } /* ExecuteCommand_1_0 */
 
-#endif /* ARDUINO_TYPES_UAVCAN_NODE_EXECUTECOMMAND_1_0_RESPONSE_H_ */
+#endif /* ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_HPP_ */

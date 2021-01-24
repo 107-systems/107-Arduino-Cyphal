@@ -14,7 +14,7 @@
 
 #include <libcanard/canard.h>
 
-#include "Bit_1_0.nnvg.h"
+#include "Bit_1_0.h"
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -56,13 +56,5 @@ public:
     return (uavcan_primitive_scalar_Bit_1_0_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS) ? 0 : inout_buffer_size_bytes;
   }
 };
-
-/**************************************************************************************
- * STATIC CONSTEXPR DEFINITION
- **************************************************************************************/
-
-template <CanardPortID ID> constexpr CanardPortID       Bit_1_0<ID>::PORT_ID;
-template <CanardPortID ID> constexpr size_t             Bit_1_0<ID>::MAX_PAYLOAD_SIZE;
-template <CanardPortID ID> constexpr CanardTransferKind Bit_1_0<ID>::TRANSFER_KIND;
 
 #endif /* ARDUINO_TRANSFER_UAVCAN_PRIMITVE_SCALAR_BIT_1_0_H_ */

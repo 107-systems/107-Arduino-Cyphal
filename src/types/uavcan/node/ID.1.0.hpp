@@ -14,7 +14,7 @@
 
 #include <libcanard/canard.h>
 
-#include "ID.1.0.nnvg.h"
+#include "ID.1.0.h"
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -56,13 +56,5 @@ public:
     return (uavcan_node_ID_1_0_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS) ? 0 : inout_buffer_size_bytes;
   }
 };
-
-/**************************************************************************************
- * STATIC CONSTEXPR DEFINITION
- **************************************************************************************/
-
-template <CanardPortID ID> constexpr CanardPortID       ID_1_0<ID>::PORT_ID;
-template <CanardPortID ID> constexpr size_t             ID_1_0<ID>::MAX_PAYLOAD_SIZE;
-template <CanardPortID ID> constexpr CanardTransferKind ID_1_0<ID>::TRANSFER_KIND;
 
 #endif /* ARDUINO_UAVCAN_TYPES_UAVCAN_NODE_ID_1_0_HPP_ */
