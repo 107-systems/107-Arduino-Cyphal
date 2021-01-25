@@ -30,6 +30,10 @@ static int const MKRCAN_MCP2515_CS_PIN  = 3;
 static int const MKRCAN_MCP2515_INT_PIN = 7;
 static CanardPortID const BIT_PORT_ID   = 1620U;
 
+#if defined(ESP32)
+static int const LED_BUILTIN = 2;
+#endif
+
 /**************************************************************************************
  * FUNCTION DECLARATION
  **************************************************************************************/
