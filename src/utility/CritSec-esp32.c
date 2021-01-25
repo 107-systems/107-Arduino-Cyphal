@@ -5,42 +5,34 @@
  * Contributors: https://github.com/107-systems/107-Arduino-UAVCAN/graphs/contributors.
  */
 
-#ifndef ARDUINO_UAVCAN_UTILITY_COVERT_HPP_
-#define ARDUINO_UAVCAN_UTILITY_COVERT_HPP_
-
 /**************************************************************************************
  * INCLUDE
  **************************************************************************************/
 
-#include <type_traits>
+#include "CritSec.h"
+
+#ifdef ARDUINO_ARCH_ESP32
+
+#include <Arduino.h>
 
 /**************************************************************************************
- * NAMESPACE
+ * GLOBAL VARIABLES
  **************************************************************************************/
 
-namespace arduino
-{
-namespace _107_
-{
-namespace uavcan
-{
+static portMUX_TYPE mtx = portMUX_INITIALIZER_UNLOCKED;
 
 /**************************************************************************************
  * FUNCTION DEFINITION
  **************************************************************************************/
 
-template <typename Enumeration>
-constexpr auto to_integer(Enumeration const value) -> typename std::underlying_type<Enumeration>::type
+void crit_sec_enter()
 {
-  return static_cast<typename std::underlying_type<Enumeration>::type>(value);
+  portENTER_CRITICAL(&mtx);
 }
 
-/**************************************************************************************
- * NAMESPACE
- **************************************************************************************/
+void crit_sec_leave()
+{
+  portEXIT_CRITICAL(&mtx);
+}
 
-} /* uavcan */
-} /* _107_ */
-} /* arduino */
-
-#endif /* ARDUINO_UAVCAN_UTILITY_COVERT_HPP_ */
+#endif /* ARDUINO_ARCH_ESP32 */
