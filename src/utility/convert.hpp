@@ -18,7 +18,11 @@
  * NAMESPACE
  **************************************************************************************/
 
-namespace arduino::_107_::uavcan
+namespace arduino
+{
+namespace _107_
+{
+namespace uavcan
 {
 
 /**************************************************************************************
@@ -35,6 +39,8 @@ constexpr auto to_integer(Enumeration const value) -> typename std::underlying_t
  * NAMESPACE
  **************************************************************************************/
 
-} /* arduino::_107_::uavcan */
+} /* uavcan */
+} /* _107_ */
+} /* arduino */
 
 #endif /* ARDUINO_UAVCAN_UTILITY_COVERT_HPP_ */
