@@ -12,14 +12,15 @@
  * INCLUDE
  **************************************************************************************/
 
-#include "types/uavcan/node/ExecuteCommand.1.0.Request.h"
-#include "types/uavcan/node/ExecuteCommand.1.0.Response.h"
-#include "types/uavcan/node/Heartbeat.1.0.h"
-#include "types/uavcan/node/ID.1.0.hpp"
-#include "types/uavcan/node/Version.1.0.hpp"
+#include <uavcan/node/ExecuteCommand_1_0.h>
+#include <uavcan/node/ExecuteCommand_1_0.h>
+#include <uavcan/node/Heartbeat_1_0.h>
+#include <uavcan/node/ID_1_0.h>
+#include <uavcan/node/Version_1_0.h>
 
-#include "types/uavcan/node/BMSStatus_1_0.h"
+#include <types/wrappers/BMSStatus_1_0_wrapper.h>
+#include <types/wrappers/Std_Batt_Types_wrapper.h>
 
-#include "types/uavcan/primitive/scalar/Bit.1.0.hpp"
+#include <uavcan/primitive/scalar/Bit_1_0.h>
 
 #endif /* ARDUINO_UAVCAN_TYPES_H_ */
