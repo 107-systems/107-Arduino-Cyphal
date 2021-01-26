@@ -15,6 +15,9 @@
 #include <ArduinoUAVCAN.h>
 #include <ArduinoMCP2515.h>
 
+#include <types/wrappers/Std_Batt_Types_wrapper.h>
+
+#define NUNAVUT_ASSERT
 /**************************************************************************************
  * CONSTANTS
  **************************************************************************************/
@@ -32,6 +35,7 @@ uint8_t spi_transfer           (uint8_t const);
 void    onExternalEvent        ();
 void    onReceiveBufferFull    (CanardFrame const &);
 void    onBMSStatus_1_0_Received(CanardTransfer const &, ArduinoUAVCAN &);
+void    onSourceTs_0_1_Received(CanardTransfer const &, ArduinoUAVCAN &);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -70,10 +74,12 @@ void setup()
   mcp2515.setNormalMode();
 
   /* Header for data printed in callback */
-  Serial.println("Voltage, Current, Temp, SOC");
+  //Serial.println("Voltage, Current, Temp, SOC");
+  Serial.println("Timestamp, Energy, Voltage");
 
   /* Subscribe to the reception of Heartbeat message. */
-  uavcan.subscribe<BMSStatus_1_0>(onBMSStatus_1_0_Received);
+  //uavcan.subscribe<BMSStatus_1_0>(onBMSStatus_1_0_Received);
+  uavcan.subscribe<SourceTs_0_1>(onSourceTs_0_1_Received);
 }
 
 void loop()
@@ -127,6 +133,28 @@ void onBMSStatus_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /
   Serial.print(bms.data.temperature);
   Serial.print("\t");
   Serial.print(bms.data.state_of_charge);
+  Serial.print("\n");
+
+  // Serial.println(msg);
+}
+
+void onSourceTs_0_1_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
+{
+  SourceTs_0_1 const source = SourceTs_0_1::deserialize(transfer);
+
+  // TODO: use this message formatting method: 
+  /* char msg[64];
+  snprintf(msg, 64,
+           "ID %02X, Uptime = %d, Health = %d, Mode = %d, VSSC = %d",
+           transfer.remote_node_id, hb.data.uptime, hb.data.health, hb.data.mode, hb.data.vendor_specific_status_code);
+  */
+  Serial.print((double)source.data.timestamp.microsecond);
+  Serial.print("\t");
+  Serial.print(source.data.value.energy.joule);
+  Serial.print("\t");
+  Serial.print(source.data.value.power.voltage.volt);
+  /*Serial.print("\t");
+  Serial.print(bms.data.state_of_charge);*/
   Serial.print("\n");
 
   // Serial.println(msg);
