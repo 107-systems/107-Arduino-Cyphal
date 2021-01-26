@@ -5,9 +5,9 @@
  *  Author: Kyle
  */ 
 
-#include <types/reg/drone/physics/electricity/SourceTs_0_1.h>
-#include <types/reg/drone/service/battery/Status_0_1.h>
-#include <types/reg/drone/service/battery/Parameters_0_1.h>
+#include <reg/drone/physics/electricity/SourceTs_0_1.h>
+#include <reg/drone/service/battery/Status_0_1.h>
+#include <reg/drone/service/battery/Parameters_0_1.h>
 
 #ifndef STD_BATT_TYPES_WRAPPER_H_
 #define STD_BATT_TYPES_WRAPPER_H_
