@@ -116,27 +116,6 @@ void onReceiveBufferFull(CanardFrame const & frame)
   uavcan.onCanFrameReceived(frame);
 }
 
-void onBMSStatus_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
-{
-  BMSStatus_1_0 const bms = BMSStatus_1_0::deserialize(transfer);
-
-  // TODO: use this message formatting method: 
-  /* char msg[64];
-  snprintf(msg, 64,
-           "ID %02X, Uptime = %d, Health = %d, Mode = %d, VSSC = %d",
-           transfer.remote_node_id, hb.data.uptime, hb.data.health, hb.data.mode, hb.data.vendor_specific_status_code);
-  */
-  Serial.print(bms.data.voltage);
-  Serial.print("\t");
-  Serial.print(bms.data.current);
-  Serial.print("\t");
-  Serial.print(bms.data.temperature);
-  Serial.print("\t");
-  Serial.print(bms.data.state_of_charge);
-  Serial.print("\n");
-
-  // Serial.println(msg);
-}
 
 void onSourceTs_0_1_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
