@@ -15,9 +15,6 @@
 #include <ArduinoUAVCAN.h>
 #include <ArduinoMCP2515.h>
 
-#include <types/wrappers/Std_Batt_Types_wrapper.h>
-
-#define NUNAVUT_ASSERT
 /**************************************************************************************
  * CONSTANTS
  **************************************************************************************/
