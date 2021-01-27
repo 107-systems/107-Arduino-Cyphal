@@ -145,6 +145,13 @@ void onStatus_0_2_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* u
 
   Serial.print("Status->\tAvailable Charge: ");
   Serial.print(stat.data.available_charge.coulomb);
+  Serial.print(", Cell Voltages: ");
+  for(int i = 0; i < stat.data.cell_voltages.count; i++){
+    Serial.print(stat.data.cell_voltages.elements[i]);
+    Serial.print(", ");
+  }
+  Serial.print("Temperature: ");
+  Serial.print(stat.data.temperature_min_max[0].kelvin);
 
   Serial.println();
 }
