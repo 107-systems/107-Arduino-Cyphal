@@ -18,7 +18,6 @@
 #include <uavcan/node/ID_1_0.h>
 #include <uavcan/node/Version_1_0.h>
 
-#include <types/wrappers/BMSStatus_1_0_wrapper.h>
 #include <types/wrappers/Std_Batt_Types_wrapper.h>
 
 #include <uavcan/primitive/scalar/Bit_1_0.h>
