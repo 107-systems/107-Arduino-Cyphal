@@ -71,12 +71,7 @@ void setup()
   mcp2515.setBitRate(CanBitRate::BR_500kBPS_8MHZ);
   mcp2515.setNormalMode();
 
-  /* Header for data printed in callback */
-  //Serial.println("Voltage, Current, Temp, SOC");
-  //Serial.println("Timestamp, Energy, Voltage");
-
-  /* Subscribe to the reception of Heartbeat message. */
-  //uavcan.subscribe<BMSStatus_1_0>(onBMSStatus_1_0_Received);
+  /* Subscribe to the reception of BMS message types. */
   uavcan.subscribe<SourceTs_0_1>(onSourceTs_0_1_Received);
   uavcan.subscribe<Status_0_2>(onStatus_0_2_Received);
   uavcan.subscribe<Parameters_0_2>(onParameters_0_2_Received);
@@ -121,23 +116,13 @@ void onSourceTs_0_1_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /*
 {
   SourceTs_0_1 const source = SourceTs_0_1::deserialize(transfer);
 
-  // TODO: use this message formatting method: 
-  /* char msg[64];
-  snprintf(msg, 64,
-           "ID %02X, Uptime = %d, Health = %d, Mode = %d, VSSC = %d",
-           transfer.remote_node_id, hb.data.uptime, hb.data.health, hb.data.mode, hb.data.vendor_specific_status_code);
-  */
   Serial.print("SourceTs->\tTimestamp: ");
   Serial.print((double)source.data.timestamp.microsecond/1000);
   Serial.print(", Energy: ");
   Serial.print(source.data.value.energy.joule);
   Serial.print(", Total Voltage: ");
   Serial.print(source.data.value.power.voltage.volt);
-  /*Serial.print("\t");
-  Serial.print(bms.data.state_of_charge);*/
   Serial.print("\n");
-
-  // Serial.println(msg);
 }
 
 void onStatus_0_2_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */){
