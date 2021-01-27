@@ -31,8 +31,9 @@ void    spi_deselect           ();
 uint8_t spi_transfer           (uint8_t const);
 void    onExternalEvent        ();
 void    onReceiveBufferFull    (CanardFrame const &);
-void    onBMSStatus_1_0_Received(CanardTransfer const &, ArduinoUAVCAN &);
 void    onSourceTs_0_1_Received(CanardTransfer const &, ArduinoUAVCAN &);
+void    onStatus_0_2_Received(CanardTransfer const &, ArduinoUAVCAN &);
+void    onParameters_0_2_Received(CanardTransfer const &, ArduinoUAVCAN & );
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -72,11 +73,13 @@ void setup()
 
   /* Header for data printed in callback */
   //Serial.println("Voltage, Current, Temp, SOC");
-  Serial.println("Timestamp, Energy, Voltage");
+  //Serial.println("Timestamp, Energy, Voltage");
 
   /* Subscribe to the reception of Heartbeat message. */
   //uavcan.subscribe<BMSStatus_1_0>(onBMSStatus_1_0_Received);
   uavcan.subscribe<SourceTs_0_1>(onSourceTs_0_1_Received);
+  uavcan.subscribe<Status_0_2>(onStatus_0_2_Received);
+  uavcan.subscribe<Parameters_0_2>(onParameters_0_2_Received);
 }
 
 void loop()
@@ -124,14 +127,35 @@ void onSourceTs_0_1_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /*
            "ID %02X, Uptime = %d, Health = %d, Mode = %d, VSSC = %d",
            transfer.remote_node_id, hb.data.uptime, hb.data.health, hb.data.mode, hb.data.vendor_specific_status_code);
   */
-  Serial.print((double)source.data.timestamp.microsecond);
-  Serial.print("\t");
+  Serial.print("SourceTs->\tTimestamp: ");
+  Serial.print((double)source.data.timestamp.microsecond/1000);
+  Serial.print(", Energy: ");
   Serial.print(source.data.value.energy.joule);
-  Serial.print("\t");
+  Serial.print(", Total Voltage: ");
   Serial.print(source.data.value.power.voltage.volt);
   /*Serial.print("\t");
   Serial.print(bms.data.state_of_charge);*/
   Serial.print("\n");
 
   // Serial.println(msg);
+}
+
+void onStatus_0_2_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */){
+  Status_0_2 const stat = Status_0_2::deserialize(transfer);
+
+  Serial.print("Status->\tAvailable Charge: ");
+  Serial.print(stat.data.available_charge.coulomb);
+
+  Serial.println();
+}
+
+
+void onParameters_0_2_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */){
+  Parameters_0_2 const params = Parameters_0_2::deserialize(transfer);
+
+  Serial.print("Parameters->\tUnique ID: ");
+  Serial.print(params.data.unique_id);
+  Serial.print(", Technology: ");
+  Serial.print(params.data.technology.value);
+  Serial.println();
 }
