@@ -139,7 +139,7 @@ void onStatus_0_2_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* u
     Serial.print(stat.data.cell_voltages.elements[i]);
     Serial.print(", ");
   }
-  Serial.print(", Temperature Min: ");
+  Serial.print("Temperature Min: ");
   Serial.print(stat.data.temperature_min_max[0].kelvin);
   Serial.print(", Temperature Max: ");
   Serial.print(stat.data.temperature_min_max[1].kelvin);
