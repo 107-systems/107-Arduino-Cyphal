@@ -17,7 +17,9 @@
 #include "uavcan/node/ID.1.0.hpp"
 #include "uavcan/node/Version.1.0.hpp"
 
-#include <types/wrappers/Std_Batt_Types_wrapper.h>
+#include <types/wrappers/SourceTs.0.1.hpp>
+#include <types/wrappers/Parameters.0.2.hpp>
+#include <types/wrappers/Status.0.2.hpp>
 
 #include <uavcan/primitive/scalar/Bit.1.0.hpp>
 
