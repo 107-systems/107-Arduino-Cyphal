@@ -120,6 +120,8 @@ void onSourceTs_0_1_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /*
   Serial.print((double)source.data.timestamp.microsecond/1000);
   Serial.print(", Energy: ");
   Serial.print(source.data.value.energy.joule);
+  Serial.print(", Full Energy: ");
+  Serial.print(source.data.value.full_energy.joule);
   Serial.print(", Total Voltage: ");
   Serial.print(source.data.value.power.voltage.volt);
   Serial.print("\n");
