@@ -122,9 +122,11 @@ void onSourceTs_0_1_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /*
   Serial.print(source.data.value.energy.joule);
   Serial.print(", Full Energy: ");
   Serial.print(source.data.value.full_energy.joule);
+  Serial.print(", Current: ");
+  Serial.print(source.data.value.power.current.ampere);
   Serial.print(", Total Voltage: ");
   Serial.print(source.data.value.power.voltage.volt);
-  Serial.print("\n");
+  Serial.println();
 }
 
 void onStatus_0_2_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */){
@@ -137,9 +139,10 @@ void onStatus_0_2_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* u
     Serial.print(stat.data.cell_voltages.elements[i]);
     Serial.print(", ");
   }
-  Serial.print("Temperature: ");
+  Serial.print(", Temperature Min: ");
   Serial.print(stat.data.temperature_min_max[0].kelvin);
-
+  Serial.print(", Temperature Max: ");
+  Serial.print(stat.data.temperature_min_max[1].kelvin);
   Serial.println();
 }
 
@@ -151,5 +154,25 @@ void onParameters_0_2_Received(CanardTransfer const & transfer, ArduinoUAVCAN & 
   Serial.print(params.data.unique_id);
   Serial.print(", Technology: ");
   Serial.print(params.data.technology.value);
+  Serial.print(", Min Cell Voltage: ");
+  Serial.print(params.data.design_cell_voltage_min_max[0].volt);
+  Serial.print(", Max Cell Voltage: ");
+  Serial.print(params.data.design_cell_voltage_min_max[1].volt);
+  Serial.print(", Design Capacity: ");
+  Serial.print(params.data.design_capacity.coulomb);
+  Serial.print(", Discharge Current: ");
+  Serial.print(params.data.discharge_current.ampere);
+  Serial.print(", Charge Current: ");
+  Serial.print(params.data.charge_current.ampere);
+  Serial.print(", Fast Discharge Current: ");
+  Serial.print(params.data.charge_current_fast.ampere);
+  Serial.print(", Fast Charge Current: ");
+  Serial.print(params.data.charge_current_fast.ampere);
+  Serial.print(", Charge Termination Threshold: ");
+  Serial.print(params.data.charge_termination_treshold.ampere);
+  Serial.print(", Charge Voltage: ");
+  Serial.print(params.data.charge_voltage.volt);
+  Serial.print(", State of Health (%): ");
+  Serial.print(params.data.state_of_health_pct);
   Serial.println();
 }
