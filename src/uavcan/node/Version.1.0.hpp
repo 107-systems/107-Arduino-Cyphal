@@ -14,7 +14,7 @@
 
 #include <libcanard/canard.h>
 
-#include "Version.1.0.h"
+#include "Version_1_0.h"
 
 /**************************************************************************************
  * CLASS DECLARATION

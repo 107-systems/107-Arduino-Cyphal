@@ -14,7 +14,7 @@
 
 #include <libcanard/canard.h>
 
-#include "ID.1.0.h"
+#include "ID_1_0.h"
 
 /**************************************************************************************
  * CLASS DECLARATION

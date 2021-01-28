@@ -14,9 +14,9 @@
 
 #include <libcanard/canard.h>
 
-#include "Heartbeat.1.0.h"
+#include "Heartbeat_1_0.h"
 
-#include "../../../utility/convert.hpp"
+#include <utility/convert.hpp>
 
 /**************************************************************************************
  * CLASS DECLARATION

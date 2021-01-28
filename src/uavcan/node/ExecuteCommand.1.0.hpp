@@ -14,9 +14,9 @@
 
 #include <libcanard/canard.h>
 
-#include "ExecuteCommand.1.0.h"
+#include "ExecuteCommand_1_0.h"
 
-#include "../../../utility/convert.hpp"
+#include <utility/convert.hpp>
 
 /**************************************************************************************
  * NAMESPACE

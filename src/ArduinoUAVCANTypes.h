@@ -12,13 +12,13 @@
  * INCLUDE
  **************************************************************************************/
 
-#include "types/uavcan/node/ExecuteCommand.1.0.hpp"
-#include "types/uavcan/node/Heartbeat.1.0.hpp"
-#include "types/uavcan/node/ID.1.0.hpp"
-#include "types/uavcan/node/Version.1.0.hpp"
+#include "uavcan/node/ExecuteCommand.1.0.hpp"
+#include "uavcan/node/Heartbeat.1.0.hpp"
+#include "uavcan/node/ID.1.0.hpp"
+#include "uavcan/node/Version.1.0.hpp"
 
 #include <types/wrappers/Std_Batt_Types_wrapper.h>
 
-#include <uavcan/primitive/scalar/Bit_1_0.h>
+#include <uavcan/primitive/scalar/Bit.1.0.hpp>
 
 #endif /* ARDUINO_UAVCAN_TYPES_H_ */
