@@ -32,6 +32,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      SKETCHES_REPORTS_PATH: sketches-reports
+
     strategy:
       fail-fast: false
 
@@ -58,3 +61,11 @@ jobs:
             - name: 107-Arduino-UAVCAN
           sketch-paths: |
             - ${{ github.workspace }}
+          enable-deltas-report: true
+          sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
+
+      - name: Save memory usage change report as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${{ env.SKETCHES_REPORTS_PATH }}
+          name: ${{ env.SKETCHES_REPORTS_PATH }}
