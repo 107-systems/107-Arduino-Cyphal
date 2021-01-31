@@ -1,0 +1,60 @@
+name: Compile Sketch
+
+# See: https://docs.github.com/en/free-pro-team@latest/actions/reference/events-that-trigger-workflows
+on:
+  pull_request:
+    paths-ignore:
+      - ".github/**"
+      - "!.github/workflows/compile-sketches.yml"
+      - "data/**"
+      - "**.adoc"
+      - "**.jpg"
+      - "**.md"
+      - "**.png"
+      - "**.txt"
+  push:
+    paths-ignore:
+      - ".github/**"
+      - "!.github/workflows/compile-sketches.yml"
+      - "data/**"
+      - "**.adoc"
+      - "**.jpg"
+      - "**.md"
+      - "**.png"
+      - "**.txt"
+  schedule:
+    # Run every Saturday at 6 AM UTC to catch breakage caused by changes to external resources (libraries, platforms).
+    - cron: "0 6 * * SAT"
+  workflow_dispatch:
+  repository_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        board:
+          - fqbn: arduino:samd:mkrzero
+            platforms: |
+              - name: arduino:samd
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Compile examples
+        uses: arduino/compile-sketches@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          fqbn: ${{ matrix.board.fqbn }}
+          platforms: ${{ matrix.board.platforms }}
+          libraries: |
+            - name: 107-Arduino-Debug
+            - name: 107-Arduino-MCP2515
+            - name: 107-Arduino-NMEA-Parser
+            - name: 107-Arduino-UAVCAN
+          sketch-paths: |
+            - ${{ github.workspace }}
