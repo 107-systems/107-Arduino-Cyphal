@@ -12,6 +12,9 @@
  * INCLUDE
  **************************************************************************************/
 
+#include "types/reg/drone/physics/electricity/Power_0_1.hpp"
+#include "types/reg/drone/physics/electricity/PowerTs_0_1.hpp"
+#include "types/reg/drone/physics/electricity/Source_0_1.hpp"
 #include "types/reg/drone/physics/electricity/SourceTs_0_1.hpp"
 
 #include "types/reg/drone/service/battery/Parameters_0_1.hpp"

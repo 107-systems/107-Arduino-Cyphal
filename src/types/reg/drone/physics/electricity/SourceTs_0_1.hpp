@@ -17,6 +17,15 @@
 #include "SourceTs_0_1.h"
 
 /**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+namespace reg {
+namespace drone {
+namespace physics {
+namespace electricity {
+
+/**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
 
@@ -32,7 +41,7 @@ public:
   static constexpr size_t             MAX_PAYLOAD_SIZE = reg_drone_physics_electricity_SourceTs_0_1_SERIALIZATION_BUFFER_SIZE_BYTES_;
   static constexpr CanardTransferKind TRANSFER_KIND    = CanardTransferKindMessage;
 
-  
+
   SourceTs_0_1()
   {
     reg_drone_physics_electricity_SourceTs_0_1_initialize_(&data);
@@ -57,5 +66,14 @@ public:
     return (reg_drone_physics_electricity_SourceTs_0_1_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS) ? 0 : inout_buffer_size_bytes;
   }
 };
+
+/**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+} /* reg */
+} /* drone */
+} /* physics */
+} /* electricity */
 
 #endif /* ARDUINO_UAVCAN_TYPES_REG_DRONE_PHYSICS_ELECTRICITY_SOURCETS_0_1_H_ */
