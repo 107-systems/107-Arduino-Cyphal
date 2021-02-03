@@ -12,6 +12,11 @@
  * INCLUDE
  **************************************************************************************/
 
+#include "types/reg/drone/physics/electricity/SourceTs_0_1.hpp"
+
+#include "types/reg/drone/service/battery/Parameters_0_1.hpp"
+#include "types/reg/drone/service/battery/Status_0_1.hpp"
+
 #include "types/uavcan/node/ExecuteCommand_1_0.hpp"
 #include "types/uavcan/node/Heartbeat_1_0.hpp"
 #include "types/uavcan/node/ID_1_0.hpp"
