@@ -23,6 +23,12 @@
 #include <ArduinoMCP2515.h>
 
 /**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+using namespace uavcan::primitive::scalar;
+
+/**************************************************************************************
  * CONSTANTS
  **************************************************************************************/
 
@@ -57,7 +63,7 @@ ArduinoMCP2515 mcp2515(spi_select,
                        onReceiveBufferFull,
                        nullptr);
 
-ArduinoUAVCAN uavcan(13, transmitCanFrame);
+ArduinoUAVCAN uc(13, transmitCanFrame);
 
 Heartbeat_1_0 hb;
 
@@ -95,7 +101,7 @@ void setup()
   hb.data.vendor_specific_status_code = 0;
 
   /* Subscribe to the reception of Bit message. */
-  uavcan.subscribe<Bit_1_0<BIT_PORT_ID>>(onBit_1_0_Received);
+  uc.subscribe<Bit_1_0<BIT_PORT_ID>>(onBit_1_0_Received);
 }
 
 void loop()
@@ -108,12 +114,12 @@ void loop()
   static unsigned long prev = 0;
   unsigned long const now = millis();
   if(now - prev > 1000) {
-    uavcan.publish(hb);
+    uc.publish(hb);
     prev = now;
   }
 
   /* Transmit all enqeued CAN frames */
-  while(uavcan.transmitCanFrame()) { }
+  while(uc.transmitCanFrame()) { }
 }
 
 /**************************************************************************************
@@ -147,10 +153,10 @@ bool transmitCanFrame(CanardFrame const & frame)
 
 void onReceiveBufferFull(CanardFrame const & frame)
 {
-  uavcan.onCanFrameReceived(frame);
+  uc.onCanFrameReceived(frame);
 }
 
-void onBit_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
+void onBit_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uc */)
 {
   Bit_1_0<BIT_PORT_ID> const uavcan_led = Bit_1_0<BIT_PORT_ID>::deserialize(transfer);
 
