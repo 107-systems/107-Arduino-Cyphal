@@ -44,7 +44,7 @@ ArduinoMCP2515 mcp2515(spi_select,
                        onReceiveBufferFull,
                        nullptr);
 
-ArduinoUAVCAN uavcan(13, nullptr);
+ArduinoUAVCAN uc(13, nullptr);
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -70,7 +70,7 @@ void setup()
   mcp2515.setNormalMode();
 
   /* Subscribe to the reception of Heartbeat message. */
-  uavcan.subscribe<Heartbeat_1_0>(onHeartbeat_1_0_Received);
+  uc.subscribe<Heartbeat_1_0>(onHeartbeat_1_0_Received);
 }
 
 void loop()
@@ -104,10 +104,10 @@ void onExternalEvent()
 
 void onReceiveBufferFull(CanardFrame const & frame)
 {
-  uavcan.onCanFrameReceived(frame);
+  uc.onCanFrameReceived(frame);
 }
 
-void onHeartbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
+void onHeartbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uc */)
 {
   Heartbeat_1_0 const hb = Heartbeat_1_0::deserialize(transfer);
 
