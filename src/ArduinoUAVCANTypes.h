@@ -12,11 +12,19 @@
  * INCLUDE
  **************************************************************************************/
 
-#include "types/uavcan/node/ExecuteCommand.1.0.hpp"
-#include "types/uavcan/node/Heartbeat.1.0.hpp"
-#include "types/uavcan/node/ID.1.0.hpp"
-#include "types/uavcan/node/Version.1.0.hpp"
+#include "types/reg/drone/physics/electricity/Power_0_1.hpp"
+#include "types/reg/drone/physics/electricity/PowerTs_0_1.hpp"
+#include "types/reg/drone/physics/electricity/Source_0_1.hpp"
+#include "types/reg/drone/physics/electricity/SourceTs_0_1.hpp"
 
-#include "types/uavcan/primitive/scalar/Bit.1.0.hpp"
+#include "types/reg/drone/service/battery/Parameters_0_1.hpp"
+#include "types/reg/drone/service/battery/Status_0_1.hpp"
+
+#include "types/uavcan/node/ExecuteCommand_1_0.hpp"
+#include "types/uavcan/node/Heartbeat_1_0.hpp"
+#include "types/uavcan/node/ID_1_0.hpp"
+#include "types/uavcan/node/Version_1_0.hpp"
+
+#include "types/uavcan/primitive/scalar/Bit_1_0.hpp"
 
 #endif /* ARDUINO_UAVCAN_TYPES_H_ */

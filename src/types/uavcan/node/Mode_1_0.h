@@ -7,13 +7,18 @@
 // To avoid conflicts with definitions given in the source DSDL file, all entities created by the code generator
 // are named with an underscore at the end, like foo_bar_().
 //
-// Generator:     nunavut-0.5.1 (serialization was enabled)
+// Generator:     nunavut-1.0.0 (serialization was enabled)
 // Source file:   /home/alex/projects/107-systems/public_regulated_data_types/uavcan/node/Mode.1.0.uavcan
-// Generated at:  2020-11-11 05:20:33.776711 UTC
+// Generated at:  2021-02-01 07:39:25.740522 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.node.Mode
 // Version:       1.0
+//
+// Language Options
+//     target_endianness:  any
+//     omit_float_serialization_support:  False
+//     enable_serialization_asserts:  True
 
 #ifndef UAVCAN_NODE_MODE_1_0_INCLUDED_
 #define UAVCAN_NODE_MODE_1_0_INCLUDED_
@@ -21,6 +26,16 @@
 #include <nunavut/support/serialization.h>
 #include <stdint.h>
 #include <stdlib.h>
+
+static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
+              "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/node/Mode.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not allowed." );
+static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_OMIT_FLOAT_SERIALIZATION_SUPPORT == 0,
+              "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/node/Mode.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not allowed." );
+static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_SERIALIZATION_ASSERTS == 1,
+              "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/node/Mode.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not allowed." );
 
 #ifdef __cplusplus
 extern "C" {
