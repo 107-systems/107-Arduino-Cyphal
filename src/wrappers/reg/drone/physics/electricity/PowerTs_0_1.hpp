@@ -1,12 +1,12 @@
 /**
  * This software is distributed under the terms of the MIT License.
  * Copyright (c) 2020 LXRobotics.
- * Author: Bernhard Mayer <bernard@generationmake.de>, Alexander Entinger <alexander.entinger@lxrobotics.com>
+ * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
  * Contributors: https://github.com/107-systems/107-Arduino-UAVCAN/graphs/contributors.
  */
 
-#ifndef ARDUINO_UAVCAN_TYPES_UAVCAN_PRIMITIVE_SCALAR_NATURAL32_1_0_HPP_
-#define ARDUINO_UAVCAN_TYPES_UAVCAN_PRIMITIVE_SCALAR_NATURAL32_1_0_HPP_
+#ifndef ARDUINO_UAVCAN_TYPES_REG_DRONE_PHYSICS_ELECTRICITY_POWERTS_0_1_H_
+#define ARDUINO_UAVCAN_TYPES_REG_DRONE_PHYSICS_ELECTRICITY_POWERTS_0_1_H_
 
 /**************************************************************************************
  * INCLUDE
@@ -14,54 +14,56 @@
 
 #include <libcanard/canard.h>
 
-#include "Natural32_1_0.h"
+#include <types/reg/drone/physics/electricity/PowerTs_0_1.h>
 
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
 
-namespace uavcan {
-namespace primitive {
-namespace scalar {
+namespace reg {
+namespace drone {
+namespace physics {
+namespace electricity {
 
 /**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
 
 template <CanardPortID ID>
-class Natural32_1_0
+class PowerTs_0_1
 {
 
 public:
 
-  uavcan_primitive_scalar_Natural32_1_0 data;
+  reg_drone_physics_electricity_PowerTs_0_1 data;
 
   static constexpr CanardPortID       PORT_ID          = ID;
-  static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_primitive_scalar_Natural32_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_;
+  static constexpr size_t             MAX_PAYLOAD_SIZE = reg_drone_physics_electricity_PowerTs_0_1_SERIALIZATION_BUFFER_SIZE_BYTES_;
   static constexpr CanardTransferKind TRANSFER_KIND    = CanardTransferKindMessage;
 
-  Natural32_1_0()
+
+  PowerTs_0_1()
   {
-    uavcan_primitive_scalar_Natural32_1_0_initialize_(&data);
+    reg_drone_physics_electricity_PowerTs_0_1_initialize_(&data);
   }
 
-  Natural32_1_0(Natural32_1_0 const & other)
+  PowerTs_0_1(PowerTs_0_1 const & other)
   {
     memcpy(&data, &other.data, sizeof(data));
   }
 
-  static Natural32_1_0 deserialize(CanardTransfer const & transfer)
+  static PowerTs_0_1 deserialize(CanardTransfer const & transfer)
   {
-    Natural32_1_0<ID> b;
+    PowerTs_0_1 b;
     size_t inout_buffer_size_bytes = transfer.payload_size;
-    uavcan_primitive_scalar_Natural32_1_0_deserialize_(&b.data, (uint8_t *)(transfer.payload), &inout_buffer_size_bytes);
+    reg_drone_physics_electricity_PowerTs_0_1_deserialize_(&b.data, (uint8_t *)(transfer.payload), &inout_buffer_size_bytes);
     return b;
   }
 
   size_t serialize(uint8_t * payload) const
   {
-    size_t inout_buffer_size_bytes = Natural32_1_0::MAX_PAYLOAD_SIZE;
-    return (uavcan_primitive_scalar_Natural32_1_0_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS) ? 0 : inout_buffer_size_bytes;
+    size_t inout_buffer_size_bytes = PowerTs_0_1::MAX_PAYLOAD_SIZE;
+    return (reg_drone_physics_electricity_PowerTs_0_1_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS) ? 0 : inout_buffer_size_bytes;
   }
 };
 
@@ -69,8 +71,9 @@ public:
  * NAMESPACE
  **************************************************************************************/
 
-} /* uavcan */
-} /* primitive */
-} /* scalar */
+} /* reg */
+} /* drone */
+} /* physics */
+} /* electricity */
 
-#endif /* ARDUINO_UAVCAN_TYPES_UAVCAN_PRIMITIVE_SCALAR_NATURAL32_1_0_HPP_ */
+#endif /* ARDUINO_UAVCAN_TYPES_REG_DRONE_PHYSICS_ELECTRICITY_POWERTS_0_1_H_ */

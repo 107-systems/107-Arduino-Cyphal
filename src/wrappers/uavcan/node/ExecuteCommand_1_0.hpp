@@ -14,7 +14,7 @@
 
 #include <libcanard/canard.h>
 
-#include "ExecuteCommand_1_0.h"
+#include <types/uavcan/node/ExecuteCommand_1_0.h>
 
 #include "../../../utility/convert.hpp"
 
