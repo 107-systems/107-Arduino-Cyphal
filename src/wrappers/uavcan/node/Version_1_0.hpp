@@ -14,7 +14,7 @@
 
 #include <libcanard/canard.h>
 
-#include "Version_1_0.h"
+#include <types/uavcan/node/Version_1_0.h>
 
 /**************************************************************************************
  * CLASS DECLARATION

@@ -5,37 +5,37 @@
  * Contributors: https://github.com/107-systems/107-Arduino-UAVCAN/graphs/contributors.
  */
 
-#ifndef ARDUINO_UAVCAN_TYPES_H_
-#define ARDUINO_UAVCAN_TYPES_H_
+#ifndef ARDUINO_UAVCAN_WRAPPERS_H_
+#define ARDUINO_UAVCAN_WRAPPERS_H_
 
 /**************************************************************************************
  * INCLUDE
  **************************************************************************************/
 
-#include "types/reg/drone/physics/electricity/Power_0_1.hpp"
-#include "types/reg/drone/physics/electricity/PowerTs_0_1.hpp"
-#include "types/reg/drone/physics/electricity/Source_0_1.hpp"
-#include "types/reg/drone/physics/electricity/SourceTs_0_1.hpp"
+#include "wrappers/reg/drone/physics/electricity/Power_0_1.hpp"
+#include "wrappers/reg/drone/physics/electricity/PowerTs_0_1.hpp"
+#include "wrappers/reg/drone/physics/electricity/Source_0_1.hpp"
+#include "wrappers/reg/drone/physics/electricity/SourceTs_0_1.hpp"
 
-#include "types/reg/drone/service/battery/Parameters_0_1.hpp"
-#include "types/reg/drone/service/battery/Status_0_1.hpp"
+#include "wrappers/reg/drone/service/battery/Parameters_0_1.hpp"
+#include "wrappers/reg/drone/service/battery/Status_0_1.hpp"
 
-#include "types/uavcan/node/ExecuteCommand_1_0.hpp"
-#include "types/uavcan/node/Heartbeat_1_0.hpp"
-#include "types/uavcan/node/ID_1_0.hpp"
-#include "types/uavcan/node/Version_1_0.hpp"
+#include "wrappers/uavcan/node/ExecuteCommand_1_0.hpp"
+#include "wrappers/uavcan/node/Heartbeat_1_0.hpp"
+#include "wrappers/uavcan/node/ID_1_0.hpp"
+#include "wrappers/uavcan/node/Version_1_0.hpp"
 
-#include "types/uavcan/primitive/scalar/Bit_1_0.hpp"
-#include "types/uavcan/primitive/scalar/Integer8_1_0.hpp"
-#include "types/uavcan/primitive/scalar/Integer16_1_0.hpp"
-#include "types/uavcan/primitive/scalar/Integer32_1_0.hpp"
-#include "types/uavcan/primitive/scalar/Integer64_1_0.hpp"
-#include "types/uavcan/primitive/scalar/Natural8_1_0.hpp"
-#include "types/uavcan/primitive/scalar/Natural16_1_0.hpp"
-#include "types/uavcan/primitive/scalar/Natural32_1_0.hpp"
-#include "types/uavcan/primitive/scalar/Natural64_1_0.hpp"
-#include "types/uavcan/primitive/scalar/Real16_1_0.hpp"
-#include "types/uavcan/primitive/scalar/Real32_1_0.hpp"
-#include "types/uavcan/primitive/scalar/Real64_1_0.hpp"
+#include "wrappers/uavcan/primitive/scalar/Bit_1_0.hpp"
+#include "wrappers/uavcan/primitive/scalar/Integer8_1_0.hpp"
+#include "wrappers/uavcan/primitive/scalar/Integer16_1_0.hpp"
+#include "wrappers/uavcan/primitive/scalar/Integer32_1_0.hpp"
+#include "wrappers/uavcan/primitive/scalar/Integer64_1_0.hpp"
+#include "wrappers/uavcan/primitive/scalar/Natural8_1_0.hpp"
+#include "wrappers/uavcan/primitive/scalar/Natural16_1_0.hpp"
+#include "wrappers/uavcan/primitive/scalar/Natural32_1_0.hpp"
+#include "wrappers/uavcan/primitive/scalar/Natural64_1_0.hpp"
+#include "wrappers/uavcan/primitive/scalar/Real16_1_0.hpp"
+#include "wrappers/uavcan/primitive/scalar/Real32_1_0.hpp"
+#include "wrappers/uavcan/primitive/scalar/Real64_1_0.hpp"
 
-#endif /* ARDUINO_UAVCAN_TYPES_H_ */
+#endif /* ARDUINO_UAVCAN_WRAPPERS_H_ */

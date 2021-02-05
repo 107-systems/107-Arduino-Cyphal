@@ -14,7 +14,7 @@
 
 #include <libcanard/canard.h>
 
-#include "Heartbeat_1_0.h"
+#include <types/uavcan/node/Heartbeat_1_0.h>
 
 #include "../../../utility/convert.hpp"
 
