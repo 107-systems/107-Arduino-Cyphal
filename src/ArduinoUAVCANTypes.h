@@ -26,5 +26,16 @@
 #include "types/uavcan/node/Version_1_0.hpp"
 
 #include "types/uavcan/primitive/scalar/Bit_1_0.hpp"
+#include "types/uavcan/primitive/scalar/Integer8_1_0.hpp"
+#include "types/uavcan/primitive/scalar/Integer16_1_0.hpp"
+#include "types/uavcan/primitive/scalar/Integer32_1_0.hpp"
+#include "types/uavcan/primitive/scalar/Integer64_1_0.hpp"
+#include "types/uavcan/primitive/scalar/Natural8_1_0.hpp"
+#include "types/uavcan/primitive/scalar/Natural16_1_0.hpp"
+#include "types/uavcan/primitive/scalar/Natural32_1_0.hpp"
+#include "types/uavcan/primitive/scalar/Natural64_1_0.hpp"
+#include "types/uavcan/primitive/scalar/Real16_1_0.hpp"
+#include "types/uavcan/primitive/scalar/Real32_1_0.hpp"
+#include "types/uavcan/primitive/scalar/Real64_1_0.hpp"
 
 #endif /* ARDUINO_UAVCAN_TYPES_H_ */

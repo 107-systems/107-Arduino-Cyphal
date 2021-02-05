@@ -46,7 +46,7 @@ ArduinoMCP2515 mcp2515(spi_select,
                        onReceiveBufferFull,
                        nullptr);
 
-ArduinoUAVCAN uavcan(13 /* local node id */, transmitCanFrame);
+ArduinoUAVCAN uc(13 /* local node id */, transmitCanFrame);
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -80,13 +80,13 @@ void setup()
             cmd_param + req.data.parameter.count,
             req.data.parameter.elements);
 
-  uavcan.request<ExecuteCommand_1_0::Request, ExecuteCommand_1_0::Response>(req, 27 /* remote node id */, onExecuteCommand_1_0_Response_Received);
+  uc.request<ExecuteCommand_1_0::Request, ExecuteCommand_1_0::Response>(req, 27 /* remote node id */, onExecuteCommand_1_0_Response_Received);
 }
 
 void loop()
 {
   /* Transmit all enqeued CAN frames */
-  while(uavcan.transmitCanFrame()) { }
+  while(uc.transmitCanFrame()) { }
 }
 
 /**************************************************************************************
@@ -115,7 +115,7 @@ void onExternalEvent()
 
 void onReceiveBufferFull(CanardFrame const & frame)
 {
-  uavcan.onCanFrameReceived(frame);
+  uc.onCanFrameReceived(frame);
 }
 
 bool transmitCanFrame(CanardFrame const & frame)
@@ -123,7 +123,7 @@ bool transmitCanFrame(CanardFrame const & frame)
   return mcp2515.transmit(frame);
 }
 
-void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
+void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uc */)
 {
   ExecuteCommand_1_0::Response const rsp = ExecuteCommand_1_0::Response::deserialize(transfer);
 

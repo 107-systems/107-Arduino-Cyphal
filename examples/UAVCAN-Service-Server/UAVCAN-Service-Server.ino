@@ -46,7 +46,7 @@ ArduinoMCP2515 mcp2515(spi_select,
                        onReceiveBufferFull,
                        nullptr);
 
-ArduinoUAVCAN uavcan(13 /* local node id */, transmitCanFrame);
+ArduinoUAVCAN uc(13 /* local node id */, transmitCanFrame);
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -72,13 +72,13 @@ void setup()
   mcp2515.setNormalMode();
 
   /* Subscribe to incoming service requests */
-  uavcan.subscribe<ExecuteCommand_1_0::Request>(onExecuteCommand_1_0_Request_Received);
+  uc.subscribe<ExecuteCommand_1_0::Request>(onExecuteCommand_1_0_Request_Received);
 }
 
 void loop()
 {
   /* Transmit all enqeued CAN frames */
-  while(uavcan.transmitCanFrame()) { }
+  while(uc.transmitCanFrame()) { }
 }
 
 /**************************************************************************************
@@ -107,7 +107,7 @@ void onExternalEvent()
 
 void onReceiveBufferFull(CanardFrame const & frame)
 {
-  uavcan.onCanFrameReceived(frame);
+  uc.onCanFrameReceived(frame);
 }
 
 bool transmitCanFrame(CanardFrame const & frame)
@@ -115,7 +115,7 @@ bool transmitCanFrame(CanardFrame const & frame)
   return mcp2515.transmit(frame);
 }
 
-void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, ArduinoUAVCAN & uavcan)
+void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, ArduinoUAVCAN & uc)
 {
   ExecuteCommand_1_0::Request req = ExecuteCommand_1_0::Request::deserialize(transfer);
 
@@ -123,12 +123,12 @@ void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, Ardu
   {
     ExecuteCommand_1_0::Response rsp;
     rsp = ExecuteCommand_1_0::Response::Status::SUCCESS;
-    uavcan.respond(rsp, transfer.remote_node_id, transfer.transfer_id);
+    uc.respond(rsp, transfer.remote_node_id, transfer.transfer_id);
   }
   else
   {
     ExecuteCommand_1_0::Response rsp;
     rsp = ExecuteCommand_1_0::Response::Status::NOT_AUTHORIZED;
-    uavcan.respond(rsp, transfer.remote_node_id, transfer.transfer_id);
+    uc.respond(rsp, transfer.remote_node_id, transfer.transfer_id);
   }
 }
