@@ -24,9 +24,9 @@
 #define REG_DRONE_PHYSICS_ACOUSTICS_NOTE_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/si/unit/duration/Scalar_1_0.h>
-#include <uavcan/si/unit/frequency/Scalar_1_0.h>
-#include <uavcan/si/unit/power/Scalar_1_0.h>
+#include <types/uavcan/si/unit/duration/Scalar_1_0.h>
+#include <types/uavcan/si/unit/frequency/Scalar_1_0.h>
+#include <types/uavcan/si/unit/power/Scalar_1_0.h>
 #include <stdlib.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,

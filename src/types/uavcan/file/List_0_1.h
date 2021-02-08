@@ -33,7 +33,7 @@
 #define UAVCAN_FILE_LIST_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/file/Path_1_0.h>
+#include <types/uavcan/file/Path_1_0.h>
 #include <stdint.h>
 #include <stdlib.h>
 

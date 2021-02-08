@@ -24,8 +24,8 @@
 #define UAVCAN_TIME_GET_SYNCHRONIZATION_MASTER_INFO_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/time/TAIInfo_0_1.h>
-#include <uavcan/time/TimeSystem_0_1.h>
+#include <types/uavcan/time/TAIInfo_0_1.h>
+#include <types/uavcan/time/TimeSystem_0_1.h>
 #include <stdlib.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,

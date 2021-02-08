@@ -24,7 +24,7 @@
 #define UAVCAN_NODE_GET_INFO_1_0_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/node/Version_1_0.h>
+#include <types/uavcan/node/Version_1_0.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>

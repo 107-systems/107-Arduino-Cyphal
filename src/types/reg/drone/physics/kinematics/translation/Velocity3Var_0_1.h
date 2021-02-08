@@ -24,7 +24,7 @@
 #define REG_DRONE_PHYSICS_KINEMATICS_TRANSLATION_VELOCITY3VAR_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/si/sample/velocity/Vector3_1_0.h>
+#include <types/uavcan/si/sample/velocity/Vector3_1_0.h>
 #include <stdlib.h>
 #include <string.h>
 

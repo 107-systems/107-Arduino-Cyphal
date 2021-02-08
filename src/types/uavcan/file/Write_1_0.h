@@ -33,8 +33,8 @@
 #define UAVCAN_FILE_WRITE_1_0_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/file/Error_1_0.h>
-#include <uavcan/file/Path_1_0.h>
+#include <types/uavcan/file/Error_1_0.h>
+#include <types/uavcan/file/Path_1_0.h>
 #include <stdint.h>
 #include <stdlib.h>
 

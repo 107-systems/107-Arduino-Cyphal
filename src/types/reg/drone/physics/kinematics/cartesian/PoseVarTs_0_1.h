@@ -25,7 +25,7 @@
 
 #include <nunavut/support/serialization.h>
 #include <reg/drone/physics/kinematics/cartesian/PoseVar_0_1.h>
-#include <uavcan/time/SynchronizedTimestamp_1_0.h>
+#include <types/uavcan/time/SynchronizedTimestamp_1_0.h>
 #include <stdlib.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,

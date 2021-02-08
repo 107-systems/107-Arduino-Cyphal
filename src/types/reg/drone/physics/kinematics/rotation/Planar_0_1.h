@@ -24,9 +24,9 @@
 #define REG_DRONE_PHYSICS_KINEMATICS_ROTATION_PLANAR_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/si/unit/angle/Scalar_1_0.h>
-#include <uavcan/si/unit/angular_acceleration/Scalar_1_0.h>
-#include <uavcan/si/unit/angular_velocity/Scalar_1_0.h>
+#include <types/uavcan/si/unit/angle/Scalar_1_0.h>
+#include <types/uavcan/si/unit/angular_acceleration/Scalar_1_0.h>
+#include <types/uavcan/si/unit/angular_velocity/Scalar_1_0.h>
 #include <stdlib.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,

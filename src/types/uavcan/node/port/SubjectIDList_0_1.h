@@ -24,8 +24,8 @@
 #define UAVCAN_NODE_PORT_SUBJECT_ID_LIST_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/node/port/SubjectID_1_0.h>
-#include <uavcan/primitive/Empty_1_0.h>
+#include <types/uavcan/node/port/SubjectID_1_0.h>
+#include <types/uavcan/primitive/Empty_1_0.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>

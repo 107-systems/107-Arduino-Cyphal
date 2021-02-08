@@ -24,21 +24,21 @@
 #define UAVCAN_REGISTER_VALUE_1_0_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/primitive/Empty_1_0.h>
-#include <uavcan/primitive/String_1_0.h>
-#include <uavcan/primitive/Unstructured_1_0.h>
-#include <uavcan/primitive/array/Bit_1_0.h>
-#include <uavcan/primitive/array/Integer16_1_0.h>
-#include <uavcan/primitive/array/Integer32_1_0.h>
-#include <uavcan/primitive/array/Integer64_1_0.h>
-#include <uavcan/primitive/array/Integer8_1_0.h>
-#include <uavcan/primitive/array/Natural16_1_0.h>
-#include <uavcan/primitive/array/Natural32_1_0.h>
-#include <uavcan/primitive/array/Natural64_1_0.h>
-#include <uavcan/primitive/array/Natural8_1_0.h>
-#include <uavcan/primitive/array/Real16_1_0.h>
-#include <uavcan/primitive/array/Real32_1_0.h>
-#include <uavcan/primitive/array/Real64_1_0.h>
+#include <types/uavcan/primitive/Empty_1_0.h>
+#include <types/uavcan/primitive/String_1_0.h>
+#include <types/uavcan/primitive/Unstructured_1_0.h>
+#include <types/uavcan/primitive/array/Bit_1_0.h>
+#include <types/uavcan/primitive/array/Integer16_1_0.h>
+#include <types/uavcan/primitive/array/Integer32_1_0.h>
+#include <types/uavcan/primitive/array/Integer64_1_0.h>
+#include <types/uavcan/primitive/array/Integer8_1_0.h>
+#include <types/uavcan/primitive/array/Natural16_1_0.h>
+#include <types/uavcan/primitive/array/Natural32_1_0.h>
+#include <types/uavcan/primitive/array/Natural64_1_0.h>
+#include <types/uavcan/primitive/array/Natural8_1_0.h>
+#include <types/uavcan/primitive/array/Real16_1_0.h>
+#include <types/uavcan/primitive/array/Real32_1_0.h>
+#include <types/uavcan/primitive/array/Real64_1_0.h>
 #include <stdint.h>
 #include <stdlib.h>
 

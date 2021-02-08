@@ -24,9 +24,9 @@
 #define REG_DRONE_PHYSICS_THERMODYNAMICS_PRESSURE_TEMP_VAR_TS_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/si/unit/pressure/Scalar_1_0.h>
-#include <uavcan/si/unit/temperature/Scalar_1_0.h>
-#include <uavcan/time/SynchronizedTimestamp_1_0.h>
+#include <types/uavcan/si/unit/pressure/Scalar_1_0.h>
+#include <types/uavcan/si/unit/temperature/Scalar_1_0.h>
+#include <types/uavcan/time/SynchronizedTimestamp_1_0.h>
 #include <stdlib.h>
 #include <string.h>
 

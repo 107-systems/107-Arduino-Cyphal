@@ -25,7 +25,7 @@
 
 #include <nunavut/support/serialization.h>
 #include <reg/drone/service/actuator/common/FaultFlags_0_1.h>
-#include <uavcan/si/unit/temperature/Scalar_1_0.h>
+#include <types/uavcan/si/unit/temperature/Scalar_1_0.h>
 #include <stdint.h>
 #include <stdlib.h>
 

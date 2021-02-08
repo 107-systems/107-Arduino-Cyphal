@@ -25,7 +25,7 @@
 
 #include <nunavut/support/serialization.h>
 #include <reg/drone/physics/kinematics/translation/Linear_0_1.h>
-#include <uavcan/si/unit/force/Scalar_1_0.h>
+#include <types/uavcan/si/unit/force/Scalar_1_0.h>
 #include <stdlib.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,

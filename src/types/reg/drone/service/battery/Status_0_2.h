@@ -26,8 +26,8 @@
 #include <nunavut/support/serialization.h>
 #include <reg/drone/service/battery/Error_0_1.h>
 #include <reg/drone/service/common/Heartbeat_0_1.h>
-#include <uavcan/si/unit/electric_charge/Scalar_1_0.h>
-#include <uavcan/si/unit/temperature/Scalar_1_0.h>
+#include <types/uavcan/si/unit/electric_charge/Scalar_1_0.h>
+#include <types/uavcan/si/unit/temperature/Scalar_1_0.h>
 #include <stdint.h>
 #include <stdlib.h>
 

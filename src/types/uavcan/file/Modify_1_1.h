@@ -24,8 +24,8 @@
 #define UAVCAN_FILE_MODIFY_1_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/file/Error_1_0.h>
-#include <uavcan/file/Path_2_0.h>
+#include <types/uavcan/file/Error_1_0.h>
+#include <types/uavcan/file/Path_2_0.h>
 #include <stdbool.h>
 #include <stdlib.h>
 

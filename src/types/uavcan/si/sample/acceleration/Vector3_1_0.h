@@ -24,7 +24,7 @@
 #define UAVCAN_SI_SAMPLE_ACCELERATION_VECTOR3_1_0_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/time/SynchronizedTimestamp_1_0.h>
+#include <types/uavcan/time/SynchronizedTimestamp_1_0.h>
 #include <stdlib.h>
 #include <string.h>
 

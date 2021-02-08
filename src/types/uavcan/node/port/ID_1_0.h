@@ -24,8 +24,8 @@
 #define UAVCAN_NODE_PORT_ID_1_0_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/node/port/ServiceID_1_0.h>
-#include <uavcan/node/port/SubjectID_1_0.h>
+#include <types/uavcan/node/port/ServiceID_1_0.h>
+#include <types/uavcan/node/port/SubjectID_1_0.h>
 #include <stdint.h>
 #include <stdlib.h>
 

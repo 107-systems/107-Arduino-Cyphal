@@ -24,9 +24,9 @@
 #define UAVCAN_FILE_READ_1_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/file/Error_1_0.h>
-#include <uavcan/file/Path_2_0.h>
-#include <uavcan/primitive/Unstructured_1_0.h>
+#include <types/uavcan/file/Error_1_0.h>
+#include <types/uavcan/file/Path_2_0.h>
+#include <types/uavcan/primitive/Unstructured_1_0.h>
 #include <stdint.h>
 #include <stdlib.h>
 

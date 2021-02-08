@@ -24,7 +24,7 @@
 #define UAVCAN_PNP_CLUSTER_APPEND_ENTRIES_1_0_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/pnp/cluster/Entry_1_0.h>
+#include <types/uavcan/pnp/cluster/Entry_1_0.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>

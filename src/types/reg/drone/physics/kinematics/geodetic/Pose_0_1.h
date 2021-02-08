@@ -25,7 +25,7 @@
 
 #include <nunavut/support/serialization.h>
 #include <reg/drone/physics/kinematics/geodetic/Point_0_1.h>
-#include <uavcan/si/unit/angle/Quaternion_1_0.h>
+#include <types/uavcan/si/unit/angle/Quaternion_1_0.h>
 #include <stdlib.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,

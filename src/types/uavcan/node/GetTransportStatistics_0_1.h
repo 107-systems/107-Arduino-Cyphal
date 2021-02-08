@@ -24,7 +24,7 @@
 #define UAVCAN_NODE_GET_TRANSPORT_STATISTICS_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/node/IOStatistics_0_1.h>
+#include <types/uavcan/node/IOStatistics_0_1.h>
 #include <stdint.h>
 #include <stdlib.h>
 

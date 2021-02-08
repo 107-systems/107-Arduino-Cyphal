@@ -24,7 +24,7 @@
 #define UAVCAN_PNP_NODE_ID_ALLOCATION_DATA_1_0_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/node/ID_1_0.h>
+#include <types/uavcan/node/ID_1_0.h>
 #include <stdint.h>
 #include <stdlib.h>
 

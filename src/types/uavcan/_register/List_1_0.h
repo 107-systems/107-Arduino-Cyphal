@@ -24,7 +24,7 @@
 #define UAVCAN_REGISTER_LIST_1_0_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/_register/Name_1_0.h>
+#include <types/uavcan/_register/Name_1_0.h>
 #include <stdint.h>
 #include <stdlib.h>
 

@@ -24,8 +24,8 @@
 #define UAVCAN_DIAGNOSTIC_RECORD_1_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/diagnostic/Severity_1_0.h>
-#include <uavcan/time/SynchronizedTimestamp_1_0.h>
+#include <types/uavcan/diagnostic/Severity_1_0.h>
+#include <types/uavcan/time/SynchronizedTimestamp_1_0.h>
 #include <stdint.h>
 #include <stdlib.h>
 

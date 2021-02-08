@@ -34,10 +34,10 @@
 
 #include <nunavut/support/serialization.h>
 #include <reg/drone/service/battery/Technology_0_1.h>
-#include <uavcan/si/unit/electric_charge/Scalar_1_0.h>
-#include <uavcan/si/unit/electric_current/Scalar_1_0.h>
-#include <uavcan/si/unit/mass/Scalar_1_0.h>
-#include <uavcan/si/unit/voltage/Scalar_1_0.h>
+#include <types/uavcan/si/unit/electric_charge/Scalar_1_0.h>
+#include <types/uavcan/si/unit/electric_current/Scalar_1_0.h>
+#include <types/uavcan/si/unit/mass/Scalar_1_0.h>
+#include <types/uavcan/si/unit/voltage/Scalar_1_0.h>
 #include <stdint.h>
 #include <stdlib.h>
 

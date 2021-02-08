@@ -24,7 +24,7 @@
 #define UAVCAN_SI_SAMPLE_FREQUENCY_SCALAR_1_0_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/time/SynchronizedTimestamp_1_0.h>
+#include <types/uavcan/time/SynchronizedTimestamp_1_0.h>
 #include <stdlib.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,

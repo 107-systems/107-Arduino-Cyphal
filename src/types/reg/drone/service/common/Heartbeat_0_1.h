@@ -25,7 +25,7 @@
 
 #include <nunavut/support/serialization.h>
 #include <reg/drone/service/common/Readiness_0_1.h>
-#include <uavcan/node/Health_1_0.h>
+#include <types/uavcan/node/Health_1_0.h>
 #include <stdint.h>
 #include <stdlib.h>
 

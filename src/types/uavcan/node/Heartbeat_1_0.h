@@ -24,8 +24,8 @@
 #define UAVCAN_NODE_HEARTBEAT_1_0_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <uavcan/node/Health_1_0.h>
-#include <uavcan/node/Mode_1_0.h>
+#include <types/uavcan/node/Health_1_0.h>
+#include <types/uavcan/node/Mode_1_0.h>
 #include <stdint.h>
 #include <stdlib.h>
 
