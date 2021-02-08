@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.0.0 (serialization was enabled)
 // Source file:   /home/alex/projects/107-systems/public_regulated_data_types/uavcan/node/7509.Heartbeat.1.0.uavcan
-// Generated at:  2021-02-01 07:39:25.244126 UTC
+// Generated at:  2021-02-08 09:42:45.130753 UTC
 // Is deprecated: no
 // Fixed port-ID: 7509
 // Full name:     uavcan.node.Heartbeat
@@ -24,8 +24,8 @@
 #define UAVCAN_NODE_HEARTBEAT_1_0_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <types/uavcan/node/Health_1_0.h>
-#include <types/uavcan/node/Mode_1_0.h>
+#include <uavcan/node/Health_1_0.h>
+#include <uavcan/node/Mode_1_0.h>
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -330,3 +330,4 @@ static inline void uavcan_node_Heartbeat_1_0_initialize_(uavcan_node_Heartbeat_1
 }
 #endif
 #endif // UAVCAN_NODE_HEARTBEAT_1_0_INCLUDED_
+

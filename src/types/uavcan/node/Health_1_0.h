@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.0.0 (serialization was enabled)
 // Source file:   /home/alex/projects/107-systems/public_regulated_data_types/uavcan/node/Health.1.0.uavcan
-// Generated at:  2021-02-01 07:39:25.075084 UTC
+// Generated at:  2021-02-08 09:42:44.953370 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.node.Health

@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.0.0 (serialization was enabled)
 // Source file:   /home/alex/projects/107-systems/public_regulated_data_types/reg/drone/physics/electricity/SourceTs.0.1.uavcan
-// Generated at:  2021-01-26 13:26:20.497423 UTC
+// Generated at:  2021-02-08 09:43:16.139186 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.drone.physics.electricity.SourceTs
@@ -24,8 +24,8 @@
 #define REG_DRONE_PHYSICS_ELECTRICITY_SOURCE_TS_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <types/reg/drone/physics/electricity/Source_0_1.h>
-#include <types/uavcan/time/SynchronizedTimestamp_1_0.h>
+#include <reg/drone/physics/electricity/Source_0_1.h>
+#include <uavcan/time/SynchronizedTimestamp_1_0.h>
 #include <stdlib.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,

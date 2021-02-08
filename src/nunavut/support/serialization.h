@@ -65,7 +65,11 @@ static_assert(sizeof(size_t) >= sizeof(size_t),
     ((FLT_RADIX == 2) && (DBL_MANT_DIG == 53) && (DBL_MIN_EXP == -1021) && (DBL_MAX_EXP == 1024))
 
 #ifndef NUNAVUT_ASSERT
-# define NUNAVUT_ASSERT(expr) assert(expr)
+// By default Nunavut does not generate assert statements since the logic to halt a program is platform
+// dependent and because this header requires an absolute minimum from a platform and from the C standard library.
+// Most platforms can simply define "NUNAVUT_ASSERT(x)=assert(x)" (<assert.h> is always included by Nunavut).
+#   error "You must either define NUNAVUT_ASSERT or you need to disable assertions" \
+          " when generating serialization support code using Nunavut language options"
 #endif
 
 // This code is endianness-invariant. Use target_endianness='little' to generate little-endian-optimized code.

@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.0.0 (serialization was enabled)
 // Source file:   /home/alex/projects/107-systems/public_regulated_data_types/uavcan/si/unit/pressure/Scalar.1.0.uavcan
-// Generated at:  2021-02-01 07:39:36.812488 UTC
+// Generated at:  2021-02-08 09:42:22.906201 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.si.unit.pressure.Scalar

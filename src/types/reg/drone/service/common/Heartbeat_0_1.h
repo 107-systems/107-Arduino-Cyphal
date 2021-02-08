@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.0.0 (serialization was enabled)
 // Source file:   /home/alex/projects/107-systems/public_regulated_data_types/reg/drone/service/common/Heartbeat.0.1.uavcan
-// Generated at:  2021-01-26 13:26:30.872335 UTC
+// Generated at:  2021-02-08 09:43:03.370138 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.drone.service.common.Heartbeat
@@ -24,8 +24,8 @@
 #define REG_DRONE_SERVICE_COMMON_HEARTBEAT_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <types/reg/drone/service/common/Readiness_0_1.h>
-#include <types/uavcan/node/Health_1_0.h>
+#include <reg/drone/service/common/Readiness_0_1.h>
+#include <uavcan/node/Health_1_0.h>
 #include <stdint.h>
 #include <stdlib.h>
 

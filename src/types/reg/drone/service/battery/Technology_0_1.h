@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.0.0 (serialization was enabled)
 // Source file:   /home/alex/projects/107-systems/public_regulated_data_types/reg/drone/service/battery/Technology.0.1.uavcan
-// Generated at:  2021-01-26 13:26:27.859325 UTC
+// Generated at:  2021-02-08 09:43:04.685932 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.drone.service.battery.Technology

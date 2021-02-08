@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.0.0 (serialization was enabled)
 // Source file:   /home/alex/projects/107-systems/public_regulated_data_types/reg/drone/physics/electricity/Power.0.1.uavcan
-// Generated at:  2021-01-26 13:26:19.963483 UTC
+// Generated at:  2021-02-08 09:43:15.594264 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.drone.physics.electricity.Power
@@ -24,8 +24,8 @@
 #define REG_DRONE_PHYSICS_ELECTRICITY_POWER_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <types/uavcan/si/unit/electric_current/Scalar_1_0.h>
-#include <types/uavcan/si/unit/voltage/Scalar_1_0.h>
+#include <uavcan/si/unit/electric_current/Scalar_1_0.h>
+#include <uavcan/si/unit/voltage/Scalar_1_0.h>
 #include <stdlib.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,

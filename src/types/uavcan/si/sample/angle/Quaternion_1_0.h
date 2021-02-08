@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.0.0 (serialization was enabled)
 // Source file:   /home/alex/projects/107-systems/public_regulated_data_types/uavcan/si/sample/angle/Quaternion.1.0.uavcan
-// Generated at:  2021-02-01 07:39:42.367636 UTC
+// Generated at:  2021-02-08 09:42:30.737352 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.si.sample.angle.Quaternion
@@ -24,7 +24,7 @@
 #define UAVCAN_SI_SAMPLE_ANGLE_QUATERNION_1_0_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <types/uavcan/time/SynchronizedTimestamp_1_0.h>
+#include <uavcan/time/SynchronizedTimestamp_1_0.h>
 #include <stdlib.h>
 #include <string.h>
 
