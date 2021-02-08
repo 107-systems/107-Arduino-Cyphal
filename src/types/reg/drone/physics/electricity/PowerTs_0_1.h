@@ -24,7 +24,7 @@
 #define REG_DRONE_PHYSICS_ELECTRICITY_POWER_TS_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <reg/drone/physics/electricity/Power_0_1.h>
+#include <types/reg/drone/physics/electricity/Power_0_1.h>
 #include <types/uavcan/time/SynchronizedTimestamp_1_0.h>
 #include <stdlib.h>
 

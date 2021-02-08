@@ -24,7 +24,7 @@
 #define REG_DRONE_PHYSICS_DYNAMICS_ROTATION_PLANAR_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <reg/drone/physics/kinematics/rotation/Planar_0_1.h>
+#include <types/reg/drone/physics/kinematics/rotation/Planar_0_1.h>
 #include <types/uavcan/si/unit/_torque/Scalar_1_0.h>
 #include <stdlib.h>
 

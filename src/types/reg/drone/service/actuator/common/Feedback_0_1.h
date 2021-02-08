@@ -24,7 +24,7 @@
 #define REG_DRONE_SERVICE_ACTUATOR_COMMON_FEEDBACK_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <reg/drone/service/common/Heartbeat_0_1.h>
+#include <types/reg/drone/service/common/Heartbeat_0_1.h>
 #include <stdint.h>
 #include <stdlib.h>
 

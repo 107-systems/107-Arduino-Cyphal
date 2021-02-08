@@ -24,7 +24,7 @@
 #define REG_DRONE_SERVICE_ACTUATOR_COMMON_STATUS_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <reg/drone/service/actuator/common/FaultFlags_0_1.h>
+#include <types/reg/drone/service/actuator/common/FaultFlags_0_1.h>
 #include <types/uavcan/si/unit/temperature/Scalar_1_0.h>
 #include <stdint.h>
 #include <stdlib.h>

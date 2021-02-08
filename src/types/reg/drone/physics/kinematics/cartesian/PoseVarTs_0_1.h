@@ -24,7 +24,7 @@
 #define REG_DRONE_PHYSICS_KINEMATICS_CARTESIAN_POSE_VAR_TS_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <reg/drone/physics/kinematics/cartesian/PoseVar_0_1.h>
+#include <types/reg/drone/physics/kinematics/cartesian/PoseVar_0_1.h>
 #include <types/uavcan/time/SynchronizedTimestamp_1_0.h>
 #include <stdlib.h>
 

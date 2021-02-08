@@ -24,9 +24,9 @@
 #define REG_DRONE_SERVICE_GNSS_HEARTBEAT_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <reg/drone/service/common/Heartbeat_0_1.h>
-#include <reg/drone/service/gnss/DilutionOfPrecision_0_1.h>
-#include <reg/drone/service/gnss/Sources_0_1.h>
+#include <types/reg/drone/service/common/Heartbeat_0_1.h>
+#include <types/reg/drone/service/gnss/DilutionOfPrecision_0_1.h>
+#include <types/reg/drone/service/gnss/Sources_0_1.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>

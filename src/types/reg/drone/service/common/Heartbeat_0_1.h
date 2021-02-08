@@ -24,7 +24,7 @@
 #define REG_DRONE_SERVICE_COMMON_HEARTBEAT_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <reg/drone/service/common/Readiness_0_1.h>
+#include <types/reg/drone/service/common/Readiness_0_1.h>
 #include <types/uavcan/node/Health_1_0.h>
 #include <stdint.h>
 #include <stdlib.h>

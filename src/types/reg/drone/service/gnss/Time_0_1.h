@@ -24,7 +24,7 @@
 #define REG_DRONE_SERVICE_GNSS_TIME_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <reg/drone/physics/time/TAI64VarTs_0_1.h>
+#include <types/reg/drone/physics/time/TAI64VarTs_0_1.h>
 #include <types/uavcan/time/TAIInfo_0_1.h>
 #include <stdlib.h>
 

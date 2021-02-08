@@ -33,8 +33,8 @@
 #define REG_DRONE_SERVICE_BATTERY_STATUS_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <reg/drone/service/battery/Error_0_1.h>
-#include <reg/drone/service/common/Heartbeat_0_1.h>
+#include <types/reg/drone/service/battery/Error_0_1.h>
+#include <types/reg/drone/service/common/Heartbeat_0_1.h>
 #include <types/uavcan/si/unit/electric_charge/Scalar_1_0.h>
 #include <types/uavcan/si/unit/temperature/Scalar_1_0.h>
 #include <types/uavcan/si/unit/voltage/Scalar_1_0.h>

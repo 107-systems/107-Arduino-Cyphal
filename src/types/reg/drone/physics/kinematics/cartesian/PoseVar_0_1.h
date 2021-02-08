@@ -24,7 +24,7 @@
 #define REG_DRONE_PHYSICS_KINEMATICS_CARTESIAN_POSE_VAR_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <reg/drone/physics/kinematics/cartesian/Pose_0_1.h>
+#include <types/reg/drone/physics/kinematics/cartesian/Pose_0_1.h>
 #include <stdlib.h>
 #include <string.h>
 
