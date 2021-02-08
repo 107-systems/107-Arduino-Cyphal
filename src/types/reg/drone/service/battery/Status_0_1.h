@@ -9,8 +9,8 @@
 //
 // Generator:     nunavut-1.0.0 (serialization was enabled)
 // Source file:   /home/alex/projects/107-systems/public_regulated_data_types/reg/drone/service/battery/Status.0.1.uavcan
-// Generated at:  2021-01-26 13:26:27.672814 UTC
-// Is deprecated: no
+// Generated at:  2021-02-08 09:43:04.497133 UTC
+// Is deprecated: yes
 // Fixed port-ID: None
 // Full name:     reg.drone.service.battery.Status
 // Version:       0.1
@@ -19,6 +19,15 @@
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
 //     enable_serialization_asserts:  True
+
+//           _____  ______ _____  _____  ______ _____       _______ ______ _____
+//          |  __ `|  ____|  __ `|  __ `|  ____/ ____|   /`|__   __|  ____|  __ `
+//          | |  | | |__  | |__) | |__) | |__ | |       /  `  | |  | |__  | |  | |
+//          | |  | |  __| |  ___/|  _  /|  __|| |      / /` ` | |  |  __| | |  | |
+//          | |__| | |____| |    | | ` `| |___| |____ / ____ `| |  | |____| |__| |
+//          |_____/|______|_|    |_|  `_`______`_____/_/    `_`_|  |______|_____/
+//
+// WARNING: this data type is deprecated and is nearing the end of its life cycle. Seek replacement.
 
 #ifndef REG_DRONE_SERVICE_BATTERY_STATUS_0_1_INCLUDED_
 #define REG_DRONE_SERVICE_BATTERY_STATUS_0_1_INCLUDED_

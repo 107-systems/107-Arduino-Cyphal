@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.0.0 (serialization was enabled)
 // Source file:   /home/alex/projects/107-systems/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.uavcan
-// Generated at:  2021-02-01 07:39:24.458148 UTC
+// Generated at:  2021-02-08 09:42:44.292689 UTC
 // Is deprecated: no
 // Fixed port-ID: 430
 // Full name:     uavcan.node.GetInfo

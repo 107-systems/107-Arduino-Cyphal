@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.0.0 (serialization was enabled)
 // Source file:   /home/alex/projects/107-systems/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.0.uavcan
-// Generated at:  2021-02-01 07:39:24.152704 UTC
+// Generated at:  2021-02-08 09:42:43.959642 UTC
 // Is deprecated: yes
 // Fixed port-ID: 435
 // Full name:     uavcan.node.ExecuteCommand

@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.0.0 (serialization was enabled)
 // Source file:   /home/alex/projects/107-systems/public_regulated_data_types/reg/drone/physics/electricity/SourceTs.0.1.uavcan
-// Generated at:  2021-01-26 13:26:20.497423 UTC
+// Generated at:  2021-02-08 09:43:16.139186 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.drone.physics.electricity.SourceTs

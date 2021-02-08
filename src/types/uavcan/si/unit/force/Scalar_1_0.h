@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.0.0 (serialization was enabled)
 // Source file:   /home/alex/projects/107-systems/public_regulated_data_types/uavcan/si/unit/force/Scalar.1.0.uavcan
-// Generated at:  2021-02-01 07:39:37.323395 UTC
+// Generated at:  2021-02-08 09:42:20.255972 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.si.unit.force.Scalar

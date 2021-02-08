@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.0.0 (serialization was enabled)
 // Source file:   /home/alex/projects/107-systems/public_regulated_data_types/uavcan/primitive/array/Real16.1.0.uavcan
-// Generated at:  2021-02-01 07:39:20.065471 UTC
+// Generated at:  2021-02-08 09:42:36.694415 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.primitive.array.Real16
