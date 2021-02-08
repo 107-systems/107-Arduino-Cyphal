@@ -71,11 +71,11 @@ void setup()
 
   /* Initialize MCP2515 */
   mcp2515.begin();
-  mcp2515.setBitRate(CanBitRate::BR_250kBPS);
+  mcp2515.setBitRate(CanBitRate::BR_500kBPS_8MHZ);
   mcp2515.setNormalMode();
 
   /* Subscribe to the reception of NodeID message. */
-  uavcan.subscribe<NodeIDAllocationData>(NodeIDAllocationData);
+  uavcan.subscribe<NodeIDAllocationData>(onAllocRecv);
 }
 
 void loop()
@@ -116,17 +116,17 @@ void onAllocRecv(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
   
   // Get data struct
-  NodeIDAllocationData const al = NodeIDAllocationData::deserialize(transfer);
+  NodeIDAllocationData al = NodeIDAllocationData::deserialize(transfer);
 
   // Get unique 16 byte id (unique to hardware)
   for (int i=0; i<16; ++i) {
-      serial.print(al.data.unique_id[i], HEX);
+      Serial.print(al.data.unique_id[i], HEX);
   }
   Serial.println();
 
 
   // Determine Node ID & store in LUT
-  al.data.node_id = 10; // temporary, for testing
+  al.data.node_id.value = 10; // temporary, for testing
 
   // Populate message with nodeID & return to sender
   uavcan.publish(al);
