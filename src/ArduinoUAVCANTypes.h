@@ -20,6 +20,7 @@
 #include <types/wrappers/SourceTs.0.1.hpp>
 #include <types/wrappers/Parameters.0.2.hpp>
 #include <types/wrappers/Status.0.2.hpp>
+#include <types/wrappers/NodeIdAllocationData_2_0_wrapper.hpp>
 
 #include <uavcan/primitive/scalar/Bit.1.0.hpp>
 
