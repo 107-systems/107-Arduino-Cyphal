@@ -416,4 +416,3 @@ static inline void reg_drone_service_gnss_Heartbeat_0_1_initialize_(reg_drone_se
 }
 #endif
 #endif // REG_DRONE_SERVICE_GNSS_HEARTBEAT_0_1_INCLUDED_
-

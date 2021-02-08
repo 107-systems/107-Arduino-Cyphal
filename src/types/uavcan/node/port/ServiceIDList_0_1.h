@@ -202,4 +202,3 @@ static inline void uavcan_node_port_ServiceIDList_0_1_initialize_(uavcan_node_po
 }
 #endif
 #endif // UAVCAN_NODE_PORT_SERVICE_ID_LIST_0_1_INCLUDED_
-

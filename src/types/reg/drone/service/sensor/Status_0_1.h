@@ -290,4 +290,3 @@ static inline void reg_drone_service_sensor_Status_0_1_initialize_(reg_drone_ser
 }
 #endif
 #endif // REG_DRONE_SERVICE_SENSOR_STATUS_0_1_INCLUDED_
-

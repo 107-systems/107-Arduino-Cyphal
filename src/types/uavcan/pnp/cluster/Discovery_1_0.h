@@ -317,4 +317,3 @@ static inline void uavcan_pnp_cluster_Discovery_1_0_initialize_(uavcan_pnp_clust
 }
 #endif
 #endif // UAVCAN_PNP_CLUSTER_DISCOVERY_1_0_INCLUDED_
-

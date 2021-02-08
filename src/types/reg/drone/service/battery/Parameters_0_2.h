@@ -839,4 +839,3 @@ static inline void reg_drone_service_battery_Parameters_0_2_initialize_(reg_dron
 }
 #endif
 #endif // REG_DRONE_SERVICE_BATTERY_PARAMETERS_0_2_INCLUDED_
-

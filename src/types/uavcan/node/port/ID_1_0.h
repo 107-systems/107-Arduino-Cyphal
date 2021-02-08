@@ -317,4 +317,3 @@ static inline bool uavcan_node_port_ID_1_0_is_service_id_(const uavcan_node_port
 }
 #endif
 #endif // UAVCAN_NODE_PORT_ID_1_0_INCLUDED_
-

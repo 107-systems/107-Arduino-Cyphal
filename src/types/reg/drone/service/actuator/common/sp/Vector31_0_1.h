@@ -1001,4 +1001,3 @@ static inline void reg_drone_service_actuator_common_sp_Vector31_0_1_initialize_
 }
 #endif
 #endif // REG_DRONE_SERVICE_ACTUATOR_COMMON_SP_VECTOR31_0_1_INCLUDED_
-

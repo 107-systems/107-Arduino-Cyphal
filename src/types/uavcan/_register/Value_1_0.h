@@ -1034,4 +1034,3 @@ static inline bool uavcan_register_Value_1_0_is_real16_(const uavcan_register_Va
 }
 #endif
 #endif // UAVCAN_REGISTER_VALUE_1_0_INCLUDED_
-

@@ -315,4 +315,3 @@ static inline void uavcan_diagnostic_Record_1_1_initialize_(uavcan_diagnostic_Re
 }
 #endif
 #endif // UAVCAN_DIAGNOSTIC_RECORD_1_1_INCLUDED_
-

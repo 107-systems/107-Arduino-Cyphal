@@ -506,4 +506,3 @@ static inline void reg_drone_service_battery_Status_0_2_initialize_(reg_drone_se
 }
 #endif
 #endif // REG_DRONE_SERVICE_BATTERY_STATUS_0_2_INCLUDED_
-

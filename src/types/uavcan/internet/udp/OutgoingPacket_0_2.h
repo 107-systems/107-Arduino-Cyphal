@@ -373,4 +373,3 @@ static inline void uavcan_internet_udp_OutgoingPacket_0_2_initialize_(uavcan_int
 }
 #endif
 #endif // UAVCAN_INTERNET_UDP_OUTGOING_PACKET_0_2_INCLUDED_
-

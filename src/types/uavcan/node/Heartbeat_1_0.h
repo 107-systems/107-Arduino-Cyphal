@@ -330,4 +330,3 @@ static inline void uavcan_node_Heartbeat_1_0_initialize_(uavcan_node_Heartbeat_1
 }
 #endif
 #endif // UAVCAN_NODE_HEARTBEAT_1_0_INCLUDED_
-

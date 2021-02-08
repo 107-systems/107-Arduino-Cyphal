@@ -206,4 +206,3 @@ static inline void reg_drone_service_actuator_common_sp_Scalar_0_1_initialize_(r
 }
 #endif
 #endif // REG_DRONE_SERVICE_ACTUATOR_COMMON_SP_SCALAR_0_1_INCLUDED_
-

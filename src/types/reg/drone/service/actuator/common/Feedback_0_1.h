@@ -230,4 +230,3 @@ static inline void reg_drone_service_actuator_common_Feedback_0_1_initialize_(re
 }
 #endif
 #endif // REG_DRONE_SERVICE_ACTUATOR_COMMON_FEEDBACK_0_1_INCLUDED_
-

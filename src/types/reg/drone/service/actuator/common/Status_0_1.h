@@ -339,4 +339,3 @@ static inline void reg_drone_service_actuator_common_Status_0_1_initialize_(reg_
 }
 #endif
 #endif // REG_DRONE_SERVICE_ACTUATOR_COMMON_STATUS_0_1_INCLUDED_
-

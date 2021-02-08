@@ -401,4 +401,3 @@ static inline bool uavcan_node_port_SubjectIDList_0_1_is_total_(const uavcan_nod
 }
 #endif
 #endif // UAVCAN_NODE_PORT_SUBJECT_ID_LIST_0_1_INCLUDED_
-

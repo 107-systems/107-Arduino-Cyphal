@@ -235,4 +235,3 @@ static inline void uavcan_pnp_NodeIDAllocationData_2_0_initialize_(uavcan_pnp_No
 }
 #endif
 #endif // UAVCAN_PNP_NODE_ID_ALLOCATION_DATA_2_0_INCLUDED_
-

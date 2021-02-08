@@ -266,4 +266,3 @@ static inline void reg_drone_service_gnss_Time_0_1_initialize_(reg_drone_service
 }
 #endif
 #endif // REG_DRONE_SERVICE_GNSS_TIME_0_1_INCLUDED_
-
