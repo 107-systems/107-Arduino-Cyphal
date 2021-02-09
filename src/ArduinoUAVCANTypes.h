@@ -59,6 +59,8 @@
 #include "wrappers/reg/drone/physics/kinematics/translation/Velocity1VarTs_0_1.hpp"
 #include "wrappers/reg/drone/physics/kinematics/translation/Velocity3Var_0_1.hpp"
 
+#include "wrappers/reg/drone/physics/optics/HighColor_0_1.hpp"
+
 #include "wrappers/reg/drone/service/battery/Parameters_0_1.hpp"
 #include "wrappers/reg/drone/service/battery/Status_0_1.hpp"
 
