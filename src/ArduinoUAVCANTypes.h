@@ -75,8 +75,22 @@
  * /reg/drone/service
  **************************************************************************************/
 
+#include "wrappers/reg/drone/service/actuator/common/sp/Scalar_0_1.hpp"
+#include "wrappers/reg/drone/service/actuator/common/sp/Vector2_0_1.hpp"
+#include "wrappers/reg/drone/service/actuator/common/sp/Vector3_0_1.hpp"
+#include "wrappers/reg/drone/service/actuator/common/sp/Vector31_0_1.hpp"
+#include "wrappers/reg/drone/service/actuator/common/sp/Vector4_0_1.hpp"
+#include "wrappers/reg/drone/service/actuator/common/sp/Vector6_0_1.hpp"
+#include "wrappers/reg/drone/service/actuator/common/sp/Vector8_0_1.hpp"
+
+#include "wrappers/reg/drone/service/actuator/common/FaultFlags_0_1.hpp"
+#include "wrappers/reg/drone/service/actuator/common/Feedback_0_1.hpp"
+#include "wrappers/reg/drone/service/actuator/common/Status_0_1.hpp"
+
 #include "wrappers/reg/drone/service/battery/Parameters_0_1.hpp"
+#include "wrappers/reg/drone/service/battery/Parameters_0_2.hpp"
 #include "wrappers/reg/drone/service/battery/Status_0_1.hpp"
+#include "wrappers/reg/drone/service/battery/Status_0_2.hpp"
 
 #include "wrappers/reg/drone/service/gnss/DilutionOfPrecision_0_1.hpp"
 #include "wrappers/reg/drone/service/gnss/Heartbeat_0_1.hpp"
