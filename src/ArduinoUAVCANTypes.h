@@ -17,6 +17,17 @@
 #include "wrappers/reg/drone/physics/electricity/Source_0_1.hpp"
 #include "wrappers/reg/drone/physics/electricity/SourceTs_0_1.hpp"
 
+#include "wrappers/reg/drone/physics/kinematics/geodetic/Point_0_1.hpp"
+#include "wrappers/reg/drone/physics/kinematics/geodetic/PointStateVar_0_1.hpp"
+#include "wrappers/reg/drone/physics/kinematics/geodetic/PointVar_0_1.hpp"
+#include "wrappers/reg/drone/physics/kinematics/geodetic/PoseVar_0_1.hpp"
+#include "wrappers/reg/drone/physics/kinematics/geodetic/StateVar_0_1.hpp"
+#include "wrappers/reg/drone/physics/kinematics/geodetic/PointState_0_1.hpp"
+#include "wrappers/reg/drone/physics/kinematics/geodetic/PointStateVarTs_0_1.hpp"
+#include "wrappers/reg/drone/physics/kinematics/geodetic/Pose_0_1.hpp"
+#include "wrappers/reg/drone/physics/kinematics/geodetic/State_0_1.hpp"
+#include "wrappers/reg/drone/physics/kinematics/geodetic/StateVarTs_0_1.hpp"
+
 #include "wrappers/reg/drone/service/battery/Parameters_0_1.hpp"
 #include "wrappers/reg/drone/service/battery/Status_0_1.hpp"
 
