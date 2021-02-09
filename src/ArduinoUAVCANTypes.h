@@ -12,6 +12,8 @@
  * INCLUDE
  **************************************************************************************/
 
+#include "wrappers/reg/drone/physics/acoustics/Note_0_1.hpp"
+
 #include "wrappers/reg/drone/physics/electricity/Power_0_1.hpp"
 #include "wrappers/reg/drone/physics/electricity/PowerTs_0_1.hpp"
 #include "wrappers/reg/drone/physics/electricity/Source_0_1.hpp"
