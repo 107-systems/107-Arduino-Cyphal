@@ -28,6 +28,9 @@
 #include "wrappers/reg/drone/physics/kinematics/geodetic/State_0_1.hpp"
 #include "wrappers/reg/drone/physics/kinematics/geodetic/StateVarTs_0_1.hpp"
 
+#include "wrappers/reg/drone/physics/kinematics/rotation/Planar_0_1.hpp"
+#include "wrappers/reg/drone/physics/kinematics/rotation/PlanarTs_0_1.hpp"
+
 #include "wrappers/reg/drone/service/battery/Parameters_0_1.hpp"
 #include "wrappers/reg/drone/service/battery/Status_0_1.hpp"
 
