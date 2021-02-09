@@ -31,6 +31,12 @@
 #include "wrappers/reg/drone/physics/kinematics/rotation/Planar_0_1.hpp"
 #include "wrappers/reg/drone/physics/kinematics/rotation/PlanarTs_0_1.hpp"
 
+#include "wrappers/reg/drone/physics/kinematics/translation/Linear_0_1.hpp"
+#include "wrappers/reg/drone/physics/kinematics/translation/LinearTs_0_1.hpp"
+#include "wrappers/reg/drone/physics/kinematics/translation/LinearVarTs_0_1.hpp"
+#include "wrappers/reg/drone/physics/kinematics/translation/Velocity1VarTs_0_1.hpp"
+#include "wrappers/reg/drone/physics/kinematics/translation/Velocity3Var_0_1.hpp"
+
 #include "wrappers/reg/drone/service/battery/Parameters_0_1.hpp"
 #include "wrappers/reg/drone/service/battery/Status_0_1.hpp"
 
