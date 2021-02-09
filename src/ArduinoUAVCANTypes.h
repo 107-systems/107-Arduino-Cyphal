@@ -20,6 +20,13 @@
 #include "wrappers/reg/drone/service/battery/Parameters_0_1.hpp"
 #include "wrappers/reg/drone/service/battery/Status_0_1.hpp"
 
+#include "wrappers/reg/drone/service/gnss/DilutionOfPrecision_0_1.hpp"
+#include "wrappers/reg/drone/service/gnss/Heartbeat_0_1.hpp"
+#include "wrappers/reg/drone/service/gnss/Sources_0_1.hpp"
+#include "wrappers/reg/drone/service/gnss/Time_0_1.hpp"
+
+#include "wrappers/reg/drone/service/sensor/Status_0_1.hpp"
+
 #include "wrappers/uavcan/node/ExecuteCommand_1_0.hpp"
 #include "wrappers/uavcan/node/Heartbeat_1_0.hpp"
 #include "wrappers/uavcan/node/ID_1_0.hpp"
