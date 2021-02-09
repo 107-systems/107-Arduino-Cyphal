@@ -12,6 +12,10 @@
  * INCLUDE
  **************************************************************************************/
 
+/**************************************************************************************
+ * /reg/drone/physics
+ **************************************************************************************/
+
 #include "wrappers/reg/drone/physics/acoustics/Note_0_1.hpp"
 
 #include "wrappers/reg/drone/physics/dynamics/rotation/Planar_0_1.hpp"
@@ -61,6 +65,16 @@
 
 #include "wrappers/reg/drone/physics/optics/HighColor_0_1.hpp"
 
+#include "wrappers/reg/drone/physics/thermodynamics/PressureTempVarTs_0_1.hpp"
+
+#include "wrappers/reg/drone/physics/time/TAI64_0_1.hpp"
+#include "wrappers/reg/drone/physics/time/TAI64Var_0_1.hpp"
+#include "wrappers/reg/drone/physics/time/TAI64VarTs_0_1.hpp"
+
+/**************************************************************************************
+ * /reg/drone/service
+ **************************************************************************************/
+
 #include "wrappers/reg/drone/service/battery/Parameters_0_1.hpp"
 #include "wrappers/reg/drone/service/battery/Status_0_1.hpp"
 
@@ -71,10 +85,18 @@
 
 #include "wrappers/reg/drone/service/sensor/Status_0_1.hpp"
 
+/**************************************************************************************
+ * /uavcan/node
+ **************************************************************************************/
+
 #include "wrappers/uavcan/node/ExecuteCommand_1_0.hpp"
 #include "wrappers/uavcan/node/Heartbeat_1_0.hpp"
 #include "wrappers/uavcan/node/ID_1_0.hpp"
 #include "wrappers/uavcan/node/Version_1_0.hpp"
+
+/**************************************************************************************
+ * /uavcan/primitive
+ **************************************************************************************/
 
 #include "wrappers/uavcan/primitive/scalar/Bit_1_0.hpp"
 #include "wrappers/uavcan/primitive/scalar/Integer8_1_0.hpp"
