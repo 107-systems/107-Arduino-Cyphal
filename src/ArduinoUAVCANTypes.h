@@ -108,6 +108,21 @@
 /* /reg/drone/service/sensor **********************************************************/
 #include "wrappers/reg/drone/service/sensor/Status_0_1.hpp"
 
+/* uavcan/file ************************************************************************/
+#include "wrappers/uavcan/file/Error_1_0.hpp"
+#include "wrappers/uavcan/file/GetInfo_0_1.hpp"
+#include "wrappers/uavcan/file/GetInfo_0_2.hpp"
+#include "wrappers/uavcan/file/List_0_1.hpp"
+#include "wrappers/uavcan/file/List_0_2.hpp"
+#include "wrappers/uavcan/file/Modify_1_0.hpp"
+#include "wrappers/uavcan/file/Modify_1_1.hpp"
+#include "wrappers/uavcan/file/Path_1_0.hpp"
+#include "wrappers/uavcan/file/Path_2_0.hpp"
+#include "wrappers/uavcan/file/Read_1_0.hpp"
+#include "wrappers/uavcan/file/Read_1_1.hpp"
+#include "wrappers/uavcan/file/Write_1_0.hpp"
+#include "wrappers/uavcan/file/Write_1_1.hpp"
+
 /* uavcan/internet/udp ****************************************************************/
 #include "wrappers/uavcan/internet/udp/HandleIncomingPacket_0_1.hpp"
 #include "wrappers/uavcan/internet/udp/HandleIncomingPacket_0_2.hpp"
