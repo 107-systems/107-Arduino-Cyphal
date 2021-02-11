@@ -108,6 +108,11 @@
 /* /reg/drone/service/sensor **********************************************************/
 #include "wrappers/reg/drone/service/sensor/Status_0_1.hpp"
 
+/* uavcan/diagnostic ******************************************************************/
+#include "wrappers/uavcan/diagnostic/Record_1_0.hpp"
+#include "wrappers/uavcan/diagnostic/Record_1_1.hpp"
+#include "wrappers/uavcan/diagnostic/Severity_1_0.hpp"
+
 /* uavcan/file ************************************************************************/
 #include "wrappers/uavcan/file/Error_1_0.hpp"
 #include "wrappers/uavcan/file/GetInfo_0_1.hpp"
