@@ -128,4 +128,11 @@
 #include "wrappers/uavcan/primitive/scalar/Real32_1_0.hpp"
 #include "wrappers/uavcan/primitive/scalar/Real64_1_0.hpp"
 
+/* /uavcan/time ***********************************************************************/
+#include "wrappers/uavcan/time/GetSynchronizationMasterInfo_0_1.hpp"
+#include "wrappers/uavcan/time/Synchronization_1_0.hpp"
+#include "wrappers/uavcan/time/SynchronizedTimestamp_1_0.hpp"
+#include "wrappers/uavcan/time/TAIInfo_0_1.hpp"
+#include "wrappers/uavcan/time/TimeSystem_0_1.hpp"
+
 #endif /* ARDUINO_UAVCAN_WRAPPERS_H_ */
