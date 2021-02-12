@@ -3,7 +3,8 @@
  *   the information in console output.
  *
  *  Hardware:
-     - UAVCAN v1 enabled BMS (eg: https://rotoye.com/batmon/)
+     - UAVCAN v1 enabled BMS (eg: https://rotoye.com/batmon/ and
+        wiring guide: https://rotoye.com/batmon-arduino-can-bus-wiring-guide-and-uavcan-v1-example/)
      - A (multicell) battery or battery simulator
  *   - Arduino MKR family board, e.g. MKR Zero
  *   - Arduino MKR CAN shield
