@@ -14,11 +14,7 @@
 
 #include <libcanard/canard.h>
 
-<<<<<<< HEAD:src/uavcan/node/Heartbeat.1.0.hpp
-#include "Heartbeat_1_0.h"
-=======
 #include <types/uavcan/node/Heartbeat_1_0.h>
->>>>>>> 34580fc32cb4d193bdc58cc2fefe8d1a0c080d0e:src/wrappers/uavcan/node/Heartbeat_1_0.hpp
 
 #include <utility/convert.hpp>
 
