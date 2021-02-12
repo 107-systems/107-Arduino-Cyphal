@@ -28,6 +28,9 @@
 
 static int const MKRCAN_MCP2515_CS_PIN  = 3;
 static int const MKRCAN_MCP2515_INT_PIN = 7;
+static CanardPortID const SOURCETS_PORT_ID   = 6144U;
+static CanardPortID const STATUS_PORT_ID   = 6145U;
+static CanardPortID const PARAMETERS_PORT_ID   = 6146U;
 
 /**************************************************************************************
  * FUNCTION DECLARATION
@@ -79,9 +82,9 @@ void setup()
   mcp2515.setNormalMode();
 
   /* Subscribe to the reception of BMS message types. */
-  uavcan.subscribe<SourceTs_0_1>(onSourceTs_0_1_Received);
-  uavcan.subscribe<Status_0_2>(onStatus_0_2_Received);
-  uavcan.subscribe<Parameters_0_2>(onParameters_0_2_Received);
+  uc.subscribe<SourceTs_0_1<SOURCETS_PORT_ID>>(onSourceTs_0_1_Received);
+  uc.subscribe<Status_0_2<STATUS_PORT_ID>>(onStatus_0_2_Received);
+  uc.subscribe<Parameters_0_2<PARAMETERS_PORT_ID>>(onParameters_0_2_Received);
 }
 
 void loop()
@@ -115,13 +118,13 @@ void onExternalEvent()
 
 void onReceiveBufferFull(CanardFrame const & frame)
 {
-  uavcan.onCanFrameReceived(frame);
+  uc.onCanFrameReceived(frame);
 }
 
 
 void onSourceTs_0_1_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
 {
-  SourceTs_0_1 const source = SourceTs_0_1::deserialize(transfer);
+  SourceTs_0_1<SOURCETS_PORT_ID> const source = SourceTs_0_1<SOURCETS_PORT_ID>::deserialize(transfer);
 
   Serial.print("SourceTs->\tTimestamp: ");
   Serial.print((double)source.data.timestamp.microsecond/1000);
@@ -137,7 +140,7 @@ void onSourceTs_0_1_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /*
 }
 
 void onStatus_0_2_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */){
-  Status_0_2 const stat = Status_0_2::deserialize(transfer);
+  Status_0_2<STATUS_PORT_ID> const stat = Status_0_2<STATUS_PORT_ID>::deserialize(transfer);
 
   Serial.print("Status->\tAvailable Charge: ");
   Serial.print(stat.data.available_charge.coulomb);
@@ -155,7 +158,7 @@ void onStatus_0_2_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* u
 
 
 void onParameters_0_2_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */){
-  Parameters_0_2 const params = Parameters_0_2::deserialize(transfer);
+  Parameters_0_2<PARAMETERS_PORT_ID> const params = Parameters_0_2<PARAMETERS_PORT_ID>::deserialize(transfer);
 
   Serial.print("Parameters->\tUnique ID: ");
   Serial.print(params.data.unique_id);
