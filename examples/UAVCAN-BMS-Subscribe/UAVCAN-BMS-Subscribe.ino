@@ -179,7 +179,7 @@ void onParameters_0_2_Received(CanardTransfer const & transfer, ArduinoUAVCAN & 
   Serial.print(", Fast Charge Current: ");
   Serial.print(params.data.charge_current_fast.ampere);
   Serial.print(", Charge Termination Threshold: ");
-  Serial.print(params.data.charge_termination_treshold.ampere);
+  Serial.print(params.data.charge_termination_threshold.ampere);
   Serial.print(", Charge Voltage: ");
   Serial.print(params.data.charge_voltage.volt);
   Serial.print(", State of Health (%): ");
