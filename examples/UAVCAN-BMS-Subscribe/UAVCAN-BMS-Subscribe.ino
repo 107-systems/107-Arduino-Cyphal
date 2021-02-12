@@ -1,7 +1,7 @@
 /*
  *  This example file shows how to read messages from a UAVCAN v1 enable BMS and display
  *   the information in console output.
- *  
+ *
  *  Hardware:
      - UAVCAN v1 enabled BMS (eg: https://rotoye.com/batmon/)
      - A (multicell) battery or battery simulator
@@ -20,7 +20,7 @@
  *  * Neither the name of the copyright holder nor the names of its
  *      contributors may be used to endorse or promote products derived from
  *      this software without specific prior written permission.
- *  Author: Kyle Pawlowski 
+ *  Author: Kyle Pawlowski
  *          Eohan George eohan@rotoye.com
  */
 
@@ -39,7 +39,7 @@
 
  using namespace reg::drone::service::battery;
  using namespace reg::drone::physics::electricity;
- 
+
 /**************************************************************************************
  * CONSTANTS
  **************************************************************************************/
