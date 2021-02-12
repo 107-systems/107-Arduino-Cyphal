@@ -43,7 +43,7 @@ ArduinoMCP2515 mcp2515(spi_select,
                        nullptr,
                        nullptr);
 
-ArduinoUAVCAN uavcan(13, transmitCanFrame);
+ArduinoUAVCAN uc(13, transmitCanFrame);
 
 Heartbeat_1_0 hb;
 
@@ -87,12 +87,12 @@ void loop()
   static unsigned long prev = 0;
   unsigned long const now = millis();
   if(now - prev > 1000) {
-    uavcan.publish(hb);
+    uc.publish(hb);
     prev = now;
   }
 
   /* Transmit all enqeued CAN frames */
-  while(uavcan.transmitCanFrame()) { }
+  while(uc.transmitCanFrame()) { }
 }
 
 /**************************************************************************************
