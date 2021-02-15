@@ -24,7 +24,7 @@ This library works for
 * [UAVCAN-ToF-Distance-Sensor-Node](https://github.com/107-systems/UAVCAN-ToF-Distance-Sensor-Node): Demo firmware for UAVCAN ToF Distance Sensor Node utilizing 107-Arduino-UAVCAN.
 
 ### Example
-**Note**: Please be advised that the [examples](https://github.com/107-systems/107-Arduino-UAVCAN/tree/master/examples) shipped with this libary are to be considered minimal examples to get you started working with [UAVCAN](https://uavcan.org/). They are by no means a full implementation of a UAVCAN node, have a look at the reference implementations instead.
+**Note**: Please be advised that the [examples](https://github.com/107-systems/107-Arduino-UAVCAN/tree/master/examples) shipped with this library are to be considered minimal examples to get you started working with [UAVCAN](https://uavcan.org/). They are by no means a full implementation of a UAVCAN node, have a look at the reference implementations instead.
 ```C++
 #include <ArduinoUAVCAN.h>
 /* ... */
