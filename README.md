@@ -57,4 +57,68 @@ bool transmitCanFrame(CanardFrame const & frame) {
 ```
 
 ### Contribution
-Please take a look at the [wiki](https://github.com/107-systems/107-Arduino-UAVCAN/wiki) for notes pertaining development of `107-Arduino-UAVCAN`.
+#### How to add missing wrappers
+##### Step 1) Generate C header files from DSDL
+**Option A) Use [nunavut/nnvg](https://github.com/UAVCAN/nunavut)**
+* Install **nunavut**
+```bash
+git clone https://github.com/UAVCAN/nunavut && cd nunavut
+python3.8 -m pip install .
+```
+* Get some DSDL
+```bash
+git clone https://github.com/UAVCAN/public_regulated_data_types
+```
+* Generate C header files from DSDL
+```bash
+nnvg --target-language c \
+     --pp-max-emptylines=1  \
+     --pp-trim-trailing-whitespace \
+     --target-endianness=little \
+     --enable-serialization-asserts \
+     --outdir public_regulated_data_types/uavcan-header \
+     public_regulated_data_types/uavcan
+
+nnvg --target-language c \
+     --pp-max-emptylines=1  \
+     --pp-trim-trailing-whitespace \
+     --target-endianness=any \
+     --enable-serialization-asserts \
+     --lookup public_regulated_data_types/uavcan \
+     --outdir public_regulated_data_types/reg-header \
+     public_regulated_data_types/reg
+```
+**Option B) Use [nunaweb](http://nunaweb.uavcan.org/)**
+##### Step 2) Copy generated C header files to [`src/types`](https://github.com/107-systems/107-Arduino-UAVCAN/tree/master/src/types)
+```bash
+types/reg/drone/physics/electricity/
+├── Power_0_1.h
+├── PowerTs_0_1.h
+├── Source_0_1.h
+└── SourceTs_0_1.h
+```
+##### Step 3) Fix include path in generated C header files by prefixing it with `<types/`
+```diff
+-#include <uavcan/file/Path_1_0.h>
++#include <types/uavcan/file/Path_1_0.h>
+...
+-#include <reg/drone/physics/electricity/Power_0_1.h>
++#include <types/reg/drone/physics/electricity/Power_0_1.h>
+```
+##### Step 4) Manually implement wrapper classes in [`src/wrappers`](https://github.com/107-systems/107-Arduino-UAVCAN/tree/master/src/wrappers)
+```bash
+wrappers/reg/drone/physics/electricity/
+├── Power_0_1.hpp
+├── PowerTs_0_1.hpp
+├── Source_0_1.hpp
+└── SourceTs_0_1.hpp
+```
+##### Step 5) Add the wrapper clases to [`src/ArduinoUAVCANTypes.h`](https://github.com/107-systems/107-Arduino-UAVCAN/blob/master/src/ArduinoUAVCANTypes.h)
+```diff
++#include "wrappers/reg/drone/physics/electricity/Power_0_1.hpp"
++#include "wrappers/reg/drone/physics/electricity/PowerTs_0_1.hpp"
++#include "wrappers/reg/drone/physics/electricity/Source_0_1.hpp"
++#include "wrappers/reg/drone/physics/electricity/SourceTs_0_1.hpp"
+```
+##### Step 6) [Create PR](https://github.com/107-systems/107-Arduino-UAVCAN/pulls) to mainline your changes
+Note: Only UAVCAN types listed in [public_regulated_data_types:master](https://github.com/UAVCAN/public_regulated_data_types) will be accepted into this repository.
