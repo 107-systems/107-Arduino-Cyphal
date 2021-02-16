@@ -60,11 +60,7 @@ bool transmitCanFrame(CanardFrame const & frame) {
 #### How to add missing wrappers
 ##### Step 1) Generate C header files from DSDL
 **Option A) Use [nunavut/nnvg](https://github.com/UAVCAN/nunavut)**
-* Install **nunavut**
-```bash
-git clone https://github.com/UAVCAN/nunavut && cd nunavut
-python3.8 -m pip install .
-```
+* Install **nunavut**: `pip install nunavut` (you will need a functional [Python installation](https://docs.python.org/3/using/index.html))
 * Get some DSDL
 ```bash
 git clone https://github.com/UAVCAN/public_regulated_data_types
