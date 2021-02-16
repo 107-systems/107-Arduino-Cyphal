@@ -70,7 +70,7 @@ git clone https://github.com/UAVCAN/public_regulated_data_types
 nnvg --target-language c \
      --pp-max-emptylines=1  \
      --pp-trim-trailing-whitespace \
-     --target-endianness=little \
+     --target-endianness=any \
      --enable-serialization-asserts \
      --outdir public_regulated_data_types/uavcan-header \
      public_regulated_data_types/uavcan
