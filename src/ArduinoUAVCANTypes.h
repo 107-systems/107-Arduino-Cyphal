@@ -136,6 +136,9 @@
 
 /* uavcan/node ************************************************************************/
 #include "wrappers/uavcan/node/ExecuteCommand_1_0.hpp"
+#include "wrappers/uavcan/node/ExecuteCommand_1_1.hpp"
+#include "wrappers/uavcan/node/GetInfo_1_0.hpp"
+#include "wrappers/uavcan/node/GetTransportStatistics_0_1.hpp"
 #include "wrappers/uavcan/node/Heartbeat_1_0.hpp"
 #include "wrappers/uavcan/node/ID_1_0.hpp"
 #include "wrappers/uavcan/node/Version_1_0.hpp"
