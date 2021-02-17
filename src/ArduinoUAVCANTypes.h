@@ -140,6 +140,20 @@
 #include "wrappers/uavcan/node/ID_1_0.hpp"
 #include "wrappers/uavcan/node/Version_1_0.hpp"
 
+/* /uavcan/primitive/array ************************************************************/
+#include "wrappers/uavcan/primitive/array/Bit_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Integer8_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Integer16_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Integer32_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Integer64_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Natural8_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Natural16_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Natural32_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Natural64_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Real16_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Real32_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Real64_1_0.hpp"
+
 /* /uavcan/primitive/scalar ***********************************************************/
 #include "wrappers/uavcan/primitive/scalar/Bit_1_0.hpp"
 #include "wrappers/uavcan/primitive/scalar/Integer8_1_0.hpp"
