@@ -140,6 +140,14 @@
 #include "wrappers/uavcan/node/ID_1_0.hpp"
 #include "wrappers/uavcan/node/Version_1_0.hpp"
 
+/* uavcan/pnp *************************************************************************/
+#include "wrappers/uavcan/pnp/NodeIDAllocationData_1_0.hpp"
+#include "wrappers/uavcan/pnp/NodeIDAllocationData_2_0.hpp"
+#include "wrappers/uavcan/pnp/cluster/AppendEntries_1_0.hpp"
+#include "wrappers/uavcan/pnp/cluster/Discovery_1_0.hpp"
+#include "wrappers/uavcan/pnp/cluster/Entry_1_0.hpp"
+#include "wrappers/uavcan/pnp/cluster/RequestVote_1_0.hpp"
+
 /* /uavcan/primitive/array ************************************************************/
 #include "wrappers/uavcan/primitive/array/Bit_1_0.hpp"
 #include "wrappers/uavcan/primitive/array/Integer8_1_0.hpp"
