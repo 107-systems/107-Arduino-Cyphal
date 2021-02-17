@@ -22,8 +22,9 @@
  * NAMESPACE
  **************************************************************************************/
 
-namespace GetTransportStatistics_0_1
-{
+namespace uavcan {
+namespace node {
+namespace GetTransportStatistics_0_1 {
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -105,6 +106,8 @@ public:
  * NAMESPACE
  **************************************************************************************/
 
-} /* ARDUINO_TRANSFER_UAVCAN_NODE_GETTRANSPORTSTATISTICS_0_1_HPP_ */
+} /* uavcan */
+} /* node */
+} /* GetTransportStatistics_0_1 */
 
 #endif /* ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_0_1_HPP_ */

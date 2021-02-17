@@ -22,8 +22,9 @@
  * NAMESPACE
  **************************************************************************************/
 
-namespace ExecuteCommand_1_1
-{
+namespace uavcan {
+namespace node {
+namespace ExecuteCommand_1_1 {
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -121,6 +122,8 @@ public:
  * NAMESPACE
  **************************************************************************************/
 
+} /* uavcan */
+} /* node */
 } /* ExecuteCommand_1_1 */
 
 #endif /* ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_1_HPP_ */

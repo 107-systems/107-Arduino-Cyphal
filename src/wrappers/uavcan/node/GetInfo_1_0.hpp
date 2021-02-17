@@ -22,8 +22,9 @@
  * NAMESPACE
  **************************************************************************************/
 
-namespace GetInfo_1_0
-{
+namespace uavcan {
+namespace node {
+namespace GetInfo_1_0 {
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -105,6 +106,8 @@ public:
  * NAMESPACE
  **************************************************************************************/
 
+} /* uavcan */
+} /* node */
 } /* GetInfo_1_0 */
 
 #endif /* ARDUINO_TRANSFER_UAVCAN_NODE_GETINFO_1_0_HPP_ */
