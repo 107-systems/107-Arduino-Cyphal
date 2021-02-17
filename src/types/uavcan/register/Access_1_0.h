@@ -24,8 +24,8 @@
 #define UAVCAN_REGISTER_ACCESS_1_0_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <types/uavcan/_register/Name_1_0.h>
-#include <types/uavcan/_register/Value_1_0.h>
+#include <types/uavcan/register/Name_1_0.h>
+#include <types/uavcan/register/Value_1_0.h>
 #include <types/uavcan/time/SynchronizedTimestamp_1_0.h>
 #include <stdbool.h>
 #include <stdlib.h>

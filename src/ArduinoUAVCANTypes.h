@@ -176,6 +176,12 @@
 #include "wrappers/uavcan/primitive/scalar/Real32_1_0.hpp"
 #include "wrappers/uavcan/primitive/scalar/Real64_1_0.hpp"
 
+/* /uavcan/register *******************************************************************/
+#include "wrappers/uavcan/register/Access_1_0.hpp"
+#include "wrappers/uavcan/register/List_1_0.hpp"
+#include "wrappers/uavcan/register/Name_1_0.hpp"
+#include "wrappers/uavcan/register/Value_1_0.hpp"
+
 /* /uavcan/time ***********************************************************************/
 #include "wrappers/uavcan/time/GetSynchronizationMasterInfo_0_1.hpp"
 #include "wrappers/uavcan/time/Synchronization_1_0.hpp"
