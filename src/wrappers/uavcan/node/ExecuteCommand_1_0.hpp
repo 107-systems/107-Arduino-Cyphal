@@ -16,7 +16,7 @@
 
 #include <types/uavcan/node/ExecuteCommand_1_0.h>
 
-#include "../../../utility/convert.hpp"
+#include <utility/convert.hpp>
 
 /**************************************************************************************
  * NAMESPACE
