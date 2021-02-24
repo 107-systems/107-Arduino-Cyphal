@@ -108,11 +108,62 @@
 /* /reg/drone/service/sensor **********************************************************/
 #include "wrappers/reg/drone/service/sensor/Status_0_1.hpp"
 
+/* uavcan/diagnostic ******************************************************************/
+#include "wrappers/uavcan/diagnostic/Record_1_0.hpp"
+#include "wrappers/uavcan/diagnostic/Record_1_1.hpp"
+#include "wrappers/uavcan/diagnostic/Severity_1_0.hpp"
+
+/* uavcan/file ************************************************************************/
+#include "wrappers/uavcan/file/Error_1_0.hpp"
+#include "wrappers/uavcan/file/GetInfo_0_1.hpp"
+#include "wrappers/uavcan/file/GetInfo_0_2.hpp"
+#include "wrappers/uavcan/file/List_0_1.hpp"
+#include "wrappers/uavcan/file/List_0_2.hpp"
+#include "wrappers/uavcan/file/Modify_1_0.hpp"
+#include "wrappers/uavcan/file/Modify_1_1.hpp"
+#include "wrappers/uavcan/file/Path_1_0.hpp"
+#include "wrappers/uavcan/file/Path_2_0.hpp"
+#include "wrappers/uavcan/file/Read_1_0.hpp"
+#include "wrappers/uavcan/file/Read_1_1.hpp"
+#include "wrappers/uavcan/file/Write_1_0.hpp"
+#include "wrappers/uavcan/file/Write_1_1.hpp"
+
+/* uavcan/internet/udp ****************************************************************/
+#include "wrappers/uavcan/internet/udp/HandleIncomingPacket_0_1.hpp"
+#include "wrappers/uavcan/internet/udp/HandleIncomingPacket_0_2.hpp"
+#include "wrappers/uavcan/internet/udp/OutgoingPacket_0_1.hpp"
+#include "wrappers/uavcan/internet/udp/OutgoingPacket_0_2.hpp"
+
 /* uavcan/node ************************************************************************/
 #include "wrappers/uavcan/node/ExecuteCommand_1_0.hpp"
+#include "wrappers/uavcan/node/ExecuteCommand_1_1.hpp"
+#include "wrappers/uavcan/node/GetInfo_1_0.hpp"
+#include "wrappers/uavcan/node/GetTransportStatistics_0_1.hpp"
 #include "wrappers/uavcan/node/Heartbeat_1_0.hpp"
 #include "wrappers/uavcan/node/ID_1_0.hpp"
 #include "wrappers/uavcan/node/Version_1_0.hpp"
+
+/* uavcan/pnp *************************************************************************/
+#include "wrappers/uavcan/pnp/NodeIDAllocationData_1_0.hpp"
+#include "wrappers/uavcan/pnp/NodeIDAllocationData_2_0.hpp"
+#include "wrappers/uavcan/pnp/cluster/AppendEntries_1_0.hpp"
+#include "wrappers/uavcan/pnp/cluster/Discovery_1_0.hpp"
+#include "wrappers/uavcan/pnp/cluster/Entry_1_0.hpp"
+#include "wrappers/uavcan/pnp/cluster/RequestVote_1_0.hpp"
+
+/* /uavcan/primitive/array ************************************************************/
+#include "wrappers/uavcan/primitive/array/Bit_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Integer8_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Integer16_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Integer32_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Integer64_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Natural8_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Natural16_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Natural32_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Natural64_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Real16_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Real32_1_0.hpp"
+#include "wrappers/uavcan/primitive/array/Real64_1_0.hpp"
 
 /* /uavcan/primitive/scalar ***********************************************************/
 #include "wrappers/uavcan/primitive/scalar/Bit_1_0.hpp"
@@ -127,5 +178,18 @@
 #include "wrappers/uavcan/primitive/scalar/Real16_1_0.hpp"
 #include "wrappers/uavcan/primitive/scalar/Real32_1_0.hpp"
 #include "wrappers/uavcan/primitive/scalar/Real64_1_0.hpp"
+
+/* /uavcan/register *******************************************************************/
+#include "wrappers/uavcan/register/Access_1_0.hpp"
+#include "wrappers/uavcan/register/List_1_0.hpp"
+#include "wrappers/uavcan/register/Name_1_0.hpp"
+#include "wrappers/uavcan/register/Value_1_0.hpp"
+
+/* /uavcan/time ***********************************************************************/
+#include "wrappers/uavcan/time/GetSynchronizationMasterInfo_0_1.hpp"
+#include "wrappers/uavcan/time/Synchronization_1_0.hpp"
+#include "wrappers/uavcan/time/SynchronizedTimestamp_1_0.hpp"
+#include "wrappers/uavcan/time/TAIInfo_0_1.hpp"
+#include "wrappers/uavcan/time/TimeSystem_0_1.hpp"
 
 #endif /* ARDUINO_UAVCAN_WRAPPERS_H_ */

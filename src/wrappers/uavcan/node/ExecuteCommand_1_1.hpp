@@ -5,8 +5,8 @@
  * Contributors: https://github.com/107-systems/107-Arduino-UAVCAN/graphs/contributors.
  */
 
-#ifndef ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_HPP_
-#define ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_HPP_
+#ifndef ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_1_HPP_
+#define ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_1_HPP_
 
 /**************************************************************************************
  * INCLUDE
@@ -14,9 +14,9 @@
 
 #include <libcanard/canard.h>
 
-#include <types/uavcan/node/ExecuteCommand_1_0.h>
+#include <types/uavcan/node/ExecuteCommand_1_1.h>
 
-#include <utility/convert.hpp>
+#include "../../../utility/convert.hpp"
 
 /**************************************************************************************
  * NAMESPACE
@@ -24,7 +24,7 @@
 
 namespace uavcan {
 namespace node {
-namespace ExecuteCommand_1_0 {
+namespace ExecuteCommand_1_1 {
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -35,15 +35,15 @@ class Request
 
 public:
 
-  uavcan_node_ExecuteCommand_Request_1_0 data;
+  uavcan_node_ExecuteCommand_Request_1_1 data;
 
-  static constexpr CanardPortID       PORT_ID = uavcan_node_ExecuteCommand_1_0_FIXED_PORT_ID_;
-  static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_ExecuteCommand_Request_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_;
+  static constexpr CanardPortID       PORT_ID = uavcan_node_ExecuteCommand_1_1_FIXED_PORT_ID_;
+  static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_ExecuteCommand_Request_1_1_SERIALIZATION_BUFFER_SIZE_BYTES_;
   static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindRequest;
 
   Request()
   {
-    uavcan_node_ExecuteCommand_Request_1_0_initialize_(&data);
+    uavcan_node_ExecuteCommand_Request_1_1_initialize_(&data);
   }
 
   Request(Request const & other)
@@ -55,14 +55,14 @@ public:
   {
     Request r;
     size_t inout_buffer_size_bytes = transfer.payload_size;
-    uavcan_node_ExecuteCommand_Request_1_0_deserialize_(&r.data, (uint8_t *)(transfer.payload), &inout_buffer_size_bytes);
+    uavcan_node_ExecuteCommand_Request_1_1_deserialize_(&r.data, (uint8_t *)(transfer.payload), &inout_buffer_size_bytes);
     return r;
   }
 
   size_t serialize(uint8_t * payload) const
   {
     size_t inout_buffer_size_bytes = Request::MAX_PAYLOAD_SIZE;
-    return (uavcan_node_ExecuteCommand_Request_1_0_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS) ? 0 : inout_buffer_size_bytes;
+    return (uavcan_node_ExecuteCommand_Request_1_1_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS) ? 0 : inout_buffer_size_bytes;
   }
 };
 
@@ -73,24 +73,24 @@ public:
 
   enum class Status : uint8_t
   {
-    SUCCESS        = uavcan_node_ExecuteCommand_Response_1_0_STATUS_SUCCESS,
-    FAILURE        = uavcan_node_ExecuteCommand_Response_1_0_STATUS_FAILURE,
-    NOT_AUTHORIZED = uavcan_node_ExecuteCommand_Response_1_0_STATUS_NOT_AUTHORIZED,
-    BAD_COMMAND    = uavcan_node_ExecuteCommand_Response_1_0_STATUS_BAD_COMMAND,
-    BAD_PARAMETER  = uavcan_node_ExecuteCommand_Response_1_0_STATUS_BAD_PARAMETER,
-    BAD_STATE      = uavcan_node_ExecuteCommand_Response_1_0_STATUS_BAD_STATE,
-    INTERNAL_ERROR = uavcan_node_ExecuteCommand_Response_1_0_STATUS_INTERNAL_ERROR,
+    SUCCESS        = uavcan_node_ExecuteCommand_Response_1_1_STATUS_SUCCESS,
+    FAILURE        = uavcan_node_ExecuteCommand_Response_1_1_STATUS_FAILURE,
+    NOT_AUTHORIZED = uavcan_node_ExecuteCommand_Response_1_1_STATUS_NOT_AUTHORIZED,
+    BAD_COMMAND    = uavcan_node_ExecuteCommand_Response_1_1_STATUS_BAD_COMMAND,
+    BAD_PARAMETER  = uavcan_node_ExecuteCommand_Response_1_1_STATUS_BAD_PARAMETER,
+    BAD_STATE      = uavcan_node_ExecuteCommand_Response_1_1_STATUS_BAD_STATE,
+    INTERNAL_ERROR = uavcan_node_ExecuteCommand_Response_1_1_STATUS_INTERNAL_ERROR,
   };
 
-  uavcan_node_ExecuteCommand_Response_1_0 data;
+  uavcan_node_ExecuteCommand_Response_1_1 data;
 
-  static constexpr CanardPortID       PORT_ID = uavcan_node_ExecuteCommand_1_0_FIXED_PORT_ID_;
-  static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_ExecuteCommand_Response_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_;
+  static constexpr CanardPortID       PORT_ID = uavcan_node_ExecuteCommand_1_1_FIXED_PORT_ID_;
+  static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_ExecuteCommand_Response_1_1_SERIALIZATION_BUFFER_SIZE_BYTES_;
   static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindResponse;
 
   Response()
   {
-    uavcan_node_ExecuteCommand_Response_1_0_initialize_(&data);
+    uavcan_node_ExecuteCommand_Response_1_1_initialize_(&data);
   }
 
   Response(Response const & other)
@@ -102,14 +102,14 @@ public:
   {
     Response r;
     size_t inout_buffer_size_bytes = transfer.payload_size;
-    uavcan_node_ExecuteCommand_Response_1_0_deserialize_(&r.data, (uint8_t *)(transfer.payload), &inout_buffer_size_bytes);
+    uavcan_node_ExecuteCommand_Response_1_1_deserialize_(&r.data, (uint8_t *)(transfer.payload), &inout_buffer_size_bytes);
     return r;
   }
 
   size_t serialize(uint8_t * payload) const
   {
     size_t inout_buffer_size_bytes = Response::MAX_PAYLOAD_SIZE;
-    return (uavcan_node_ExecuteCommand_Response_1_0_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS) ? 0 : inout_buffer_size_bytes;
+    return (uavcan_node_ExecuteCommand_Response_1_1_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS) ? 0 : inout_buffer_size_bytes;
   }
 
   void operator = (Status const status)
@@ -124,6 +124,6 @@ public:
 
 } /* uavcan */
 } /* node */
-} /* ExecuteCommand_1_0 */
+} /* ExecuteCommand_1_1 */
 
-#endif /* ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_HPP_ */
+#endif /* ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_1_HPP_ */
