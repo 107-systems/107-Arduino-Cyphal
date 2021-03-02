@@ -1,4 +1,4 @@
-<a href="https://uavcan.org/"><img align="right" src="https://raw.githubusercontent.com/UAVCAN/uavcan.org/master/app/static/images/logo.svg" width="20%"></a>
+<a href="https://uavcan.org/"><img align="right" src="https://raw.githubusercontent.com/107-systems/.github/main/logo/uavcan.svg" width="20%"></a>
 `107-Arduino-UAVCAN`
 ====================
 [![Unit Tests](https://github.com/107-systems/107-Arduino-UAVCAN/workflows/Unit%20Tests/badge.svg)](https://github.com/107-systems/107-Arduino-UAVCAN/actions?workflow=Unit+Tests)
