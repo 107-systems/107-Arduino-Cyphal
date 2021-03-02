@@ -146,7 +146,7 @@ void setup()
   /* Configure MCP2515
    */
   mcp2515.begin();
-  mcp2515.setBitRate(CanBitRate::BR_250kBPS);
+  mcp2515.setBitRate(CanBitRate::BR_250kBPS_16MHZ);
   mcp2515.setListenOnlyMode();
 
   /* Configure TMF8801
