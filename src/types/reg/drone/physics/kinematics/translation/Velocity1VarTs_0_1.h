@@ -26,6 +26,8 @@
 #include <nunavut/support/serialization.h>
 #include <types/uavcan/si/sample/velocity/Scalar_1_0.h>
 #include <stdlib.h>
+#undef infinite
+#include <cmath>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
               "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/physics/kinematics/translation/Velocity1VarTs.0.1.uavcan is trying to use a serialization library that was compiled with "
@@ -124,7 +126,7 @@ static inline int8_t reg_drone_physics_kinematics_translation_Velocity1VarTs_0_1
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
         float _sat0_ = obj->error_variance;
-        if (isfinite(_sat0_))
+        if (std::isfinite(_sat0_))
         {
             if (_sat0_ < ((float) -65504.0))
             {

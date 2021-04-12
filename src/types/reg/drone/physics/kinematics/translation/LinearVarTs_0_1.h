@@ -26,6 +26,8 @@
 #include <nunavut/support/serialization.h>
 #include <types/reg/drone/physics/kinematics/translation/LinearTs_0_1.h>
 #include <stdlib.h>
+#undef infinite
+#include <cmath>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
               "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/physics/kinematics/translation/LinearVarTs.0.1.uavcan is trying to use a serialization library that was compiled with "
@@ -130,7 +132,7 @@ static inline int8_t reg_drone_physics_kinematics_translation_LinearVarTs_0_1_se
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
         float _sat0_ = obj->position_error_variance;
-        if (isfinite(_sat0_))
+        if (std::isfinite(_sat0_))
         {
             if (_sat0_ < ((float) -65504.0))
             {
@@ -153,7 +155,7 @@ static inline int8_t reg_drone_physics_kinematics_translation_LinearVarTs_0_1_se
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
         float _sat1_ = obj->velocity_error_variance;
-        if (isfinite(_sat1_))
+        if (std::isfinite(_sat1_))
         {
             if (_sat1_ < ((float) -65504.0))
             {
@@ -176,7 +178,7 @@ static inline int8_t reg_drone_physics_kinematics_translation_LinearVarTs_0_1_se
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
         float _sat2_ = obj->acceleration_error_variance;
-        if (isfinite(_sat2_))
+        if (std::isfinite(_sat2_))
         {
             if (_sat2_ < ((float) -65504.0))
             {

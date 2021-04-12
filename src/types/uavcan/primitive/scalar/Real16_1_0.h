@@ -25,6 +25,8 @@
 
 #include <nunavut/support/serialization.h>
 #include <stdlib.h>
+#undef infinite
+#include <cmath>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
               "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/primitive/scalar/Real16.1.0.uavcan is trying to use a serialization library that was compiled with "
@@ -101,7 +103,7 @@ static inline int8_t uavcan_primitive_scalar_Real16_1_0_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
         float _sat0_ = obj->value;
-        if (isfinite(_sat0_))
+        if (std::isfinite(_sat0_))
         {
             if (_sat0_ < ((float) -65504.0))
             {
