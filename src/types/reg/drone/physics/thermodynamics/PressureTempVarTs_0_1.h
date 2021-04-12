@@ -29,6 +29,8 @@
 #include <types/uavcan/time/SynchronizedTimestamp_1_0.h>
 #include <stdlib.h>
 #include <string.h>
+#undef infinite
+#include <cmath>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
               "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/physics/thermodynamics/PressureTempVarTs.0.1.uavcan is trying to use a serialization library that was compiled with "
@@ -205,7 +207,7 @@ static inline int8_t reg_drone_physics_thermodynamics_PressureTempVarTs_0_1_seri
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat0_ = obj->covariance_urt[0];
-            if (isfinite(_sat0_))
+            if (std::isfinite(_sat0_))
             {
                 if (_sat0_ < ((float) -65504.0))
                 {
@@ -227,7 +229,7 @@ static inline int8_t reg_drone_physics_thermodynamics_PressureTempVarTs_0_1_seri
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat1_ = obj->covariance_urt[1];
-            if (isfinite(_sat1_))
+            if (std::isfinite(_sat1_))
             {
                 if (_sat1_ < ((float) -65504.0))
                 {
@@ -249,7 +251,7 @@ static inline int8_t reg_drone_physics_thermodynamics_PressureTempVarTs_0_1_seri
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat2_ = obj->covariance_urt[2];
-            if (isfinite(_sat2_))
+            if (std::isfinite(_sat2_))
             {
                 if (_sat2_ < ((float) -65504.0))
                 {

@@ -26,6 +26,8 @@
 #include <nunavut/support/serialization.h>
 #include <stdlib.h>
 #include <string.h>
+#undef infinite
+#include <cmath>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
               "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/service/actuator/common/sp/Vector31.0.1.uavcan is trying to use a serialization library that was compiled with "
@@ -110,7 +112,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat0_ = obj->value[0];
-            if (isfinite(_sat0_))
+            if (std::isfinite(_sat0_))
             {
                 if (_sat0_ < ((float) -65504.0))
                 {
@@ -132,7 +134,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat1_ = obj->value[1];
-            if (isfinite(_sat1_))
+            if (std::isfinite(_sat1_))
             {
                 if (_sat1_ < ((float) -65504.0))
                 {
@@ -154,7 +156,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat2_ = obj->value[2];
-            if (isfinite(_sat2_))
+            if (std::isfinite(_sat2_))
             {
                 if (_sat2_ < ((float) -65504.0))
                 {
@@ -176,7 +178,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat3_ = obj->value[3];
-            if (isfinite(_sat3_))
+            if (std::isfinite(_sat3_))
             {
                 if (_sat3_ < ((float) -65504.0))
                 {
@@ -198,7 +200,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat4_ = obj->value[4];
-            if (isfinite(_sat4_))
+            if (std::isfinite(_sat4_))
             {
                 if (_sat4_ < ((float) -65504.0))
                 {
@@ -220,7 +222,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat5_ = obj->value[5];
-            if (isfinite(_sat5_))
+            if (std::isfinite(_sat5_))
             {
                 if (_sat5_ < ((float) -65504.0))
                 {
@@ -242,7 +244,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat6_ = obj->value[6];
-            if (isfinite(_sat6_))
+            if (std::isfinite(_sat6_))
             {
                 if (_sat6_ < ((float) -65504.0))
                 {
@@ -264,7 +266,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat7_ = obj->value[7];
-            if (isfinite(_sat7_))
+            if (std::isfinite(_sat7_))
             {
                 if (_sat7_ < ((float) -65504.0))
                 {
@@ -286,7 +288,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat8_ = obj->value[8];
-            if (isfinite(_sat8_))
+            if (std::isfinite(_sat8_))
             {
                 if (_sat8_ < ((float) -65504.0))
                 {
@@ -308,7 +310,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat9_ = obj->value[9];
-            if (isfinite(_sat9_))
+            if (std::isfinite(_sat9_))
             {
                 if (_sat9_ < ((float) -65504.0))
                 {
@@ -330,7 +332,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat10_ = obj->value[10];
-            if (isfinite(_sat10_))
+            if (std::isfinite(_sat10_))
             {
                 if (_sat10_ < ((float) -65504.0))
                 {
@@ -352,7 +354,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat11_ = obj->value[11];
-            if (isfinite(_sat11_))
+            if (std::isfinite(_sat11_))
             {
                 if (_sat11_ < ((float) -65504.0))
                 {
@@ -374,7 +376,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat12_ = obj->value[12];
-            if (isfinite(_sat12_))
+            if (std::isfinite(_sat12_))
             {
                 if (_sat12_ < ((float) -65504.0))
                 {
@@ -396,7 +398,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat13_ = obj->value[13];
-            if (isfinite(_sat13_))
+            if (std::isfinite(_sat13_))
             {
                 if (_sat13_ < ((float) -65504.0))
                 {
@@ -418,7 +420,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat14_ = obj->value[14];
-            if (isfinite(_sat14_))
+            if (std::isfinite(_sat14_))
             {
                 if (_sat14_ < ((float) -65504.0))
                 {
@@ -440,7 +442,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat15_ = obj->value[15];
-            if (isfinite(_sat15_))
+            if (std::isfinite(_sat15_))
             {
                 if (_sat15_ < ((float) -65504.0))
                 {
@@ -462,7 +464,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat16_ = obj->value[16];
-            if (isfinite(_sat16_))
+            if (std::isfinite(_sat16_))
             {
                 if (_sat16_ < ((float) -65504.0))
                 {
@@ -484,7 +486,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat17_ = obj->value[17];
-            if (isfinite(_sat17_))
+            if (std::isfinite(_sat17_))
             {
                 if (_sat17_ < ((float) -65504.0))
                 {
@@ -506,7 +508,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat18_ = obj->value[18];
-            if (isfinite(_sat18_))
+            if (std::isfinite(_sat18_))
             {
                 if (_sat18_ < ((float) -65504.0))
                 {
@@ -528,7 +530,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat19_ = obj->value[19];
-            if (isfinite(_sat19_))
+            if (std::isfinite(_sat19_))
             {
                 if (_sat19_ < ((float) -65504.0))
                 {
@@ -550,7 +552,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat20_ = obj->value[20];
-            if (isfinite(_sat20_))
+            if (std::isfinite(_sat20_))
             {
                 if (_sat20_ < ((float) -65504.0))
                 {
@@ -572,7 +574,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat21_ = obj->value[21];
-            if (isfinite(_sat21_))
+            if (std::isfinite(_sat21_))
             {
                 if (_sat21_ < ((float) -65504.0))
                 {
@@ -594,7 +596,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat22_ = obj->value[22];
-            if (isfinite(_sat22_))
+            if (std::isfinite(_sat22_))
             {
                 if (_sat22_ < ((float) -65504.0))
                 {
@@ -616,7 +618,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat23_ = obj->value[23];
-            if (isfinite(_sat23_))
+            if (std::isfinite(_sat23_))
             {
                 if (_sat23_ < ((float) -65504.0))
                 {
@@ -638,7 +640,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat24_ = obj->value[24];
-            if (isfinite(_sat24_))
+            if (std::isfinite(_sat24_))
             {
                 if (_sat24_ < ((float) -65504.0))
                 {
@@ -660,7 +662,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat25_ = obj->value[25];
-            if (isfinite(_sat25_))
+            if (std::isfinite(_sat25_))
             {
                 if (_sat25_ < ((float) -65504.0))
                 {
@@ -682,7 +684,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat26_ = obj->value[26];
-            if (isfinite(_sat26_))
+            if (std::isfinite(_sat26_))
             {
                 if (_sat26_ < ((float) -65504.0))
                 {
@@ -704,7 +706,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat27_ = obj->value[27];
-            if (isfinite(_sat27_))
+            if (std::isfinite(_sat27_))
             {
                 if (_sat27_ < ((float) -65504.0))
                 {
@@ -726,7 +728,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat28_ = obj->value[28];
-            if (isfinite(_sat28_))
+            if (std::isfinite(_sat28_))
             {
                 if (_sat28_ < ((float) -65504.0))
                 {
@@ -748,7 +750,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat29_ = obj->value[29];
-            if (isfinite(_sat29_))
+            if (std::isfinite(_sat29_))
             {
                 if (_sat29_ < ((float) -65504.0))
                 {
@@ -770,7 +772,7 @@ static inline int8_t reg_drone_service_actuator_common_sp_Vector31_0_1_serialize
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
             float _sat30_ = obj->value[30];
-            if (isfinite(_sat30_))
+            if (std::isfinite(_sat30_))
             {
                 if (_sat30_ < ((float) -65504.0))
                 {
