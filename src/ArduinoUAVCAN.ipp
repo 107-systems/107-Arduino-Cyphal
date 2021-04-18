@@ -10,11 +10,11 @@
  **************************************************************************************/
 
 template <typename T>
-bool ArduinoUAVCAN::subscribe(OnTransferReceivedFunc func)
+bool ArduinoUAVCAN::subscribe(CanardPortID const port_id, OnTransferReceivedFunc func)
 {
   LockGuard lock;
 
-  return subscribe(T::TRANSFER_KIND, T::PORT_ID, T::MAX_PAYLOAD_SIZE, func);
+  return subscribe(T::TRANSFER_KIND, port_id, T::MAX_PAYLOAD_SIZE, func);
 }
 
 template <typename T_MSG>
@@ -27,9 +27,9 @@ bool ArduinoUAVCAN::publish(T_MSG const & msg)
   std::array<uint8_t, T_MSG::MAX_PAYLOAD_SIZE> payload_buf;
   payload_buf.fill(0);
   size_t const payload_size = msg.serialize(payload_buf.data());
-  CanardTransferID const transfer_id = getNextTransferId(T_MSG::PORT_ID);
+  CanardTransferID const transfer_id = getNextTransferId(msg.port_id());
 
-  return enqeueTransfer(CANARD_NODE_ID_UNSET, T_MSG::TRANSFER_KIND, T_MSG::PORT_ID, payload_size, payload_buf.data(), transfer_id);
+  return enqeueTransfer(CANARD_NODE_ID_UNSET, T_MSG::TRANSFER_KIND, msg.port_id(), payload_size, payload_buf.data(), transfer_id);
 }
 
 template <typename T_RSP>

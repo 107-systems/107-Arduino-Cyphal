@@ -59,7 +59,7 @@ public:
   bool transmitCanFrame();
 
 
-  template <typename T>                     bool subscribe       (OnTransferReceivedFunc func);
+  template <typename T>                     bool subscribe       (CanardPortID const port_id, OnTransferReceivedFunc func);
 
   /* publish/subscribe API for "message" data exchange paradigm */
   template <typename T_MSG>                 bool publish         (T_MSG const & msg);

@@ -24,11 +24,11 @@ set(TEST_SRCS
   src/util/Types.cpp
 
   src/test_main.cpp
-  src/test_ExecuteCommand_ServiceClient.cpp
-  src/test_ExecuteCommand_ServiceServer.cpp
+#  src/test_ExecuteCommand_ServiceClient.cpp
+#  src/test_ExecuteCommand_ServiceServer.cpp
   src/test_Heartbeat.cpp
-  src/test_ID.cpp
-  src/test_Version.cpp
+#  src/test_ID.cpp
+#  src/test_Version.cpp
 
   ../../src/libcanard/canard_dsdl.c
   ../../src/libcanard/canard.c

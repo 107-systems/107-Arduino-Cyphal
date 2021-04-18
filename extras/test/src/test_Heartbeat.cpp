@@ -50,8 +50,8 @@ static void onHeatbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVC
 
   hb_node_id                          = transfer.remote_node_id;
   hb_data.uptime                      = received_hb.data.uptime;
-  hb_data.health                      = received_hb.data.health;
-  hb_data.mode                        = received_hb.data.mode;
+  hb_data.health.value                = received_hb.data.health.value;
+  hb_data.mode.value                  = received_hb.data.mode.value;
   hb_data.vendor_specific_status_code = received_hb.data.vendor_specific_status_code;
 }
 
@@ -63,27 +63,27 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is sent", "[heartbeat-01]")
 {
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
 
-  Heartbeat_1_0 hb;
+  Heartbeat_1_0 hb(uavcan_node_Heartbeat_1_0_FIXED_PORT_ID_);
   hb.data.uptime = 9876;
-  hb = Heartbeat_1_0::Health::NOMINAL;
-  hb = Heartbeat_1_0::Mode::SOFTWARE_UPDATE;
+  hb.data.health.value = uavcan_node_Health_1_0_NOMINAL;
+  hb.data.mode.value = uavcan_node_Mode_1_0_SOFTWARE_UPDATE;
   hb.data.vendor_specific_status_code = 5;
   uavcan.publish(hb);
   while(uavcan.transmitCanFrame()) { }
   /*
-   * pyuavcan publish 7509.uavcan.node.Heartbeat.1.0 '{uptime: 9876, health: {value: 0}, mode: {value: 3}, vendor_specific_status_code: 5}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'
+   * pyuavcan publish 7509.uavcan.node.Heartbeat.1.0 '{uptime: 9876, health.value: {value: 0}, mode.value: {value: 3}, vendor_specific_status_code: 5}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'
    */
   REQUIRE(can_frame.id   == 0x107D550D);
   REQUIRE(can_frame.data == std::vector<uint8_t>{0x94, 0x26, 0x00, 0x00, 0x00, 0x03, 0x05, 0xE0});
 
   hb.data.uptime = 9881;
-  hb = Heartbeat_1_0::Health::ADVISORY;
-  hb = Heartbeat_1_0::Mode::MAINTENANCE;
+  hb.data.health.value = uavcan_node_Health_1_0_ADVISORY;
+  hb.data.mode.value = uavcan_node_Mode_1_0_MAINTENANCE;
   hb.data.vendor_specific_status_code = 123;
   uavcan.publish(hb);
   while(uavcan.transmitCanFrame()) { }
   /*
-   * pyuavcan publish 7509.uavcan.node.Heartbeat.1.0 '{uptime: 9881, health: {value: 1}, mode: {value: 2}, vendor_specific_status_code: 123}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'
+   * pyuavcan publish 7509.uavcan.node.Heartbeat.1.0 '{uptime: 9881, health.value: {value: 1}, mode.value: {value: 2}, vendor_specific_status_code: 123}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),13)'
    */
   REQUIRE(can_frame.id   == 0x107D550D);
   REQUIRE(can_frame.data == std::vector<uint8_t>{0x99, 0x26, 0x00, 0x00, 0x01, 0x02, 0x7B, 0xE1});
@@ -94,10 +94,10 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heartbeat-02]"
   uavcan_node_Heartbeat_1_0_initialize_(&hb_data);
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, nullptr);
 
-  REQUIRE(uavcan.subscribe<Heartbeat_1_0>(onHeatbeat_1_0_Received));
+  REQUIRE(uavcan.subscribe<Heartbeat_1_0>(uavcan_node_Heartbeat_1_0_FIXED_PORT_ID_, onHeatbeat_1_0_Received));
 
   /* Create:
-   *   pyuavcan publish 7509.uavcan.node.Heartbeat.1.0 '{uptime: 1337, health: {value: 2}, mode: {value: 2}, vendor_specific_status_code: 42}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),59)'
+   *   pyuavcan publish 7509.uavcan.node.Heartbeat.1.0 '{uptime: 1337, health.value: {value: 2}, mode.value: {value: 2}, vendor_specific_status_code: 42}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),59)'
    *
    * Capture:
    *   sudo modprobe vcan
@@ -110,7 +110,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heartbeat-02]"
 
   REQUIRE(hb_node_id                          == 59);
   REQUIRE(hb_data.uptime                      == 1337);
-  REQUIRE(hb_data.health.value                == arduino::_107_::uavcan::to_integer(Heartbeat_1_0::Health::CAUTION));
-  REQUIRE(hb_data.mode.value                  == arduino::_107_::uavcan::to_integer(Heartbeat_1_0::Mode::MAINTENANCE));
+  REQUIRE(hb_data.health.value                == uavcan_node_Health_1_0_CAUTION);
+  REQUIRE(hb_data.mode.value                  == uavcan_node_Mode_1_0_MAINTENANCE);
   REQUIRE(hb_data.vendor_specific_status_code == 42);
 }
