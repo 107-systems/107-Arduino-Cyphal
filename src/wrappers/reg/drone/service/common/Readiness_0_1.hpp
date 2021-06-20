@@ -62,7 +62,7 @@ public:
 
   size_t serialize(uint8_t *payload) const
   {
-    size_t inout_buffer_size_bytes = Feedback_0_1::MAX_PAYLOAD_SIZE;
+    size_t inout_buffer_size_bytes = Readiness_0_1::MAX_PAYLOAD_SIZE;
     return (reg_drone_service_common_Readiness_0_1_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS) ? 0 : inout_buffer_size_bytes;
   }
 
