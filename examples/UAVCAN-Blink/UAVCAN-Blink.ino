@@ -66,7 +66,7 @@ ArduinoMCP2515 mcp2515(spi_select,
 
 ArduinoUAVCAN uc(13, transmitCanFrame);
 
-Heartbeat_1_0 hb;
+Heartbeat_1_0<> hb;
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -109,7 +109,7 @@ void loop()
 {
   /* Update the heartbeat object */
   hb.data.uptime = millis() / 1000;
-  hb = Heartbeat_1_0::Mode::OPERATIONAL;
+  hb = Heartbeat_1_0<>::Mode::OPERATIONAL;
 
   /* Publish the heartbeat once/second */
   static unsigned long prev = 0;
