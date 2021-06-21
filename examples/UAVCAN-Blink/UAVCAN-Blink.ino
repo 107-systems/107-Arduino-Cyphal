@@ -97,8 +97,8 @@ void setup()
 
   /* Configure initial heartbeat */
   hb.data.uptime = 0;
-  hb = Heartbeat_1_0::Health::NOMINAL;
-  hb = Heartbeat_1_0::Mode::INITIALIZATION;
+  hb = Heartbeat_1_0<>::Health::NOMINAL;
+  hb = Heartbeat_1_0<>::Mode::INITIALIZATION;
   hb.data.vendor_specific_status_code = 0;
 
   /* Subscribe to the reception of Bit message. */

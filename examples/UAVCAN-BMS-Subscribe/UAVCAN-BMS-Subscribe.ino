@@ -63,7 +63,7 @@ ArduinoMCP2515 mcp2515(spi_select,
                        onReceiveBufferFull,
                        nullptr);
 
-ArduinoUAVCAN<> uc(13, nullptr);
+ArduinoUAVCAN uc(13, nullptr);
 
 /**************************************************************************************
  * SETUP/LOOP

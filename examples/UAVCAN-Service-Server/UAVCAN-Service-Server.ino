@@ -133,7 +133,7 @@ void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, Ardu
   }
   else
   {
-    ExecuteCommand_1_0::Response rsp;
+    ExecuteCommand_1_0::Response<> rsp;
     rsp = ExecuteCommand_1_0::Response<>::Status::NOT_AUTHORIZED;
     uc.respond(rsp, transfer.remote_node_id, transfer.transfer_id);
   }
