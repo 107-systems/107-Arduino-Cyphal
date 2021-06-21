@@ -28,7 +28,7 @@ namespace cluster {
  * CLASS DECLARATION
  **************************************************************************************/
 
-template <CanardPortID ID>
+template <CanardPortID ID = uavcan_pnp_cluster_Discovery_1_0_FIXED_PORT_ID_>
 class Discovery_1_0
 {
 

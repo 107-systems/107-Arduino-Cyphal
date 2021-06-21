@@ -27,7 +27,7 @@ namespace time {
  * CLASS DECLARATION
  **************************************************************************************/
 
-template <CanardPortID ID>
+template <CanardPortID ID = uavcan_time_Synchronization_1_0_FIXED_PORT_ID_>
 class Synchronization_1_0
 {
 

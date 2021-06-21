@@ -28,7 +28,7 @@ namespace Modify_1_1 {
  * CLASS DECLARATION
  **************************************************************************************/
 
-template <CanardPortID ID>
+template <CanardPortID ID = uavcan_file_Modify_1_1_FIXED_PORT_ID_>
 class Request
 {
 
@@ -65,7 +65,7 @@ public:
   }
 };
 
-template <CanardPortID ID>
+template <CanardPortID ID = uavcan_file_Modify_1_1_FIXED_PORT_ID_>
 class Response
 {
 

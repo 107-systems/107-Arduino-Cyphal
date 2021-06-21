@@ -29,7 +29,7 @@ namespace AppendEntries_1_0 {
  * CLASS DECLARATION
  **************************************************************************************/
 
-template <CanardPortID ID>
+template <CanardPortID ID = uavcan_pnp_cluster_AppendEntries_1_0_FIXED_PORT_ID_>
 class Request
 {
 
@@ -66,7 +66,7 @@ public:
   }
 };
 
-template <CanardPortID ID>
+template <CanardPortID ID = uavcan_pnp_cluster_AppendEntries_1_0_FIXED_PORT_ID_>
 class Response
 {
 
