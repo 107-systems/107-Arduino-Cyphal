@@ -27,7 +27,7 @@ namespace pnp {
  * CLASS DECLARATION
  **************************************************************************************/
 
-template <CanardPortID ID>
+template <CanardPortID ID = uavcan_pnp_NodeIDAllocationData_1_0_FIXED_PORT_ID_>
 class NodeIDAllocationData_1_0
 {
 

@@ -30,6 +30,7 @@ namespace GetTransportStatistics_0_1 {
  * CLASS DECLARATION
  **************************************************************************************/
 
+template <CanardPortID ID = uavcan_node_GetTransportStatistics_0_1_FIXED_PORT_ID_>
 class Request
 {
 
@@ -37,7 +38,7 @@ public:
 
   uavcan_node_GetTransportStatistics_Request_0_1 data;
 
-  static constexpr CanardPortID       PORT_ID = uavcan_node_GetTransportStatistics_0_1_FIXED_PORT_ID_;
+  static constexpr CanardPortID       PORT_ID = ID;
   static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_GetTransportStatistics_Request_0_1_SERIALIZATION_BUFFER_SIZE_BYTES_;
   static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindRequest;
 
@@ -66,6 +67,7 @@ public:
   }
 };
 
+template <CanardPortID ID = uavcan_node_GetTransportStatistics_0_1_FIXED_PORT_ID_>
 class Response
 {
 
@@ -73,7 +75,7 @@ public:
 
   uavcan_node_GetTransportStatistics_Response_0_1 data;
 
-  static constexpr CanardPortID       PORT_ID = uavcan_node_GetTransportStatistics_0_1_FIXED_PORT_ID_;
+  static constexpr CanardPortID       PORT_ID = ID;
   static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_GetTransportStatistics_Response_0_1_SERIALIZATION_BUFFER_SIZE_BYTES_;
   static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindResponse;
 

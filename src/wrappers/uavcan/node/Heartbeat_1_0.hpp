@@ -29,6 +29,7 @@ namespace node {
  * CLASS DECLARATION
  **************************************************************************************/
 
+template <CanardPortID ID = uavcan_node_Heartbeat_1_0_FIXED_PORT_ID_>
 class Heartbeat_1_0
 {
 
@@ -52,7 +53,7 @@ public:
 
   uavcan_node_Heartbeat_1_0 data;
 
-  static constexpr CanardPortID       PORT_ID = uavcan_node_Heartbeat_1_0_FIXED_PORT_ID_;
+  static constexpr CanardPortID       PORT_ID = ID;
   static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_node_Heartbeat_1_0_SERIALIZATION_BUFFER_SIZE_BYTES_;
   static constexpr CanardTransferKind TRANSFER_KIND = CanardTransferKindMessage;
 

@@ -49,7 +49,7 @@ static bool transmitCanFrame(CanardFrame const & f)
 
 static void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, ArduinoUAVCAN & uavcan)
 {
-  ExecuteCommand_1_0::Request received_request = ExecuteCommand_1_0::Request::deserialize(transfer);
+  ExecuteCommand_1_0::Request<> received_request = ExecuteCommand_1_0::Request<>::deserialize(transfer);
 
   /* The next 2 lines are just for test purposes, you won't
    * have them in your real application.
@@ -63,8 +63,8 @@ static void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfe
   /* Deal with the command ... */
 
   /* ... and construct and send the response. */
-  ExecuteCommand_1_0::Response response;
-  response = ExecuteCommand_1_0::Response::Status::NOT_AUTHORIZED;
+  ExecuteCommand_1_0::Response<> response;
+  response = ExecuteCommand_1_0::Response<>::Status::NOT_AUTHORIZED;
 
   uavcan.respond(response, transfer.remote_node_id, transfer.transfer_id);
 }
@@ -79,7 +79,7 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is received from a client", "[exec
   ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
 
   /* Subscribe to incoming server requests. */
-  REQUIRE(uavcan.subscribe<ExecuteCommand_1_0::Request>(onExecuteCommand_1_0_Request_Received) == true);
+  REQUIRE(uavcan.subscribe<ExecuteCommand_1_0::Request<>>(onExecuteCommand_1_0_Request_Received) == true);
 
   /*
    * pyuavcan call 13 435.uavcan.node.ExecuteCommand.1.0 '{"command": 0xCAFE, "parameter": "I want a double espresso with cream"}' --tr='CAN(can.media.socketcan.SocketCANMedia("vcan0",8),27)'
