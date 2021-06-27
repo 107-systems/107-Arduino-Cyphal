@@ -1,6 +1,7 @@
 <a href="https://uavcan.org/"><img align="right" src="https://raw.githubusercontent.com/107-systems/.github/main/logo/uavcan.svg" width="20%"></a>
 `107-Arduino-UAVCAN`
 ====================
+[![Arduino Library Badge](https://www.ardu-badge.com/badge/107-Arduino-UAVCAN.svg?)](https://www.ardu-badge.com/107-Arduino-UAVCAN)
 [![Unit Tests](https://github.com/107-systems/107-Arduino-UAVCAN/workflows/Unit%20Tests/badge.svg)](https://github.com/107-systems/107-Arduino-UAVCAN/actions?workflow=Unit+Tests)
 [![codecov](https://codecov.io/gh/107-systems/107-Arduino-UAVCAN/branch/master/graph/badge.svg)](https://codecov.io/gh/107-systems/107-Arduino-UAVCAN)
 [![Compile Examples](https://github.com/107-systems/107-Arduino-UAVCAN/workflows/Compile%20Examples/badge.svg)](https://github.com/107-systems/107-Arduino-UAVCAN/actions?workflow=Compile+Examples)

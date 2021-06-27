@@ -76,7 +76,7 @@ void setup()
   mcp2515.setNormalMode();
 
   /* Subscribe to the reception of Heartbeat message. */
-  uc.subscribe<Heartbeat_1_0>(onHeartbeat_1_0_Received);
+  uc.subscribe<Heartbeat_1_0<>>(onHeartbeat_1_0_Received);
 }
 
 void loop()
@@ -115,7 +115,7 @@ void onReceiveBufferFull(CanardFrame const & frame)
 
 void onHeartbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uc */)
 {
-  Heartbeat_1_0 const hb = Heartbeat_1_0::deserialize(transfer);
+  Heartbeat_1_0<> const hb = Heartbeat_1_0<>::deserialize(transfer);
 
   char msg[64];
   snprintf(msg, 64,

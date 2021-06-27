@@ -27,7 +27,7 @@ namespace diagnostic {
  * CLASS DECLARATION
  **************************************************************************************/
 
-template <CanardPortID ID>
+template <CanardPortID ID = uavcan_diagnostic_Record_1_0_FIXED_PORT_ID_>
 class Record_1_0
 {
 

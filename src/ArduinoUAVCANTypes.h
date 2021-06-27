@@ -93,6 +93,10 @@
 #include "wrappers/reg/drone/service/actuator/common/Feedback_0_1.hpp"
 #include "wrappers/reg/drone/service/actuator/common/Status_0_1.hpp"
 
+/* /reg/drone/service/common *************************************************/
+#include "wrappers/reg/drone/service/common/Heartbeat_0_1.hpp"
+#include "wrappers/reg/drone/service/common/Readiness_0_1.hpp"
+
 /* /reg/drone/service/battery *********************************************************/
 #include "wrappers/reg/drone/service/battery/Parameters_0_1.hpp"
 #include "wrappers/reg/drone/service/battery/Parameters_0_2.hpp"

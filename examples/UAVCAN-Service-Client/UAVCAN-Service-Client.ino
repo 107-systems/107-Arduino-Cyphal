@@ -79,14 +79,14 @@ void setup()
 
   /* Request some coffee. */
   char const cmd_param[] = "I want a double espresso with cream";
-  ExecuteCommand_1_0::Request req;
+  ExecuteCommand_1_0::Request<> req;
   req.data.command = 0xCAFE;
   req.data.parameter.count = std::min(strlen(cmd_param), (size_t)uavcan_node_ExecuteCommand_Request_1_0_parameter_ARRAY_CAPACITY_);
   std::copy(cmd_param,
             cmd_param + req.data.parameter.count,
             req.data.parameter.elements);
 
-  uc.request<ExecuteCommand_1_0::Request, ExecuteCommand_1_0::Response>(req, 27 /* remote node id */, onExecuteCommand_1_0_Response_Received);
+  uc.request<ExecuteCommand_1_0::Request<>, ExecuteCommand_1_0::Response<>>(req, 27 /* remote node id */, onExecuteCommand_1_0_Response_Received);
 }
 
 void loop()
@@ -131,9 +131,9 @@ bool transmitCanFrame(CanardFrame const & frame)
 
 void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uc */)
 {
-  ExecuteCommand_1_0::Response const rsp = ExecuteCommand_1_0::Response::deserialize(transfer);
+  ExecuteCommand_1_0::Response<> const rsp = ExecuteCommand_1_0::Response<>::deserialize(transfer);
 
-  if (rsp.data.status == arduino::_107_::uavcan::to_integer(ExecuteCommand_1_0::Response::Status::SUCCESS))
+  if (rsp.data.status == arduino::_107_::uavcan::to_integer(ExecuteCommand_1_0::Response<>::Status::SUCCESS))
     Serial.println("Coffee successful retrieved");
   else
     Serial.println("Error when retrieving coffee");

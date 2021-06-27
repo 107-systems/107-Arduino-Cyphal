@@ -28,7 +28,7 @@ namespace GetInfo_0_2 {
  * CLASS DECLARATION
  **************************************************************************************/
 
-template <CanardPortID ID>
+template <CanardPortID ID = uavcan_file_GetInfo_0_2_FIXED_PORT_ID_>
 class Request
 {
 
@@ -65,7 +65,7 @@ public:
   }
 };
 
-template <CanardPortID ID>
+template <CanardPortID ID = uavcan_file_GetInfo_0_2_FIXED_PORT_ID_>
 class Response
 {
 

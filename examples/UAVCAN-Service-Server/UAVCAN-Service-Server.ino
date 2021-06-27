@@ -78,7 +78,7 @@ void setup()
   mcp2515.setNormalMode();
 
   /* Subscribe to incoming service requests */
-  uc.subscribe<ExecuteCommand_1_0::Request>(onExecuteCommand_1_0_Request_Received);
+  uc.subscribe<ExecuteCommand_1_0::Request<>>(onExecuteCommand_1_0_Request_Received);
 }
 
 void loop()
@@ -123,18 +123,18 @@ bool transmitCanFrame(CanardFrame const & frame)
 
 void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, ArduinoUAVCAN & uc)
 {
-  ExecuteCommand_1_0::Request req = ExecuteCommand_1_0::Request::deserialize(transfer);
+  ExecuteCommand_1_0::Request<> req = ExecuteCommand_1_0::Request<>::deserialize(transfer);
 
   if (req.data.command == 0xCAFE)
   {
-    ExecuteCommand_1_0::Response rsp;
-    rsp = ExecuteCommand_1_0::Response::Status::SUCCESS;
+    ExecuteCommand_1_0::Response<> rsp;
+    rsp = ExecuteCommand_1_0::Response<>::Status::SUCCESS;
     uc.respond(rsp, transfer.remote_node_id, transfer.transfer_id);
   }
   else
   {
-    ExecuteCommand_1_0::Response rsp;
-    rsp = ExecuteCommand_1_0::Response::Status::NOT_AUTHORIZED;
+    ExecuteCommand_1_0::Response<> rsp;
+    rsp = ExecuteCommand_1_0::Response<>::Status::NOT_AUTHORIZED;
     uc.respond(rsp, transfer.remote_node_id, transfer.transfer_id);
   }
 }
