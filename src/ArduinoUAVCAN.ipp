@@ -17,6 +17,14 @@ bool ArduinoUAVCAN::subscribe(OnTransferReceivedFunc func)
   return subscribe(T::TRANSFER_KIND, T::PORT_ID, T::MAX_PAYLOAD_SIZE, func);
 }
 
+template <typename T>
+bool ArduinoUAVCAN::unsubscribe()
+{
+  LockGuard lock;
+
+  return unsubscribe(T::TRANSFER_KIND, T::PORT_ID);
+}
+
 template <typename T_MSG>
 bool ArduinoUAVCAN::publish(T_MSG const & msg)
 {
