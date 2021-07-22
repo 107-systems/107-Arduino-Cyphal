@@ -150,6 +150,13 @@
 #include "wrappers/uavcan/node/Mode_1_0.hpp"
 #include "wrappers/uavcan/node/Version_1_0.hpp"
 
+/* uavcan/node/port *******************************************************************/
+#include "wrappers/uavcan/node/port/List_0_1.hpp"
+#include "wrappers/uavcan/node/port/ServiceID_1_0.hpp"
+#include "wrappers/uavcan/node/port/ServiceIDList_0_1.hpp"
+#include "wrappers/uavcan/node/port/SubjectID_1_0.hpp"
+#include "wrappers/uavcan/node/port/SubjectIDList_0_1.hpp"
+
 /* uavcan/pnp *************************************************************************/
 #include "wrappers/uavcan/pnp/NodeIDAllocationData_1_0.hpp"
 #include "wrappers/uavcan/pnp/NodeIDAllocationData_2_0.hpp"
