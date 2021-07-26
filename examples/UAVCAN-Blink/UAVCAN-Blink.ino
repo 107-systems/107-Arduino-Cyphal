@@ -21,6 +21,9 @@
 
 #include <ArduinoUAVCAN.h>
 #include <ArduinoMCP2515.h>
+#if defined(ARDUINO_EDGE_CONTROL)
+#  include <Arduino_EdgeControl.h>
+#endif
 
 /**************************************************************************************
  * NAMESPACE
@@ -78,8 +81,19 @@ void setup()
   while(!Serial) { }
 
   /* Setup LED and initialize */
+#if defined(ARDUINO_EDGE_CONTROL)
+  Power.on(PWR_3V3);
+  Power.on(PWR_VBAT);
+  if (!Expander.begin())
+  {
+    Serial.println("Arduino Edge Control - Expander.begin() failed");
+    for(;;) { }
+    Expander.pinMode(EXP_LED1, OUTPUT);
+  }
+#else
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, LOW);
+#endif
 
   /* Setup SPI access */
   SPI.begin();
@@ -163,12 +177,20 @@ void onBit_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uc *
 
   if(uavcan_led.data.value)
   {
+#if defined(ARDUINO_EDGE_CONTROL)
+    Expander.digitalWrite(EXP_LED1, LOW);
+#else
     digitalWrite(LED_BUILTIN, HIGH);
+#endif
     Serial.println("Received Bit: true");
   }
   else
   {
+#if defined(ARDUINO_EDGE_CONTROL)
+    Expander.digitalWrite(EXP_LED1, HIGH);
+#else
     digitalWrite(LED_BUILTIN, LOW);
+#endif
     Serial.println("Received Bit: false");
   }
 }

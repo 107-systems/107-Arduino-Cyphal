@@ -22,6 +22,7 @@ jobs:
         # Install the library from the local path.
         - source-path: ./
         - name: 107-Arduino-MCP2515
+        - name: Arduino_EdgeControl
 
     strategy:
       fail-fast: false
