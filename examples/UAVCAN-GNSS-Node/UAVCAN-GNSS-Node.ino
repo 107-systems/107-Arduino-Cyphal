@@ -62,7 +62,7 @@ static UavcanNodeConfiguration const UAVCAN_NODE_INITIAL_CONFIGURATION =
 /**************************************************************************************
  * FUNCTION DECLARATION
  **************************************************************************************/
- 
+
 uint8_t spi_transfer(uint8_t const);
 
 namespace MCP2515
@@ -134,7 +134,7 @@ void setup()
   pinMode(MKRCAN_MCP2515_CS_PIN, OUTPUT);
   digitalWrite(MKRCAN_MCP2515_CS_PIN, HIGH);
 
-  /* Attach interrupt handler to register 
+  /* Attach interrupt handler to register
    * MCP2515 signaled by taking INT low.
    */
   pinMode(MKRCAN_MCP2515_INT_PIN, INPUT_PULLUP);
@@ -160,7 +160,7 @@ void loop()
     prev_heartbeat = now;
   }
 
-  
+
   /* Handle state transitions and state specific action.
    */
   uavcan::node::Heartbeat_1_0<>::Mode next_mode = node_data.mode;
@@ -223,7 +223,7 @@ bool transmit(CanardFrame const & frame) {
 
 namespace node
 {
-  
+
 uavcan::node::Heartbeat_1_0<>::Mode handle_INITIALIZATION()
 {
   DBG_VERBOSE("INITIALIZATION");
