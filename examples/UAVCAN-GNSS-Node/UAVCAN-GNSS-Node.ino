@@ -35,7 +35,7 @@
 
 typedef struct
 {
-  uavcan::node::Heartbeat_1_0::Mode mode;
+  uavcan::node::Heartbeat_1_0<>::Mode mode;
 } UavcanNodeData;
 
 typedef struct
@@ -52,7 +52,7 @@ static int            const MKRCAN_MCP2515_INT_PIN   = 7;
 static uint8_t        const UAVCAN_NODE_ID           = 13;
 static UavcanNodeData const UAVCAN_NODE_INITIAL_DATA =
 {
-  uavcan::node::Heartbeat_1_0::Mode::INITIALIZATION,
+  uavcan::node::Heartbeat_1_0<>::Mode::INITIALIZATION,
 };
 static UavcanNodeConfiguration const UAVCAN_NODE_INITIAL_CONFIGURATION =
 {
@@ -76,15 +76,15 @@ bool transmit(CanardFrame const &);
 
 namespace node
 {
-uavcan::node::Heartbeat_1_0::Mode handle_INITIALIZATION();
-uavcan::node::Heartbeat_1_0::Mode handle_OPERATIONAL();
-uavcan::node::Heartbeat_1_0::Mode handle_MAINTENANCE();
-uavcan::node::Heartbeat_1_0::Mode handle_SOFTWARE_UPDATE();
+uavcan::node::Heartbeat_1_0<>::Mode handle_INITIALIZATION();
+uavcan::node::Heartbeat_1_0<>::Mode handle_OPERATIONAL();
+uavcan::node::Heartbeat_1_0<>::Mode handle_MAINTENANCE();
+uavcan::node::Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE();
 }
 
 namespace heartbeat
 {
-void publish(ArduinoUAVCAN &, uint32_t const, uavcan::node::Heartbeat_1_0::Mode const);
+void publish(ArduinoUAVCAN &, uint32_t const, uavcan::node::Heartbeat_1_0<>::Mode const);
 }
 
 namespace gnss
@@ -163,14 +163,14 @@ void loop()
   
   /* Handle state transitions and state specific action.
    */
-  uavcan::node::Heartbeat_1_0::Mode next_mode = node_data.mode;
+  uavcan::node::Heartbeat_1_0<>::Mode next_mode = node_data.mode;
 
   switch(node_data.mode)
   {
-  case uavcan::node::Heartbeat_1_0::Mode::INITIALIZATION:  next_mode = node::handle_INITIALIZATION();  break;
-  case uavcan::node::Heartbeat_1_0::Mode::OPERATIONAL:     next_mode = node::handle_OPERATIONAL();     break;
-  case uavcan::node::Heartbeat_1_0::Mode::MAINTENANCE:     next_mode = node::handle_MAINTENANCE();     break;
-  case uavcan::node::Heartbeat_1_0::Mode::SOFTWARE_UPDATE: next_mode = node::handle_SOFTWARE_UPDATE(); break;
+  case uavcan::node::Heartbeat_1_0<>::Mode::INITIALIZATION:  next_mode = node::handle_INITIALIZATION();  break;
+  case uavcan::node::Heartbeat_1_0<>::Mode::OPERATIONAL:     next_mode = node::handle_OPERATIONAL();     break;
+  case uavcan::node::Heartbeat_1_0<>::Mode::MAINTENANCE:     next_mode = node::handle_MAINTENANCE();     break;
+  case uavcan::node::Heartbeat_1_0<>::Mode::SOFTWARE_UPDATE: next_mode = node::handle_SOFTWARE_UPDATE(); break;
   }
 
   node_data.mode = next_mode;
@@ -224,14 +224,14 @@ bool transmit(CanardFrame const & frame) {
 namespace node
 {
   
-uavcan::node::Heartbeat_1_0::Mode handle_INITIALIZATION()
+uavcan::node::Heartbeat_1_0<>::Mode handle_INITIALIZATION()
 {
   DBG_VERBOSE("INITIALIZATION");
 
-  return uavcan::node::Heartbeat_1_0::Mode::OPERATIONAL;
+  return uavcan::node::Heartbeat_1_0<>::Mode::OPERATIONAL;
 }
 
-uavcan::node::Heartbeat_1_0::Mode handle_OPERATIONAL()
+uavcan::node::Heartbeat_1_0<>::Mode handle_OPERATIONAL()
 {
   DBG_VERBOSE("OPERATIONAL");
 
@@ -243,21 +243,21 @@ uavcan::node::Heartbeat_1_0::Mode handle_OPERATIONAL()
     nmea_parser.encode((char)Serial1.read());
   }
 
-  return uavcan::node::Heartbeat_1_0::Mode::OPERATIONAL;
+  return uavcan::node::Heartbeat_1_0<>::Mode::OPERATIONAL;
 }
 
-uavcan::node::Heartbeat_1_0::Mode handle_MAINTENANCE()
+uavcan::node::Heartbeat_1_0<>::Mode handle_MAINTENANCE()
 {
   DBG_VERBOSE("MAINTENANCE");
 
-  return uavcan::node::Heartbeat_1_0::Mode::INITIALIZATION;
+  return uavcan::node::Heartbeat_1_0<>::Mode::INITIALIZATION;
 }
 
-uavcan::node::Heartbeat_1_0::Mode handle_SOFTWARE_UPDATE()
+uavcan::node::Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE()
 {
   DBG_VERBOSE("SOFTWARE_UPDATE");
 
-  return uavcan::node::Heartbeat_1_0::Mode::INITIALIZATION;
+  return uavcan::node::Heartbeat_1_0<>::Mode::INITIALIZATION;
 }
 
 } /* node */
@@ -265,12 +265,12 @@ uavcan::node::Heartbeat_1_0::Mode handle_SOFTWARE_UPDATE()
 namespace heartbeat
 {
 
-void publish(ArduinoUAVCAN & u, uint32_t const uptime, uavcan::node::Heartbeat_1_0::Mode const mode)
+void publish(ArduinoUAVCAN & u, uint32_t const uptime, uavcan::node::Heartbeat_1_0<>::Mode const mode)
 {
-  uavcan::node::Heartbeat_1_0 hb;
+  uavcan::node::Heartbeat_1_0<> hb;
 
   hb.data.uptime = uptime;
-  hb = uavcan::node::Heartbeat_1_0::Health::NOMINAL;
+  hb = uavcan::node::Heartbeat_1_0<>::Health::NOMINAL;
   hb = mode;
   hb.data.vendor_specific_status_code = 0;
 
