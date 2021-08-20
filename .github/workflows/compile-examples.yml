@@ -23,6 +23,7 @@ jobs:
         - source-path: ./
         - name: 107-Arduino-Debug
         - name: 107-Arduino-MCP2515
+        - name: 107-Arduino-TMF8801
         - name: Arduino_EdgeControl
         - name: 107-Arduino-NMEA-Parser
 
