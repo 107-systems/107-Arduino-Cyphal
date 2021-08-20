@@ -10,8 +10,9 @@
  **************************************************************************************/
 
 #include "CritSec.h"
+
 #ifdef ARDUINO_RASPBERRY_PI_PICO
-#include "Arduino.h"
+#include <Arduino.h>
 
 /**************************************************************************************
  * FUNCTION DEFINITION
