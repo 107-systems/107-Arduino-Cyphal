@@ -1,0 +1,71 @@
+name: Compile Sketch
+
+# See: https://docs.github.com/en/free-pro-team@latest/actions/reference/events-that-trigger-workflows
+on:
+  pull_request:
+    paths-ignore:
+      - ".github/**"
+      - "!.github/workflows/compile-sketches.yml"
+      - "data/**"
+      - "**.adoc"
+      - "**.jpg"
+      - "**.md"
+      - "**.png"
+      - "**.txt"
+  push:
+    paths-ignore:
+      - ".github/**"
+      - "!.github/workflows/compile-sketches.yml"
+      - "data/**"
+      - "**.adoc"
+      - "**.jpg"
+      - "**.md"
+      - "**.png"
+      - "**.txt"
+  schedule:
+    # Run every Saturday at 6 AM UTC to catch breakage caused by changes to external resources (libraries, platforms).
+    - cron: "0 6 * * SAT"
+  workflow_dispatch:
+  repository_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      SKETCHES_REPORTS_PATH: sketches-reports
+
+    strategy:
+      fail-fast: false
+
+      matrix:
+        board:
+          - fqbn: arduino:samd:mkrzero
+            platforms: |
+              - name: arduino:samd
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Compile examples
+        uses: arduino/compile-sketches@main
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          fqbn: ${{ matrix.board.fqbn }}
+          platforms: ${{ matrix.board.platforms }}
+          libraries: |
+            - name: 107-Arduino-Debug
+            - name: 107-Arduino-MCP2515
+            - name: 107-Arduino-TMF8801
+            - name: 107-Arduino-UAVCAN
+          sketch-paths: |
+            - ${{ github.workspace }}
+          enable-deltas-report: true
+          sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
+
+      - name: Save memory usage change report as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          path: ${{ env.SKETCHES_REPORTS_PATH }}
+          name: ${{ env.SKETCHES_REPORTS_PATH }}
