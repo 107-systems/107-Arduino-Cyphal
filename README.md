@@ -22,14 +22,14 @@ This library works for
 * [arduino-esp32](https://github.com/espressif/arduino-esp32): `ESP32 Dev Module`, `ESP32 Wrover Module`, ... :heavy_check_mark:
 
 ### Reference-Implementation UAVCAN on Arduino
-* [UAVCAN-GNSS-Node](https://github.com/107-systems/UAVCAN-GNSS-Node): A UAVCAN node with a GNSS sensor providing location data.
+* [UAVCAN-GNSS-Node](examples/UAVCAN-GNSS-Node): A UAVCAN node with a GNSS sensor providing location data.
 * [UAVCAN-ToF-Distance-Sensor-Node](https://github.com/107-systems/UAVCAN-ToF-Distance-Sensor-Node): Demo firmware for UAVCAN ToF Distance Sensor Node utilizing 107-Arduino-UAVCAN.
 
 ### Example
 **Note**: Please be advised that the [examples](https://github.com/107-systems/107-Arduino-UAVCAN/tree/master/examples) shipped with this library are to be considered minimal examples to get you started working with [UAVCAN](https://uavcan.org/).
 They are known to violate section **2.1.2.2 Regulation** of the UAVCAN Specification due to their reliance on hard-coded port identifiers.
 A compliant implementation would instead provide configurable port-IDs and support the Register Interface (section **5.3 Application-layer functions**).
-Fully compliant examples that implement reconfigurable port-IDs are shipped separately; e.g., [UAVCAN-GNSS-Node](https://github.com/107-systems/UAVCAN-GNSS-Node).
+Fully compliant examples that implement reconfigurable port-IDs are shipped separately; e.g., [UAVCAN-GNSS-Node](examples/UAVCAN-GNSS-Node).
 ```C++
 #include <ArduinoUAVCAN.h>
 /* ... */
