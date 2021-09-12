@@ -118,6 +118,8 @@ ArduinoTMF8801 tmf8801{i2c_generic_write, i2c_generic_read, delay, TMF8801_DEFAU
 
 DEBUG_INSTANCE(120, Serial);
 
+static unsigned long prev_heartbeat = 0;
+
 /**************************************************************************************
  * SETUP/LOOP
  **************************************************************************************/
@@ -168,7 +170,6 @@ void loop()
 
   /* Publish the node heartbeat.
    */
-  static unsigned long prev_heartbeat = 0;
   if ((now - prev_heartbeat) > node_config.heartbeat_period_ms) {
     heartbeat::publish(uavcan_hdl, now / 1000, node_data.mode);
     prev_heartbeat = now;

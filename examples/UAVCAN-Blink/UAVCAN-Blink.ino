@@ -71,6 +71,8 @@ ArduinoUAVCAN uc(13, transmitCanFrame);
 
 Heartbeat_1_0<> hb;
 
+static unsigned long prev = 0;
+
 /**************************************************************************************
  * SETUP/LOOP
  **************************************************************************************/
@@ -126,7 +128,6 @@ void loop()
   hb = Heartbeat_1_0<>::Mode::OPERATIONAL;
 
   /* Publish the heartbeat once/second */
-  static unsigned long prev = 0;
   unsigned long const now = millis();
   if(now - prev > 1000) {
     uc.publish(hb);

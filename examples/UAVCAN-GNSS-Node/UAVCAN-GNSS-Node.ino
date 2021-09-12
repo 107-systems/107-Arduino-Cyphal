@@ -113,6 +113,8 @@ UavcanNodeConfiguration node_config = UAVCAN_NODE_INITIAL_CONFIGURATION;
 
 DEBUG_INSTANCE(120, Serial);
 
+static unsigned long prev_heartbeat = 0;
+
 /**************************************************************************************
  * SETUP/LOOP
  **************************************************************************************/
@@ -154,7 +156,6 @@ void loop()
 
   /* Publish the node heartbeat.
    */
-  static unsigned long prev_heartbeat = 0;
   if ((now - prev_heartbeat) > node_config.heartbeat_period_ms) {
     heartbeat::publish(uavcan_hdl, now / 1000, node_data.mode);
     prev_heartbeat = now;
