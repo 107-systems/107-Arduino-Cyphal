@@ -199,6 +199,10 @@
 #include "wrappers/uavcan/register/Name_1_0.hpp"
 #include "wrappers/uavcan/register/Value_1_0.hpp"
 
+/* /uavcan/si *******************************************************************/
+#include "wrappers/uavcan/si/sample/acceleration/Scalar_1_0.hpp"
+#include "wrappers/uavcan/si/sample/acceleration/Vector3_1_0.hpp"
+
 /* /uavcan/time ***********************************************************************/
 #include "wrappers/uavcan/time/GetSynchronizationMasterInfo_0_1.hpp"
 #include "wrappers/uavcan/time/Synchronization_1_0.hpp"
