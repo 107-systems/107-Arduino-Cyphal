@@ -22,9 +22,11 @@ jobs:
         # Install the library from the local path.
         - source-path: ./
         - name: 107-Arduino-Debug
+        - name: 107-Arduino-Sensor
         - name: 107-Arduino-MCP2515
         - name: 107-Arduino-TMF8801
         - name: Arduino_EdgeControl
+        - name: 107-Arduino-BoostUnits
         - name: 107-Arduino-NMEA-Parser
 
     strategy:
