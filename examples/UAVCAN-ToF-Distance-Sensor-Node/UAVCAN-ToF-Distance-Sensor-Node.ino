@@ -18,7 +18,7 @@
 
 #include <ArduinoUAVCAN.h>
 #include <ArduinoMCP2515.h>
-#include <ArduinoTMF8801.h>
+#include <107-Arduino-TMF8801.h>
 #define DBG_ENABLE_ERROR
 #define DBG_ENABLE_WARNING
 #define DBG_ENABLE_INFO
@@ -98,6 +98,11 @@ namespace heartbeat
 void publish(ArduinoUAVCAN &, uint32_t const, uavcan::node::Heartbeat_1_0<>::Mode const);
 }
 
+namespace tof
+{
+void onTofDistanceUpdate(drone::unit::Length const l);
+}
+
 /**************************************************************************************
  * GLOBAL VARIABLES
  **************************************************************************************/
@@ -114,7 +119,13 @@ ArduinoUAVCAN uavcan_hdl(UAVCAN_NODE_ID, MCP2515::transmit);
 UavcanNodeData node_data = UAVCAN_NODE_INITIAL_DATA;
 UavcanNodeConfiguration node_config = UAVCAN_NODE_INITIAL_CONFIGURATION;
 
-ArduinoTMF8801 tmf8801{i2c_generic_write, i2c_generic_read, delay, TMF8801_DEFAULT_I2C_ADDR, node_config.calib_data, node_config.algo_state};
+drone::ArduinoTMF8801 tmf8801(i2c_generic_write,
+                              i2c_generic_read,
+                              delay,
+                              TMF8801::DEFAULT_I2C_ADDR,
+                              node_config.calib_data,
+                              node_config.algo_state,
+                              tof::onTofDistanceUpdate);
 
 DEBUG_INSTANCE(120, Serial);
 
@@ -307,3 +318,13 @@ void publish(ArduinoUAVCAN & u, uint32_t const uptime, uavcan::node::Heartbeat_1
 }
 
 } /* heartbeat */
+
+namespace tof
+{
+
+void onTofDistanceUpdate(drone::unit::Length const l)
+{
+  DBG_INFO("[%05lu] Distance = %.3f m", millis(), l.value());
+}
+
+}
