@@ -24,7 +24,6 @@ namespace uavcan {
 namespace si {
 namespace sample {
 namespace acceleration {
-namespace vector3 {
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -71,7 +70,6 @@ public:
  * NAMESPACE
  **************************************************************************************/
 
-} /* vector3 */
 } /* acceleration */
 } /* sample */
 } /* si */
