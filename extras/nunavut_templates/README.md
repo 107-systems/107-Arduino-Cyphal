@@ -9,7 +9,7 @@ nnvg --outdir src/wrappers/ \
      --pp-max-emptylines 1 \
      --trim-blocks \
      --generate-namespace-types \
-     --namespace-output-stem DSDLBaseTypes \
+     --namespace-output-stem NSTypes \
       dsdl_src/public_regulated_data_types/uavcan
 
 nnvg --outdir src/wrappers/ \
@@ -18,7 +18,7 @@ nnvg --outdir src/wrappers/ \
      --pp-max-emptylines 1 \
      --trim-blocks \
      --generate-namespace-types \
-     --namespace-output-stem DSDLBaseTypes \
+     --namespace-output-stem NSTypes \
       dsdl_src/public_regulated_data_types/reg  \
      --lookup dsdl_src/public_regulated_data_types-master/uavcan
 ```
