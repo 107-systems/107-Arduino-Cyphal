@@ -15,7 +15,7 @@
 /* /reg/drone/physics/acoustics *******************************************************/
 #include "wrappers/reg/drone/physics/acoustics/Note_0_1.hpp"
 
-/* /reg/drone/physics/dynamics/rotation **************gnees *********************************/
+/* /reg/drone/physics/dynamics/rotation ***********************************************/
 #include "wrappers/reg/drone/physics/dynamics/rotation/Planar_0_1.hpp"
 #include "wrappers/reg/drone/physics/dynamics/rotation/PlanarTs_0_1.hpp"
 
