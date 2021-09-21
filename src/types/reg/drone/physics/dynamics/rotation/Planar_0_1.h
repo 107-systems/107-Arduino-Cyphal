@@ -25,7 +25,7 @@
 
 #include <nunavut/support/serialization.h>
 #include <types/reg/drone/physics/kinematics/rotation/Planar_0_1.h>
-#include <types/uavcan/si/unit/_torque/Scalar_1_0.h>
+#include <types/uavcan/si/unit/torque/Scalar_1_0.h>
 #include <stdlib.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
@@ -66,7 +66,7 @@ typedef struct
     reg_drone_physics_kinematics_rotation_Planar_0_1 kinematics;
 
     /// uavcan.si.unit.torque.Scalar.1.0 torque
-    uavcan_si_unit_torque_Scalar_1_0 _torque;
+    uavcan_si_unit_torque_Scalar_1_0 torque;
 } reg_drone_physics_dynamics_rotation_Planar_0_1;
 
 /// Serialize an instance into the provided buffer.
@@ -142,7 +142,7 @@ static inline int8_t reg_drone_physics_dynamics_rotation_Planar_0_1_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits / 8U + _size_bytes1_) <= capacity_bytes);
         int8_t _err2_ = uavcan_si_unit_torque_Scalar_1_0_serialize_(
-            &obj->_torque, &buffer[offset_bits / 8U], &_size_bytes1_);
+            &obj->torque, &buffer[offset_bits / 8U], &_size_bytes1_);
         if (_err2_ < 0)
         {
             return _err2_;
@@ -230,7 +230,7 @@ static inline int8_t reg_drone_physics_dynamics_rotation_Planar_0_1_deserialize_
         size_t _size_bytes3_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         const int8_t _err5_ = uavcan_si_unit_torque_Scalar_1_0_deserialize_(
-            &out_obj->_torque, &buffer[offset_bits / 8U], &_size_bytes3_);
+            &out_obj->torque, &buffer[offset_bits / 8U], &_size_bytes3_);
         if (_err5_ < 0)
         {
             return _err5_;
