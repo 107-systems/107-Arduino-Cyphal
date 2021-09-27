@@ -7,18 +7,29 @@
 // To avoid conflicts with definitions given in the source DSDL file, all entities created by the code generator
 // are named with an underscore at the end, like foo_bar_().
 //
-// Generator:     nunavut-1.0.0 (serialization was enabled)
-// Source file:   /home/alex/projects/107-systems/public_regulated_data_types/uavcan/internet/udp/500.HandleIncomingPacket.0.2.uavcan
-// Generated at:  2021-02-08 09:42:31.296110 UTC
+// Generator:     nunavut-1.4.2 (serialization was enabled)
+// Source file:   /tmp/public_regulated_data_types/uavcan/internet/udp/500.HandleIncomingPacket.0.2.uavcan
+// Generated at:  2021-09-27 06:53:04.660321 UTC
 // Is deprecated: no
 // Fixed port-ID: 500
 // Full name:     uavcan.internet.udp.HandleIncomingPacket
 // Version:       0.2
 //
+// Platform
+//     python_implementation:  CPython
+//     python_version:  3.8.0
+//     python_release_level:  final
+//     python_build:  ('default', 'Feb 25 2021 22:10:10')
+//     python_compiler:  GCC 8.4.0
+//     python_revision:
+//     python_xoptions:  {}
+//     runtime_platform:  Linux-5.4.0-86-generic-x86_64-with-glibc2.27
+//
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
 //     enable_serialization_asserts:  True
+//     enable_override_variable_array_capacity:  False
 
 #ifndef UAVCAN_INTERNET_UDP_HANDLE_INCOMING_PACKET_0_2_INCLUDED_
 #define UAVCAN_INTERNET_UDP_HANDLE_INCOMING_PACKET_0_2_INCLUDED_
@@ -28,13 +39,16 @@
 #include <stdlib.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
-              "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/internet/udp/500.HandleIncomingPacket.0.2.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/uavcan/internet/udp/500.HandleIncomingPacket.0.2.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_OMIT_FLOAT_SERIALIZATION_SUPPORT == 0,
-              "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/internet/udp/500.HandleIncomingPacket.0.2.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/uavcan/internet/udp/500.HandleIncomingPacket.0.2.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_SERIALIZATION_ASSERTS == 1,
-              "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/internet/udp/500.HandleIncomingPacket.0.2.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/uavcan/internet/udp/500.HandleIncomingPacket.0.2.uavcan is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not allowed." );
+static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_OVERRIDE_VARIABLE_ARRAY_CAPACITY == 0,
+              "/tmp/public_regulated_data_types/uavcan/internet/udp/500.HandleIncomingPacket.0.2.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 
 #ifdef __cplusplus
@@ -74,7 +88,7 @@ typedef struct
     /// saturated uint8[<=508] payload
     struct  /// Array address equivalence guarantee: &elements[0] == &payload
     {
-        uint8_t elements[508];
+        uint8_t elements[uavcan_internet_udp_HandleIncomingPacket_Request_0_2_payload_ARRAY_CAPACITY_];
         size_t count;
     } payload;
 } uavcan_internet_udp_HandleIncomingPacket_Request_0_2;
@@ -139,9 +153,14 @@ static inline int8_t uavcan_internet_udp_HandleIncomingPacket_Request_0_2_serial
         }
         offset_bits += 16U;
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        // Optimization prospect: this item is aligned at the byte boundary, so it is possible to use memmove().
-        nunavutCopyBits(&buffer[0], offset_bits, obj->payload.count * 8U, &obj->payload.elements[0], 0U);
-        offset_bits += obj->payload.count * 8U;
+        for (size_t _index0_ = 0U; _index0_ < obj->payload.count; ++_index0_)
+        {
+            NUNAVUT_ASSERT(offset_bits % 8U == 0U);
+            NUNAVUT_ASSERT((offset_bits + 8ULL) <= (capacity_bytes * 8U));
+            // Saturation code not emitted -- native representation matches the serialized representation.
+            buffer[offset_bits / 8U] = (uint8_t)(obj->payload.elements[_index0_]);  // C std, 6.3.1.3 Signed and unsigned integers
+            offset_bits += 8U;
+        }
     }
 
     if (offset_bits % 8U != 0U)  // Pad to 8 bits. TODO: Eliminate redundant padding checks.
@@ -213,8 +232,19 @@ static inline int8_t uavcan_internet_udp_HandleIncomingPacket_Request_0_2_deseri
         return -NUNAVUT_ERROR_REPRESENTATION_BAD_ARRAY_LENGTH;
     }
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    nunavutGetBits(&out_obj->payload.elements[0], &buffer[0], capacity_bytes, offset_bits, out_obj->payload.count * 8U);
-    offset_bits += out_obj->payload.count * 8U;
+    for (size_t _index1_ = 0U; _index1_ < out_obj->payload.count; ++_index1_)
+    {
+        NUNAVUT_ASSERT(offset_bits % 8U == 0U);
+        if ((offset_bits + 8U) <= capacity_bits)
+        {
+            out_obj->payload.elements[_index1_] = buffer[offset_bits / 8U] & 255U;
+        }
+        else
+        {
+            out_obj->payload.elements[_index1_] = 0U;
+        }
+        offset_bits += 8U;
+    }
 
     offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);

@@ -7,35 +7,47 @@
 // To avoid conflicts with definitions given in the source DSDL file, all entities created by the code generator
 // are named with an underscore at the end, like foo_bar_().
 //
-// Generator:     nunavut-1.0.0 (serialization was enabled)
-// Source file:   /home/alex/projects/107-systems/public_regulated_data_types/reg/drone/service/gnss/DilutionOfPrecision.0.1.uavcan
-// Generated at:  2021-02-08 09:43:05.236868 UTC
+// Generator:     nunavut-1.4.2 (serialization was enabled)
+// Source file:   /tmp/public_regulated_data_types/reg/drone/service/gnss/DilutionOfPrecision.0.1.uavcan
+// Generated at:  2021-09-27 06:53:05.648229 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.drone.service.gnss.DilutionOfPrecision
 // Version:       0.1
 //
+// Platform
+//     python_implementation:  CPython
+//     python_version:  3.8.0
+//     python_release_level:  final
+//     python_build:  ('default', 'Feb 25 2021 22:10:10')
+//     python_compiler:  GCC 8.4.0
+//     python_revision:
+//     python_xoptions:  {}
+//     runtime_platform:  Linux-5.4.0-86-generic-x86_64-with-glibc2.27
+//
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
 //     enable_serialization_asserts:  True
+//     enable_override_variable_array_capacity:  False
 
 #ifndef REG_DRONE_SERVICE_GNSS_DILUTION_OF_PRECISION_0_1_INCLUDED_
 #define REG_DRONE_SERVICE_GNSS_DILUTION_OF_PRECISION_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
 #include <stdlib.h>
-#undef infinite
-#include <cmath>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
-              "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/service/gnss/DilutionOfPrecision.0.1.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/reg/drone/service/gnss/DilutionOfPrecision.0.1.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_OMIT_FLOAT_SERIALIZATION_SUPPORT == 0,
-              "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/service/gnss/DilutionOfPrecision.0.1.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/reg/drone/service/gnss/DilutionOfPrecision.0.1.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_SERIALIZATION_ASSERTS == 1,
-              "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/service/gnss/DilutionOfPrecision.0.1.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/reg/drone/service/gnss/DilutionOfPrecision.0.1.uavcan is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not allowed." );
+static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_OVERRIDE_VARIABLE_ARRAY_CAPACITY == 0,
+              "/tmp/public_regulated_data_types/reg/drone/service/gnss/DilutionOfPrecision.0.1.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 
 #ifdef __cplusplus
@@ -121,7 +133,7 @@ static inline int8_t reg_drone_service_gnss_DilutionOfPrecision_0_1_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
         float _sat0_ = obj->geometric;
-        if (std::isfinite(_sat0_))
+        if (isfinite(_sat0_))
         {
             if (_sat0_ < ((float) -65504.0))
             {
@@ -144,7 +156,7 @@ static inline int8_t reg_drone_service_gnss_DilutionOfPrecision_0_1_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
         float _sat1_ = obj->position;
-        if (std::isfinite(_sat1_))
+        if (isfinite(_sat1_))
         {
             if (_sat1_ < ((float) -65504.0))
             {
@@ -167,7 +179,7 @@ static inline int8_t reg_drone_service_gnss_DilutionOfPrecision_0_1_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
         float _sat2_ = obj->horizontal;
-        if (std::isfinite(_sat2_))
+        if (isfinite(_sat2_))
         {
             if (_sat2_ < ((float) -65504.0))
             {
@@ -190,7 +202,7 @@ static inline int8_t reg_drone_service_gnss_DilutionOfPrecision_0_1_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
         float _sat3_ = obj->vertical;
-        if (std::isfinite(_sat3_))
+        if (isfinite(_sat3_))
         {
             if (_sat3_ < ((float) -65504.0))
             {
@@ -213,7 +225,7 @@ static inline int8_t reg_drone_service_gnss_DilutionOfPrecision_0_1_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
         float _sat4_ = obj->time;
-        if (std::isfinite(_sat4_))
+        if (isfinite(_sat4_))
         {
             if (_sat4_ < ((float) -65504.0))
             {
@@ -236,7 +248,7 @@ static inline int8_t reg_drone_service_gnss_DilutionOfPrecision_0_1_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
         float _sat5_ = obj->northing;
-        if (std::isfinite(_sat5_))
+        if (isfinite(_sat5_))
         {
             if (_sat5_ < ((float) -65504.0))
             {
@@ -259,7 +271,7 @@ static inline int8_t reg_drone_service_gnss_DilutionOfPrecision_0_1_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
         float _sat6_ = obj->easting;
-        if (std::isfinite(_sat6_))
+        if (isfinite(_sat6_))
         {
             if (_sat6_ < ((float) -65504.0))
             {

@@ -7,18 +7,29 @@
 // To avoid conflicts with definitions given in the source DSDL file, all entities created by the code generator
 // are named with an underscore at the end, like foo_bar_().
 //
-// Generator:     nunavut-1.0.0 (serialization was enabled)
-// Source file:   /home/alex/projects/107-systems/public_regulated_data_types/uavcan/si/sample/velocity/Vector3.1.0.uavcan
-// Generated at:  2021-02-08 09:42:29.060170 UTC
+// Generator:     nunavut-1.4.2 (serialization was enabled)
+// Source file:   /tmp/public_regulated_data_types/uavcan/si/sample/velocity/Vector3.1.0.uavcan
+// Generated at:  2021-09-27 06:53:04.570776 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.si.sample.velocity.Vector3
 // Version:       1.0
 //
+// Platform
+//     python_implementation:  CPython
+//     python_version:  3.8.0
+//     python_release_level:  final
+//     python_build:  ('default', 'Feb 25 2021 22:10:10')
+//     python_compiler:  GCC 8.4.0
+//     python_revision:
+//     python_xoptions:  {}
+//     runtime_platform:  Linux-5.4.0-86-generic-x86_64-with-glibc2.27
+//
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
 //     enable_serialization_asserts:  True
+//     enable_override_variable_array_capacity:  False
 
 #ifndef UAVCAN_SI_SAMPLE_VELOCITY_VECTOR3_1_0_INCLUDED_
 #define UAVCAN_SI_SAMPLE_VELOCITY_VECTOR3_1_0_INCLUDED_
@@ -29,13 +40,16 @@
 #include <string.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
-              "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/si/sample/velocity/Vector3.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/uavcan/si/sample/velocity/Vector3.1.0.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_OMIT_FLOAT_SERIALIZATION_SUPPORT == 0,
-              "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/si/sample/velocity/Vector3.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/uavcan/si/sample/velocity/Vector3.1.0.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_SERIALIZATION_ASSERTS == 1,
-              "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/si/sample/velocity/Vector3.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/uavcan/si/sample/velocity/Vector3.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not allowed." );
+static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_OVERRIDE_VARIABLE_ARRAY_CAPACITY == 0,
+              "/tmp/public_regulated_data_types/uavcan/si/sample/velocity/Vector3.1.0.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 
 #ifdef __cplusplus
@@ -129,39 +143,16 @@ static inline int8_t uavcan_si_sample_velocity_Vector3_1_0_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 96ULL) <= (capacity_bytes * 8U));
         const size_t _origin0_ = offset_bits;
-        {   // Array element #0
+        for (size_t _index0_ = 0U; _index0_ < 3UL; ++_index0_)
+        {
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 32ULL) <= (capacity_bytes * 8U));
             // Saturation code not emitted -- assume the native representation of float32 is conformant.
             static_assert(NUNAVUT_PLATFORM_IEEE754_FLOAT, "Native IEEE754 binary32 required. TODO: relax constraint");
-            const int8_t _err1_ = nunavutSetF32(&buffer[0], capacity_bytes, offset_bits, obj->meter_per_second[0]);
+            const int8_t _err1_ = nunavutSetF32(&buffer[0], capacity_bytes, offset_bits, obj->meter_per_second[_index0_]);
             if (_err1_ < 0)
             {
                 return _err1_;
-            }
-            offset_bits += 32U;
-        }
-        {   // Array element #1
-            NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-            NUNAVUT_ASSERT((offset_bits + 32ULL) <= (capacity_bytes * 8U));
-            // Saturation code not emitted -- assume the native representation of float32 is conformant.
-            static_assert(NUNAVUT_PLATFORM_IEEE754_FLOAT, "Native IEEE754 binary32 required. TODO: relax constraint");
-            const int8_t _err2_ = nunavutSetF32(&buffer[0], capacity_bytes, offset_bits, obj->meter_per_second[1]);
-            if (_err2_ < 0)
-            {
-                return _err2_;
-            }
-            offset_bits += 32U;
-        }
-        {   // Array element #2
-            NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-            NUNAVUT_ASSERT((offset_bits + 32ULL) <= (capacity_bytes * 8U));
-            // Saturation code not emitted -- assume the native representation of float32 is conformant.
-            static_assert(NUNAVUT_PLATFORM_IEEE754_FLOAT, "Native IEEE754 binary32 required. TODO: relax constraint");
-            const int8_t _err3_ = nunavutSetF32(&buffer[0], capacity_bytes, offset_bits, obj->meter_per_second[2]);
-            if (_err3_ < 0)
-            {
-                return _err3_;
             }
             offset_bits += 32U;
         }
@@ -174,10 +165,10 @@ static inline int8_t uavcan_si_sample_velocity_Vector3_1_0_serialize_(
     {
         const uint8_t _pad0_ = (uint8_t)(8U - offset_bits % 8U);
         NUNAVUT_ASSERT(_pad0_ > 0);
-        const int8_t _err4_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad0_);  // Optimize?
-        if (_err4_ < 0)
+        const int8_t _err2_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad0_);  // Optimize?
+        if (_err2_ < 0)
         {
-            return _err4_;
+            return _err2_;
         }
         offset_bits += _pad0_;
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
@@ -229,29 +220,23 @@ static inline int8_t uavcan_si_sample_velocity_Vector3_1_0_deserialize_(
     {
         size_t _size_bytes1_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        const int8_t _err5_ = uavcan_time_SynchronizedTimestamp_1_0_deserialize_(
+        const int8_t _err3_ = uavcan_time_SynchronizedTimestamp_1_0_deserialize_(
             &out_obj->timestamp, &buffer[offset_bits / 8U], &_size_bytes1_);
-        if (_err5_ < 0)
+        if (_err3_ < 0)
         {
-            return _err5_;
+            return _err3_;
         }
         offset_bits += _size_bytes1_ * 8U;  // Advance by the size of the nested serialized representation.
     }
 
     // saturated float32[3] meter_per_second
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    // Array element #0
-    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    out_obj->meter_per_second[0] = nunavutGetF32(&buffer[0], capacity_bytes, offset_bits);
-    offset_bits += 32U;
-    // Array element #1
-    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    out_obj->meter_per_second[1] = nunavutGetF32(&buffer[0], capacity_bytes, offset_bits);
-    offset_bits += 32U;
-    // Array element #2
-    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    out_obj->meter_per_second[2] = nunavutGetF32(&buffer[0], capacity_bytes, offset_bits);
-    offset_bits += 32U;
+    for (size_t _index1_ = 0U; _index1_ < 3UL; ++_index1_)
+    {
+        NUNAVUT_ASSERT(offset_bits % 8U == 0U);
+        out_obj->meter_per_second[_index1_] = nunavutGetF32(&buffer[0], capacity_bytes, offset_bits);
+        offset_bits += 32U;
+    }
 
     offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
