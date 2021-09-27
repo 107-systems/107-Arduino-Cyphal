@@ -7,18 +7,29 @@
 // To avoid conflicts with definitions given in the source DSDL file, all entities created by the code generator
 // are named with an underscore at the end, like foo_bar_().
 //
-// Generator:     nunavut-1.0.0 (serialization was enabled)
-// Source file:   /home/alex/projects/107-systems/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.uavcan
-// Generated at:  2021-02-08 09:42:44.292689 UTC
+// Generator:     nunavut-1.4.2 (serialization was enabled)
+// Source file:   /tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.uavcan
+// Generated at:  2021-09-27 06:53:04.682485 UTC
 // Is deprecated: no
 // Fixed port-ID: 430
 // Full name:     uavcan.node.GetInfo
 // Version:       1.0
 //
+// Platform
+//     python_implementation:  CPython
+//     python_version:  3.8.0
+//     python_release_level:  final
+//     python_build:  ('default', 'Feb 25 2021 22:10:10')
+//     python_compiler:  GCC 8.4.0
+//     python_revision:
+//     python_xoptions:  {}
+//     runtime_platform:  Linux-5.4.0-86-generic-x86_64-with-glibc2.27
+//
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
 //     enable_serialization_asserts:  True
+//     enable_override_variable_array_capacity:  False
 
 #ifndef UAVCAN_NODE_GET_INFO_1_0_INCLUDED_
 #define UAVCAN_NODE_GET_INFO_1_0_INCLUDED_
@@ -30,13 +41,16 @@
 #include <string.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
-              "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_OMIT_FLOAT_SERIALIZATION_SUPPORT == 0,
-              "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_SERIALIZATION_ASSERTS == 1,
-              "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not allowed." );
+static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_OVERRIDE_VARIABLE_ARRAY_CAPACITY == 0,
+              "/tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 
 #ifdef __cplusplus
@@ -194,21 +208,21 @@ typedef struct
     /// saturated uint8[<=50] name
     struct  /// Array address equivalence guarantee: &elements[0] == &name
     {
-        uint8_t elements[50];
+        uint8_t elements[uavcan_node_GetInfo_Response_1_0_name_ARRAY_CAPACITY_];
         size_t count;
     } name;
 
     /// saturated uint64[<=1] software_image_crc
     struct  /// Array address equivalence guarantee: &elements[0] == &software_image_crc
     {
-        uint64_t elements[1];
+        uint64_t elements[uavcan_node_GetInfo_Response_1_0_software_image_crc_ARRAY_CAPACITY_];
         size_t count;
     } software_image_crc;
 
     /// saturated uint8[<=222] certificate_of_authenticity
     struct  /// Array address equivalence guarantee: &elements[0] == &certificate_of_authenticity
     {
-        uint8_t elements[222];
+        uint8_t elements[uavcan_node_GetInfo_Response_1_0_certificate_of_authenticity_ARRAY_CAPACITY_];
         size_t count;
     } certificate_of_authenticity;
 } uavcan_node_GetInfo_Response_1_0;
@@ -344,9 +358,18 @@ static inline int8_t uavcan_node_GetInfo_Response_1_0_serialize_(
     {   // saturated uint8[16] unique_id
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 128ULL) <= (capacity_bytes * 8U));
-        // Optimization prospect: this item is aligned at the byte boundary, so it is possible to use memmove().
-        nunavutCopyBits(&buffer[0], offset_bits, 16UL * 8U, &obj->unique_id[0], 0U);
-        offset_bits += 16UL * 8U;
+        const size_t _origin0_ = offset_bits;
+        for (size_t _index0_ = 0U; _index0_ < 16UL; ++_index0_)
+        {
+            NUNAVUT_ASSERT(offset_bits % 8U == 0U);
+            NUNAVUT_ASSERT((offset_bits + 8ULL) <= (capacity_bytes * 8U));
+            // Saturation code not emitted -- native representation matches the serialized representation.
+            buffer[offset_bits / 8U] = (uint8_t)(obj->unique_id[_index0_]);  // C std, 6.3.1.3 Signed and unsigned integers
+            offset_bits += 8U;
+        }
+        // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
+        NUNAVUT_ASSERT((offset_bits - _origin0_) == 128ULL);
+        (void) _origin0_;
     }
 
     {   // saturated uint8[<=50] name
@@ -360,9 +383,14 @@ static inline int8_t uavcan_node_GetInfo_Response_1_0_serialize_(
         buffer[offset_bits / 8U] = (uint8_t)(obj->name.count);  // C std, 6.3.1.3 Signed and unsigned integers
         offset_bits += 8U;
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        // Optimization prospect: this item is aligned at the byte boundary, so it is possible to use memmove().
-        nunavutCopyBits(&buffer[0], offset_bits, obj->name.count * 8U, &obj->name.elements[0], 0U);
-        offset_bits += obj->name.count * 8U;
+        for (size_t _index1_ = 0U; _index1_ < obj->name.count; ++_index1_)
+        {
+            NUNAVUT_ASSERT(offset_bits % 8U == 0U);
+            NUNAVUT_ASSERT((offset_bits + 8ULL) <= (capacity_bytes * 8U));
+            // Saturation code not emitted -- native representation matches the serialized representation.
+            buffer[offset_bits / 8U] = (uint8_t)(obj->name.elements[_index1_]);  // C std, 6.3.1.3 Signed and unsigned integers
+            offset_bits += 8U;
+        }
     }
 
     {   // saturated uint64[<=1] software_image_crc
@@ -376,12 +404,12 @@ static inline int8_t uavcan_node_GetInfo_Response_1_0_serialize_(
         buffer[offset_bits / 8U] = (uint8_t)(obj->software_image_crc.count);  // C std, 6.3.1.3 Signed and unsigned integers
         offset_bits += 8U;
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        for (size_t _index0_ = 0U; _index0_ < obj->software_image_crc.count; ++_index0_)
+        for (size_t _index2_ = 0U; _index2_ < obj->software_image_crc.count; ++_index2_)
         {
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 64ULL) <= (capacity_bytes * 8U));
             // Saturation code not emitted -- native representation matches the serialized representation.
-            const int8_t _err6_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, obj->software_image_crc.elements[_index0_], 64U);
+            const int8_t _err6_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, obj->software_image_crc.elements[_index2_], 64U);
             if (_err6_ < 0)
             {
                 return _err6_;
@@ -401,9 +429,14 @@ static inline int8_t uavcan_node_GetInfo_Response_1_0_serialize_(
         buffer[offset_bits / 8U] = (uint8_t)(obj->certificate_of_authenticity.count);  // C std, 6.3.1.3 Signed and unsigned integers
         offset_bits += 8U;
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        // Optimization prospect: this item is aligned at the byte boundary, so it is possible to use memmove().
-        nunavutCopyBits(&buffer[0], offset_bits, obj->certificate_of_authenticity.count * 8U, &obj->certificate_of_authenticity.elements[0], 0U);
-        offset_bits += obj->certificate_of_authenticity.count * 8U;
+        for (size_t _index3_ = 0U; _index3_ < obj->certificate_of_authenticity.count; ++_index3_)
+        {
+            NUNAVUT_ASSERT(offset_bits % 8U == 0U);
+            NUNAVUT_ASSERT((offset_bits + 8ULL) <= (capacity_bytes * 8U));
+            // Saturation code not emitted -- native representation matches the serialized representation.
+            buffer[offset_bits / 8U] = (uint8_t)(obj->certificate_of_authenticity.elements[_index3_]);  // C std, 6.3.1.3 Signed and unsigned integers
+            offset_bits += 8U;
+        }
     }
 
     if (offset_bits % 8U != 0U)  // Pad to 8 bits. TODO: Eliminate redundant padding checks.
@@ -516,8 +549,19 @@ static inline int8_t uavcan_node_GetInfo_Response_1_0_deserialize_(
 
     // saturated uint8[16] unique_id
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    nunavutGetBits(&out_obj->unique_id[0], &buffer[0], capacity_bytes, offset_bits, 16UL * 8U);
-    offset_bits += 16UL * 8U;
+    for (size_t _index4_ = 0U; _index4_ < 16UL; ++_index4_)
+    {
+        NUNAVUT_ASSERT(offset_bits % 8U == 0U);
+        if ((offset_bits + 8U) <= capacity_bits)
+        {
+            out_obj->unique_id[_index4_] = buffer[offset_bits / 8U] & 255U;
+        }
+        else
+        {
+            out_obj->unique_id[_index4_] = 0U;
+        }
+        offset_bits += 8U;
+    }
 
     // saturated uint8[<=50] name
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
@@ -536,8 +580,19 @@ static inline int8_t uavcan_node_GetInfo_Response_1_0_deserialize_(
         return -NUNAVUT_ERROR_REPRESENTATION_BAD_ARRAY_LENGTH;
     }
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    nunavutGetBits(&out_obj->name.elements[0], &buffer[0], capacity_bytes, offset_bits, out_obj->name.count * 8U);
-    offset_bits += out_obj->name.count * 8U;
+    for (size_t _index5_ = 0U; _index5_ < out_obj->name.count; ++_index5_)
+    {
+        NUNAVUT_ASSERT(offset_bits % 8U == 0U);
+        if ((offset_bits + 8U) <= capacity_bits)
+        {
+            out_obj->name.elements[_index5_] = buffer[offset_bits / 8U] & 255U;
+        }
+        else
+        {
+            out_obj->name.elements[_index5_] = 0U;
+        }
+        offset_bits += 8U;
+    }
 
     // saturated uint64[<=1] software_image_crc
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
@@ -556,10 +611,10 @@ static inline int8_t uavcan_node_GetInfo_Response_1_0_deserialize_(
         return -NUNAVUT_ERROR_REPRESENTATION_BAD_ARRAY_LENGTH;
     }
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    for (size_t _index1_ = 0U; _index1_ < out_obj->software_image_crc.count; ++_index1_)
+    for (size_t _index6_ = 0U; _index6_ < out_obj->software_image_crc.count; ++_index6_)
     {
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        out_obj->software_image_crc.elements[_index1_] = nunavutGetU64(&buffer[0], capacity_bytes, offset_bits, 64);
+        out_obj->software_image_crc.elements[_index6_] = nunavutGetU64(&buffer[0], capacity_bytes, offset_bits, 64);
         offset_bits += 64U;
     }
 
@@ -580,8 +635,19 @@ static inline int8_t uavcan_node_GetInfo_Response_1_0_deserialize_(
         return -NUNAVUT_ERROR_REPRESENTATION_BAD_ARRAY_LENGTH;
     }
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    nunavutGetBits(&out_obj->certificate_of_authenticity.elements[0], &buffer[0], capacity_bytes, offset_bits, out_obj->certificate_of_authenticity.count * 8U);
-    offset_bits += out_obj->certificate_of_authenticity.count * 8U;
+    for (size_t _index7_ = 0U; _index7_ < out_obj->certificate_of_authenticity.count; ++_index7_)
+    {
+        NUNAVUT_ASSERT(offset_bits % 8U == 0U);
+        if ((offset_bits + 8U) <= capacity_bits)
+        {
+            out_obj->certificate_of_authenticity.elements[_index7_] = buffer[offset_bits / 8U] & 255U;
+        }
+        else
+        {
+            out_obj->certificate_of_authenticity.elements[_index7_] = 0U;
+        }
+        offset_bits += 8U;
+    }
 
     offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);

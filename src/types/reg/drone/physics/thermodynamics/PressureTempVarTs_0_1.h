@@ -7,18 +7,29 @@
 // To avoid conflicts with definitions given in the source DSDL file, all entities created by the code generator
 // are named with an underscore at the end, like foo_bar_().
 //
-// Generator:     nunavut-1.0.0 (serialization was enabled)
-// Source file:   /home/alex/projects/107-systems/public_regulated_data_types/reg/drone/physics/thermodynamics/PressureTempVarTs.0.1.uavcan
-// Generated at:  2021-02-08 09:43:17.803029 UTC
+// Generator:     nunavut-1.4.2 (serialization was enabled)
+// Source file:   /tmp/public_regulated_data_types/reg/drone/physics/thermodynamics/PressureTempVarTs.0.1.uavcan
+// Generated at:  2021-09-27 06:53:05.639840 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.drone.physics.thermodynamics.PressureTempVarTs
 // Version:       0.1
 //
+// Platform
+//     python_implementation:  CPython
+//     python_version:  3.8.0
+//     python_release_level:  final
+//     python_build:  ('default', 'Feb 25 2021 22:10:10')
+//     python_compiler:  GCC 8.4.0
+//     python_revision:
+//     python_xoptions:  {}
+//     runtime_platform:  Linux-5.4.0-86-generic-x86_64-with-glibc2.27
+//
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
 //     enable_serialization_asserts:  True
+//     enable_override_variable_array_capacity:  False
 
 #ifndef REG_DRONE_PHYSICS_THERMODYNAMICS_PRESSURE_TEMP_VAR_TS_0_1_INCLUDED_
 #define REG_DRONE_PHYSICS_THERMODYNAMICS_PRESSURE_TEMP_VAR_TS_0_1_INCLUDED_
@@ -29,17 +40,18 @@
 #include <types/uavcan/time/SynchronizedTimestamp_1_0.h>
 #include <stdlib.h>
 #include <string.h>
-#undef infinite
-#include <cmath>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
-              "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/physics/thermodynamics/PressureTempVarTs.0.1.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/reg/drone/physics/thermodynamics/PressureTempVarTs.0.1.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_OMIT_FLOAT_SERIALIZATION_SUPPORT == 0,
-              "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/physics/thermodynamics/PressureTempVarTs.0.1.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/reg/drone/physics/thermodynamics/PressureTempVarTs.0.1.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_SERIALIZATION_ASSERTS == 1,
-              "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/physics/thermodynamics/PressureTempVarTs.0.1.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/reg/drone/physics/thermodynamics/PressureTempVarTs.0.1.uavcan is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not allowed." );
+static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_OVERRIDE_VARIABLE_ARRAY_CAPACITY == 0,
+              "/tmp/public_regulated_data_types/reg/drone/physics/thermodynamics/PressureTempVarTs.0.1.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 
 #ifdef __cplusplus
@@ -203,11 +215,12 @@ static inline int8_t reg_drone_physics_thermodynamics_PressureTempVarTs_0_1_seri
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 48ULL) <= (capacity_bytes * 8U));
         const size_t _origin0_ = offset_bits;
-        {   // Array element #0
+        for (size_t _index0_ = 0U; _index0_ < 3UL; ++_index0_)
+        {
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
-            float _sat0_ = obj->covariance_urt[0];
-            if (std::isfinite(_sat0_))
+            float _sat0_ = obj->covariance_urt[_index0_];
+            if (isfinite(_sat0_))
             {
                 if (_sat0_ < ((float) -65504.0))
                 {
@@ -225,50 +238,6 @@ static inline int8_t reg_drone_physics_thermodynamics_PressureTempVarTs_0_1_seri
             }
             offset_bits += 16U;
         }
-        {   // Array element #1
-            NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-            NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
-            float _sat1_ = obj->covariance_urt[1];
-            if (std::isfinite(_sat1_))
-            {
-                if (_sat1_ < ((float) -65504.0))
-                {
-                    _sat1_ = ((float) -65504.0);
-                }
-                if (_sat1_ > ((float) 65504.0))
-                {
-                    _sat1_ = ((float) 65504.0);
-                }
-            }
-            const int8_t _err6_ = nunavutSetF16(&buffer[0], capacity_bytes, offset_bits, _sat1_);
-            if (_err6_ < 0)
-            {
-                return _err6_;
-            }
-            offset_bits += 16U;
-        }
-        {   // Array element #2
-            NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-            NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
-            float _sat2_ = obj->covariance_urt[2];
-            if (std::isfinite(_sat2_))
-            {
-                if (_sat2_ < ((float) -65504.0))
-                {
-                    _sat2_ = ((float) -65504.0);
-                }
-                if (_sat2_ > ((float) 65504.0))
-                {
-                    _sat2_ = ((float) 65504.0);
-                }
-            }
-            const int8_t _err7_ = nunavutSetF16(&buffer[0], capacity_bytes, offset_bits, _sat2_);
-            if (_err7_ < 0)
-            {
-                return _err7_;
-            }
-            offset_bits += 16U;
-        }
         // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
         NUNAVUT_ASSERT((offset_bits - _origin0_) == 48ULL);
         (void) _origin0_;
@@ -278,10 +247,10 @@ static inline int8_t reg_drone_physics_thermodynamics_PressureTempVarTs_0_1_seri
     {
         const uint8_t _pad2_ = (uint8_t)(8U - offset_bits % 8U);
         NUNAVUT_ASSERT(_pad2_ > 0);
-        const int8_t _err8_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad2_);  // Optimize?
-        if (_err8_ < 0)
+        const int8_t _err6_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad2_);  // Optimize?
+        if (_err6_ < 0)
         {
-            return _err8_;
+            return _err6_;
         }
         offset_bits += _pad2_;
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
@@ -333,11 +302,11 @@ static inline int8_t reg_drone_physics_thermodynamics_PressureTempVarTs_0_1_dese
     {
         size_t _size_bytes3_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        const int8_t _err9_ = uavcan_time_SynchronizedTimestamp_1_0_deserialize_(
+        const int8_t _err7_ = uavcan_time_SynchronizedTimestamp_1_0_deserialize_(
             &out_obj->timestamp, &buffer[offset_bits / 8U], &_size_bytes3_);
-        if (_err9_ < 0)
+        if (_err7_ < 0)
         {
-            return _err9_;
+            return _err7_;
         }
         offset_bits += _size_bytes3_ * 8U;  // Advance by the size of the nested serialized representation.
     }
@@ -350,11 +319,11 @@ static inline int8_t reg_drone_physics_thermodynamics_PressureTempVarTs_0_1_dese
     {
         size_t _size_bytes4_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        const int8_t _err10_ = uavcan_si_unit_pressure_Scalar_1_0_deserialize_(
+        const int8_t _err8_ = uavcan_si_unit_pressure_Scalar_1_0_deserialize_(
             &out_obj->pressure, &buffer[offset_bits / 8U], &_size_bytes4_);
-        if (_err10_ < 0)
+        if (_err8_ < 0)
         {
-            return _err10_;
+            return _err8_;
         }
         offset_bits += _size_bytes4_ * 8U;  // Advance by the size of the nested serialized representation.
     }
@@ -367,29 +336,23 @@ static inline int8_t reg_drone_physics_thermodynamics_PressureTempVarTs_0_1_dese
     {
         size_t _size_bytes5_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        const int8_t _err11_ = uavcan_si_unit_temperature_Scalar_1_0_deserialize_(
+        const int8_t _err9_ = uavcan_si_unit_temperature_Scalar_1_0_deserialize_(
             &out_obj->temperature, &buffer[offset_bits / 8U], &_size_bytes5_);
-        if (_err11_ < 0)
+        if (_err9_ < 0)
         {
-            return _err11_;
+            return _err9_;
         }
         offset_bits += _size_bytes5_ * 8U;  // Advance by the size of the nested serialized representation.
     }
 
     // saturated float16[3] covariance_urt
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    // Array element #0
-    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    out_obj->covariance_urt[0] = nunavutGetF16(&buffer[0], capacity_bytes, offset_bits);
-    offset_bits += 16U;
-    // Array element #1
-    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    out_obj->covariance_urt[1] = nunavutGetF16(&buffer[0], capacity_bytes, offset_bits);
-    offset_bits += 16U;
-    // Array element #2
-    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    out_obj->covariance_urt[2] = nunavutGetF16(&buffer[0], capacity_bytes, offset_bits);
-    offset_bits += 16U;
+    for (size_t _index1_ = 0U; _index1_ < 3UL; ++_index1_)
+    {
+        NUNAVUT_ASSERT(offset_bits % 8U == 0U);
+        out_obj->covariance_urt[_index1_] = nunavutGetF16(&buffer[0], capacity_bytes, offset_bits);
+        offset_bits += 16U;
+    }
 
     offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);

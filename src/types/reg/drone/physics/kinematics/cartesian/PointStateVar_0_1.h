@@ -7,35 +7,49 @@
 // To avoid conflicts with definitions given in the source DSDL file, all entities created by the code generator
 // are named with an underscore at the end, like foo_bar_().
 //
-// Generator:     nunavut-1.0.0 (serialization was enabled)
-// Source file:   /home/alex/projects/107-systems/public_regulated_data_types/reg/drone/physics/kinematics/cartesian/PointStateVar.0.1.uavcan
-// Generated at:  2021-02-08 09:43:13.033297 UTC
+// Generator:     nunavut-1.4.2 (serialization was enabled)
+// Source file:   /tmp/public_regulated_data_types/reg/drone/physics/kinematics/cartesian/PointStateVar.0.1.uavcan
+// Generated at:  2021-09-27 06:53:05.572711 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.drone.physics.kinematics.cartesian.PointStateVar
 // Version:       0.1
 //
+// Platform
+//     python_implementation:  CPython
+//     python_version:  3.8.0
+//     python_release_level:  final
+//     python_build:  ('default', 'Feb 25 2021 22:10:10')
+//     python_compiler:  GCC 8.4.0
+//     python_revision:
+//     python_xoptions:  {}
+//     runtime_platform:  Linux-5.4.0-86-generic-x86_64-with-glibc2.27
+//
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
 //     enable_serialization_asserts:  True
+//     enable_override_variable_array_capacity:  False
 
 #ifndef REG_DRONE_PHYSICS_KINEMATICS_CARTESIAN_POINT_STATE_VAR_0_1_INCLUDED_
 #define REG_DRONE_PHYSICS_KINEMATICS_CARTESIAN_POINT_STATE_VAR_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
 #include <types/reg/drone/physics/kinematics/cartesian/PointVar_0_1.h>
-#include <types/reg/drone/physics/kinematics/translation/Velocity3Var_0_1.h>
+#include <types/reg/drone/physics/kinematics/translation/Velocity3Var_0_2.h>
 #include <stdlib.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
-              "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/physics/kinematics/cartesian/PointStateVar.0.1.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/reg/drone/physics/kinematics/cartesian/PointStateVar.0.1.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_OMIT_FLOAT_SERIALIZATION_SUPPORT == 0,
-              "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/physics/kinematics/cartesian/PointStateVar.0.1.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/reg/drone/physics/kinematics/cartesian/PointStateVar.0.1.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_SERIALIZATION_ASSERTS == 1,
-              "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/physics/kinematics/cartesian/PointStateVar.0.1.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/reg/drone/physics/kinematics/cartesian/PointStateVar.0.1.uavcan is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not allowed." );
+static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_OVERRIDE_VARIABLE_ARRAY_CAPACITY == 0,
+              "/tmp/public_regulated_data_types/reg/drone/physics/kinematics/cartesian/PointStateVar.0.1.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 
 #ifdef __cplusplus
@@ -55,8 +69,8 @@ extern "C" {
 /// When allocating a serialization (TX) buffer, it is safe to use the size of the largest serialized representation
 /// instead of the extent because it provides a tighter bound of the object size; it is safe because the concrete type
 /// is always known during serialization (unlike deserialization). If not sure, use extent everywhere.
-#define reg_drone_physics_kinematics_cartesian_PointStateVar_0_1_EXTENT_BYTES_                    67UL
-#define reg_drone_physics_kinematics_cartesian_PointStateVar_0_1_SERIALIZATION_BUFFER_SIZE_BYTES_ 67UL
+#define reg_drone_physics_kinematics_cartesian_PointStateVar_0_1_EXTENT_BYTES_                    60UL
+#define reg_drone_physics_kinematics_cartesian_PointStateVar_0_1_SERIALIZATION_BUFFER_SIZE_BYTES_ 60UL
 static_assert(reg_drone_physics_kinematics_cartesian_PointStateVar_0_1_EXTENT_BYTES_ >= reg_drone_physics_kinematics_cartesian_PointStateVar_0_1_SERIALIZATION_BUFFER_SIZE_BYTES_,
               "Internal constraint violation");
 
@@ -65,8 +79,8 @@ typedef struct
     /// reg.drone.physics.kinematics.cartesian.PointVar.0.1 position
     reg_drone_physics_kinematics_cartesian_PointVar_0_1 position;
 
-    /// reg.drone.physics.kinematics.translation.Velocity3Var.0.1 velocity
-    reg_drone_physics_kinematics_translation_Velocity3Var_0_1 velocity;
+    /// reg.drone.physics.kinematics.translation.Velocity3Var.0.2 velocity
+    reg_drone_physics_kinematics_translation_Velocity3Var_0_2 velocity;
 } reg_drone_physics_kinematics_cartesian_PointStateVar_0_1;
 
 /// Serialize an instance into the provided buffer.
@@ -94,7 +108,7 @@ static inline int8_t reg_drone_physics_kinematics_cartesian_PointStateVar_0_1_se
     }
 
     const size_t capacity_bytes = *inout_buffer_size_bytes;
-    if ((8U * (size_t) capacity_bytes) < 536UL)
+    if ((8U * (size_t) capacity_bytes) < 480UL)
     {
         return -NUNAVUT_ERROR_SERIALIZATION_BUFFER_TOO_SMALL;
     }
@@ -134,21 +148,21 @@ static inline int8_t reg_drone_physics_kinematics_cartesian_PointStateVar_0_1_se
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     }
 
-    {   // reg.drone.physics.kinematics.translation.Velocity3Var.0.1 velocity
+    {   // reg.drone.physics.kinematics.translation.Velocity3Var.0.2 velocity
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        NUNAVUT_ASSERT((offset_bits + 248ULL) <= (capacity_bytes * 8U));
-        size_t _size_bytes1_ = 31UL;  // Nested object (max) size, in bytes.
+        NUNAVUT_ASSERT((offset_bits + 192ULL) <= (capacity_bytes * 8U));
+        size_t _size_bytes1_ = 24UL;  // Nested object (max) size, in bytes.
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits / 8U + _size_bytes1_) <= capacity_bytes);
-        int8_t _err2_ = reg_drone_physics_kinematics_translation_Velocity3Var_0_1_serialize_(
+        int8_t _err2_ = reg_drone_physics_kinematics_translation_Velocity3Var_0_2_serialize_(
             &obj->velocity, &buffer[offset_bits / 8U], &_size_bytes1_);
         if (_err2_ < 0)
         {
             return _err2_;
         }
         // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
-        NUNAVUT_ASSERT((_size_bytes1_ * 8U) == 248ULL);
+        NUNAVUT_ASSERT((_size_bytes1_ * 8U) == 192ULL);
         offset_bits += _size_bytes1_ * 8U;  // Advance by the size of the nested object.
         NUNAVUT_ASSERT(offset_bits <= (capacity_bytes * 8U));
     }
@@ -167,7 +181,7 @@ static inline int8_t reg_drone_physics_kinematics_cartesian_PointStateVar_0_1_se
     }
     // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
 
-    NUNAVUT_ASSERT(offset_bits == 536ULL);
+    NUNAVUT_ASSERT(offset_bits == 480ULL);
 
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     *inout_buffer_size_bytes = (size_t) (offset_bits / 8U);
@@ -223,13 +237,13 @@ static inline int8_t reg_drone_physics_kinematics_cartesian_PointStateVar_0_1_de
 
     offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
 
-    // reg.drone.physics.kinematics.translation.Velocity3Var.0.1 velocity
+    // reg.drone.physics.kinematics.translation.Velocity3Var.0.2 velocity
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     {
         size_t _size_bytes3_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        const int8_t _err5_ = reg_drone_physics_kinematics_translation_Velocity3Var_0_1_deserialize_(
+        const int8_t _err5_ = reg_drone_physics_kinematics_translation_Velocity3Var_0_2_deserialize_(
             &out_obj->velocity, &buffer[offset_bits / 8U], &_size_bytes3_);
         if (_err5_ < 0)
         {

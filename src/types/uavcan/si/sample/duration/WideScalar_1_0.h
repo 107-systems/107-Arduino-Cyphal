@@ -7,18 +7,29 @@
 // To avoid conflicts with definitions given in the source DSDL file, all entities created by the code generator
 // are named with an underscore at the end, like foo_bar_().
 //
-// Generator:     nunavut-1.0.0 (serialization was enabled)
-// Source file:   /home/alex/projects/107-systems/public_regulated_data_types/uavcan/si/sample/duration/WideScalar.1.0.uavcan
-// Generated at:  2021-02-08 09:42:27.595052 UTC
+// Generator:     nunavut-1.4.2 (serialization was enabled)
+// Source file:   /tmp/public_regulated_data_types/uavcan/si/sample/duration/WideScalar.1.0.uavcan
+// Generated at:  2021-09-27 06:53:04.525239 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.si.sample.duration.WideScalar
 // Version:       1.0
 //
+// Platform
+//     python_implementation:  CPython
+//     python_version:  3.8.0
+//     python_release_level:  final
+//     python_build:  ('default', 'Feb 25 2021 22:10:10')
+//     python_compiler:  GCC 8.4.0
+//     python_revision:
+//     python_xoptions:  {}
+//     runtime_platform:  Linux-5.4.0-86-generic-x86_64-with-glibc2.27
+//
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
 //     enable_serialization_asserts:  True
+//     enable_override_variable_array_capacity:  False
 
 #ifndef UAVCAN_SI_SAMPLE_DURATION_WIDE_SCALAR_1_0_INCLUDED_
 #define UAVCAN_SI_SAMPLE_DURATION_WIDE_SCALAR_1_0_INCLUDED_
@@ -28,13 +39,16 @@
 #include <stdlib.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
-              "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/si/sample/duration/WideScalar.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/uavcan/si/sample/duration/WideScalar.1.0.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_OMIT_FLOAT_SERIALIZATION_SUPPORT == 0,
-              "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/si/sample/duration/WideScalar.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/uavcan/si/sample/duration/WideScalar.1.0.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_SERIALIZATION_ASSERTS == 1,
-              "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/si/sample/duration/WideScalar.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/uavcan/si/sample/duration/WideScalar.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not allowed." );
+static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_OVERRIDE_VARIABLE_ARRAY_CAPACITY == 0,
+              "/tmp/public_regulated_data_types/uavcan/si/sample/duration/WideScalar.1.0.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 
 #ifdef __cplusplus

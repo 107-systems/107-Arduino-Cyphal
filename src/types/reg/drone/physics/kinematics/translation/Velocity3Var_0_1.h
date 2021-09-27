@@ -7,18 +7,38 @@
 // To avoid conflicts with definitions given in the source DSDL file, all entities created by the code generator
 // are named with an underscore at the end, like foo_bar_().
 //
-// Generator:     nunavut-1.0.0 (serialization was enabled)
-// Source file:   /home/alex/projects/107-systems/public_regulated_data_types/reg/drone/physics/kinematics/translation/Velocity3Var.0.1.uavcan
-// Generated at:  2021-02-08 09:43:10.667241 UTC
-// Is deprecated: no
+// Generator:     nunavut-1.4.2 (serialization was enabled)
+// Source file:   /tmp/public_regulated_data_types/reg/drone/physics/kinematics/translation/Velocity3Var.0.1.uavcan
+// Generated at:  2021-09-27 06:53:05.558813 UTC
+// Is deprecated: yes
 // Fixed port-ID: None
 // Full name:     reg.drone.physics.kinematics.translation.Velocity3Var
 // Version:       0.1
+//
+// Platform
+//     python_implementation:  CPython
+//     python_version:  3.8.0
+//     python_release_level:  final
+//     python_build:  ('default', 'Feb 25 2021 22:10:10')
+//     python_compiler:  GCC 8.4.0
+//     python_revision:
+//     python_xoptions:  {}
+//     runtime_platform:  Linux-5.4.0-86-generic-x86_64-with-glibc2.27
 //
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
 //     enable_serialization_asserts:  True
+//     enable_override_variable_array_capacity:  False
+
+//           _____  ______ _____  _____  ______ _____       _______ ______ _____
+//          |  __ `|  ____|  __ `|  __ `|  ____/ ____|   /`|__   __|  ____|  __ `
+//          | |  | | |__  | |__) | |__) | |__ | |       /  `  | |  | |__  | |  | |
+//          | |  | |  __| |  ___/|  _  /|  __|| |      / /` ` | |  |  __| | |  | |
+//          | |__| | |____| |    | | ` `| |___| |____ / ____ `| |  | |____| |__| |
+//          |_____/|______|_|    |_|  `_`______`_____/_/    `_`_|  |______|_____/
+//
+// WARNING: this data type is deprecated and is nearing the end of its life cycle. Seek replacement.
 
 #ifndef REG_DRONE_PHYSICS_KINEMATICS_TRANSLATION_VELOCITY3VAR_0_1_INCLUDED_
 #define REG_DRONE_PHYSICS_KINEMATICS_TRANSLATION_VELOCITY3VAR_0_1_INCLUDED_
@@ -27,17 +47,18 @@
 #include <types/uavcan/si/sample/velocity/Vector3_1_0.h>
 #include <stdlib.h>
 #include <string.h>
-#undef infinite
-#include <cmath>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
-              "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/physics/kinematics/translation/Velocity3Var.0.1.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/reg/drone/physics/kinematics/translation/Velocity3Var.0.1.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_OMIT_FLOAT_SERIALIZATION_SUPPORT == 0,
-              "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/physics/kinematics/translation/Velocity3Var.0.1.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/reg/drone/physics/kinematics/translation/Velocity3Var.0.1.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_SERIALIZATION_ASSERTS == 1,
-              "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/physics/kinematics/translation/Velocity3Var.0.1.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/reg/drone/physics/kinematics/translation/Velocity3Var.0.1.uavcan is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not allowed." );
+static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_OVERRIDE_VARIABLE_ARRAY_CAPACITY == 0,
+              "/tmp/public_regulated_data_types/reg/drone/physics/kinematics/translation/Velocity3Var.0.1.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 
 #ifdef __cplusplus
@@ -131,11 +152,12 @@ static inline int8_t reg_drone_physics_kinematics_translation_Velocity3Var_0_1_s
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 96ULL) <= (capacity_bytes * 8U));
         const size_t _origin0_ = offset_bits;
-        {   // Array element #0
+        for (size_t _index0_ = 0U; _index0_ < 6UL; ++_index0_)
+        {
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
-            float _sat0_ = obj->covariance_urt[0];
-            if (std::isfinite(_sat0_))
+            float _sat0_ = obj->covariance_urt[_index0_];
+            if (isfinite(_sat0_))
             {
                 if (_sat0_ < ((float) -65504.0))
                 {
@@ -153,116 +175,6 @@ static inline int8_t reg_drone_physics_kinematics_translation_Velocity3Var_0_1_s
             }
             offset_bits += 16U;
         }
-        {   // Array element #1
-            NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-            NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
-            float _sat1_ = obj->covariance_urt[1];
-            if (std::isfinite(_sat1_))
-            {
-                if (_sat1_ < ((float) -65504.0))
-                {
-                    _sat1_ = ((float) -65504.0);
-                }
-                if (_sat1_ > ((float) 65504.0))
-                {
-                    _sat1_ = ((float) 65504.0);
-                }
-            }
-            const int8_t _err2_ = nunavutSetF16(&buffer[0], capacity_bytes, offset_bits, _sat1_);
-            if (_err2_ < 0)
-            {
-                return _err2_;
-            }
-            offset_bits += 16U;
-        }
-        {   // Array element #2
-            NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-            NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
-            float _sat2_ = obj->covariance_urt[2];
-            if (std::isfinite(_sat2_))
-            {
-                if (_sat2_ < ((float) -65504.0))
-                {
-                    _sat2_ = ((float) -65504.0);
-                }
-                if (_sat2_ > ((float) 65504.0))
-                {
-                    _sat2_ = ((float) 65504.0);
-                }
-            }
-            const int8_t _err3_ = nunavutSetF16(&buffer[0], capacity_bytes, offset_bits, _sat2_);
-            if (_err3_ < 0)
-            {
-                return _err3_;
-            }
-            offset_bits += 16U;
-        }
-        {   // Array element #3
-            NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-            NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
-            float _sat3_ = obj->covariance_urt[3];
-            if (std::isfinite(_sat3_))
-            {
-                if (_sat3_ < ((float) -65504.0))
-                {
-                    _sat3_ = ((float) -65504.0);
-                }
-                if (_sat3_ > ((float) 65504.0))
-                {
-                    _sat3_ = ((float) 65504.0);
-                }
-            }
-            const int8_t _err4_ = nunavutSetF16(&buffer[0], capacity_bytes, offset_bits, _sat3_);
-            if (_err4_ < 0)
-            {
-                return _err4_;
-            }
-            offset_bits += 16U;
-        }
-        {   // Array element #4
-            NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-            NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
-            float _sat4_ = obj->covariance_urt[4];
-            if (std::isfinite(_sat4_))
-            {
-                if (_sat4_ < ((float) -65504.0))
-                {
-                    _sat4_ = ((float) -65504.0);
-                }
-                if (_sat4_ > ((float) 65504.0))
-                {
-                    _sat4_ = ((float) 65504.0);
-                }
-            }
-            const int8_t _err5_ = nunavutSetF16(&buffer[0], capacity_bytes, offset_bits, _sat4_);
-            if (_err5_ < 0)
-            {
-                return _err5_;
-            }
-            offset_bits += 16U;
-        }
-        {   // Array element #5
-            NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-            NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
-            float _sat5_ = obj->covariance_urt[5];
-            if (std::isfinite(_sat5_))
-            {
-                if (_sat5_ < ((float) -65504.0))
-                {
-                    _sat5_ = ((float) -65504.0);
-                }
-                if (_sat5_ > ((float) 65504.0))
-                {
-                    _sat5_ = ((float) 65504.0);
-                }
-            }
-            const int8_t _err6_ = nunavutSetF16(&buffer[0], capacity_bytes, offset_bits, _sat5_);
-            if (_err6_ < 0)
-            {
-                return _err6_;
-            }
-            offset_bits += 16U;
-        }
         // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
         NUNAVUT_ASSERT((offset_bits - _origin0_) == 96ULL);
         (void) _origin0_;
@@ -272,10 +184,10 @@ static inline int8_t reg_drone_physics_kinematics_translation_Velocity3Var_0_1_s
     {
         const uint8_t _pad0_ = (uint8_t)(8U - offset_bits % 8U);
         NUNAVUT_ASSERT(_pad0_ > 0);
-        const int8_t _err7_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad0_);  // Optimize?
-        if (_err7_ < 0)
+        const int8_t _err2_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad0_);  // Optimize?
+        if (_err2_ < 0)
         {
-            return _err7_;
+            return _err2_;
         }
         offset_bits += _pad0_;
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
@@ -327,41 +239,23 @@ static inline int8_t reg_drone_physics_kinematics_translation_Velocity3Var_0_1_d
     {
         size_t _size_bytes1_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        const int8_t _err8_ = uavcan_si_sample_velocity_Vector3_1_0_deserialize_(
+        const int8_t _err3_ = uavcan_si_sample_velocity_Vector3_1_0_deserialize_(
             &out_obj->value, &buffer[offset_bits / 8U], &_size_bytes1_);
-        if (_err8_ < 0)
+        if (_err3_ < 0)
         {
-            return _err8_;
+            return _err3_;
         }
         offset_bits += _size_bytes1_ * 8U;  // Advance by the size of the nested serialized representation.
     }
 
     // saturated float16[6] covariance_urt
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    // Array element #0
-    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    out_obj->covariance_urt[0] = nunavutGetF16(&buffer[0], capacity_bytes, offset_bits);
-    offset_bits += 16U;
-    // Array element #1
-    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    out_obj->covariance_urt[1] = nunavutGetF16(&buffer[0], capacity_bytes, offset_bits);
-    offset_bits += 16U;
-    // Array element #2
-    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    out_obj->covariance_urt[2] = nunavutGetF16(&buffer[0], capacity_bytes, offset_bits);
-    offset_bits += 16U;
-    // Array element #3
-    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    out_obj->covariance_urt[3] = nunavutGetF16(&buffer[0], capacity_bytes, offset_bits);
-    offset_bits += 16U;
-    // Array element #4
-    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    out_obj->covariance_urt[4] = nunavutGetF16(&buffer[0], capacity_bytes, offset_bits);
-    offset_bits += 16U;
-    // Array element #5
-    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    out_obj->covariance_urt[5] = nunavutGetF16(&buffer[0], capacity_bytes, offset_bits);
-    offset_bits += 16U;
+    for (size_t _index1_ = 0U; _index1_ < 6UL; ++_index1_)
+    {
+        NUNAVUT_ASSERT(offset_bits % 8U == 0U);
+        out_obj->covariance_urt[_index1_] = nunavutGetF16(&buffer[0], capacity_bytes, offset_bits);
+        offset_bits += 16U;
+    }
 
     offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);

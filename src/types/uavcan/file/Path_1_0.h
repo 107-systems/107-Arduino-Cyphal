@@ -7,18 +7,29 @@
 // To avoid conflicts with definitions given in the source DSDL file, all entities created by the code generator
 // are named with an underscore at the end, like foo_bar_().
 //
-// Generator:     nunavut-1.0.0 (serialization was enabled)
-// Source file:   /home/alex/projects/107-systems/public_regulated_data_types/uavcan/file/Path.1.0.uavcan
-// Generated at:  2021-02-08 09:42:39.647898 UTC
+// Generator:     nunavut-1.4.2 (serialization was enabled)
+// Source file:   /tmp/public_regulated_data_types/uavcan/file/Path.1.0.uavcan
+// Generated at:  2021-09-27 06:53:04.397666 UTC
 // Is deprecated: yes
 // Fixed port-ID: None
 // Full name:     uavcan.file.Path
 // Version:       1.0
 //
+// Platform
+//     python_implementation:  CPython
+//     python_version:  3.8.0
+//     python_release_level:  final
+//     python_build:  ('default', 'Feb 25 2021 22:10:10')
+//     python_compiler:  GCC 8.4.0
+//     python_revision:
+//     python_xoptions:  {}
+//     runtime_platform:  Linux-5.4.0-86-generic-x86_64-with-glibc2.27
+//
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
 //     enable_serialization_asserts:  True
+//     enable_override_variable_array_capacity:  False
 
 //           _____  ______ _____  _____  ______ _____       _______ ______ _____
 //          |  __ `|  ____|  __ `|  __ `|  ____/ ____|   /`|__   __|  ____|  __ `
@@ -37,13 +48,16 @@
 #include <stdlib.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
-              "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/file/Path.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/uavcan/file/Path.1.0.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_OMIT_FLOAT_SERIALIZATION_SUPPORT == 0,
-              "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/file/Path.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/uavcan/file/Path.1.0.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_SERIALIZATION_ASSERTS == 1,
-              "/home/alex/projects/107-systems/public_regulated_data_types/uavcan/file/Path.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/uavcan/file/Path.1.0.uavcan is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not allowed." );
+static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_OVERRIDE_VARIABLE_ARRAY_CAPACITY == 0,
+              "/tmp/public_regulated_data_types/uavcan/file/Path.1.0.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 
 #ifdef __cplusplus
@@ -82,7 +96,7 @@ typedef struct
     /// saturated uint8[<=112] path
     struct  /// Array address equivalence guarantee: &elements[0] == &path
     {
-        uint8_t elements[112];
+        uint8_t elements[uavcan_file_Path_1_0_path_ARRAY_CAPACITY_];
         size_t count;
     } path;
 } uavcan_file_Path_1_0;
@@ -131,9 +145,14 @@ static inline int8_t uavcan_file_Path_1_0_serialize_(
         buffer[offset_bits / 8U] = (uint8_t)(obj->path.count);  // C std, 6.3.1.3 Signed and unsigned integers
         offset_bits += 8U;
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        // Optimization prospect: this item is aligned at the byte boundary, so it is possible to use memmove().
-        nunavutCopyBits(&buffer[0], offset_bits, obj->path.count * 8U, &obj->path.elements[0], 0U);
-        offset_bits += obj->path.count * 8U;
+        for (size_t _index0_ = 0U; _index0_ < obj->path.count; ++_index0_)
+        {
+            NUNAVUT_ASSERT(offset_bits % 8U == 0U);
+            NUNAVUT_ASSERT((offset_bits + 8ULL) <= (capacity_bytes * 8U));
+            // Saturation code not emitted -- native representation matches the serialized representation.
+            buffer[offset_bits / 8U] = (uint8_t)(obj->path.elements[_index0_]);  // C std, 6.3.1.3 Signed and unsigned integers
+            offset_bits += 8U;
+        }
     }
 
     if (offset_bits % 8U != 0U)  // Pad to 8 bits. TODO: Eliminate redundant padding checks.
@@ -207,8 +226,19 @@ static inline int8_t uavcan_file_Path_1_0_deserialize_(
         return -NUNAVUT_ERROR_REPRESENTATION_BAD_ARRAY_LENGTH;
     }
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    nunavutGetBits(&out_obj->path.elements[0], &buffer[0], capacity_bytes, offset_bits, out_obj->path.count * 8U);
-    offset_bits += out_obj->path.count * 8U;
+    for (size_t _index1_ = 0U; _index1_ < out_obj->path.count; ++_index1_)
+    {
+        NUNAVUT_ASSERT(offset_bits % 8U == 0U);
+        if ((offset_bits + 8U) <= capacity_bits)
+        {
+            out_obj->path.elements[_index1_] = buffer[offset_bits / 8U] & 255U;
+        }
+        else
+        {
+            out_obj->path.elements[_index1_] = 0U;
+        }
+        offset_bits += 8U;
+    }
 
     offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);

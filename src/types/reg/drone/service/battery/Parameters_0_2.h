@@ -7,18 +7,38 @@
 // To avoid conflicts with definitions given in the source DSDL file, all entities created by the code generator
 // are named with an underscore at the end, like foo_bar_().
 //
-// Generator:     nunavut-1.0.0 (serialization was enabled)
-// Source file:   /home/alex/projects/107-systems/public_regulated_data_types/reg/drone/service/battery/Parameters.0.2.uavcan
-// Generated at:  2021-02-08 09:43:03.916802 UTC
-// Is deprecated: no
+// Generator:     nunavut-1.4.2 (serialization was enabled)
+// Source file:   /tmp/public_regulated_data_types/reg/drone/service/battery/Parameters.0.2.uavcan
+// Generated at:  2021-09-27 06:53:05.720959 UTC
+// Is deprecated: yes
 // Fixed port-ID: None
 // Full name:     reg.drone.service.battery.Parameters
 // Version:       0.2
+//
+// Platform
+//     python_implementation:  CPython
+//     python_version:  3.8.0
+//     python_release_level:  final
+//     python_build:  ('default', 'Feb 25 2021 22:10:10')
+//     python_compiler:  GCC 8.4.0
+//     python_revision:
+//     python_xoptions:  {}
+//     runtime_platform:  Linux-5.4.0-86-generic-x86_64-with-glibc2.27
 //
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
 //     enable_serialization_asserts:  True
+//     enable_override_variable_array_capacity:  False
+
+//           _____  ______ _____  _____  ______ _____       _______ ______ _____
+//          |  __ `|  ____|  __ `|  __ `|  ____/ ____|   /`|__   __|  ____|  __ `
+//          | |  | | |__  | |__) | |__) | |__ | |       /  `  | |  | |__  | |  | |
+//          | |  | |  __| |  ___/|  _  /|  __|| |      / /` ` | |  |  __| | |  | |
+//          | |__| | |____| |    | | ` `| |___| |____ / ____ `| |  | |____| |__| |
+//          |_____/|______|_|    |_|  `_`______`_____/_/    `_`_|  |______|_____/
+//
+// WARNING: this data type is deprecated and is nearing the end of its life cycle. Seek replacement.
 
 #ifndef REG_DRONE_SERVICE_BATTERY_PARAMETERS_0_2_INCLUDED_
 #define REG_DRONE_SERVICE_BATTERY_PARAMETERS_0_2_INCLUDED_
@@ -33,13 +53,16 @@
 #include <stdlib.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
-              "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/service/battery/Parameters.0.2.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/reg/drone/service/battery/Parameters.0.2.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_OMIT_FLOAT_SERIALIZATION_SUPPORT == 0,
-              "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/service/battery/Parameters.0.2.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/reg/drone/service/battery/Parameters.0.2.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_SERIALIZATION_ASSERTS == 1,
-              "/home/alex/projects/107-systems/public_regulated_data_types/reg/drone/service/battery/Parameters.0.2.uavcan is trying to use a serialization library that was compiled with "
+              "/tmp/public_regulated_data_types/reg/drone/service/battery/Parameters.0.2.uavcan is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not allowed." );
+static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_OVERRIDE_VARIABLE_ARRAY_CAPACITY == 0,
+              "/tmp/public_regulated_data_types/reg/drone/service/battery/Parameters.0.2.uavcan is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not allowed." );
 
 #ifdef __cplusplus
@@ -236,7 +259,8 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 64ULL) <= (capacity_bytes * 8U));
         const size_t _origin0_ = offset_bits;
-        {   // Array element #0
+        for (size_t _index0_ = 0U; _index0_ < 2UL; ++_index0_)
+        {
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits + 32ULL) <= (capacity_bytes * 8U));
@@ -244,7 +268,7 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
             NUNAVUT_ASSERT(offset_bits % 8U == 0U);
             NUNAVUT_ASSERT((offset_bits / 8U + _size_bytes2_) <= capacity_bytes);
             int8_t _err6_ = uavcan_si_unit_voltage_Scalar_1_0_serialize_(
-                &obj->design_cell_voltage_min_max[0], &buffer[offset_bits / 8U], &_size_bytes2_);
+                &obj->design_cell_voltage_min_max[_index0_], &buffer[offset_bits / 8U], &_size_bytes2_);
             if (_err6_ < 0)
             {
                 return _err6_;
@@ -252,24 +276,6 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
             // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
             NUNAVUT_ASSERT((_size_bytes2_ * 8U) == 32ULL);
             offset_bits += _size_bytes2_ * 8U;  // Advance by the size of the nested object.
-            NUNAVUT_ASSERT(offset_bits <= (capacity_bytes * 8U));
-        }
-        {   // Array element #1
-            NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-            NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-            NUNAVUT_ASSERT((offset_bits + 32ULL) <= (capacity_bytes * 8U));
-            size_t _size_bytes3_ = 4UL;  // Nested object (max) size, in bytes.
-            NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-            NUNAVUT_ASSERT((offset_bits / 8U + _size_bytes3_) <= capacity_bytes);
-            int8_t _err7_ = uavcan_si_unit_voltage_Scalar_1_0_serialize_(
-                &obj->design_cell_voltage_min_max[1], &buffer[offset_bits / 8U], &_size_bytes3_);
-            if (_err7_ < 0)
-            {
-                return _err7_;
-            }
-            // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
-            NUNAVUT_ASSERT((_size_bytes3_ * 8U) == 32ULL);
-            offset_bits += _size_bytes3_ * 8U;  // Advance by the size of the nested object.
             NUNAVUT_ASSERT(offset_bits <= (capacity_bytes * 8U));
         }
         // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
@@ -281,10 +287,10 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
     {
         const uint8_t _pad3_ = (uint8_t)(8U - offset_bits % 8U);
         NUNAVUT_ASSERT(_pad3_ > 0);
-        const int8_t _err8_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad3_);  // Optimize?
-        if (_err8_ < 0)
+        const int8_t _err7_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad3_);  // Optimize?
+        if (_err7_ < 0)
         {
-            return _err8_;
+            return _err7_;
         }
         offset_bits += _pad3_;
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
@@ -294,18 +300,18 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 32ULL) <= (capacity_bytes * 8U));
-        size_t _size_bytes4_ = 4UL;  // Nested object (max) size, in bytes.
+        size_t _size_bytes3_ = 4UL;  // Nested object (max) size, in bytes.
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        NUNAVUT_ASSERT((offset_bits / 8U + _size_bytes4_) <= capacity_bytes);
-        int8_t _err9_ = uavcan_si_unit_electric_current_Scalar_1_0_serialize_(
-            &obj->discharge_current, &buffer[offset_bits / 8U], &_size_bytes4_);
-        if (_err9_ < 0)
+        NUNAVUT_ASSERT((offset_bits / 8U + _size_bytes3_) <= capacity_bytes);
+        int8_t _err8_ = uavcan_si_unit_electric_current_Scalar_1_0_serialize_(
+            &obj->discharge_current, &buffer[offset_bits / 8U], &_size_bytes3_);
+        if (_err8_ < 0)
         {
-            return _err9_;
+            return _err8_;
         }
         // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
-        NUNAVUT_ASSERT((_size_bytes4_ * 8U) == 32ULL);
-        offset_bits += _size_bytes4_ * 8U;  // Advance by the size of the nested object.
+        NUNAVUT_ASSERT((_size_bytes3_ * 8U) == 32ULL);
+        offset_bits += _size_bytes3_ * 8U;  // Advance by the size of the nested object.
         NUNAVUT_ASSERT(offset_bits <= (capacity_bytes * 8U));
     }
 
@@ -313,10 +319,10 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
     {
         const uint8_t _pad4_ = (uint8_t)(8U - offset_bits % 8U);
         NUNAVUT_ASSERT(_pad4_ > 0);
-        const int8_t _err10_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad4_);  // Optimize?
-        if (_err10_ < 0)
+        const int8_t _err9_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad4_);  // Optimize?
+        if (_err9_ < 0)
         {
-            return _err10_;
+            return _err9_;
         }
         offset_bits += _pad4_;
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
@@ -326,18 +332,18 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 32ULL) <= (capacity_bytes * 8U));
-        size_t _size_bytes5_ = 4UL;  // Nested object (max) size, in bytes.
+        size_t _size_bytes4_ = 4UL;  // Nested object (max) size, in bytes.
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        NUNAVUT_ASSERT((offset_bits / 8U + _size_bytes5_) <= capacity_bytes);
-        int8_t _err11_ = uavcan_si_unit_electric_current_Scalar_1_0_serialize_(
-            &obj->discharge_current_burst, &buffer[offset_bits / 8U], &_size_bytes5_);
-        if (_err11_ < 0)
+        NUNAVUT_ASSERT((offset_bits / 8U + _size_bytes4_) <= capacity_bytes);
+        int8_t _err10_ = uavcan_si_unit_electric_current_Scalar_1_0_serialize_(
+            &obj->discharge_current_burst, &buffer[offset_bits / 8U], &_size_bytes4_);
+        if (_err10_ < 0)
         {
-            return _err11_;
+            return _err10_;
         }
         // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
-        NUNAVUT_ASSERT((_size_bytes5_ * 8U) == 32ULL);
-        offset_bits += _size_bytes5_ * 8U;  // Advance by the size of the nested object.
+        NUNAVUT_ASSERT((_size_bytes4_ * 8U) == 32ULL);
+        offset_bits += _size_bytes4_ * 8U;  // Advance by the size of the nested object.
         NUNAVUT_ASSERT(offset_bits <= (capacity_bytes * 8U));
     }
 
@@ -345,10 +351,10 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
     {
         const uint8_t _pad5_ = (uint8_t)(8U - offset_bits % 8U);
         NUNAVUT_ASSERT(_pad5_ > 0);
-        const int8_t _err12_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad5_);  // Optimize?
-        if (_err12_ < 0)
+        const int8_t _err11_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad5_);  // Optimize?
+        if (_err11_ < 0)
         {
-            return _err12_;
+            return _err11_;
         }
         offset_bits += _pad5_;
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
@@ -358,18 +364,18 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 32ULL) <= (capacity_bytes * 8U));
-        size_t _size_bytes6_ = 4UL;  // Nested object (max) size, in bytes.
+        size_t _size_bytes5_ = 4UL;  // Nested object (max) size, in bytes.
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        NUNAVUT_ASSERT((offset_bits / 8U + _size_bytes6_) <= capacity_bytes);
-        int8_t _err13_ = uavcan_si_unit_electric_current_Scalar_1_0_serialize_(
-            &obj->charge_current, &buffer[offset_bits / 8U], &_size_bytes6_);
-        if (_err13_ < 0)
+        NUNAVUT_ASSERT((offset_bits / 8U + _size_bytes5_) <= capacity_bytes);
+        int8_t _err12_ = uavcan_si_unit_electric_current_Scalar_1_0_serialize_(
+            &obj->charge_current, &buffer[offset_bits / 8U], &_size_bytes5_);
+        if (_err12_ < 0)
         {
-            return _err13_;
+            return _err12_;
         }
         // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
-        NUNAVUT_ASSERT((_size_bytes6_ * 8U) == 32ULL);
-        offset_bits += _size_bytes6_ * 8U;  // Advance by the size of the nested object.
+        NUNAVUT_ASSERT((_size_bytes5_ * 8U) == 32ULL);
+        offset_bits += _size_bytes5_ * 8U;  // Advance by the size of the nested object.
         NUNAVUT_ASSERT(offset_bits <= (capacity_bytes * 8U));
     }
 
@@ -377,10 +383,10 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
     {
         const uint8_t _pad6_ = (uint8_t)(8U - offset_bits % 8U);
         NUNAVUT_ASSERT(_pad6_ > 0);
-        const int8_t _err14_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad6_);  // Optimize?
-        if (_err14_ < 0)
+        const int8_t _err13_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad6_);  // Optimize?
+        if (_err13_ < 0)
         {
-            return _err14_;
+            return _err13_;
         }
         offset_bits += _pad6_;
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
@@ -390,18 +396,18 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 32ULL) <= (capacity_bytes * 8U));
-        size_t _size_bytes7_ = 4UL;  // Nested object (max) size, in bytes.
+        size_t _size_bytes6_ = 4UL;  // Nested object (max) size, in bytes.
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        NUNAVUT_ASSERT((offset_bits / 8U + _size_bytes7_) <= capacity_bytes);
-        int8_t _err15_ = uavcan_si_unit_electric_current_Scalar_1_0_serialize_(
-            &obj->charge_current_fast, &buffer[offset_bits / 8U], &_size_bytes7_);
-        if (_err15_ < 0)
+        NUNAVUT_ASSERT((offset_bits / 8U + _size_bytes6_) <= capacity_bytes);
+        int8_t _err14_ = uavcan_si_unit_electric_current_Scalar_1_0_serialize_(
+            &obj->charge_current_fast, &buffer[offset_bits / 8U], &_size_bytes6_);
+        if (_err14_ < 0)
         {
-            return _err15_;
+            return _err14_;
         }
         // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
-        NUNAVUT_ASSERT((_size_bytes7_ * 8U) == 32ULL);
-        offset_bits += _size_bytes7_ * 8U;  // Advance by the size of the nested object.
+        NUNAVUT_ASSERT((_size_bytes6_ * 8U) == 32ULL);
+        offset_bits += _size_bytes6_ * 8U;  // Advance by the size of the nested object.
         NUNAVUT_ASSERT(offset_bits <= (capacity_bytes * 8U));
     }
 
@@ -409,10 +415,10 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
     {
         const uint8_t _pad7_ = (uint8_t)(8U - offset_bits % 8U);
         NUNAVUT_ASSERT(_pad7_ > 0);
-        const int8_t _err16_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad7_);  // Optimize?
-        if (_err16_ < 0)
+        const int8_t _err15_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad7_);  // Optimize?
+        if (_err15_ < 0)
         {
-            return _err16_;
+            return _err15_;
         }
         offset_bits += _pad7_;
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
@@ -422,18 +428,18 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 32ULL) <= (capacity_bytes * 8U));
-        size_t _size_bytes8_ = 4UL;  // Nested object (max) size, in bytes.
+        size_t _size_bytes7_ = 4UL;  // Nested object (max) size, in bytes.
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        NUNAVUT_ASSERT((offset_bits / 8U + _size_bytes8_) <= capacity_bytes);
-        int8_t _err17_ = uavcan_si_unit_electric_current_Scalar_1_0_serialize_(
-            &obj->charge_termination_threshold, &buffer[offset_bits / 8U], &_size_bytes8_);
-        if (_err17_ < 0)
+        NUNAVUT_ASSERT((offset_bits / 8U + _size_bytes7_) <= capacity_bytes);
+        int8_t _err16_ = uavcan_si_unit_electric_current_Scalar_1_0_serialize_(
+            &obj->charge_termination_threshold, &buffer[offset_bits / 8U], &_size_bytes7_);
+        if (_err16_ < 0)
         {
-            return _err17_;
+            return _err16_;
         }
         // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
-        NUNAVUT_ASSERT((_size_bytes8_ * 8U) == 32ULL);
-        offset_bits += _size_bytes8_ * 8U;  // Advance by the size of the nested object.
+        NUNAVUT_ASSERT((_size_bytes7_ * 8U) == 32ULL);
+        offset_bits += _size_bytes7_ * 8U;  // Advance by the size of the nested object.
         NUNAVUT_ASSERT(offset_bits <= (capacity_bytes * 8U));
     }
 
@@ -441,10 +447,10 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
     {
         const uint8_t _pad8_ = (uint8_t)(8U - offset_bits % 8U);
         NUNAVUT_ASSERT(_pad8_ > 0);
-        const int8_t _err18_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad8_);  // Optimize?
-        if (_err18_ < 0)
+        const int8_t _err17_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad8_);  // Optimize?
+        if (_err17_ < 0)
         {
-            return _err18_;
+            return _err17_;
         }
         offset_bits += _pad8_;
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
@@ -454,18 +460,18 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 32ULL) <= (capacity_bytes * 8U));
-        size_t _size_bytes9_ = 4UL;  // Nested object (max) size, in bytes.
+        size_t _size_bytes8_ = 4UL;  // Nested object (max) size, in bytes.
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        NUNAVUT_ASSERT((offset_bits / 8U + _size_bytes9_) <= capacity_bytes);
-        int8_t _err19_ = uavcan_si_unit_voltage_Scalar_1_0_serialize_(
-            &obj->charge_voltage, &buffer[offset_bits / 8U], &_size_bytes9_);
-        if (_err19_ < 0)
+        NUNAVUT_ASSERT((offset_bits / 8U + _size_bytes8_) <= capacity_bytes);
+        int8_t _err18_ = uavcan_si_unit_voltage_Scalar_1_0_serialize_(
+            &obj->charge_voltage, &buffer[offset_bits / 8U], &_size_bytes8_);
+        if (_err18_ < 0)
         {
-            return _err19_;
+            return _err18_;
         }
         // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
-        NUNAVUT_ASSERT((_size_bytes9_ * 8U) == 32ULL);
-        offset_bits += _size_bytes9_ * 8U;  // Advance by the size of the nested object.
+        NUNAVUT_ASSERT((_size_bytes8_ * 8U) == 32ULL);
+        offset_bits += _size_bytes8_ * 8U;  // Advance by the size of the nested object.
         NUNAVUT_ASSERT(offset_bits <= (capacity_bytes * 8U));
     }
 
@@ -473,10 +479,10 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 16ULL) <= (capacity_bytes * 8U));
         // Saturation code not emitted -- native representation matches the serialized representation.
-        const int8_t _err20_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, obj->cycle_count, 16U);
-        if (_err20_ < 0)
+        const int8_t _err19_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, obj->cycle_count, 16U);
+        if (_err19_ < 0)
         {
-            return _err20_;
+            return _err19_;
         }
         offset_bits += 16U;
     }
@@ -502,10 +508,10 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
 
     {   // void1
         NUNAVUT_ASSERT((offset_bits + 1ULL) <= (capacity_bytes * 8U));
-        const int8_t _err21_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, 1U);  // Optimize?
-        if (_err21_ < 0)
+        const int8_t _err20_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, 1U);  // Optimize?
+        if (_err20_ < 0)
         {
-            return _err21_;
+            return _err20_;
         }
         offset_bits += 1UL;
     }
@@ -514,10 +520,10 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
     {
         const uint8_t _pad9_ = (uint8_t)(8U - offset_bits % 8U);
         NUNAVUT_ASSERT(_pad9_ > 0);
-        const int8_t _err22_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad9_);  // Optimize?
-        if (_err22_ < 0)
+        const int8_t _err21_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad9_);  // Optimize?
+        if (_err21_ < 0)
         {
-            return _err22_;
+            return _err21_;
         }
         offset_bits += _pad9_;
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
@@ -527,18 +533,18 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         NUNAVUT_ASSERT((offset_bits + 8ULL) <= (capacity_bytes * 8U));
-        size_t _size_bytes10_ = 1UL;  // Nested object (max) size, in bytes.
+        size_t _size_bytes9_ = 1UL;  // Nested object (max) size, in bytes.
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        NUNAVUT_ASSERT((offset_bits / 8U + _size_bytes10_) <= capacity_bytes);
-        int8_t _err23_ = reg_drone_service_battery_Technology_0_1_serialize_(
-            &obj->technology, &buffer[offset_bits / 8U], &_size_bytes10_);
-        if (_err23_ < 0)
+        NUNAVUT_ASSERT((offset_bits / 8U + _size_bytes9_) <= capacity_bytes);
+        int8_t _err22_ = reg_drone_service_battery_Technology_0_1_serialize_(
+            &obj->technology, &buffer[offset_bits / 8U], &_size_bytes9_);
+        if (_err22_ < 0)
         {
-            return _err23_;
+            return _err22_;
         }
         // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
-        NUNAVUT_ASSERT((_size_bytes10_ * 8U) == 8ULL);
-        offset_bits += _size_bytes10_ * 8U;  // Advance by the size of the nested object.
+        NUNAVUT_ASSERT((_size_bytes9_ * 8U) == 8ULL);
+        offset_bits += _size_bytes9_ * 8U;  // Advance by the size of the nested object.
         NUNAVUT_ASSERT(offset_bits <= (capacity_bytes * 8U));
     }
 
@@ -546,10 +552,10 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_serialize_(
     {
         const uint8_t _pad10_ = (uint8_t)(8U - offset_bits % 8U);
         NUNAVUT_ASSERT(_pad10_ > 0);
-        const int8_t _err24_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad10_);  // Optimize?
-        if (_err24_ < 0)
+        const int8_t _err23_ = nunavutSetUxx(&buffer[0], capacity_bytes, offset_bits, 0U, _pad10_);  // Optimize?
+        if (_err23_ < 0)
         {
-            return _err24_;
+            return _err23_;
         }
         offset_bits += _pad10_;
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
@@ -606,10 +612,27 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_deserialize_(
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     {
+        size_t _size_bytes10_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
+        NUNAVUT_ASSERT(offset_bits % 8U == 0U);
+        const int8_t _err24_ = uavcan_si_unit_mass_Scalar_1_0_deserialize_(
+            &out_obj->mass, &buffer[offset_bits / 8U], &_size_bytes10_);
+        if (_err24_ < 0)
+        {
+            return _err24_;
+        }
+        offset_bits += _size_bytes10_ * 8U;  // Advance by the size of the nested serialized representation.
+    }
+
+    offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
+
+    // uavcan.si.unit.electric_charge.Scalar.1.0 design_capacity
+    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
+    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
+    {
         size_t _size_bytes11_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        const int8_t _err25_ = uavcan_si_unit_mass_Scalar_1_0_deserialize_(
-            &out_obj->mass, &buffer[offset_bits / 8U], &_size_bytes11_);
+        const int8_t _err25_ = uavcan_si_unit_electric_charge_Scalar_1_0_deserialize_(
+            &out_obj->design_capacity, &buffer[offset_bits / 8U], &_size_bytes11_);
         if (_err25_ < 0)
         {
             return _err25_;
@@ -619,48 +642,53 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_deserialize_(
 
     offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
 
-    // uavcan.si.unit.electric_charge.Scalar.1.0 design_capacity
+    // uavcan.si.unit.voltage.Scalar.1.0[2] design_cell_voltage_min_max
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
+    for (size_t _index1_ = 0U; _index1_ < 2UL; ++_index1_)
     {
-        size_t _size_bytes12_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        const int8_t _err26_ = uavcan_si_unit_electric_charge_Scalar_1_0_deserialize_(
-            &out_obj->design_capacity, &buffer[offset_bits / 8U], &_size_bytes12_);
-        if (_err26_ < 0)
+        NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         {
-            return _err26_;
+            size_t _size_bytes12_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
+            NUNAVUT_ASSERT(offset_bits % 8U == 0U);
+            const int8_t _err26_ = uavcan_si_unit_voltage_Scalar_1_0_deserialize_(
+                &out_obj->design_cell_voltage_min_max[_index1_], &buffer[offset_bits / 8U], &_size_bytes12_);
+            if (_err26_ < 0)
+            {
+                return _err26_;
+            }
+            offset_bits += _size_bytes12_ * 8U;  // Advance by the size of the nested serialized representation.
         }
-        offset_bits += _size_bytes12_ * 8U;  // Advance by the size of the nested serialized representation.
     }
 
     offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
 
-    // uavcan.si.unit.voltage.Scalar.1.0[2] design_cell_voltage_min_max
-    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    // Array element #0
+    // uavcan.si.unit.electric_current.Scalar.1.0 discharge_current
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     {
         size_t _size_bytes13_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        const int8_t _err27_ = uavcan_si_unit_voltage_Scalar_1_0_deserialize_(
-            &out_obj->design_cell_voltage_min_max[0], &buffer[offset_bits / 8U], &_size_bytes13_);
+        const int8_t _err27_ = uavcan_si_unit_electric_current_Scalar_1_0_deserialize_(
+            &out_obj->discharge_current, &buffer[offset_bits / 8U], &_size_bytes13_);
         if (_err27_ < 0)
         {
             return _err27_;
         }
         offset_bits += _size_bytes13_ * 8U;  // Advance by the size of the nested serialized representation.
     }
-    // Array element #1
+
+    offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
+
+    // uavcan.si.unit.electric_current.Scalar.1.0 discharge_current_burst
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     {
         size_t _size_bytes14_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        const int8_t _err28_ = uavcan_si_unit_voltage_Scalar_1_0_deserialize_(
-            &out_obj->design_cell_voltage_min_max[1], &buffer[offset_bits / 8U], &_size_bytes14_);
+        const int8_t _err28_ = uavcan_si_unit_electric_current_Scalar_1_0_deserialize_(
+            &out_obj->discharge_current_burst, &buffer[offset_bits / 8U], &_size_bytes14_);
         if (_err28_ < 0)
         {
             return _err28_;
@@ -670,14 +698,14 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_deserialize_(
 
     offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
 
-    // uavcan.si.unit.electric_current.Scalar.1.0 discharge_current
+    // uavcan.si.unit.electric_current.Scalar.1.0 charge_current
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     {
         size_t _size_bytes15_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         const int8_t _err29_ = uavcan_si_unit_electric_current_Scalar_1_0_deserialize_(
-            &out_obj->discharge_current, &buffer[offset_bits / 8U], &_size_bytes15_);
+            &out_obj->charge_current, &buffer[offset_bits / 8U], &_size_bytes15_);
         if (_err29_ < 0)
         {
             return _err29_;
@@ -687,14 +715,14 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_deserialize_(
 
     offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
 
-    // uavcan.si.unit.electric_current.Scalar.1.0 discharge_current_burst
+    // uavcan.si.unit.electric_current.Scalar.1.0 charge_current_fast
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     {
         size_t _size_bytes16_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         const int8_t _err30_ = uavcan_si_unit_electric_current_Scalar_1_0_deserialize_(
-            &out_obj->discharge_current_burst, &buffer[offset_bits / 8U], &_size_bytes16_);
+            &out_obj->charge_current_fast, &buffer[offset_bits / 8U], &_size_bytes16_);
         if (_err30_ < 0)
         {
             return _err30_;
@@ -704,14 +732,14 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_deserialize_(
 
     offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
 
-    // uavcan.si.unit.electric_current.Scalar.1.0 charge_current
+    // uavcan.si.unit.electric_current.Scalar.1.0 charge_termination_threshold
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     {
         size_t _size_bytes17_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
         const int8_t _err31_ = uavcan_si_unit_electric_current_Scalar_1_0_deserialize_(
-            &out_obj->charge_current, &buffer[offset_bits / 8U], &_size_bytes17_);
+            &out_obj->charge_termination_threshold, &buffer[offset_bits / 8U], &_size_bytes17_);
         if (_err31_ < 0)
         {
             return _err31_;
@@ -721,53 +749,19 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_deserialize_(
 
     offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
 
-    // uavcan.si.unit.electric_current.Scalar.1.0 charge_current_fast
+    // uavcan.si.unit.voltage.Scalar.1.0 charge_voltage
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     {
         size_t _size_bytes18_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        const int8_t _err32_ = uavcan_si_unit_electric_current_Scalar_1_0_deserialize_(
-            &out_obj->charge_current_fast, &buffer[offset_bits / 8U], &_size_bytes18_);
+        const int8_t _err32_ = uavcan_si_unit_voltage_Scalar_1_0_deserialize_(
+            &out_obj->charge_voltage, &buffer[offset_bits / 8U], &_size_bytes18_);
         if (_err32_ < 0)
         {
             return _err32_;
         }
         offset_bits += _size_bytes18_ * 8U;  // Advance by the size of the nested serialized representation.
-    }
-
-    offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
-
-    // uavcan.si.unit.electric_current.Scalar.1.0 charge_termination_threshold
-    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    {
-        size_t _size_bytes19_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
-        NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        const int8_t _err33_ = uavcan_si_unit_electric_current_Scalar_1_0_deserialize_(
-            &out_obj->charge_termination_threshold, &buffer[offset_bits / 8U], &_size_bytes19_);
-        if (_err33_ < 0)
-        {
-            return _err33_;
-        }
-        offset_bits += _size_bytes19_ * 8U;  // Advance by the size of the nested serialized representation.
-    }
-
-    offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
-
-    // uavcan.si.unit.voltage.Scalar.1.0 charge_voltage
-    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-    {
-        size_t _size_bytes20_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
-        NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        const int8_t _err34_ = uavcan_si_unit_voltage_Scalar_1_0_deserialize_(
-            &out_obj->charge_voltage, &buffer[offset_bits / 8U], &_size_bytes20_);
-        if (_err34_ < 0)
-        {
-            return _err34_;
-        }
-        offset_bits += _size_bytes20_ * 8U;  // Advance by the size of the nested serialized representation.
     }
 
     // saturated uint16 cycle_count
@@ -800,15 +794,15 @@ static inline int8_t reg_drone_service_battery_Parameters_0_2_deserialize_(
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     NUNAVUT_ASSERT(offset_bits % 8U == 0U);
     {
-        size_t _size_bytes21_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
+        size_t _size_bytes19_ = (size_t)(capacity_bytes - nunavutChooseMin((offset_bits / 8U), capacity_bytes));
         NUNAVUT_ASSERT(offset_bits % 8U == 0U);
-        const int8_t _err35_ = reg_drone_service_battery_Technology_0_1_deserialize_(
-            &out_obj->technology, &buffer[offset_bits / 8U], &_size_bytes21_);
-        if (_err35_ < 0)
+        const int8_t _err33_ = reg_drone_service_battery_Technology_0_1_deserialize_(
+            &out_obj->technology, &buffer[offset_bits / 8U], &_size_bytes19_);
+        if (_err33_ < 0)
         {
-            return _err35_;
+            return _err33_;
         }
-        offset_bits += _size_bytes21_ * 8U;  // Advance by the size of the nested serialized representation.
+        offset_bits += _size_bytes19_ * 8U;  // Advance by the size of the nested serialized representation.
     }
 
     offset_bits = (offset_bits + 7U) & ~(size_t) 7U;  // Align on 8 bits.
@@ -839,3 +833,4 @@ static inline void reg_drone_service_battery_Parameters_0_2_initialize_(reg_dron
 }
 #endif
 #endif // REG_DRONE_SERVICE_BATTERY_PARAMETERS_0_2_INCLUDED_
+
