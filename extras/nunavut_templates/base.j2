@@ -28,7 +28,7 @@
 {% for ns in T.full_namespace.split(".") %}namespace {{ ns }} {{ "{" }}
 {% endfor %}
 {% block contents %}{% endblock %}
-{% for ns in T.full_namespace.split(".") | reverse %}{{ "}" }} // namespace {{ ns }} 
+{% for ns in T.full_namespace.split(".") | reverse %}{{ "}" }} // namespace {{ ns }}
 {% endfor %}
 
 #endif // {{ include_guard }}
