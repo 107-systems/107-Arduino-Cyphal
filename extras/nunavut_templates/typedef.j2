@@ -1,6 +1,5 @@
-{% macro generate_composite(t) %}
+{% macro generate_composite(t) -%}
 
-{% set typename %}{{ t.full_name.replace(".","_") }}_{{ t.version.major }}_{{ t.version.minor }}{% endset %}
+{%- set typename -%}{{ t.full_name.replace(".","_") }}_{{ t.version.major }}_{{ t.version.minor }}{%- endset -%}
 typedef DSDLBaseType<{{ typename }}, {{ typename }}_SERIALIZATION_BUFFER_SIZE_BYTES_, CanardTransferKindMessage> {{ t.short_name }}_{{ t.version.major }}_{{ t.version.minor }};
-
-{% endmacro %}
+{%- endmacro -%}
