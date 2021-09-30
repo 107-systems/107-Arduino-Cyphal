@@ -20,5 +20,5 @@ nnvg --outdir src/wrappers/ \
      --generate-namespace-types \
      --namespace-output-stem NSTypes \
       dsdl_src/public_regulated_data_types/reg  \
-     --lookup dsdl_src/public_regulated_data_types-master/uavcan
+     --lookup dsdl_src/public_regulated_data_types/uavcan
 ```
