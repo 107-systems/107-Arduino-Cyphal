@@ -17,7 +17,7 @@
  **************************************************************************************/
 
 {% for ns in T.get_nested_namespaces() %}
-#include <wrappers/{{ ns.full_namespace.replace(".", "/") }}/NSTypes.hpp>
+#include <wrappers/{{ ns.full_namespace.replace(".", "/") }}/wrappers.hpp>
 {% endfor %}
 
 /**************************************************************************************
