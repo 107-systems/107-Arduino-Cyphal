@@ -23,6 +23,8 @@ This library works for
 ### Reference-Implementation OpenCyphal on Arduino
 * [OpenCyphal-GNSS-Node](examples/OpenCyphal-GNSS-Node): A OpenCyphal node with a GNSS sensor providing location data.
 * [OpenCyphal-ToF-Distance-Sensor-Node](examples/OpenCyphal-ToF-Distance-Sensor-Node): Demo firmware for OpenCyphal ToF Distance Sensor Node utilizing 107-Arduino-Cyphal.
+* [SimLE-tenso-can](https://github.com/not7cd/simle-tenso-can/): Firmware with multiple features for tensometer node on ESP32 utilizing its native CAN controller.
+* [SimLE-sensor-bridge](https://github.com/not7cd/simle-sensor-bridge): CAN to I2C bridge for case specific communication with older PixHawk verions.
 
 ### Example
 **Note**: Please be advised that the [examples](examples) shipped with this library are to be considered minimal examples to get you started working with [OpenCyphal](https://opencyphal.org/).
