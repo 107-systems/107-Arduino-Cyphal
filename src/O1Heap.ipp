@@ -10,7 +10,7 @@
  **************************************************************************************/
 
 template <size_t HEAP_SIZE>
-ArduinoO1Heap<HEAP_SIZE>::ArduinoO1Heap()
+O1Heap<HEAP_SIZE>::O1Heap()
 : _o1heap_ins{o1heapInit(_base, HEAP_SIZE)}
 {
 
@@ -21,13 +21,13 @@ ArduinoO1Heap<HEAP_SIZE>::ArduinoO1Heap()
  **************************************************************************************/
 
 template <size_t HEAP_SIZE>
-void * ArduinoO1Heap<HEAP_SIZE>::allocate(size_t const amount)
+void * O1Heap<HEAP_SIZE>::allocate(size_t const amount)
 {
   return o1heapAllocate(_o1heap_ins, amount);
 }
 
 template <size_t HEAP_SIZE>
-void ArduinoO1Heap<HEAP_SIZE>::free(void * const pointer)
+void O1Heap<HEAP_SIZE>::free(void * const pointer)
 {
   o1heapFree(_o1heap_ins, pointer);
 }
