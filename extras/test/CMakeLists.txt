@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 2.8)
 
 ##########################################################################
 
-project(test-107-Arduino-UAVCAN)
+project(test-107-Arduino-OpenCyphal)
 
 ##########################################################################
 
@@ -34,7 +34,7 @@ set(TEST_SRCS
   ../../src/libcanard/canard.c
   ../../src/o1heap/o1heap.c
   ../../src/utility/CritSec-host.cpp
-  ../../src/ArduinoUAVCAN.cpp
+  ../../src/Node.cpp
 )
 
 ##########################################################################

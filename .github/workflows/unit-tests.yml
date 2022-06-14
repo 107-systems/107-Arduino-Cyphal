@@ -28,7 +28,7 @@ jobs:
 
       - uses: arduino/cpp-test-action@main
         with:
-          runtime-path: extras/test/build/bin/test-107-Arduino-UAVCAN
+          runtime-path: extras/test/build/bin/test-107-Arduino-OpenCyphal
           coverage-exclude-paths: |
             - '*/extras/test/*'
             - '/usr/*'

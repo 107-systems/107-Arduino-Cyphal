@@ -7,7 +7,7 @@ NUNAVUT_DIR="$SCRIPT_DIR/../../src/nunavut"
 cd /tmp
 pip install -U nunavut
 rm -rf public_regulated_data_types
-git clone https://github.com/UAVCAN/public_regulated_data_types
+git clone https://github.com/OpenCyphal/public_regulated_data_types
 nnvg --target-language c \
      --pp-max-emptylines=1  \
      --pp-trim-trailing-whitespace \
@@ -25,5 +25,5 @@ nnvg --target-language c \
      public_regulated_data_types/reg
 
 cp -R public_regulated_data_types/uavcan-header/nunavut/* "$NUNAVUT_DIR"
-cp -R public_regulated_data_types/uavcan-header/uavcan/* "$HEADER_DIR"
-cp -R public_regulated_data_types/reg-header/reg/* "$HEADER_DIR"
+cp -R public_regulated_data_types/uavcan-header/uavcan "$HEADER_DIR"
+cp -R public_regulated_data_types/reg-header/reg "$HEADER_DIR"

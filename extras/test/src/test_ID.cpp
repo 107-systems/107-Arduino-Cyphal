@@ -2,7 +2,7 @@
  * This software is distributed under the terms of the MIT License.
  * Copyright (c) 2020 LXRobotics.
  * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
- * Contributors: https://github.com/107-systems/107-Arduino-UAVCAN/graphs/contributors.
+ * Contributors: https://github.com/107-systems/107-Arduino-OpenCyphal/graphs/contributors.
  */
 
 /**************************************************************************************
@@ -14,7 +14,7 @@
 #include <test/util/Const.h>
 #include <test/util/Types.h>
 
-#include <ArduinoUAVCAN.h>
+#include <107-Arduino-OpenCyphal.h>
 
 /**************************************************************************************
  * NAMESPACE
@@ -48,7 +48,7 @@ static bool transmitCanFrame(CanardFrame const & f)
   return true;
 }
 
-static void onID_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
+static void onID_1_0_Received(CanardTransfer const & transfer, Node & /* uavcan */)
 {
   ID_1_0<ID_PORT_ID> const received_id = ID_1_0<ID_PORT_ID>::deserialize(transfer);
 
@@ -62,7 +62,7 @@ static void onID_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /
 
 TEST_CASE("A 'ID.1.0.uavcan' message is sent", "[id-01]")
 {
-  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
+  Node uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
 
   ID_1_0<ID_PORT_ID> id;
   id.data.value = 65;
@@ -78,7 +78,7 @@ TEST_CASE("A 'ID.1.0.uavcan' message is sent", "[id-01]")
 TEST_CASE("A 'ID.1.0.uavcan' message is received", "[id-02]")
 {
   uavcan_node_ID_1_0_initialize_(&id);
-  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
+  Node uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
 
   REQUIRE(uavcan.subscribe<ID_1_0<ID_PORT_ID>>(onID_1_0_Received));
   /*

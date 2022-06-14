@@ -2,7 +2,7 @@
  * This software is distributed under the terms of the MIT License.
  * Copyright (c) 2020 LXRobotics.
  * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
- * Contributors: https://github.com/107-systems/107-Arduino-UAVCAN/graphs/contributors.
+ * Contributors: https://github.com/107-systems/107-Arduino-OpenCyphal/graphs/contributors.
  */
 
 #ifndef ARDUINO_TRANSFER_UAVCAN_NODE_EXECUTE_COMMAND_1_0_HPP_
@@ -116,7 +116,7 @@ public:
 
   void operator = (Status const status)
   {
-    data.status = arduino::_107_::uavcan::to_integer(status);
+    data.status = arduino::_107_::opencyphal::to_integer(status);
   }
 };
 

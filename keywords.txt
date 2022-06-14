@@ -1,12 +1,12 @@
 #######################################
-# Syntax Coloring Map for 107-Arduino-UAVCAN
+# Syntax Coloring Map for 107-Arduino-OpenCyphal
 #######################################
 
 #######################################
 # Class (KEYWORD1)
 #######################################
 
-ArduinoUAVCAN	KEYWORD1
+Node	KEYWORD1
 Request	KEYWORD1
 Response	KEYWORD1
 Heartbeat_1_0	KEYWORD1

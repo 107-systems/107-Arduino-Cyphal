@@ -2,7 +2,7 @@
  * This software is distributed under the terms of the MIT License.
  * Copyright (c) 2020 LXRobotics.
  * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
- * Contributors: https://github.com/107-systems/107-Arduino-UAVCAN/graphs/contributors.
+ * Contributors: https://github.com/107-systems/107-Arduino-OpenCyphal/graphs/contributors.
  */
 
 /**************************************************************************************
@@ -16,7 +16,7 @@
 #include <test/util/Const.h>
 #include <test/util/Types.h>
 
-#include <ArduinoUAVCAN.h>
+#include <107-Arduino-OpenCyphal.h>
 
 /**************************************************************************************
  * NAMESPACE
@@ -44,7 +44,7 @@ static bool transmitCanFrame(CanardFrame const & f)
   return true;
 }
 
-static void onHeatbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
+static void onHeatbeat_1_0_Received(CanardTransfer const & transfer, Node & /* uavcan */)
 {
   Heartbeat_1_0<> const received_hb = Heartbeat_1_0<>::deserialize(transfer);
 
@@ -61,7 +61,7 @@ static void onHeatbeat_1_0_Received(CanardTransfer const & transfer, ArduinoUAVC
 
 TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is sent", "[heartbeat-01]")
 {
-  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
+  Node uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
 
   Heartbeat_1_0<> hb;
   hb.data.uptime = 9876;
@@ -92,7 +92,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is sent", "[heartbeat-01]")
 TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heartbeat-02]")
 {
   uavcan_node_Heartbeat_1_0_initialize_(&hb_data);
-  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, nullptr);
+  Node uavcan(util::LOCAL_NODE_ID, nullptr);
 
   REQUIRE(uavcan.subscribe<Heartbeat_1_0<>>(onHeatbeat_1_0_Received));
 
@@ -110,7 +110,7 @@ TEST_CASE("A '32085.Heartbeat.1.0.uavcan' message is received", "[heartbeat-02]"
 
   REQUIRE(hb_node_id                          == 59);
   REQUIRE(hb_data.uptime                      == 1337);
-  REQUIRE(hb_data.health.value                == arduino::_107_::uavcan::to_integer(Heartbeat_1_0<>::Health::CAUTION));
-  REQUIRE(hb_data.mode.value                  == arduino::_107_::uavcan::to_integer(Heartbeat_1_0<>::Mode::MAINTENANCE));
+  REQUIRE(hb_data.health.value                == arduino::_107_::opencyphal::to_integer(Heartbeat_1_0<>::Health::CAUTION));
+  REQUIRE(hb_data.mode.value                  == arduino::_107_::opencyphal::to_integer(Heartbeat_1_0<>::Mode::MAINTENANCE));
   REQUIRE(hb_data.vendor_specific_status_code == 42);
 }

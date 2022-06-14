@@ -9,6 +9,7 @@
 //     omit_float_serialization_support:  False
 //     enable_serialization_asserts:  True
 //     enable_override_variable_array_capacity:  False
+//     cast_format:  (({type}) {value})
 
 #ifndef NUNAVUT_SUPPORT_SERIALIZATION_H_INCLUDED
 #define NUNAVUT_SUPPORT_SERIALIZATION_H_INCLUDED
@@ -44,6 +45,7 @@ static_assert(sizeof(size_t) >= sizeof(size_t),
 #define NUNAVUT_SUPPORT_LANGUAGE_OPTION_OMIT_FLOAT_SERIALIZATION_SUPPORT 0
 #define NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_SERIALIZATION_ASSERTS 1
 #define NUNAVUT_SUPPORT_LANGUAGE_OPTION_ENABLE_OVERRIDE_VARIABLE_ARRAY_CAPACITY 0
+#define NUNAVUT_SUPPORT_LANGUAGE_OPTION_CAST_FORMAT 2368206204
 
 /// Nunavut returns 0 for success and < 0 for any failure. It is always adequate to check that error_value < 0
 /// to detect errors or error_value == 0 for success.
@@ -142,7 +144,7 @@ static inline void nunavutCopyBits(void* const dst,
     else
     {
         // The algorithm was originally designed by Ben Dyer for Libuavcan v0:
-        // https://github.com/UAVCAN/libuavcan/blob/legacy-v0/libuavcan/src/marshal/uc_bit_array_copy.cpp
+        // https://github.com/OpenCyphal/libuavcan/blob/legacy-v0/libuavcan/src/marshal/uc_bit_array_copy.cpp
         // This version is modified for v1 where the bit order is the opposite.
         const uint8_t* const psrc = (const uint8_t*) src;
         uint8_t*       const pdst =       (uint8_t*) dst;
