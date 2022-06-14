@@ -20,8 +20,8 @@
 #include <memory>
 #include <functional>
 
-#include "ArduinoO1Heap.hpp"
 #include "Types.h"
+#include "O1Heap.hpp"
 
 #include "libcanard/canard.h"
 
@@ -73,7 +73,7 @@ public:
 private:
 
   static size_t constexpr LIBCANARD_O1HEAP_SIZE = 4096;
-  typedef ArduinoO1Heap<LIBCANARD_O1HEAP_SIZE> O1HeapLibcanard;
+  typedef O1Heap<LIBCANARD_O1HEAP_SIZE> O1HeapLibcanard;
 
   typedef struct
   {

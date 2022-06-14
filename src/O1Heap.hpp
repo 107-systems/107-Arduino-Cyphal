@@ -19,11 +19,11 @@
  **************************************************************************************/
 
 template <size_t HEAP_SIZE>
-class ArduinoO1Heap
+class O1Heap
 {
 public:
 
-  ArduinoO1Heap();
+  O1Heap();
 
 
   void * allocate(size_t const amount);
@@ -41,6 +41,6 @@ private:
  * TEMPLATE SOURCE
  **************************************************************************************/
 
-#include "ArduinoO1Heap.ipp"
+#include "O1Heap.ipp"
 
 #endif /* ARDUINO_O1_HEAP_HPP_ */
