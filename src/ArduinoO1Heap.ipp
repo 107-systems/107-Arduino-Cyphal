@@ -11,7 +11,7 @@
 
 template <size_t HEAP_SIZE>
 ArduinoO1Heap<HEAP_SIZE>::ArduinoO1Heap()
-: _o1heap_ins{o1heapInit(_base, HEAP_SIZE, nullptr, nullptr)}
+: _o1heap_ins{o1heapInit(_base, HEAP_SIZE)}
 {
 
 }
