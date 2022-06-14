@@ -1,16 +1,16 @@
 <a href="https://opencyphal.org/"><img align="right" src="https://raw.githubusercontent.com/107-systems/.github/main/logo/opencyphal.svg" width="25%"></a>
-`107-Arduino-OpenCyphal`
-========================
-[![Arduino Library Badge](https://www.ardu-badge.com/badge/107-Arduino-OpenCyphal.svg?)](https://www.ardu-badge.com/107-Arduino-OpenCyphal)
-[![Unit Tests](https://github.com/107-systems/107-Arduino-OpenCyphal/workflows/Unit%20Tests/badge.svg)](https://github.com/107-systems/107-Arduino-OpenCyphal/actions?workflow=Unit+Tests)
-[![codecov](https://codecov.io/gh/107-systems/107-Arduino-OpenCyphal/branch/master/graph/badge.svg)](https://codecov.io/gh/107-systems/107-Arduino-OpenCyphal)
-[![Compile Examples](https://github.com/107-systems/107-Arduino-OpenCyphal/workflows/Compile%20Examples/badge.svg)](https://github.com/107-systems/107-Arduino-OpenCyphal/actions?workflow=Compile+Examples)
-[![Arduino Lint](https://github.com/107-systems/107-Arduino-OpenCyphal/workflows/Arduino%20Lint/badge.svg)](https://github.com/107-systems/107-Arduino-OpenCyphal/actions?workflow=Arduino+Lint)
-[![keywords.txt Checks](https://github.com/107-systems/107-Arduino-OpenCyphal/workflows/Extra%20Library%20Checks/badge.svg)](https://github.com/107-systems/107-Arduino-OpenCyphal/actions?workflow=Extra+Library+Checks)
-[![General Formatting Checks](https://github.com/107-systems/107-Arduino-OpenCyphal/workflows/General%20Formatting%20Checks/badge.svg)](https://github.com/107-systems/107-Arduino-OpenCyphal/actions?workflow=General+Formatting+Checks)
-[![Spell Check](https://github.com/107-systems/107-Arduino-OpenCyphal/workflows/Spell%20Check/badge.svg)](https://github.com/107-systems/107-Arduino-OpenCyphal/actions?workflow=Spell+Check)
+`107-Arduino-Cyphal`
+====================
+[![Arduino Library Badge](https://www.ardu-badge.com/badge/107-Arduino-Cyphal.svg?)](https://www.ardu-badge.com/107-Arduino-Cyphal)
+[![Unit Tests](https://github.com/107-systems/107-Arduino-Cyphal/workflows/Unit%20Tests/badge.svg)](https://github.com/107-systems/107-Arduino-Cyphal/actions?workflow=Unit+Tests)
+[![codecov](https://codecov.io/gh/107-systems/107-Arduino-Cyphal/branch/master/graph/badge.svg)](https://codecov.io/gh/107-systems/107-Arduino-Cyphal)
+[![Compile Examples](https://github.com/107-systems/107-Arduino-Cyphal/workflows/Compile%20Examples/badge.svg)](https://github.com/107-systems/107-Arduino-Cyphal/actions?workflow=Compile+Examples)
+[![Arduino Lint](https://github.com/107-systems/107-Arduino-Cyphal/workflows/Arduino%20Lint/badge.svg)](https://github.com/107-systems/107-Arduino-Cyphal/actions?workflow=Arduino+Lint)
+[![keywords.txt Checks](https://github.com/107-systems/107-Arduino-Cyphal/workflows/Extra%20Library%20Checks/badge.svg)](https://github.com/107-systems/107-Arduino-Cyphal/actions?workflow=Extra+Library+Checks)
+[![General Formatting Checks](https://github.com/107-systems/107-Arduino-Cyphal/workflows/General%20Formatting%20Checks/badge.svg)](https://github.com/107-systems/107-Arduino-Cyphal/actions?workflow=General+Formatting+Checks)
+[![Spell Check](https://github.com/107-systems/107-Arduino-Cyphal/workflows/Spell%20Check/badge.svg)](https://github.com/107-systems/107-Arduino-Cyphal/actions?workflow=Spell+Check)
 
-Arduino library for providing a convenient C++ interface for accessing [OpenCyphal](https://opencyphal.org/) ([v1.0-beta](https://opencyphal.org/specification/Cyphal_Specification.pdf)) utilizing [libcanard](https://github.com/OpenCyphal/libcanard).
+This Arduino library implements the [OpenCyphal](https://opencyphal.org/) ([v1.0-beta](https://opencyphal.org/specification/Cyphal_Specification.pdf)) utilizing [libcanard](https://github.com/OpenCyphal/libcanard).
 
 <p align="center">
   <a href="https://github.com/107-systems/107-Arduino-DroneCore"><img src="https://github.com/107-systems/.github/raw/main/logo/viper.jpg" width="40%"></a>
@@ -24,7 +24,7 @@ This library works for
 
 ### Reference-Implementation OpenCyphal on Arduino
 * [OpenCyphal-GNSS-Node](examples/OpenCyphal-GNSS-Node): A OpenCyphal node with a GNSS sensor providing location data.
-* [OpenCyphal-ToF-Distance-Sensor-Node](examples/OpenCyphal-ToF-Distance-Sensor-Node): Demo firmware for OpenCyphal ToF Distance Sensor Node utilizing 107-Arduino-OpenCyphal.
+* [OpenCyphal-ToF-Distance-Sensor-Node](examples/OpenCyphal-ToF-Distance-Sensor-Node): Demo firmware for OpenCyphal ToF Distance Sensor Node utilizing 107-Arduino-Cyphal.
 
 ### Example
 **Note**: Please be advised that the [examples](examples) shipped with this library are to be considered minimal examples to get you started working with [OpenCyphal](https://opencyphal.org/).
@@ -32,7 +32,7 @@ They are known to violate section **2.1.2.2 Regulation** of the OpenCyphal Speci
 A compliant implementation would instead provide configurable port-IDs and support the Register Interface (section **5.3 Application-layer functions**).
 Fully compliant examples that implement reconfigurable port-IDs are shipped separately; e.g., [OpenCyphal-GNSS-Node](examples/OpenCyphal-GNSS-Node).
 ```C++
-#include <107-Arduino-OpenCyphal.h>
+#include <107-Arduino-Cyphal.h>
 /* ... */
 Node opencyphal_node(13, transmitCanFrame);
 Heartbeat_1_0 hb;
@@ -88,7 +88,7 @@ nnvg --target-language c \
      public_regulated_data_types/reg
 ```
 **Option B) Use [nunaweb](http://nunaweb.uavcan.org/)**
-##### Step 2) Copy generated C header files to [`src/types`](https://github.com/107-systems/107-Arduino-OpenCyphal/tree/master/src/types)
+##### Step 2) Copy generated C header files to [`src/types`](https://github.com/107-systems/107-Arduino-Cyphal/tree/master/src/types)
 ```bash
 types/reg/drone/physics/electricity/
 ├── Power_0_1.h
@@ -104,7 +104,7 @@ types/reg/drone/physics/electricity/
 -#include <reg/drone/physics/electricity/Power_0_1.h>
 +#include <types/reg/drone/physics/electricity/Power_0_1.h>
 ```
-##### Step 4) Manually implement wrapper classes in [`src/wrappers`](https://github.com/107-systems/107-Arduino-OpenCyphal/tree/master/src/wrappers)
+##### Step 4) Manually implement wrapper classes in [`src/wrappers`](https://github.com/107-systems/107-Arduino-Cyphal/tree/master/src/wrappers)
 ```bash
 wrappers/reg/drone/physics/electricity/
 ├── Power_0_1.hpp
@@ -112,12 +112,12 @@ wrappers/reg/drone/physics/electricity/
 ├── Source_0_1.hpp
 └── SourceTs_0_1.hpp
 ```
-##### Step 5) Add the wrapper clases to [`src/NodeTypes.h`](https://github.com/107-systems/107-Arduino-OpenCyphal/blob/master/src/NodeTypes.h)
+##### Step 5) Add the wrapper clases to [`src/NodeTypes.h`](https://github.com/107-systems/107-Arduino-Cyphal/blob/master/src/NodeTypes.h)
 ```diff
 +#include "wrappers/reg/drone/physics/electricity/Power_0_1.hpp"
 +#include "wrappers/reg/drone/physics/electricity/PowerTs_0_1.hpp"
 +#include "wrappers/reg/drone/physics/electricity/Source_0_1.hpp"
 +#include "wrappers/reg/drone/physics/electricity/SourceTs_0_1.hpp"
 ```
-##### Step 6) [Create PR](https://github.com/107-systems/107-Arduino-OpenCyphal/pulls) to mainline your changes
+##### Step 6) [Create PR](https://github.com/107-systems/107-Arduino-Cyphal/pulls) to mainline your changes
 Note: Only OpenCyphal types listed in [public_regulated_data_types:master](https://github.com/OpenCyphal/public_regulated_data_types) will be accepted into this repository.

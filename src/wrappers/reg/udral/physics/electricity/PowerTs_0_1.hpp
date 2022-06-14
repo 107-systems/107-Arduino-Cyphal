@@ -2,7 +2,7 @@
  * This software is distributed under the terms of the MIT License.
  * Copyright (c) 2020 LXRobotics.
  * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
- * Contributors: https://github.com/107-systems/107-Arduino-OpenCyphal/graphs/contributors.
+ * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
 #ifndef ARDUINO_UAVCAN_TYPES_REG_DRONE_PHYSICS_ELECTRICITY_POWERTS_0_1_H_

@@ -1,7 +1,7 @@
 <a href="https://opencyphal.org/"><img align="right" src="https://raw.githubusercontent.com/107-systems/.github/main/logo/opencyphal.svg" width="25%"></
 `OpenCyphal-ToF-Distance-Sensor-Node`
 =================================
-Demo firmware for OpenCyphal ToF Distance Sensor Node utilizing [107-Arduino-OpenCyphal](https://github.com/107-systems/107-Arduino-OpenCyphal).
+Demo firmware for OpenCyphal ToF Distance Sensor Node utilizing [107-Arduino-Cyphal](https://github.com/107-systems/107-Arduino-Cyphal).
 
 ### Hardware Setup
 In order to assemble the hardware required for the `OpenCyphal-ToF-Distance-Sensor-Node` you need to integrate a [`MKR Zero`](https://store.arduino.cc/mkr-zero) with a [`MKR CAN Shield`](https://store.arduino.cc/arduino-mkr-can-shield) and a [`TMF8801Breakout`](https://github.com/generationmake/TMF8801Breakout) as shown below.

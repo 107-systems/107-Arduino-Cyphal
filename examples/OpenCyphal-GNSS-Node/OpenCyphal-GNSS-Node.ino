@@ -2,7 +2,7 @@
  * This software is distributed under the terms of the MIT License.
  * Copyright (c) 2020 LXRobotics.
  * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
- * Contributors: https://github.com/107-systems/107-Arduino-OpenCyphal/graphs/contributors.
+ * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
 /* Recommended hardware setup:
@@ -15,7 +15,7 @@
 
 #include <SPI.h>
 
-#include <107-Arduino-OpenCyphal.h>
+#include <107-Arduino-Cyphal.h>
 #include <ArduinoMCP2515.h>
 #include <ArduinoNmeaParser.h>
 #define DBG_ENABLE_ERROR
