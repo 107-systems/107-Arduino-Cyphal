@@ -2,8 +2,6 @@
 `107-Arduino-Cyphal`
 ====================
 [![Arduino Library Badge](https://www.ardu-badge.com/badge/107-Arduino-Cyphal.svg?)](https://www.ardu-badge.com/107-Arduino-Cyphal)
-[![Unit Tests](https://github.com/107-systems/107-Arduino-Cyphal/workflows/Unit%20Tests/badge.svg)](https://github.com/107-systems/107-Arduino-Cyphal/actions?workflow=Unit+Tests)
-[![codecov](https://codecov.io/gh/107-systems/107-Arduino-Cyphal/branch/master/graph/badge.svg)](https://codecov.io/gh/107-systems/107-Arduino-Cyphal)
 [![Compile Examples](https://github.com/107-systems/107-Arduino-Cyphal/workflows/Compile%20Examples/badge.svg)](https://github.com/107-systems/107-Arduino-Cyphal/actions?workflow=Compile+Examples)
 [![Arduino Lint](https://github.com/107-systems/107-Arduino-Cyphal/workflows/Arduino%20Lint/badge.svg)](https://github.com/107-systems/107-Arduino-Cyphal/actions?workflow=Arduino+Lint)
 [![keywords.txt Checks](https://github.com/107-systems/107-Arduino-Cyphal/workflows/Extra%20Library%20Checks/badge.svg)](https://github.com/107-systems/107-Arduino-Cyphal/actions?workflow=Extra+Library+Checks)
