@@ -26,8 +26,8 @@
  * NAMESPACE
  **************************************************************************************/
 
- using namespace reg::drone::service::battery;
- using namespace reg::drone::physics::electricity;
+ using namespace reg::udral::service::battery;
+ using namespace reg::udral::physics::electricity;
 
 /**************************************************************************************
  * CONSTANTS
@@ -50,7 +50,7 @@ void    onExternalEvent        ();
 void    onReceiveBufferFull    (CanardFrame const &);
 void    onSourceTs_0_1_Received(CanardTransfer const &, Node &);
 void    onStatus_0_2_Received(CanardTransfer const &, Node &);
-void    onParameters_0_2_Received(CanardTransfer const &, Node & );
+void    onParameters_0_3_Received(CanardTransfer const &, Node & );
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -91,7 +91,7 @@ void setup()
   /* Subscribe to the reception of BMS message types. */
   uc.subscribe<SourceTs_0_1<SOURCETS_PORT_ID>>(onSourceTs_0_1_Received);
   uc.subscribe<Status_0_2<STATUS_PORT_ID>>(onStatus_0_2_Received);
-  uc.subscribe<Parameters_0_2<PARAMETERS_PORT_ID>>(onParameters_0_2_Received);
+  uc.subscribe<Parameters_0_3<PARAMETERS_PORT_ID>>(onParameters_0_3_Received);
 }
 
 void loop()
@@ -164,8 +164,8 @@ void onStatus_0_2_Received(CanardTransfer const & transfer, Node & /* uavcan */)
 }
 
 
-void onParameters_0_2_Received(CanardTransfer const & transfer, Node & /* uavcan */){
-  Parameters_0_2<PARAMETERS_PORT_ID> const params = Parameters_0_2<PARAMETERS_PORT_ID>::deserialize(transfer);
+void onParameters_0_3_Received(CanardTransfer const & transfer, Node & /* uavcan */){
+  Parameters_0_3<PARAMETERS_PORT_ID> const params = Parameters_0_3<PARAMETERS_PORT_ID>::deserialize(transfer);
 
   Serial.print("Parameters->\tUnique ID: ");
   Serial.print(params.data.unique_id);
