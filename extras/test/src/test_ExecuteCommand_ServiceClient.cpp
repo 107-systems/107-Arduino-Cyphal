@@ -2,7 +2,7 @@
  * This software is distributed under the terms of the MIT License.
  * Copyright (c) 2020 LXRobotics.
  * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
- * Contributors: https://github.com/107-systems/107-Arduino-UAVCAN/graphs/contributors.
+ * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
 /**************************************************************************************
@@ -14,7 +14,7 @@
 #include <test/util/Const.h>
 #include <test/util/Types.h>
 
-#include <ArduinoUAVCAN.h>
+#include <107-Arduino-Cyphal.h>
 
 /**************************************************************************************
  * NAMESPACE
@@ -47,7 +47,7 @@ static bool transmitCanFrame(CanardFrame const & f)
   return true;
 }
 
-static void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, ArduinoUAVCAN & /* uavcan */)
+static void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, Node & /* opencyphal_node */)
 {
   ExecuteCommand_1_0::Response<> const received_response = ExecuteCommand_1_0::Response<>::deserialize(transfer);
   response.status = received_response.data.status;
@@ -60,7 +60,7 @@ static void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transf
 TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-command-client-01]")
 {
   uavcan_node_ExecuteCommand_Response_1_0_initialize_(&response);
-  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
+  Node opencyphal_node(util::LOCAL_NODE_ID, transmitCanFrame);
 
   std::string const cmd_1_param = "I want a double espresso with cream";
   ExecuteCommand_1_0::Request<> req_1;
@@ -71,9 +71,9 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
             req_1.data.parameter.elements);
 
 
-  REQUIRE(uavcan.request<ExecuteCommand_1_0::Request<>, ExecuteCommand_1_0::Response<>>(req_1, REMOTE_NODE_ID, onExecuteCommand_1_0_Response_Received) == true);
+  REQUIRE(opencyphal_node.request<ExecuteCommand_1_0::Request<>, ExecuteCommand_1_0::Response<>>(req_1, REMOTE_NODE_ID, onExecuteCommand_1_0_Response_Received) == true);
   /* Transmit all the CAN frames. */
-  while(uavcan.transmitCanFrame()) { }
+  while(opencyphal_node.transmitCanFrame()) { }
 
   /* Verify the content of the CAN frames. */
   /*
@@ -104,10 +104,10 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
    * real system the answer would come back from the remote node.
    */
   std::vector<uint8_t> const data_1{0x02, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xE0};
-  uavcan.onCanFrameReceived(util::toCanardFrame(0x126CC69B, data_1));
+  opencyphal_node.onCanFrameReceived(util::toCanardFrame(0x126CC69B, data_1));
 
   /* Check if the expected response has been indeed received. */
-  REQUIRE(response.status == arduino::_107_::uavcan::to_integer(ExecuteCommand_1_0::Response<>::Status::NOT_AUTHORIZED));
+  REQUIRE(response.status == arduino::_107_::opencyphal::to_integer(ExecuteCommand_1_0::Response<>::Status::NOT_AUTHORIZED));
 
   /* Send a second request. */
   std::string const cmd_2_param = "I do not need coffee anymore";
@@ -118,10 +118,10 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
             cmd_2_param.c_str() + req_2.data.parameter.count,
             req_2.data.parameter.elements);
 
-  REQUIRE(uavcan.request<ExecuteCommand_1_0::Request<>, ExecuteCommand_1_0::Response<>>(req_2, REMOTE_NODE_ID, onExecuteCommand_1_0_Response_Received) == true);
+  REQUIRE(opencyphal_node.request<ExecuteCommand_1_0::Request<>, ExecuteCommand_1_0::Response<>>(req_2, REMOTE_NODE_ID, onExecuteCommand_1_0_Response_Received) == true);
   /* Transmit all the CAN frames. */
   can_frame_vect.clear();
-  while(uavcan.transmitCanFrame()) { }
+  while(opencyphal_node.transmitCanFrame()) { }
 
   /* Verify the content of the CAN frames. */
   /*
@@ -151,8 +151,8 @@ TEST_CASE("A '435.ExecuteCommand.1.0' request is sent to a server", "[execute-co
    * real system the answer would come back from the remote node.
    */
   std::vector<uint8_t> const data_2{0x05, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0xE1};
-  uavcan.onCanFrameReceived(util::toCanardFrame(0x126CC69B, data_2));
+  opencyphal_node.onCanFrameReceived(util::toCanardFrame(0x126CC69B, data_2));
 
   /* Check if the expected response has been indeed received. */
-  REQUIRE(response.status == arduino::_107_::uavcan::to_integer(ExecuteCommand_1_0::Response<>::Status::BAD_STATE));
+  REQUIRE(response.status == arduino::_107_::opencyphal::to_integer(ExecuteCommand_1_0::Response<>::Status::BAD_STATE));
 }

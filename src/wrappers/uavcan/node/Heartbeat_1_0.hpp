@@ -2,7 +2,7 @@
  * This software is distributed under the terms of the MIT License.
  * Copyright (c) 2020 LXRobotics.
  * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
- * Contributors: https://github.com/107-systems/107-Arduino-UAVCAN/graphs/contributors.
+ * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
 #ifndef ARDUINO_TRANSFER_UAVCAN_NODE_HEARTBEAT_1_0_HPP_
@@ -83,12 +83,12 @@ public:
 
   void operator = (Health const health)
   {
-    data.health.value = arduino::_107_::uavcan::to_integer(health);
+    data.health.value = arduino::_107_::opencyphal::to_integer(health);
   }
 
   void operator = (Mode const mode)
   {
-    data.mode.value = arduino::_107_::uavcan::to_integer(mode);
+    data.mode.value = arduino::_107_::opencyphal::to_integer(mode);
   }
 };
 

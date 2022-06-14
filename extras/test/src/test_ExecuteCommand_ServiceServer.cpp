@@ -2,7 +2,7 @@
  * This software is distributed under the terms of the MIT License.
  * Copyright (c) 2020 LXRobotics.
  * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
- * Contributors: https://github.com/107-systems/107-Arduino-UAVCAN/graphs/contributors.
+ * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
 /**************************************************************************************
@@ -14,7 +14,7 @@
 #include <test/util/Const.h>
 #include <test/util/Types.h>
 
-#include <ArduinoUAVCAN.h>
+#include <107-Arduino-Cyphal.h>
 
 /**************************************************************************************
  * NAMESPACE
@@ -47,7 +47,7 @@ static bool transmitCanFrame(CanardFrame const & f)
   return true;
 }
 
-static void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, ArduinoUAVCAN & uavcan)
+static void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfer, Node & uavcan)
 {
   ExecuteCommand_1_0::Request<> received_request = ExecuteCommand_1_0::Request<>::deserialize(transfer);
 
@@ -76,7 +76,7 @@ static void onExecuteCommand_1_0_Request_Received(CanardTransfer const & transfe
 TEST_CASE("A '435.ExecuteCommand.1.0' request is received from a client", "[execute-command-server-01]")
 {
   uavcan_node_ExecuteCommand_Request_1_0_initialize_(&request);
-  ArduinoUAVCAN uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
+  Node uavcan(util::LOCAL_NODE_ID, transmitCanFrame);
 
   /* Subscribe to incoming server requests. */
   REQUIRE(uavcan.subscribe<ExecuteCommand_1_0::Request<>>(onExecuteCommand_1_0_Request_Received) == true);
