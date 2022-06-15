@@ -20,7 +20,7 @@
 #include <SPI.h>
 
 #include <107-Arduino-Cyphal.h>
-#include <ArduinoMCP2515.h>
+#include <107-Arduino-MCP2515.h>
 #if defined(ARDUINO_EDGE_CONTROL)
 #  include <Arduino_EdgeControl.h>
 #endif

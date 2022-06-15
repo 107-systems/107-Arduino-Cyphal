@@ -13,7 +13,7 @@
 #include <SPI.h>
 
 #include <107-Arduino-Cyphal.h>
-#include <ArduinoMCP2515.h>
+#include <107-Arduino-MCP2515.h>
 
 /**************************************************************************************
  * NAMESPACE
