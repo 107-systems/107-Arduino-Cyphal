@@ -33,26 +33,21 @@ static int const MKRCAN_MCP2515_INT_PIN = 7;
  * FUNCTION DECLARATION
  **************************************************************************************/
 
-void    spi_select         ();
-void    spi_deselect       ();
-uint8_t spi_transfer       (uint8_t const);
-void    onExternalEvent    ();
-void    onReceiveBufferFull(CanardFrame const &);
-bool    transmitCanFrame   (CanardFrame const &);
-void    onExecuteCommand_1_0_Request_Received(CanardRxTransfer const &, Node &);
+void onReceiveBufferFull(CanardFrame const &);
+void onExecuteCommand_1_0_Request_Received(CanardRxTransfer const &, Node &);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
  **************************************************************************************/
 
-ArduinoMCP2515 mcp2515(spi_select,
-                       spi_deselect,
-                       spi_transfer,
+ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
+                       []() { digitalWrite(MKRCAN_MCP2515_CS_PIN, HIGH); },
+                       [](uint8_t const data) { return SPI.transfer(data); },
                        micros,
                        onReceiveBufferFull,
                        nullptr);
 
-Node uc(13 /* local node id */, transmitCanFrame);
+Node node_hdl(13, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -70,7 +65,7 @@ void setup()
 
   /* Attach interrupt handler to register MCP2515 signaled by taking INT low */
   pinMode(MKRCAN_MCP2515_INT_PIN, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(MKRCAN_MCP2515_INT_PIN), onExternalEvent, FALLING);
+  attachInterrupt(digitalPinToInterrupt(MKRCAN_MCP2515_INT_PIN), []() { mcp2515.onExternalEventHandler(); }, FALLING);
 
   /* Initialize MCP2515 */
   mcp2515.begin();
@@ -78,50 +73,25 @@ void setup()
   mcp2515.setNormalMode();
 
   /* Subscribe to incoming service requests */
-  uc.subscribe<ExecuteCommand_1_0::Request<>>(onExecuteCommand_1_0_Request_Received);
+  node_hdl.subscribe<ExecuteCommand_1_0::Request<>>(onExecuteCommand_1_0_Request_Received);
 }
 
 void loop()
 {
   /* Transmit all enqeued CAN frames */
-  while(uc.transmitCanFrame()) { }
+  while(node_hdl.transmitCanFrame()) { }
 }
 
 /**************************************************************************************
  * FUNCTION DEFINITION
  **************************************************************************************/
 
-void spi_select()
-{
-  digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW);
-}
-
-void spi_deselect()
-{
-  digitalWrite(MKRCAN_MCP2515_CS_PIN, HIGH);
-}
-
-uint8_t spi_transfer(uint8_t const data)
-{
-  return SPI.transfer(data);
-}
-
-void onExternalEvent()
-{
-  mcp2515.onExternalEventHandler();
-}
-
 void onReceiveBufferFull(CanardFrame const & frame)
 {
-  uc.onCanFrameReceived(frame, micros());
+  node_hdl.onCanFrameReceived(frame, micros());
 }
 
-bool transmitCanFrame(CanardFrame const & frame)
-{
-  return mcp2515.transmit(frame);
-}
-
-void onExecuteCommand_1_0_Request_Received(CanardRxTransfer const & transfer, Node & uc)
+void onExecuteCommand_1_0_Request_Received(CanardRxTransfer const & transfer, Node & node_hdl)
 {
   ExecuteCommand_1_0::Request<> req = ExecuteCommand_1_0::Request<>::deserialize(transfer);
 
@@ -129,12 +99,12 @@ void onExecuteCommand_1_0_Request_Received(CanardRxTransfer const & transfer, No
   {
     ExecuteCommand_1_0::Response<> rsp;
     rsp = ExecuteCommand_1_0::Response<>::Status::SUCCESS;
-    uc.respond(rsp, transfer.remote_node_id, transfer.transfer_id);
+    node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
   }
   else
   {
     ExecuteCommand_1_0::Response<> rsp;
     rsp = ExecuteCommand_1_0::Response<>::Status::NOT_AUTHORIZED;
-    uc.respond(rsp, transfer.remote_node_id, transfer.transfer_id);
+    node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
   }
 }

@@ -35,35 +35,32 @@
 
 static int const MKRCAN_MCP2515_CS_PIN  = 3;
 static int const MKRCAN_MCP2515_INT_PIN = 7;
+
 static CanardPortID const SOURCETS_PORT_ID   = 6144U;
-static CanardPortID const STATUS_PORT_ID   = 6145U;
-static CanardPortID const PARAMETERS_PORT_ID   = 6146U;
+static CanardPortID const STATUS_PORT_ID     = 6145U;
+static CanardPortID const PARAMETERS_PORT_ID = 6146U;
 
 /**************************************************************************************
  * FUNCTION DECLARATION
  **************************************************************************************/
 
-void    spi_select             ();
-void    spi_deselect           ();
-uint8_t spi_transfer           (uint8_t const);
-void    onExternalEvent        ();
-void    onReceiveBufferFull    (CanardFrame const &);
-void    onSourceTs_0_1_Received(CanardRxTransfer const &, Node &);
-void    onStatus_0_2_Received(CanardRxTransfer const &, Node &);
-void    onParameters_0_3_Received(CanardRxTransfer const &, Node & );
+void onReceiveBufferFull      (CanardFrame const &);
+void onSourceTs_0_1_Received  (CanardRxTransfer const &, Node &);
+void onStatus_0_2_Received    (CanardRxTransfer const &, Node &);
+void onParameters_0_3_Received(CanardRxTransfer const &, Node & );
 
 /**************************************************************************************
  * GLOBAL VARIABLES
  **************************************************************************************/
 
-ArduinoMCP2515 mcp2515(spi_select,
-                       spi_deselect,
-                       spi_transfer,
+ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
+                       []() { digitalWrite(MKRCAN_MCP2515_CS_PIN, HIGH); },
+                       [](uint8_t const data) { return SPI.transfer(data); },
                        micros,
                        onReceiveBufferFull,
                        nullptr);
 
-Node uc(13, nullptr);
+Node node_hdl(13, nullptr);
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -81,7 +78,7 @@ void setup()
 
   /* Attach interrupt handler to register MCP2515 signaled by taking INT low */
   pinMode(MKRCAN_MCP2515_INT_PIN, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(MKRCAN_MCP2515_INT_PIN), onExternalEvent, FALLING);
+  attachInterrupt(digitalPinToInterrupt(MKRCAN_MCP2515_INT_PIN), []() { mcp2515.onExternalEventHandler(); }, FALLING);
 
   /* Initialize MCP2515 */
   mcp2515.begin();
@@ -89,9 +86,9 @@ void setup()
   mcp2515.setNormalMode();
 
   /* Subscribe to the reception of BMS message types. */
-  uc.subscribe<SourceTs_0_1<SOURCETS_PORT_ID>>(onSourceTs_0_1_Received);
-  uc.subscribe<Status_0_2<STATUS_PORT_ID>>(onStatus_0_2_Received);
-  uc.subscribe<Parameters_0_3<PARAMETERS_PORT_ID>>(onParameters_0_3_Received);
+  node_hdl.subscribe<SourceTs_0_1<SOURCETS_PORT_ID>>(onSourceTs_0_1_Received);
+  node_hdl.subscribe<Status_0_2<STATUS_PORT_ID>>(onStatus_0_2_Received);
+  node_hdl.subscribe<Parameters_0_3<PARAMETERS_PORT_ID>>(onParameters_0_3_Received);
 }
 
 void loop()
@@ -103,31 +100,10 @@ void loop()
  * FUNCTION DEFINITION
  **************************************************************************************/
 
-void spi_select()
-{
-  digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW);
-}
-
-void spi_deselect()
-{
-  digitalWrite(MKRCAN_MCP2515_CS_PIN, HIGH);
-}
-
-uint8_t spi_transfer(uint8_t const data)
-{
-  return SPI.transfer(data);
-}
-
-void onExternalEvent()
-{
-  mcp2515.onExternalEventHandler();
-}
-
 void onReceiveBufferFull(CanardFrame const & frame)
 {
-  uc.onCanFrameReceived(frame, micros());
+  node_hdl.onCanFrameReceived(frame, micros());
 }
-
 
 void onSourceTs_0_1_Received(CanardRxTransfer const & transfer, Node & /* uavcan */)
 {
@@ -146,7 +122,8 @@ void onSourceTs_0_1_Received(CanardRxTransfer const & transfer, Node & /* uavcan
   Serial.println();
 }
 
-void onStatus_0_2_Received(CanardRxTransfer const & transfer, Node & /* uavcan */){
+void onStatus_0_2_Received(CanardRxTransfer const & transfer, Node & /* uavcan */)
+{
   Status_0_2<STATUS_PORT_ID> const stat = Status_0_2<STATUS_PORT_ID>::deserialize(transfer);
 
   Serial.print("Status->\tAvailable Charge: ");
@@ -163,8 +140,8 @@ void onStatus_0_2_Received(CanardRxTransfer const & transfer, Node & /* uavcan *
   Serial.println();
 }
 
-
-void onParameters_0_3_Received(CanardRxTransfer const & transfer, Node & /* uavcan */){
+void onParameters_0_3_Received(CanardRxTransfer const & transfer, Node & /* uavcan */)
+{
   Parameters_0_3<PARAMETERS_PORT_ID> const params = Parameters_0_3<PARAMETERS_PORT_ID>::deserialize(transfer);
 
   Serial.print("Parameters->\tUnique ID: ");
