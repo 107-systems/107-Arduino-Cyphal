@@ -20,7 +20,7 @@
 #include <SPI.h>
 
 #include <107-Arduino-Cyphal.h>
-#include <ArduinoMCP2515.h>
+#include <107-Arduino-MCP2515.h>
 #if defined(ARDUINO_EDGE_CONTROL)
 #  include <Arduino_EdgeControl.h>
 #endif
@@ -48,26 +48,21 @@ static int const LED_BUILTIN = 2;
  * FUNCTION DECLARATION
  **************************************************************************************/
 
-void    spi_select        ();
-void    spi_deselect       ();
-uint8_t spi_transfer       (uint8_t const);
-void    onExternalEvent    ();
-bool    transmitCanFrame   (CanardFrame const &);
-void    onReceiveBufferFull(CanardFrame const &);
-void    onBit_1_0_Received (CanardTransfer const &, Node &);
+void onReceiveBufferFull(CanardFrame const &);
+void onBit_1_0_Received (CanardRxTransfer const &, Node &);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
  **************************************************************************************/
 
-ArduinoMCP2515 mcp2515(spi_select,
-                       spi_deselect,
-                       spi_transfer,
+ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
+                       []() { digitalWrite(MKRCAN_MCP2515_CS_PIN, HIGH); },
+                       [](uint8_t const data) { return SPI.transfer(data); },
                        micros,
                        onReceiveBufferFull,
                        nullptr);
 
-Node uc(13, transmitCanFrame);
+Node node_hdl(13, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
 
 Heartbeat_1_0<> hb;
 
@@ -102,7 +97,7 @@ void setup()
 
   /* Attach interrupt handler to register MCP2515 signaled by taking INT low */
   pinMode(MKRCAN_MCP2515_INT_PIN, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(MKRCAN_MCP2515_INT_PIN), onExternalEvent, FALLING);
+  attachInterrupt(digitalPinToInterrupt(MKRCAN_MCP2515_INT_PIN), []() { mcp2515.onExternalEventHandler(); }, FALLING);
 
   /* Initialize MCP2515 */
   mcp2515.begin();
@@ -116,7 +111,7 @@ void setup()
   hb.data.vendor_specific_status_code = 0;
 
   /* Subscribe to the reception of Bit message. */
-  uc.subscribe<Bit_1_0<BIT_PORT_ID>>(onBit_1_0_Received);
+  node_hdl.subscribe<Bit_1_0<BIT_PORT_ID>>(onBit_1_0_Received);
 }
 
 void loop()
@@ -129,49 +124,24 @@ void loop()
   static unsigned long prev = 0;
   unsigned long const now = millis();
   if(now - prev > 1000) {
-    uc.publish(hb);
+    node_hdl.publish(hb);
     prev = now;
   }
 
   /* Transmit all enqeued CAN frames */
-  while(uc.transmitCanFrame()) { }
+  while(node_hdl.transmitCanFrame()) { }
 }
 
 /**************************************************************************************
  * FUNCTION DEFINITION
  **************************************************************************************/
 
-void spi_select()
-{
-  digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW);
-}
-
-void spi_deselect()
-{
-  digitalWrite(MKRCAN_MCP2515_CS_PIN, HIGH);
-}
-
-uint8_t spi_transfer(uint8_t const data)
-{
-  return SPI.transfer(data);
-}
-
-void onExternalEvent()
-{
-  mcp2515.onExternalEventHandler();
-}
-
-bool transmitCanFrame(CanardFrame const & frame)
-{
-  return mcp2515.transmit(frame);
-}
-
 void onReceiveBufferFull(CanardFrame const & frame)
 {
-  uc.onCanFrameReceived(frame);
+  node_hdl.onCanFrameReceived(frame, micros());
 }
 
-void onBit_1_0_Received(CanardTransfer const & transfer, Node & /* uc */)
+void onBit_1_0_Received(CanardRxTransfer const & transfer, Node & /* node_hdl */)
 {
   Bit_1_0<BIT_PORT_ID> const uavcan_led = Bit_1_0<BIT_PORT_ID>::deserialize(transfer);
 

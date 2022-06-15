@@ -33,7 +33,7 @@
  **************************************************************************************/
 
 class Node;
-typedef std::function<void(CanardTransfer const &, Node &)> OnTransferReceivedFunc;
+typedef std::function<void(CanardRxTransfer const &, Node &)> OnTransferReceivedFunc;
 typedef std::function<bool(CanardFrame const &)> CanFrameTransmitFunc;
 
 /**************************************************************************************
@@ -44,14 +44,25 @@ class Node
 {
 public:
 
+  static size_t constexpr O1HEAP_SIZE = 4096;
+  static size_t constexpr TX_QUEUE_DEFAULT_SIZE = 100;
+  static size_t constexpr MTU_DEFAULT_SIZE = CANARD_MTU_CAN_CLASSIC;
+
   Node(uint8_t const node_id,
-       CanFrameTransmitFunc transmit_func);
+       CanFrameTransmitFunc transmit_func) __attribute__ ((deprecated))
+  : Node(node_id, transmit_func, TX_QUEUE_DEFAULT_SIZE, MTU_DEFAULT_SIZE)
+  { }
+
+  Node(uint8_t const node_id,
+       CanFrameTransmitFunc transmit_func,
+       size_t const tx_queue_capacity,
+       size_t const mtu_bytes);
 
 
   /* Must be called from the application upon the
    * reception of a can frame.
    */
-  void onCanFrameReceived(CanardFrame const & frame);
+  void onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us);
   /* Must be called regularly from within the application
    * in order to transmit all CAN pushed on the internal
    * stack via publish/request.
@@ -72,8 +83,7 @@ public:
 
 private:
 
-  static size_t constexpr LIBCANARD_O1HEAP_SIZE = 4096;
-  typedef O1Heap<LIBCANARD_O1HEAP_SIZE> O1HeapLibcanard;
+  typedef O1Heap<O1HEAP_SIZE> O1HeapLibcanard;
 
   typedef struct
   {
@@ -81,8 +91,9 @@ private:
     OnTransferReceivedFunc transfer_complete_callback;
   } RxTransferData;
 
-  O1HeapLibcanard _o1heap;
-  CanardInstance _canard_ins;
+  O1HeapLibcanard _o1heap_hdl;
+  CanardInstance _canard_hdl;
+  CanardTxQueue _canard_tx_queue;
   CanFrameTransmitFunc _transmit_func;
   std::map<CanardPortID, RxTransferData> _rx_transfer_map;
   std::map<CanardPortID, CanardTransferID> _tx_transfer_map;

@@ -53,7 +53,7 @@ public:
     memcpy(&data, &other.data, sizeof(data));
   }
 
-  static PointStateVarTs_0_1 deserialize(CanardTransfer const & transfer)
+  static PointStateVarTs_0_1 deserialize(CanardRxTransfer const & transfer)
   {
     PointStateVarTs_0_1 b;
     size_t inout_buffer_size_bytes = transfer.payload_size;

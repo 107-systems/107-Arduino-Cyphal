@@ -34,7 +34,7 @@ Fully compliant examples that implement reconfigurable port-IDs are shipped sepa
 ```C++
 #include <107-Arduino-Cyphal.h>
 /* ... */
-Node opencyphal_node(13, transmitCanFrame);
+Node node_hdl(13, [](CanardFrame const & frame) { /* ... */ });
 Heartbeat_1_0 hb;
 /* ... */
 void loop() {
@@ -46,16 +46,12 @@ void loop() {
   static unsigned long prev = 0;
   unsigned long const now = millis();
   if(now - prev > 1000) {
-    opencyphal_node.publish(hb);
+    node_hdl.publish(hb);
     prev = now;
   }
 
   /* Transmit all enqeued CAN frames */
-  while(opencyphal_node.transmitCanFrame()) { }
-}
-/* ... */
-bool transmitCanFrame(CanardFrame const & frame) {
-  /* ... */
+  while(node_hdl.transmitCanFrame()) { }
 }
 ```
 

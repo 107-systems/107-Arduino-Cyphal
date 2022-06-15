@@ -16,7 +16,7 @@
 #include <SPI.h>
 
 #include <107-Arduino-Cyphal.h>
-#include <ArduinoMCP2515.h>
+#include <107-Arduino-MCP2515.h>
 #include <ArduinoNmeaParser.h>
 #define DBG_ENABLE_ERROR
 #define DBG_ENABLE_WARNING
@@ -36,25 +36,27 @@
 typedef struct
 {
   uavcan::node::Heartbeat_1_0<>::Mode mode;
-} UavcanNodeData;
+} OpenCyphalNodeData;
 
 typedef struct
 {
   uint32_t heartbeat_period_ms;
-} UavcanNodeConfiguration;
+} OpenCyphalNodeConfiguration;
 
 /**************************************************************************************
  * CONSTANTS
  **************************************************************************************/
 
-static int            const MKRCAN_MCP2515_CS_PIN    = 3;
-static int            const MKRCAN_MCP2515_INT_PIN   = 7;
-static uint8_t        const UAVCAN_NODE_ID           = 13;
-static UavcanNodeData const UAVCAN_NODE_INITIAL_DATA =
+static int            const MKRCAN_MCP2515_CS_PIN  = 3;
+static int            const MKRCAN_MCP2515_INT_PIN = 7;
+static uint8_t        const OPEN_CYPHAL_NODE_ID    = 13;
+
+static OpenCyphalNodeData const OPEN_CYPHAL_NODE_INITIAL_DATA =
 {
   uavcan::node::Heartbeat_1_0<>::Mode::INITIALIZATION,
 };
-static UavcanNodeConfiguration const UAVCAN_NODE_INITIAL_CONFIGURATION =
+
+static OpenCyphalNodeConfiguration const OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION =
 {
   1000,
 };
@@ -63,15 +65,9 @@ static UavcanNodeConfiguration const UAVCAN_NODE_INITIAL_CONFIGURATION =
  * FUNCTION DECLARATION
  **************************************************************************************/
 
-uint8_t spi_transfer(uint8_t const);
-
 namespace MCP2515
 {
-void select();
-void deselect();
-void onExternalEvent();
 void onReceive(CanardFrame const &);
-bool transmit(CanardFrame const &);
 }
 
 namespace node
@@ -97,19 +93,19 @@ void onGgaUpdate(nmea::GgaData const);
  * GLOBAL VARIABLES
  **************************************************************************************/
 
-ArduinoMCP2515 mcp2515(MCP2515::select,
-                       MCP2515::deselect,
-                       spi_transfer,
+ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
+                       []() { digitalWrite(MKRCAN_MCP2515_CS_PIN, HIGH); },
+                       [](uint8_t const data) { return SPI.transfer(data); },
                        micros,
                        MCP2515::onReceive,
                        nullptr);
 
-Node opencyphal_node(UAVCAN_NODE_ID, MCP2515::transmit);
+Node node_hdl(OPEN_CYPHAL_NODE_ID, [](CanardFrame const & frame) { return mcp2515.transmit(frame); });
 
 ArduinoNmeaParser nmea_parser(gnss::onRmcUpdate, gnss::onGgaUpdate);
 
-UavcanNodeData node_data = UAVCAN_NODE_INITIAL_DATA;
-UavcanNodeConfiguration node_config = UAVCAN_NODE_INITIAL_CONFIGURATION;
+OpenCyphalNodeData node_data = OPEN_CYPHAL_NODE_INITIAL_DATA;
+OpenCyphalNodeConfiguration node_config = OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION;
 
 DEBUG_INSTANCE(120, Serial);
 
@@ -138,7 +134,7 @@ void setup()
    * MCP2515 signaled by taking INT low.
    */
   pinMode(MKRCAN_MCP2515_INT_PIN, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(MKRCAN_MCP2515_INT_PIN), MCP2515::onExternalEvent, FALLING);
+  attachInterrupt(digitalPinToInterrupt(MKRCAN_MCP2515_INT_PIN), []() { mcp2515.onExternalEventHandler(); }, FALLING);
 
   /* Configure MCP2515 */
   mcp2515.begin();
@@ -156,7 +152,7 @@ void loop()
    */
   static unsigned long prev_heartbeat = 0;
   if ((now - prev_heartbeat) > node_config.heartbeat_period_ms) {
-    heartbeat::publish(opencyphal_node, now / 1000, node_data.mode);
+    heartbeat::publish(node_hdl, now / 1000, node_data.mode);
     prev_heartbeat = now;
   }
 
@@ -176,50 +172,21 @@ void loop()
   node_data.mode = next_mode;
 
   /* Transmit all enqeued CAN frames */
-  while(opencyphal_node.transmitCanFrame()) { }
+  while(node_hdl.transmitCanFrame()) { }
 }
 
 /**************************************************************************************
  * FUNCTION DEFINITION
  **************************************************************************************/
 
-uint8_t spi_transfer(uint8_t const data)
-{
-  return SPI.transfer(data);
-}
-
-/**************************************************************************************
- * FUNCTION DEFINITION MCP2515
- **************************************************************************************/
-
 namespace MCP2515
 {
 
-void select() {
-  digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW);
-}
-
-void deselect() {
-  digitalWrite(MKRCAN_MCP2515_CS_PIN, HIGH);
-}
-
-void onExternalEvent() {
-  mcp2515.onExternalEventHandler();
-}
-
 void onReceive(CanardFrame const & frame) {
-  opencyphal_node.onCanFrameReceived(frame);
-}
-
-bool transmit(CanardFrame const & frame) {
-  return mcp2515.transmit(frame);
+  node_hdl.onCanFrameReceived(frame, micros());
 }
 
 } /* MCP2515 */
-
-/**************************************************************************************
- * FUNCTION DEFINITION node
- **************************************************************************************/
 
 namespace node
 {

@@ -53,7 +53,7 @@ public:
     memcpy(&data, &other.data, sizeof(data));
   }
 
-  static Velocity1VarTs_0_1 deserialize(CanardTransfer const & transfer)
+  static Velocity1VarTs_0_1 deserialize(CanardRxTransfer const & transfer)
   {
     Velocity1VarTs_0_1 b;
     size_t inout_buffer_size_bytes = transfer.payload_size;

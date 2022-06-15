@@ -67,7 +67,7 @@ public:
     memcpy(&data, &other.data, sizeof(data));
   }
 
-  static Heartbeat_1_0 deserialize(CanardTransfer const & transfer)
+  static Heartbeat_1_0 deserialize(CanardRxTransfer const & transfer)
   {
     Heartbeat_1_0 h;
     size_t inout_buffer_size_bytes = transfer.payload_size;
