@@ -51,7 +51,7 @@ public:
   /* Must be called from the application upon the
    * reception of a can frame.
    */
-  void onCanFrameReceived(CanardFrame const & frame);
+  void onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us);
   /* Must be called regularly from within the application
    * in order to transmit all CAN pushed on the internal
    * stack via publish/request.
@@ -83,6 +83,7 @@ private:
 
   O1HeapLibcanard _o1heap;
   CanardInstance _canard_ins;
+  CanardTxQueue _canard_tx_queue;
   CanFrameTransmitFunc _transmit_func;
   std::map<CanardPortID, RxTransferData> _rx_transfer_map;
   std::map<CanardPortID, CanardTransferID> _tx_transfer_map;

@@ -113,7 +113,7 @@ void onExternalEvent()
 
 void onReceiveBufferFull(CanardFrame const & frame)
 {
-  uc.onCanFrameReceived(frame);
+  uc.onCanFrameReceived(frame, micros());
 }
 
 bool transmitCanFrame(CanardFrame const & frame)

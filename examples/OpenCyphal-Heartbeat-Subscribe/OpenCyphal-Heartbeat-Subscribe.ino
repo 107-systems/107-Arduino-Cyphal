@@ -110,7 +110,7 @@ void onExternalEvent()
 
 void onReceiveBufferFull(CanardFrame const & frame)
 {
-  opencyphal_node.onCanFrameReceived(frame);
+  opencyphal_node.onCanFrameReceived(frame, micros());
 }
 
 void onHeartbeat_1_0_Received(CanardRxTransfer const & transfer, Node & /* opencyphal_node */)

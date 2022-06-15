@@ -208,7 +208,7 @@ void onExternalEvent() {
 }
 
 void onReceive(CanardFrame const & frame) {
-  opencyphal_node.onCanFrameReceived(frame);
+  opencyphal_node.onCanFrameReceived(frame, micros());
 }
 
 bool transmit(CanardFrame const & frame) {

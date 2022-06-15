@@ -168,7 +168,7 @@ bool transmitCanFrame(CanardFrame const & frame)
 
 void onReceiveBufferFull(CanardFrame const & frame)
 {
-  uc.onCanFrameReceived(frame);
+  uc.onCanFrameReceived(frame, micros());
 }
 
 void onBit_1_0_Received(CanardRxTransfer const & transfer, Node & /* uc */)
