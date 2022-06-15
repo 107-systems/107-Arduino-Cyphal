@@ -21,7 +21,6 @@ Node::Node(uint8_t const node_id,
 , _transmit_func{transmit_func}
 {
   _canard_ins.node_id = node_id;
-  _canard_ins.mtu_bytes = CANARD_MTU_CAN_CLASSIC;
   _canard_ins.user_reference = reinterpret_cast<void *>(&_o1heap);
 }
 
