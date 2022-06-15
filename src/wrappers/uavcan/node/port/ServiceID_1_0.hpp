@@ -50,7 +50,7 @@ public:
     memcpy(&data, &other.data, sizeof(data));
   }
 
-  static ServiceID_1_0 deserialize(CanardTransfer const & transfer)
+  static ServiceID_1_0 deserialize(CanardRxTransfer const & transfer)
   {
     ServiceID_1_0<ID> i;
     size_t inout_buffer_size_bytes = transfer.payload_size;

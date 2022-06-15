@@ -52,7 +52,7 @@ public:
     memcpy(&data, &other.data, sizeof(data));
   }
 
-  static TAI64VarTs_0_1 deserialize(CanardTransfer const & transfer)
+  static TAI64VarTs_0_1 deserialize(CanardRxTransfer const & transfer)
   {
     TAI64VarTs_0_1 b;
     size_t inout_buffer_size_bytes = transfer.payload_size;

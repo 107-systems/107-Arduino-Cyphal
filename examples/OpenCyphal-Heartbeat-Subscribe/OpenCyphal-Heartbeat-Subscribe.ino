@@ -37,7 +37,7 @@ void    spi_deselect           ();
 uint8_t spi_transfer           (uint8_t const);
 void    onExternalEvent        ();
 void    onReceiveBufferFull    (CanardFrame const &);
-void    onHeartbeat_1_0_Received(CanardTransfer const &, Node &);
+void    onHeartbeat_1_0_Received(CanardRxTransfer const &, Node &);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -113,7 +113,7 @@ void onReceiveBufferFull(CanardFrame const & frame)
   opencyphal_node.onCanFrameReceived(frame);
 }
 
-void onHeartbeat_1_0_Received(CanardTransfer const & transfer, Node & /* opencyphal_node */)
+void onHeartbeat_1_0_Received(CanardRxTransfer const & transfer, Node & /* opencyphal_node */)
 {
   Heartbeat_1_0<> const hb = Heartbeat_1_0<>::deserialize(transfer);
 

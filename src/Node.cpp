@@ -33,7 +33,7 @@ void Node::onCanFrameReceived(CanardFrame const & frame)
 {
   LockGuard lock;
 
-  CanardTransfer transfer;
+  CanardRxTransfer transfer;
   int8_t const result = canardRxAccept(&_canard_ins,
                                        &frame,
                                        0,
@@ -132,7 +132,7 @@ bool Node::unsubscribe(CanardTransferKind const transfer_kind, CanardPortID cons
 
 bool Node::enqeueTransfer(CanardNodeID const remote_node_id, CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload, CanardTransferID const transfer_id)
 {
-  CanardTransfer const transfer =
+  CanardRxTransfer const transfer =
   {
     /* .timestamp_usec = */ 0, /* No deadline on transmission */
     /* .priority       = */ CanardPriorityNominal,

@@ -49,7 +49,7 @@ public:
     memcpy(&data, &other.data, sizeof(data));
   }
 
-  static TimeSystem_0_1 deserialize(CanardTransfer const & transfer)
+  static TimeSystem_0_1 deserialize(CanardRxTransfer const & transfer)
   {
     TimeSystem_0_1<ID> i;
     size_t inout_buffer_size_bytes = transfer.payload_size;

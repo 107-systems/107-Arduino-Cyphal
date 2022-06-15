@@ -48,9 +48,9 @@ void    spi_deselect           ();
 uint8_t spi_transfer           (uint8_t const);
 void    onExternalEvent        ();
 void    onReceiveBufferFull    (CanardFrame const &);
-void    onSourceTs_0_1_Received(CanardTransfer const &, Node &);
-void    onStatus_0_2_Received(CanardTransfer const &, Node &);
-void    onParameters_0_3_Received(CanardTransfer const &, Node & );
+void    onSourceTs_0_1_Received(CanardRxTransfer const &, Node &);
+void    onStatus_0_2_Received(CanardRxTransfer const &, Node &);
+void    onParameters_0_3_Received(CanardRxTransfer const &, Node & );
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -129,7 +129,7 @@ void onReceiveBufferFull(CanardFrame const & frame)
 }
 
 
-void onSourceTs_0_1_Received(CanardTransfer const & transfer, Node & /* uavcan */)
+void onSourceTs_0_1_Received(CanardRxTransfer const & transfer, Node & /* uavcan */)
 {
   SourceTs_0_1<SOURCETS_PORT_ID> const source = SourceTs_0_1<SOURCETS_PORT_ID>::deserialize(transfer);
 
@@ -146,7 +146,7 @@ void onSourceTs_0_1_Received(CanardTransfer const & transfer, Node & /* uavcan *
   Serial.println();
 }
 
-void onStatus_0_2_Received(CanardTransfer const & transfer, Node & /* uavcan */){
+void onStatus_0_2_Received(CanardRxTransfer const & transfer, Node & /* uavcan */){
   Status_0_2<STATUS_PORT_ID> const stat = Status_0_2<STATUS_PORT_ID>::deserialize(transfer);
 
   Serial.print("Status->\tAvailable Charge: ");
@@ -164,7 +164,7 @@ void onStatus_0_2_Received(CanardTransfer const & transfer, Node & /* uavcan */)
 }
 
 
-void onParameters_0_3_Received(CanardTransfer const & transfer, Node & /* uavcan */){
+void onParameters_0_3_Received(CanardRxTransfer const & transfer, Node & /* uavcan */){
   Parameters_0_3<PARAMETERS_PORT_ID> const params = Parameters_0_3<PARAMETERS_PORT_ID>::deserialize(transfer);
 
   Serial.print("Parameters->\tUnique ID: ");

@@ -54,7 +54,7 @@ uint8_t spi_transfer       (uint8_t const);
 void    onExternalEvent    ();
 bool    transmitCanFrame   (CanardFrame const &);
 void    onReceiveBufferFull(CanardFrame const &);
-void    onBit_1_0_Received (CanardTransfer const &, Node &);
+void    onBit_1_0_Received (CanardRxTransfer const &, Node &);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -171,7 +171,7 @@ void onReceiveBufferFull(CanardFrame const & frame)
   uc.onCanFrameReceived(frame);
 }
 
-void onBit_1_0_Received(CanardTransfer const & transfer, Node & /* uc */)
+void onBit_1_0_Received(CanardRxTransfer const & transfer, Node & /* uc */)
 {
   Bit_1_0<BIT_PORT_ID> const uavcan_led = Bit_1_0<BIT_PORT_ID>::deserialize(transfer);
 

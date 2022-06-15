@@ -51,7 +51,7 @@ public:
     memcpy(&data, &other.data, sizeof(data));
   }
 
-  static IOStatistics_0_1 deserialize(CanardTransfer const & transfer)
+  static IOStatistics_0_1 deserialize(CanardRxTransfer const & transfer)
   {
     IOStatistics_0_1 h;
     size_t inout_buffer_size_bytes = transfer.payload_size;

@@ -39,7 +39,7 @@ uint8_t spi_transfer       (uint8_t const);
 void    onExternalEvent    ();
 void    onReceiveBufferFull(CanardFrame const &);
 bool    transmitCanFrame   (CanardFrame const &);
-void    onExecuteCommand_1_0_Response_Received(CanardTransfer const &, Node &);
+void    onExecuteCommand_1_0_Response_Received(CanardRxTransfer const &, Node &);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -129,7 +129,7 @@ bool transmitCanFrame(CanardFrame const & frame)
   return mcp2515.transmit(frame);
 }
 
-void onExecuteCommand_1_0_Response_Received(CanardTransfer const & transfer, Node & /* uc */)
+void onExecuteCommand_1_0_Response_Received(CanardRxTransfer const & transfer, Node & /* uc */)
 {
   ExecuteCommand_1_0::Response<> const rsp = ExecuteCommand_1_0::Response<>::deserialize(transfer);
 

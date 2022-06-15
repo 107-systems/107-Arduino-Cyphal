@@ -52,7 +52,7 @@ public:
     memcpy(&data, &other.data, sizeof(data));
   }
 
-  static Parameters_0_3 deserialize(CanardTransfer const & transfer)
+  static Parameters_0_3 deserialize(CanardRxTransfer const & transfer)
   {
     Parameters_0_3 b;
     size_t inout_buffer_size_bytes = transfer.payload_size;
