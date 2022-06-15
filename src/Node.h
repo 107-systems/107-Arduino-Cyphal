@@ -45,7 +45,14 @@ class Node
 public:
 
   Node(uint8_t const node_id,
-       CanFrameTransmitFunc transmit_func);
+       CanFrameTransmitFunc transmit_func)
+  : Node(node_id, transmit_func, 100, CANARD_MTU_CAN_CLASSIC)
+  { }
+
+  Node(uint8_t const node_id,
+       CanFrameTransmitFunc transmit_func,
+       size_t const tx_queue_capacity,
+       size_t const mtu_bytes);
 
 
   /* Must be called from the application upon the

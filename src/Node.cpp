@@ -16,9 +16,11 @@
  **************************************************************************************/
 
 Node::Node(uint8_t const node_id,
-           CanFrameTransmitFunc transmit_func)
+           CanFrameTransmitFunc transmit_func,
+           size_t const tx_queue_capacity,
+           size_t const mtu_bytes)
 : _canard_hdl{canardInit(Node::o1heap_allocate, Node::o1heap_free)}
-, _canard_tx_queue{canardTxInit(100, CANARD_MTU_CAN_CLASSIC)}
+, _canard_tx_queue{canardTxInit(tx_queue_capacity, mtu_bytes)}
 , _transmit_func{transmit_func}
 {
   _canard_hdl.node_id = node_id;
