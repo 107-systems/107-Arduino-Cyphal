@@ -22,7 +22,7 @@ Node::Node(uint8_t const node_id,
 , _transmit_func{transmit_func}
 {
   _canard_hdl.node_id = node_id;
-  _canard_hdl.user_reference = reinterpret_cast<void *>(&_o1heap);
+  _canard_hdl.user_reference = reinterpret_cast<void *>(&_o1heap_hdl);
 }
 
 /**************************************************************************************

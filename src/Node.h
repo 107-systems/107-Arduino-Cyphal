@@ -81,7 +81,7 @@ private:
     OnTransferReceivedFunc transfer_complete_callback;
   } RxTransferData;
 
-  O1HeapLibcanard _o1heap;
+  O1HeapLibcanard _o1heap_hdl;
   CanardInstance _canard_hdl;
   CanardTxQueue _canard_tx_queue;
   CanFrameTransmitFunc _transmit_func;
