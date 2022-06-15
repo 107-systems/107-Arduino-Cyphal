@@ -82,7 +82,7 @@ private:
   } RxTransferData;
 
   O1HeapLibcanard _o1heap;
-  CanardInstance _canard_ins;
+  CanardInstance _canard_hdl;
   CanardTxQueue _canard_tx_queue;
   CanFrameTransmitFunc _transmit_func;
   std::map<CanardPortID, RxTransferData> _rx_transfer_map;
