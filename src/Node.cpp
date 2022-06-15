@@ -45,7 +45,7 @@ void Node::onCanFrameReceived(CanardFrame const & frame)
     {
       OnTransferReceivedFunc transfer_received_func = _rx_transfer_map[transfer.metadata.port_id].transfer_complete_callback;
 
-      if (transfer.transfer_kind == CanardTransferKindResponse) {
+      if (transfer.metadata.transfer_kind == CanardTransferKindResponse) {
         if ((_tx_transfer_map.count(transfer.metadata.port_id) > 0) && (_tx_transfer_map[transfer.metadata.port_id] == transfer.transfer_id))
         {
           transfer_received_func(transfer, *this);
