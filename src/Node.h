@@ -51,7 +51,7 @@ public:
   Node(uint8_t const node_id,
        CanFrameTransmitFunc transmit_func) __attribute__ ((deprecated))
   : Node(node_id, transmit_func, TX_QUEUE_DEFAULT_SIZE, MTU_DEFAULT_SIZE)
-  { } 
+  { }
 
   Node(uint8_t const node_id,
        CanFrameTransmitFunc transmit_func,
