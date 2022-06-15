@@ -41,15 +41,15 @@ void Node::onCanFrameReceived(CanardFrame const & frame)
 
   if(result == 1)
   {
-    if (_rx_transfer_map.count(transfer.port_id) > 0)
+    if (_rx_transfer_map.count(transfer.metadata.port_id) > 0)
     {
-      OnTransferReceivedFunc transfer_received_func = _rx_transfer_map[transfer.port_id].transfer_complete_callback;
+      OnTransferReceivedFunc transfer_received_func = _rx_transfer_map[transfer.metadata.port_id].transfer_complete_callback;
 
       if (transfer.transfer_kind == CanardTransferKindResponse) {
-        if ((_tx_transfer_map.count(transfer.port_id) > 0) && (_tx_transfer_map[transfer.port_id] == transfer.transfer_id))
+        if ((_tx_transfer_map.count(transfer.metadata.port_id) > 0) && (_tx_transfer_map[transfer.metadata.port_id] == transfer.transfer_id))
         {
           transfer_received_func(transfer, *this);
-          unsubscribe(CanardTransferKindResponse, transfer.port_id);
+          unsubscribe(CanardTransferKindResponse, transfer.metadata.port_id);
         }
       }
       else
