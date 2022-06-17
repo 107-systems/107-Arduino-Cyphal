@@ -47,7 +47,7 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
                        onReceiveBufferFull,
                        nullptr);
 
-Node node_hdl(13, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+Node node_hdl([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
 
 /**************************************************************************************
  * SETUP/LOOP
