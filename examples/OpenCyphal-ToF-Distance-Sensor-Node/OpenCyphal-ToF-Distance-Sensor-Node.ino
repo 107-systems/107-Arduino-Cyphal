@@ -56,6 +56,9 @@ typedef struct
 static int            const MKRCAN_MCP2515_CS_PIN    = 3;
 static int            const MKRCAN_MCP2515_INT_PIN   = 7;
 static uint8_t        const OPEN_CYPHAL_NODE_ID      = 14;
+
+static CanardPortID const OPEN_CYPHAL_ID_DISTANCE_DATA = 1001U;
+
 static OpenCyphalNodeData const OPEN_CYPHAL_NODE_INITIAL_DATA =
 {
   uavcan::node::Heartbeat_1_0<>::Mode::INITIALIZATION,
@@ -290,6 +293,12 @@ namespace tof
 void onTofDistanceUpdate(drone::unit::Length const l)
 {
   DBG_INFO("[%05lu] Distance = %.3f m", millis(), l.value());
+
+  typedef uavcan::primitive::scalar::Real32_1_0<OPEN_CYPHAL_ID_DISTANCE_DATA> DistanceMessageType;
+  DistanceMessageType tof_distance_msg;
+  tof_distance_msg.data.value = l.value();
+
+  node_hdl.publish(tof_distance_msg);
 }
 
 }
