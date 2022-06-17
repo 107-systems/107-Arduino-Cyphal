@@ -34,7 +34,7 @@ Fully compliant examples that implement reconfigurable port-IDs are shipped sepa
 ```C++
 #include <107-Arduino-Cyphal.h>
 /* ... */
-Node node_hdl(13, [](CanardFrame const & frame) { /* ... */ });
+Node node_hdl([](CanardFrame const & frame) { /* ... */ });
 Heartbeat_1_0 hb;
 /* ... */
 void loop() {
