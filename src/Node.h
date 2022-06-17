@@ -48,12 +48,12 @@ public:
   static size_t constexpr TX_QUEUE_DEFAULT_SIZE = 100;
   static size_t constexpr MTU_DEFAULT_SIZE = CANARD_MTU_CAN_CLASSIC;
 
-  Node(uint8_t const node_id,
+  Node(CanardNodeID const node_id,
        CanFrameTransmitFunc transmit_func) __attribute__ ((deprecated))
   : Node(node_id, transmit_func, TX_QUEUE_DEFAULT_SIZE, MTU_DEFAULT_SIZE)
   { }
 
-  Node(uint8_t const node_id,
+  Node(CanardNodeID const node_id,
        CanFrameTransmitFunc transmit_func,
        size_t const tx_queue_capacity,
        size_t const mtu_bytes);

@@ -15,7 +15,7 @@
  * CTOR/DTOR
  **************************************************************************************/
 
-Node::Node(uint8_t const node_id,
+Node::Node(CanardNodeID const node_id,
            CanFrameTransmitFunc transmit_func,
            size_t const tx_queue_capacity,
            size_t const mtu_bytes)
