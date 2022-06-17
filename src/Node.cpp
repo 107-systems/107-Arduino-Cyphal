@@ -15,8 +15,8 @@
  * CTOR/DTOR
  **************************************************************************************/
 
-Node::Node(uint8_t const node_id,
-           CanFrameTransmitFunc transmit_func,
+Node::Node(CanFrameTransmitFunc transmit_func,
+           CanardNodeID const node_id,
            size_t const tx_queue_capacity,
            size_t const mtu_bytes)
 : _canard_hdl{canardInit(Node::o1heap_allocate, Node::o1heap_free)}
@@ -30,6 +30,12 @@ Node::Node(uint8_t const node_id,
 /**************************************************************************************
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
+
+void Node::setNodeId(CanardNodeID const node_id)
+{
+  LockGuard lock;
+  _canard_hdl.node_id = node_id;
+}
 
 void Node::onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us)
 {

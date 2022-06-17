@@ -53,9 +53,8 @@ typedef struct
  * CONSTANTS
  **************************************************************************************/
 
-static int            const MKRCAN_MCP2515_CS_PIN    = 3;
-static int            const MKRCAN_MCP2515_INT_PIN   = 7;
-static uint8_t        const OPEN_CYPHAL_NODE_ID      = 14;
+static int const MKRCAN_MCP2515_CS_PIN    = 3;
+static int const MKRCAN_MCP2515_INT_PIN   = 7;
 
 static CanardPortID const OPEN_CYPHAL_ID_DISTANCE_DATA = 1001U;
 
@@ -112,7 +111,7 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
                        MCP2515::onReceive,
                        nullptr);
 
-Node node_hdl(OPEN_CYPHAL_NODE_ID, [](CanardFrame const & frame) { return mcp2515.transmit(frame); });
+Node node_hdl([](CanardFrame const & frame) { return mcp2515.transmit(frame); });
 
 OpenCyphalNodeData node_data = OPEN_CYPHAL_NODE_INITIAL_DATA;
 OpenCyphalNodeConfiguration node_config = OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION;

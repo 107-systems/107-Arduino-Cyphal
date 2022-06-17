@@ -44,19 +44,25 @@ class Node
 {
 public:
 
-  static size_t constexpr O1HEAP_SIZE = 4096;
-  static size_t constexpr TX_QUEUE_DEFAULT_SIZE = 100;
-  static size_t constexpr MTU_DEFAULT_SIZE = CANARD_MTU_CAN_CLASSIC;
+  static size_t       constexpr DEFAULT_O1HEAP_SIZE   = 4096;
+  static size_t       constexpr DEFAULT_TX_QUEUE_SIZE = 100;
+  static size_t       constexpr DEFAULT_MTU_SIZE      = CANARD_MTU_CAN_CLASSIC;
+  static CanardNodeID constexpr DEFAULT_NODE_ID       = 42;
 
-  Node(uint8_t const node_id,
-       CanFrameTransmitFunc transmit_func) __attribute__ ((deprecated))
-  : Node(node_id, transmit_func, TX_QUEUE_DEFAULT_SIZE, MTU_DEFAULT_SIZE)
-  { }
 
-  Node(uint8_t const node_id,
-       CanFrameTransmitFunc transmit_func,
+  Node(CanFrameTransmitFunc transmit_func,
+       CanardNodeID const node_id,
        size_t const tx_queue_capacity,
        size_t const mtu_bytes);
+
+  Node(CanFrameTransmitFunc transmit_func)
+  : Node(transmit_func, DEFAULT_NODE_ID, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
+
+  Node(CanFrameTransmitFunc transmit_func, CanardNodeID const node_id)
+  : Node(transmit_func, node_id, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
+
+
+  void setNodeId(CanardNodeID const node_id);
 
 
   /* Must be called from the application upon the
@@ -83,7 +89,7 @@ public:
 
 private:
 
-  typedef O1Heap<O1HEAP_SIZE> O1HeapLibcanard;
+  typedef O1Heap<DEFAULT_O1HEAP_SIZE> O1HeapLibcanard;
 
   typedef struct
   {
