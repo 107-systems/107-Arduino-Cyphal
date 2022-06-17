@@ -45,7 +45,7 @@ class Node
 public:
 
   static size_t constexpr O1HEAP_SIZE = 4096;
-  static size_t constexpr TX_QUEUE_DEFAULT_SIZE = 100;
+  static size_t constexpr DEFAULT_TX_QUEUE_SIZE = 100;
   static size_t constexpr DEFAULT_MTU_SIZE = CANARD_MTU_CAN_CLASSIC;
   static CanardNodeID constexpr DEFAULT_NODE_ID = 42;
 
@@ -53,7 +53,7 @@ public:
   : Node(DEFAULT_NODE_ID, transmit_func) { }
 
   Node(CanardNodeID const node_id, CanFrameTransmitFunc transmit_func) __attribute__ ((deprecated))
-  : Node(node_id, transmit_func, TX_QUEUE_DEFAULT_SIZE, DEFAULT_MTU_SIZE) { }
+  : Node(node_id, transmit_func, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
   Node(CanFrameTransmitFunc transmit_func, size_t const tx_queue_capacity, size_t const mtu_bytes)
   : Node(DEFAULT_NODE_ID, transmit_func, tx_queue_capacity, mtu_bytes) { }
