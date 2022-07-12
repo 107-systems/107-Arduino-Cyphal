@@ -38,7 +38,7 @@ public:
 
   static constexpr CanardPortID       PORT_ID          = ID;
   static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_file_List_Request_0_1_SERIALIZATION_BUFFER_SIZE_BYTES_;
-  static constexpr CanardTransferKind TRANSFER_KIND    = CanardTransferKindMessage;
+  static constexpr CanardTransferKind TRANSFER_KIND    = CanardTransferKindRequest;
 
   Request()
   {
@@ -75,7 +75,7 @@ public:
 
   static constexpr CanardPortID       PORT_ID          = ID;
   static constexpr size_t             MAX_PAYLOAD_SIZE = uavcan_file_List_Response_0_1_SERIALIZATION_BUFFER_SIZE_BYTES_;
-  static constexpr CanardTransferKind TRANSFER_KIND    = CanardTransferKindMessage;
+  static constexpr CanardTransferKind TRANSFER_KIND    = CanardTransferKindResponse;
 
   Response()
   {
