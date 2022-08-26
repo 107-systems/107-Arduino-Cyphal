@@ -108,7 +108,7 @@ wrappers/reg/drone/physics/electricity/
 ├── Source_0_1.hpp
 └── SourceTs_0_1.hpp
 ```
-##### Step 5) Add the wrapper clases to [`src/NodeTypes.h`](https://github.com/107-systems/107-Arduino-Cyphal/blob/master/src/NodeTypes.h)
+##### Step 5) Add the wrapper classes to [`src/NodeTypes.h`](https://github.com/107-systems/107-Arduino-Cyphal/blob/master/src/NodeTypes.h)
 ```diff
 +#include "wrappers/reg/drone/physics/electricity/Power_0_1.hpp"
 +#include "wrappers/reg/drone/physics/electricity/PowerTs_0_1.hpp"
