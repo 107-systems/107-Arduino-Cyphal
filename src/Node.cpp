@@ -37,6 +37,12 @@ void Node::setNodeId(CanardNodeID const node_id)
   _canard_hdl.node_id = node_id;
 }
 
+CanardNodeID Node::getNodeId() const
+{
+  LockGuard lock;
+  return _canard_hdl.node_id;
+}
+
 void Node::onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us)
 {
   LockGuard lock;

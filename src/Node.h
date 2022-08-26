@@ -63,6 +63,7 @@ public:
 
 
   void setNodeId(CanardNodeID const node_id);
+  CanardNodeID getNodeId() const;
 
 
   /* Must be called from the application upon the
