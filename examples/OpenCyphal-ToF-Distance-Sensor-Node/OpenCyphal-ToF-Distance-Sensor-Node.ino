@@ -75,6 +75,22 @@ typedef struct
 } OpenCyphalNodeConfiguration;
 
 /**************************************************************************************
+ * FUNCTION DECLARATION
+ **************************************************************************************/
+
+void mcp2515_onReceiveBufferFull(CanardFrame const &);
+void onList_1_0_Request_Received(CanardRxTransfer const &, Node &);
+void onGetInfo_1_0_Request_Received(CanardRxTransfer const &, Node &);
+
+void publish_heartbeat(Node &, uint32_t const, Heartbeat_1_0<>::Mode const);
+void publish_tofDistance(drone::unit::Length const l);
+
+Heartbeat_1_0<>::Mode handle_INITIALIZATION();
+Heartbeat_1_0<>::Mode handle_OPERATIONAL();
+Heartbeat_1_0<>::Mode handle_MAINTENANCE();
+Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE();
+
+/**************************************************************************************
  * CONSTANTS
  **************************************************************************************/
 
@@ -149,32 +165,6 @@ static OpenCyphalNodeConfiguration const OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION 
 };
 
 /**************************************************************************************
- * FUNCTION DECLARATION
- **************************************************************************************/
-
-void mcp2515_onReceiveBufferFull(CanardFrame const &);
-void onList_1_0_Request_Received(CanardRxTransfer const &, Node &);
-void onGetInfo_1_0_Request_Received(CanardRxTransfer const &, Node &);
-
-namespace node
-{
-Heartbeat_1_0<>::Mode handle_INITIALIZATION();
-Heartbeat_1_0<>::Mode handle_OPERATIONAL();
-Heartbeat_1_0<>::Mode handle_MAINTENANCE();
-Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE();
-}
-
-namespace heartbeat
-{
-void publish(Node &, uint32_t const, Heartbeat_1_0<>::Mode const);
-}
-
-namespace tof
-{
-void onTofDistanceUpdate(drone::unit::Length const l);
-}
-
-/**************************************************************************************
  * GLOBAL VARIABLES
  **************************************************************************************/
 
@@ -224,7 +214,7 @@ drone::ArduinoTMF8801 tmf8801([](uint8_t const i2c_slave_addr, uint8_t const reg
                               TMF8801::DEFAULT_I2C_ADDR,
                               node_config.calib_data,
                               node_config.algo_state,
-                              tof::onTofDistanceUpdate);
+                              publish_tofDistance);
 
 DEBUG_INSTANCE(120, Serial);
 
@@ -284,7 +274,7 @@ void loop()
    */
   static unsigned long prev_heartbeat = 0;
   if ((now - prev_heartbeat) > node_config.heartbeat_period_ms) {
-    heartbeat::publish(node_hdl, now / 1000, node_data.mode);
+    publish_heartbeat(node_hdl, now / 1000, node_data.mode);
     prev_heartbeat = now;
   }
 
@@ -295,10 +285,10 @@ void loop()
 
   switch(node_data.mode)
   {
-  case Heartbeat_1_0<>::Mode::INITIALIZATION:  next_mode = node::handle_INITIALIZATION();  break;
-  case Heartbeat_1_0<>::Mode::OPERATIONAL:     next_mode = node::handle_OPERATIONAL();     break;
-  case Heartbeat_1_0<>::Mode::MAINTENANCE:     next_mode = node::handle_MAINTENANCE();     break;
-  case Heartbeat_1_0<>::Mode::SOFTWARE_UPDATE: next_mode = node::handle_SOFTWARE_UPDATE(); break;
+  case Heartbeat_1_0<>::Mode::INITIALIZATION:  next_mode = handle_INITIALIZATION();  break;
+  case Heartbeat_1_0<>::Mode::OPERATIONAL:     next_mode = handle_OPERATIONAL();     break;
+  case Heartbeat_1_0<>::Mode::MAINTENANCE:     next_mode = handle_MAINTENANCE();     break;
+  case Heartbeat_1_0<>::Mode::SOFTWARE_UPDATE: next_mode = handle_SOFTWARE_UPDATE(); break;
   }
 
   node_data.mode = next_mode;
@@ -344,8 +334,28 @@ void onList_1_0_Request_Received(CanardRxTransfer const &transfer, Node & node_h
     count = 0;
 }
 
-namespace node
+void publish_heartbeat(Node & u, uint32_t const uptime, Heartbeat_1_0<>::Mode const mode)
 {
+  Heartbeat_1_0<> hb;
+
+  hb.data.uptime = uptime;
+  hb = Heartbeat_1_0<>::Health::NOMINAL;
+  hb = mode;
+  hb.data.vendor_specific_status_code = 0;
+
+  u.publish(hb);
+}
+
+void publish_tofDistance(drone::unit::Length const l)
+{
+  DBG_INFO("[%05lu] Distance = %.3f m", millis(), l.value());
+
+  typedef uavcan::primitive::scalar::Real32_1_0<OPEN_CYPHAL_ID_DISTANCE_DATA> DistanceMessageType;
+  DistanceMessageType tof_distance_msg;
+  tof_distance_msg.data.value = l.value();
+
+  node_hdl.publish(tof_distance_msg);
+}
 
 Heartbeat_1_0<>::Mode handle_INITIALIZATION()
 {
@@ -373,39 +383,4 @@ Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE()
   DBG_VERBOSE("SOFTWARE_UPDATE");
 
   return Heartbeat_1_0<>::Mode::INITIALIZATION;
-}
-
-} /* node */
-
-namespace heartbeat
-{
-
-void publish(Node & u, uint32_t const uptime, Heartbeat_1_0<>::Mode const mode)
-{
-  Heartbeat_1_0<> hb;
-
-  hb.data.uptime = uptime;
-  hb = Heartbeat_1_0<>::Health::NOMINAL;
-  hb = mode;
-  hb.data.vendor_specific_status_code = 0;
-
-  u.publish(hb);
-}
-
-} /* heartbeat */
-
-namespace tof
-{
-
-void onTofDistanceUpdate(drone::unit::Length const l)
-{
-  DBG_INFO("[%05lu] Distance = %.3f m", millis(), l.value());
-
-  typedef uavcan::primitive::scalar::Real32_1_0<OPEN_CYPHAL_ID_DISTANCE_DATA> DistanceMessageType;
-  DistanceMessageType tof_distance_msg;
-  tof_distance_msg.data.value = l.value();
-
-  node_hdl.publish(tof_distance_msg);
-}
-
 }
