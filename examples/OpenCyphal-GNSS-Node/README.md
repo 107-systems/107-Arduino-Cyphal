@@ -1,6 +1,7 @@
-<a href="https://opencyphal.org/"><img align="right" src="https://raw.githubusercontent.com/107-systems/.github/main/logo/opencyphal.svg" width="25%"></
+<a href="https://opencyphal.org/"><img align="right" src="https://raw.githubusercontent.com/107-systems/.github/main/logo/opencyphal.svg" width="25%"></a>
+
 `OpenCyphal-GNSS-Node`
-==================
+======================
 Demo firmware for OpenCyphal GNSS Node utilizing [107-Arduino-Cyphal](https://github.com/107-systems/107-Arduino-Cyphal).
 
 **Attention**: [107-Arduino-Cyphal](https://github.com/107-systems/107-Arduino-Cyphal) (which provides the OpenCyphal connectivity within this demo sketch) is supporting [OpenCyphal](https://opencyphal.org/) ([v1.0-beta](https://opencyphal.org/specification/OpenCyphal_Specification_v1.0-beta.pdf)). Most OpenCyphal support tools do not yet support OpenCyphal V1 (but legacy OpenCyphal V0). Therefore the best way to interact with the OpenCyphal GNSS Node is via [pyopencyphal](https://github.com/OpenCyphal/pyopencyphal) which has already been ported to V1.
