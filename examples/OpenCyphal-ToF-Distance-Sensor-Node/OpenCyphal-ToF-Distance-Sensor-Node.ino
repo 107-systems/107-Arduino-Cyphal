@@ -31,6 +31,15 @@
 #include <algorithm>
 
 /**************************************************************************************
+ * DEFINES
+ **************************************************************************************/
+
+#define ATSAMD21G18_SERIAL_NUMBER_WORD_0  *(volatile uint32_t*)(0x0080A00C)
+#define ATSAMD21G18_SERIAL_NUMBER_WORD_1  *(volatile uint32_t*)(0x0080A040)
+#define ATSAMD21G18_SERIAL_NUMBER_WORD_2  *(volatile uint32_t*)(0x0080A044)
+#define ATSAMD21G18_SERIAL_NUMBER_WORD_3  *(volatile uint32_t*)(0x0080A048)
+
+/**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
 
@@ -40,6 +49,15 @@ using namespace uavcan::_register;
 /**************************************************************************************
  * TYPEDEF
  **************************************************************************************/
+
+union UniqueId
+{
+  struct __attribute__((packed))
+  {
+    uint32_t w0, w1, w2, w3;
+  } word_buf;
+  uint8_t byte_buf[16];
+};
 
 typedef struct
 {
@@ -60,9 +78,20 @@ typedef struct
  * CONSTANTS
  **************************************************************************************/
 
+UniqueId const UNIQUE_ID = []()
+{
+  UniqueId uid;
+  uid.word_buf.w0 = ATSAMD21G18_SERIAL_NUMBER_WORD_0;
+  uid.word_buf.w1 = ATSAMD21G18_SERIAL_NUMBER_WORD_1;
+  uid.word_buf.w2 = ATSAMD21G18_SERIAL_NUMBER_WORD_2;
+  uid.word_buf.w3 = ATSAMD21G18_SERIAL_NUMBER_WORD_3;
+  return uid;
+} ();
+
 static int          const MKRCAN_MCP2515_CS_PIN = 3;
 static int          const MKRCAN_MCP2515_INT_PIN = 7;
 static SPISettings  const MCP2515x_SPI_SETTING{1000000, MSBFIRST, SPI_MODE0};
+
 static CanardNodeID const CYPHAL_NODE_ID = 42;
 static CanardPortID const OPEN_CYPHAL_ID_DISTANCE_DATA = 1001U;
 
@@ -76,8 +105,12 @@ static const uavcan_node_GetInfo_Response_1_0 NODE_INFO = {
     /* saturated uint64 software_vcs_revision_id */
     NULL,
     /* saturated uint8[16] unique_id */
-    {0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77,
-     0x88, 0x99, 0xaa, 0xbb, 0xcc, 0xdd, 0xee, 0xff},
+    {
+      UNIQUE_ID.byte_buf[ 0], UNIQUE_ID.byte_buf[ 1], UNIQUE_ID.byte_buf[ 2], UNIQUE_ID.byte_buf[ 3],
+      UNIQUE_ID.byte_buf[ 4], UNIQUE_ID.byte_buf[ 5], UNIQUE_ID.byte_buf[ 6], UNIQUE_ID.byte_buf[ 7],
+      UNIQUE_ID.byte_buf[ 8], UNIQUE_ID.byte_buf[ 9], UNIQUE_ID.byte_buf[10], UNIQUE_ID.byte_buf[11],
+      UNIQUE_ID.byte_buf[12], UNIQUE_ID.byte_buf[13], UNIQUE_ID.byte_buf[14], UNIQUE_ID.byte_buf[15]
+    },
     /* saturated uint8[<=50] name */
     {
         "107-systems.tof-sensor-node",
