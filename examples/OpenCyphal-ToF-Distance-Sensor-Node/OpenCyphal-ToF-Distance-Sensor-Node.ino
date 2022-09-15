@@ -269,22 +269,12 @@ void onGetInfo_1_0_Request_Received(CanardRxTransfer const &transfer, Node & nod
 
 void onList_1_0_Request_Received(CanardRxTransfer const &transfer, Node & node_hdl)
 {
-  static int count = 0;
-  DBG_INFO("onList_1_0_Request_Received: count %d", count);
+  List_1_0::Request<> const req = List_1_0::Request<>::deserialize(transfer);
+  DBG_INFO("onList_1_0_Request_Received: index %d", req.data.index);
 
   List_1_0::Response<> rsp = List_1_0::Response<>();
-  memcpy(&rsp.data, REGISTER_LIST_ARRAY + count, sizeof(uavcan_register_List_Response_1_0));
-
-  if (!node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id))
-    DBG_ERROR("respond() failed");
-
-  /* Reset counter after the last request,
-   * otherwise we risk an array overflow.
-   */
-  if (count < (REGISTER_LIST_ARRAY_SIZE - 1))
-    count++;
-  else
-    count = 0;
+  memcpy(&rsp.data, REGISTER_LIST_ARRAY + req.data.index, sizeof(uavcan_register_List_Response_1_0));
+  node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
 }
 
 void onAccess_1_0_Request_Received(CanardRxTransfer const & transfer, Node & node_hdl)
