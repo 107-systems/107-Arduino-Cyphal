@@ -31,6 +31,7 @@
 #include <algorithm>
 
 #include "NodeInfo.h"
+#include "Register.h"
 
 /**************************************************************************************
  * NAMESPACE
@@ -85,24 +86,6 @@ static SPISettings  const MCP2515x_SPI_SETTING{1000000, MSBFIRST, SPI_MODE0};
 
 static CanardNodeID const CYPHAL_NODE_ID = 42;
 static CanardPortID const OPEN_CYPHAL_ID_DISTANCE_DATA = 1001U;
-
-static const uavcan_register_List_Response_1_0 register_list1 = {
-    {  "uavcan.node.id", strlen("uavcan.node.id")  },
-};
-static const uavcan_register_List_Response_1_0 register_list2 = {
-    {  "uavcan.node.description", strlen("uavcan.node.description")  },
-};
-static const uavcan_register_List_Response_1_0 register_list_last = {
-    {  "", 0  },
-};
-
-static const uavcan_register_List_Response_1_0 REGISTER_LIST_ARRAY[] =
-{
-  register_list1,
-  register_list2,
-  register_list_last
-};
-static size_t const REGISTER_LIST_ARRAY_SIZE = sizeof(REGISTER_LIST_ARRAY) / sizeof(REGISTER_LIST_ARRAY[0]);
 
 static OpenCyphalNodeData const OPEN_CYPHAL_NODE_INITIAL_DATA =
 {
