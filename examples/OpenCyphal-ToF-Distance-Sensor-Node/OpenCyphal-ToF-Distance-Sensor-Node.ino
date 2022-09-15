@@ -65,6 +65,7 @@ typedef struct
 void mcp2515_onReceiveBufferFull(CanardFrame const &);
 void onList_1_0_Request_Received(CanardRxTransfer const &, Node &);
 void onGetInfo_1_0_Request_Received(CanardRxTransfer const &, Node &);
+void onAccess_1_0_Request_Received(CanardRxTransfer const &, Node &);
 
 void publish_heartbeat(Node &, uint32_t const, Heartbeat_1_0<>::Mode const);
 void publish_tofDistance(drone::unit::Length const l);
@@ -211,6 +212,7 @@ void setup()
 
   /* Register callbacks for node info and register api.
    */
+  node_hdl.subscribe<Access_1_0::Request<>>(onAccess_1_0_Request_Received);
   node_hdl.subscribe<List_1_0::Request<>>(onList_1_0_Request_Received);
   node_hdl.subscribe<GetInfo_1_0::Request<>>(onGetInfo_1_0_Request_Received);
 }
@@ -283,6 +285,14 @@ void onList_1_0_Request_Received(CanardRxTransfer const &transfer, Node & node_h
     count++;
   else
     count = 0;
+}
+
+void onAccess_1_0_Request_Received(CanardRxTransfer const & transfer, Node & node_hdl)
+{
+  Access_1_0::Request<> const req = Access_1_0::Request<>::deserialize(transfer);
+
+  DBG_INFO("onAccess_1_0_Request_Received: reg %s",
+    req.data.name.name.elements);
 }
 
 void publish_heartbeat(Node & u, uint32_t const uptime, Heartbeat_1_0<>::Mode const mode)
