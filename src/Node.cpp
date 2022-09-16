@@ -42,7 +42,7 @@ CanardNodeID Node::getNodeId() const
   return _canard_hdl.node_id;
 }
 
-void Node::spin()
+void Node::spinSome()
 {
   processRxQueue();
   processTxQueue();

@@ -71,7 +71,7 @@ public:
   /* Must be called from the application to process
    * all received CAN frames.
    */
-  void spin();
+  void spinSome();
   /* Must be called from the application upon the
    * reception of a can frame.
    */

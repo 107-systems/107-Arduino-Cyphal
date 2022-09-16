@@ -118,7 +118,7 @@ void loop()
 {
   /* Process all pending OpenCyphal actions.
    */
-  node_hdl.spin();
+  node_hdl.spinSome();
 
   /* Update the heartbeat object */
   hb.data.uptime = millis() / 1000;

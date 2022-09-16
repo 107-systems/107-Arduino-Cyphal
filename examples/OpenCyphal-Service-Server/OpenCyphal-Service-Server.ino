@@ -80,7 +80,7 @@ void loop()
 {
   /* Process all pending OpenCyphal actions.
    */
-  node_hdl.spin();
+  node_hdl.spinSome();
 }
 
 /**************************************************************************************
