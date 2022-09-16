@@ -12,24 +12,18 @@
 template <typename T>
 bool Node::subscribe(OnTransferReceivedFunc func)
 {
-  LockGuard lock;
-
   return subscribe(T::TRANSFER_KIND, T::PORT_ID, T::MAX_PAYLOAD_SIZE, func);
 }
 
 template <typename T>
 bool Node::unsubscribe()
 {
-  LockGuard lock;
-
   return unsubscribe(T::TRANSFER_KIND, T::PORT_ID);
 }
 
 template <typename T_MSG>
 bool Node::publish(T_MSG const & msg)
 {
-  LockGuard lock;
-
   static_assert(T_MSG::TRANSFER_KIND == CanardTransferKindMessage, "Node::publish API only works with CanardTransferKindMessage");
 
   std::array<uint8_t, T_MSG::MAX_PAYLOAD_SIZE> payload_buf;
@@ -43,8 +37,6 @@ bool Node::publish(T_MSG const & msg)
 template <typename T_RSP>
 bool Node::respond(T_RSP const & rsp, CanardNodeID const remote_node_id, CanardTransferID const transfer_id)
 {
-  LockGuard lock;
-
   static_assert(T_RSP::TRANSFER_KIND == CanardTransferKindResponse, "Node::respond API only works with CanardTransferKindResponse");
 
   std::array<uint8_t, T_RSP::MAX_PAYLOAD_SIZE> payload_buf;
@@ -57,8 +49,6 @@ bool Node::respond(T_RSP const & rsp, CanardNodeID const remote_node_id, CanardT
 template <typename T_REQ, typename T_RSP>
 bool Node::request(T_REQ const & req, CanardNodeID const remote_node_id, OnTransferReceivedFunc func)
 {
-  LockGuard lock;
-
   static_assert(T_REQ::TRANSFER_KIND == CanardTransferKindRequest,  "Node::request<T_REQ, T_RSP> API - T_REQ != CanardTransferKindRequest");
   static_assert(T_RSP::TRANSFER_KIND == CanardTransferKindResponse, "Node::request<T_REQ, T_RSP> API - T_RSP != CanardTransferKindResponse");
 

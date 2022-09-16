@@ -17,6 +17,7 @@
 #undef max
 #undef min
 #include <map>
+#include <tuple>
 #include <memory>
 #include <functional>
 
@@ -27,6 +28,7 @@
 
 #include "utility/convert.hpp"
 #include "utility/LockGuard.h"
+#include "utility/RingBuffer.hpp"
 
 /**************************************************************************************
  * TYPEDEF
@@ -46,6 +48,7 @@ public:
 
   static size_t       constexpr DEFAULT_O1HEAP_SIZE   = 4096;
   static size_t       constexpr DEFAULT_TX_QUEUE_SIZE = 100;
+  static size_t       constexpr DEFAULT_RX_QUEUE_SIZE = 32;
   static size_t       constexpr DEFAULT_MTU_SIZE      = CANARD_MTU_CAN_CLASSIC;
   static CanardNodeID constexpr DEFAULT_NODE_ID       = 42;
 
@@ -65,16 +68,14 @@ public:
   void setNodeId(CanardNodeID const node_id);
   CanardNodeID getNodeId() const;
 
-
+  /* Must be called from the application to process
+   * all received CAN frames.
+   */
+  void spin();
   /* Must be called from the application upon the
    * reception of a can frame.
    */
   void onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us);
-  /* Must be called regularly from within the application
-   * in order to transmit all CAN pushed on the internal
-   * stack via publish/request.
-   */
-  bool transmitCanFrame();
 
 
   template <typename T>                     bool subscribe       (OnTransferReceivedFunc func);
@@ -101,12 +102,19 @@ private:
   O1HeapLibcanard _o1heap_hdl;
   CanardInstance _canard_hdl;
   CanardTxQueue _canard_tx_queue;
+  arduino::_107_::opencyphal::ThreadsafeRingBuffer<std::tuple<uint32_t, size_t, std::array<uint8_t, 8>, CanardMicrosecond>> _canard_rx_queue;
   CanFrameTransmitFunc _transmit_func;
   std::map<CanardPortID, RxTransferData> _rx_transfer_map;
   std::map<CanardPortID, CanardTransferID> _tx_transfer_map;
 
   static void * o1heap_allocate(CanardInstance * const ins, size_t const amount);
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
+
+  void handle_receive();
+  void receiveOne(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us);
+  void handle_transmit();
+  bool transmitOne();
+
 
   CanardTransferID getNextTransferId(CanardPortID const port_id);
   bool             subscribe        (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func);
