@@ -47,7 +47,7 @@ CanardNodeID Node::getNodeId() const
 void Node::spin()
 {
   handle_receive();
-  handle_transmit();
+  processTxQueue();
 }
 
 void Node::onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us)
@@ -126,23 +126,17 @@ void Node::receiveOne(CanardFrame const & frame, CanardMicrosecond const & rx_ti
   }
 }
 
-void Node::handle_transmit()
+void Node::processTxQueue()
 {
-  while (transmitOne()) { }
-}
+  for(CanardTxQueueItem * tx_queue_item = const_cast<CanardTxQueueItem *>(canardTxPeek(&_canard_tx_queue));
+      tx_queue_item != nullptr;
+      tx_queue_item = const_cast<CanardTxQueueItem *>(canardTxPeek(&_canard_tx_queue)))
+  {
+    if (!_transmit_func(tx_queue_item->frame))
+      return;
 
-bool Node::transmitOne()
-{
-  CanardTxQueueItem const * tx_queue_item = canardTxPeek(&_canard_tx_queue);
-
-  if (tx_queue_item == nullptr)
-    return false;
-
-  if (!_transmit_func(tx_queue_item->frame))
-    return false;
-
-  _canard_hdl.memory_free(&_canard_hdl, canardTxPop(&_canard_tx_queue, tx_queue_item));
-  return true;
+    _canard_hdl.memory_free(&_canard_hdl, canardTxPop(&_canard_tx_queue, tx_queue_item));
+  }
 }
 
 CanardTransferID Node::getNextTransferId(CanardPortID const port_id)

@@ -112,8 +112,7 @@ private:
 
   void handle_receive();
   void receiveOne(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us);
-  void handle_transmit();
-  bool transmitOne();
+  void processTxQueue();
 
 
   CanardTransferID getNextTransferId(CanardPortID const port_id);
