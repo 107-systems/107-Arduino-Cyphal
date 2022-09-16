@@ -133,9 +133,6 @@ void Node::handle_transmit()
 
 bool Node::transmitOne()
 {
-  if (!_transmit_func)
-    return false;
-
   CanardTxQueueItem const * tx_queue_item = canardTxPeek(&_canard_tx_queue);
 
   if (tx_queue_item == nullptr)
@@ -186,6 +183,9 @@ bool Node::unsubscribe(CanardTransferKind const transfer_kind, CanardPortID cons
 
 bool Node::enqeueTransfer(CanardNodeID const remote_node_id, CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload, CanardTransferID const transfer_id)
 {
+  if (!_transmit_func)
+    return false;
+
   CanardTransferMetadata const transfer_metadata =
   {
     .priority       = CanardPriorityNominal,
