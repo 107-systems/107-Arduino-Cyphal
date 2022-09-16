@@ -270,12 +270,14 @@ void onAccess_1_0_Request_Received(CanardRxTransfer const & transfer, Node & nod
   if (!strncmp(reg_name, reinterpret_cast<const char *>(register_list1.name.name.elements), register_list1.name.name.count))
   {
     Access_1_0::Response<> rsp;
+
     rsp.data.timestamp.microsecond = micros();
     rsp.data._mutable = false;
     rsp.data.persistent = true;
     rsp.data.value.natural8.value.elements[0] = OPEN_CYPHAL_NODE_ID;
     rsp.data.value.natural8.value.count = 1;
-    DBG_INFO("remote_node_id: %d, transfer_id: %d", transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
+    uavcan_register_Value_1_0_select_natural8_(&rsp.data.value);
+
     node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
   }
 }
