@@ -75,6 +75,10 @@ void setup()
 
 void loop()
 {
+  /* Process all pending OpenCyphal actions.
+   */
+  node_hdl.spin();
+
   /* Update the heartbeat object */
   hb.data.uptime = millis() / 1000;
   hb = Heartbeat_1_0<>::Mode::OPERATIONAL;
@@ -86,7 +90,4 @@ void loop()
     node_hdl.publish(hb);
     prev = now;
   }
-
-  /* Transmit all enqeued CAN frames */
-  while(node_hdl.transmitCanFrame()) { }
 }

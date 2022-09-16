@@ -78,8 +78,9 @@ void setup()
 
 void loop()
 {
-  /* Transmit all enqeued CAN frames */
-  while(node_hdl.transmitCanFrame()) { }
+  /* Process all pending OpenCyphal actions.
+   */
+  node_hdl.spin();
 }
 
 /**************************************************************************************
