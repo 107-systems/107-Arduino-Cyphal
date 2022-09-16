@@ -110,10 +110,8 @@ private:
   static void * o1heap_allocate(CanardInstance * const ins, size_t const amount);
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
 
-  void handle_receive();
-  void receiveOne(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us);
+  void processRxQueue();
   void processTxQueue();
-
 
   CanardTransferID getNextTransferId(CanardPortID const port_id);
   bool             subscribe        (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func);

@@ -42,11 +42,9 @@ CanardNodeID Node::getNodeId() const
   return _canard_hdl.node_id;
 }
 
-#include <Arduino.h>
-
 void Node::spin()
 {
-  handle_receive();
+  processRxQueue();
   processTxQueue();
 }
 
@@ -78,7 +76,7 @@ void Node::o1heap_free(CanardInstance * const ins, void * const pointer)
   o1heap->free(pointer);
 }
 
-void Node::handle_receive()
+void Node::processRxQueue()
 {
   while (!_canard_rx_queue.isEmpty())
   {
@@ -89,40 +87,33 @@ void Node::handle_receive()
     frame.payload_size = payload_size;
     frame.payload = reinterpret_cast<const void *>(payload.data());
 
-    receiveOne(frame, micros());
-  }
-}
+    CanardRxTransfer transfer;
+    int8_t const result = canardRxAccept(&_canard_hdl,
+                                        rx_timestamp_us,
+                                        &frame,
+                                        0, /* redundant_transport_index */
+                                        &transfer,
+                                        nullptr);
 
-void Node::receiveOne(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us)
-{
-  Serial.println(frame.extended_can_id, HEX);
-
-  CanardRxTransfer transfer;
-  int8_t const result = canardRxAccept(&_canard_hdl,
-                                      rx_timestamp_us,
-                                      &frame,
-                                      0, /* redundant_transport_index */
-                                      &transfer,
-                                      nullptr);
-
-  if(result == 1)
-  {
-    if (_rx_transfer_map.count(transfer.metadata.port_id) > 0)
+    if(result == 1)
     {
-      OnTransferReceivedFunc transfer_received_func = _rx_transfer_map[transfer.metadata.port_id].transfer_complete_callback;
+      if (_rx_transfer_map.count(transfer.metadata.port_id) > 0)
+      {
+        OnTransferReceivedFunc transfer_received_func = _rx_transfer_map[transfer.metadata.port_id].transfer_complete_callback;
 
-      if (transfer.metadata.transfer_kind == CanardTransferKindResponse) {
-        if ((_tx_transfer_map.count(transfer.metadata.port_id) > 0) && (_tx_transfer_map[transfer.metadata.port_id] == transfer.metadata.transfer_id))
-        {
-          transfer_received_func(transfer, *this);
-          unsubscribe(CanardTransferKindResponse, transfer.metadata.port_id);
+        if (transfer.metadata.transfer_kind == CanardTransferKindResponse) {
+          if ((_tx_transfer_map.count(transfer.metadata.port_id) > 0) && (_tx_transfer_map[transfer.metadata.port_id] == transfer.metadata.transfer_id))
+          {
+            transfer_received_func(transfer, *this);
+            unsubscribe(CanardTransferKindResponse, transfer.metadata.port_id);
+          }
         }
+        else
+          transfer_received_func(transfer, *this);
       }
-      else
-        transfer_received_func(transfer, *this);
+      /* Free dynamically allocated memory after processing. */
+      _canard_hdl.memory_free(&_canard_hdl, transfer.payload);
     }
-    /* Free dynamically allocated memory after processing. */
-    _canard_hdl.memory_free(&_canard_hdl, transfer.payload);
   }
 }
 
