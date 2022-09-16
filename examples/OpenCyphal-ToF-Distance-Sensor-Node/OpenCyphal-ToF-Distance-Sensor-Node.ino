@@ -82,9 +82,9 @@ Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE();
 
 static int          const MKRCAN_MCP2515_CS_PIN = 3;
 static int          const MKRCAN_MCP2515_INT_PIN = 7;
-static SPISettings  const MCP2515x_SPI_SETTING{1000000, MSBFIRST, SPI_MODE0};
+static SPISettings  const MCP2515x_SPI_SETTING{10000000, MSBFIRST, SPI_MODE0};
 
-static CanardNodeID const CYPHAL_NODE_ID = 42;
+static CanardNodeID const OPEN_CYPHAL_NODE_ID = 42;
 static CanardPortID const OPEN_CYPHAL_ID_DISTANCE_DATA = 1001U;
 
 static OpenCyphalNodeData const OPEN_CYPHAL_NODE_INITIAL_DATA =
@@ -120,7 +120,7 @@ ArduinoMCP2515 mcp2515([]()
                        mcp2515_onReceiveBufferFull,
                        nullptr);
 
-Node node_hdl([](CanardFrame const & frame) { return mcp2515.transmit(frame); }, CYPHAL_NODE_ID);
+Node node_hdl([](CanardFrame const & frame) { return mcp2515.transmit(frame); }, OPEN_CYPHAL_NODE_ID);
 
 OpenCyphalNodeData node_data = OPEN_CYPHAL_NODE_INITIAL_DATA;
 OpenCyphalNodeConfiguration node_config = OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION;
@@ -183,7 +183,7 @@ void setup()
   /* Configure MCP2515
    */
   mcp2515.begin();
-  mcp2515.setBitRate(CanBitRate::BR_1000kBPS_16MHZ);
+  mcp2515.setBitRate(CanBitRate::BR_250kBPS_16MHZ);
   mcp2515.setNormalMode();
 
   /* Configure TMF8801
@@ -195,13 +195,17 @@ void setup()
 
   /* Register callbacks for node info and register api.
    */
-  node_hdl.subscribe<Access_1_0::Request<>>(onAccess_1_0_Request_Received);
   node_hdl.subscribe<List_1_0::Request<>>(onList_1_0_Request_Received);
   node_hdl.subscribe<GetInfo_1_0::Request<>>(onGetInfo_1_0_Request_Received);
+  node_hdl.subscribe<Access_1_0::Request<>>(onAccess_1_0_Request_Received);
 }
 
 void loop()
 {
+  /* Process all pending OpenCyphal actions.
+   */
+  node_hdl.spin();
+
   /* Handle actions common to all states.
    */
   unsigned long const now = millis();
@@ -228,9 +232,6 @@ void loop()
   }
 
   node_data.mode = next_mode;
-
-  /* Transmit all enqeued CAN frames */
-  while(node_hdl.transmitCanFrame()) { }
 }
 
 /**************************************************************************************
@@ -263,9 +264,20 @@ void onList_1_0_Request_Received(CanardRxTransfer const &transfer, Node & node_h
 void onAccess_1_0_Request_Received(CanardRxTransfer const & transfer, Node & node_hdl)
 {
   Access_1_0::Request<> const req = Access_1_0::Request<>::deserialize(transfer);
+  const char * reg_name = reinterpret_cast<const char *>(req.data.name.name.elements);
+  DBG_INFO("onAccess_1_0_Request_Received: reg: %s", reg_name);
 
-  DBG_INFO("onAccess_1_0_Request_Received: reg %s",
-    req.data.name.name.elements);
+  if (!strncmp(reg_name, reinterpret_cast<const char *>(register_list1.name.name.elements), register_list1.name.name.count))
+  {
+    Access_1_0::Response<> rsp;
+    rsp.data.timestamp.microsecond = micros();
+    rsp.data._mutable = false;
+    rsp.data.persistent = true;
+    rsp.data.value.natural8.value.elements[0] = OPEN_CYPHAL_NODE_ID;
+    rsp.data.value.natural8.value.count = 1;
+    DBG_INFO("remote_node_id: %d, transfer_id: %d", transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
+    node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
+  }
 }
 
 void publish_heartbeat(Node & u, uint32_t const uptime, Heartbeat_1_0<>::Mode const mode)
