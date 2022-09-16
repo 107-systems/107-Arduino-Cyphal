@@ -38,6 +38,9 @@ Node node_hdl([](CanardFrame const & frame) { /* ... */ });
 Heartbeat_1_0 hb;
 /* ... */
 void loop() {
+  /* Process all pending OpenCyphal actions. */
+  node_hdl.spinSome();
+
   /* Update the heartbeat object */
   hb.uptime(millis() / 1000);
   hb.mode = Heartbeat_1_0::Mode::OPERATIONAL;
@@ -49,9 +52,6 @@ void loop() {
     node_hdl.publish(hb);
     prev = now;
   }
-
-  /* Transmit all enqeued CAN frames */
-  while(node_hdl.transmitCanFrame()) { }
 }
 ```
 
