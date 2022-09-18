@@ -85,6 +85,7 @@ static int          const MKRCAN_MCP2515_INT_PIN = 7;
 static SPISettings  const MCP2515x_SPI_SETTING{10000000, MSBFIRST, SPI_MODE0};
 
 static CanardNodeID const OPEN_CYPHAL_NODE_ID = 42;
+static CanardNodeID OPEN_CYPHAL_NODE_ID_volatile = OPEN_CYPHAL_NODE_ID;
 static CanardPortID const OPEN_CYPHAL_ID_DISTANCE_DATA = 1001U;
 
 static OpenCyphalNodeData const OPEN_CYPHAL_NODE_INITIAL_DATA =
@@ -152,6 +153,8 @@ drone::ArduinoTMF8801 tmf8801([](uint8_t const i2c_slave_addr, uint8_t const reg
                               publish_tofDistance);
 
 DEBUG_INSTANCE(120, Serial);
+
+uint8_t node_description_str[uavcan_primitive_String_1_0_value_ARRAY_CAPACITY_]="My litte ToF-sensor-node";
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -269,14 +272,40 @@ void onAccess_1_0_Request_Received(CanardRxTransfer const & transfer, Node & nod
 
   if (!strncmp(reg_name, reinterpret_cast<const char *>(register_list1.name.name.elements), register_list1.name.name.count))
   {
+    if(uavcan_register_Value_1_0_is_natural8_(&req.data.value))
+    {
+      DBG_INFO("writing uavcan.node.id");
+      OPEN_CYPHAL_NODE_ID_volatile=req.data.value.natural8.value.elements[0];
+    }
+
     Access_1_0::Response<> rsp;
 
     rsp.data.timestamp.microsecond = micros();
-    rsp.data._mutable = false;
-    rsp.data.persistent = true;
-    rsp.data.value.natural8.value.elements[0] = OPEN_CYPHAL_NODE_ID;
+    rsp.data._mutable = true;
+    rsp.data.persistent = false;
+    rsp.data.value.natural8.value.elements[0] = OPEN_CYPHAL_NODE_ID_volatile;
     rsp.data.value.natural8.value.count = 1;
     uavcan_register_Value_1_0_select_natural8_(&rsp.data.value);
+
+    node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
+  }
+  else if (!strncmp(reg_name, reinterpret_cast<const char *>(register_list2.name.name.elements), register_list2.name.name.count))
+  {
+    if(uavcan_register_Value_1_0_is_string_(&req.data.value))
+    {
+      DBG_INFO("writing uavcan.node.description");
+      strncpy((char *)node_description_str, (const char *)req.data.value._string.value.elements, req.data.value._string.value.count);
+      node_description_str[req.data.value._string.value.count]=0;
+    }
+
+    Access_1_0::Response<> rsp;
+
+    rsp.data.timestamp.microsecond = micros();
+    rsp.data._mutable = true;
+    rsp.data.persistent = false;
+    strncpy((char *)rsp.data.value._string.value.elements, (const char *)node_description_str, strlen((const char *)node_description_str));
+    rsp.data.value._string.value.count = strlen((const char *)node_description_str);
+    uavcan_register_Value_1_0_select_string_(&rsp.data.value);
 
     node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
   }
