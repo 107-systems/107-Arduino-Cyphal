@@ -154,7 +154,7 @@ drone::ArduinoTMF8801 tmf8801([](uint8_t const i2c_slave_addr, uint8_t const reg
 
 DEBUG_INSTANCE(120, Serial);
 
-uint8_t node_description_str[uavcan_primitive_String_1_0_value_ARRAY_CAPACITY_]="My litte ToF-sensor-node";
+uint8_t node_description_str[uavcan_primitive_String_1_0_value_ARRAY_CAPACITY_]="My little ToF-sensor-node";
 
 /**************************************************************************************
  * SETUP/LOOP
