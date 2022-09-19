@@ -80,7 +80,8 @@ Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE();
  * CONSTANTS
  **************************************************************************************/
 
-static int          const MKRCAN_MCP2515_CS_PIN = 3;
+static int          const MKRCAN_MCP2515_CS_PIN  = 3;
+static int          const TMF8801_INT_PIN        = 6;
 static int          const MKRCAN_MCP2515_INT_PIN = 7;
 static SPISettings  const MCP2515x_SPI_SETTING{10000000, MSBFIRST, SPI_MODE0};
 
@@ -170,6 +171,12 @@ void setup()
   /* I2C to which the TMF8801 is connected.
    */
   Wire.begin();
+
+  /* Attach interrupt handler to obtain events
+   * signalled by the TMF8801.
+   */
+  pinMode(TMF8801_INT_PIN, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(TMF8801_INT_PIN), [](){ tmf8801.onExternalEventHandler(); }, FALLING);
 
   /* Setup SPI access
    */
