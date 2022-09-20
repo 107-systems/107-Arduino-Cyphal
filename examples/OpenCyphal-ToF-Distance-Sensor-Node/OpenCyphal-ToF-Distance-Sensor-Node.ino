@@ -267,7 +267,7 @@ void onList_1_0_Request_Received(CanardRxTransfer const &transfer, Node & node_h
   DBG_INFO("onList_1_0_Request_Received: index %d", req.data.index);
 
   List_1_0::Response<> rsp = List_1_0::Response<>();
-  memcpy(&rsp.data, REGISTER_LIST_ARRAY + req.data.index, sizeof(uavcan_register_List_Response_1_0));
+  REGISTER_LIST_ARRAY[req.data.index]->toListResponse(&rsp.data);
   node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
 }
 
@@ -277,7 +277,7 @@ void onAccess_1_0_Request_Received(CanardRxTransfer const & transfer, Node & nod
   const char * reg_name = reinterpret_cast<const char *>(req.data.name.name.elements);
   DBG_INFO("onAccess_1_0_Request_Received: reg: %s", reg_name);
 
-  if (!strncmp(reg_name, reinterpret_cast<const char *>(register_list1.name.name.elements), register_list1.name.name.count))
+  if (*REGISTER_LIST_ARRAY[0] == req.data.name)
   {
     if(uavcan_register_Value_1_0_is_natural8_(&req.data.value))
     {
@@ -296,7 +296,7 @@ void onAccess_1_0_Request_Received(CanardRxTransfer const & transfer, Node & nod
 
     node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
   }
-  else if (!strncmp(reg_name, reinterpret_cast<const char *>(register_list2.name.name.elements), register_list2.name.name.count))
+  if (*REGISTER_LIST_ARRAY[1] == req.data.name)
   {
     if(uavcan_register_Value_1_0_is_string_(&req.data.value))
     {
