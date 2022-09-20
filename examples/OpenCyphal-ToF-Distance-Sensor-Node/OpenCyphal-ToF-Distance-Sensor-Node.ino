@@ -155,8 +155,6 @@ drone::ArduinoTMF8801 tmf8801([](uint8_t const i2c_slave_addr, uint8_t const reg
 
 DEBUG_INSTANCE(120, Serial);
 
-uint8_t node_description_str[uavcan_primitive_String_1_0_value_ARRAY_CAPACITY_]="My little ToF-sensor-node";
-
 /**************************************************************************************
  * SETUP/LOOP
  **************************************************************************************/
@@ -281,38 +279,15 @@ void onAccess_1_0_Request_Received(CanardRxTransfer const & transfer, Node & nod
     if(uavcan_register_Value_1_0_is_natural8_(&req.data.value))
     {
       DBG_INFO("writing uavcan.node.id");
-      OPEN_CYPHAL_NODE_ID_volatile=req.data.value.natural8.value.elements[0];
+      reinterpret_cast<RegisterReadWrite<uint8_t> *>(REGISTER_LIST_ARRAY[0])->set(req.data.value);
     }
 
-    Access_1_0::Response<> rsp;
-
-    rsp.data.timestamp.microsecond = micros();
-    rsp.data._mutable = true;
-    rsp.data.persistent = false;
-    rsp.data.value.natural8.value.elements[0] = OPEN_CYPHAL_NODE_ID_volatile;
-    rsp.data.value.natural8.value.count = 1;
-    uavcan_register_Value_1_0_select_natural8_(&rsp.data.value);
-
+    Access_1_0::Response<> const rsp = REGISTER_LIST_ARRAY[0]->toAccessResponse();
     node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
   }
   if (*REGISTER_LIST_ARRAY[1] == req.data.name)
   {
-    if(uavcan_register_Value_1_0_is_string_(&req.data.value))
-    {
-      DBG_INFO("writing uavcan.node.description");
-      strncpy((char *)node_description_str, (const char *)req.data.value._string.value.elements, req.data.value._string.value.count);
-      node_description_str[req.data.value._string.value.count]=0;
-    }
-
-    Access_1_0::Response<> rsp;
-
-    rsp.data.timestamp.microsecond = micros();
-    rsp.data._mutable = true;
-    rsp.data.persistent = false;
-    strncpy((char *)rsp.data.value._string.value.elements, (const char *)node_description_str, strlen((const char *)node_description_str));
-    rsp.data.value._string.value.count = strlen((const char *)node_description_str);
-    uavcan_register_Value_1_0_select_string_(&rsp.data.value);
-
+    Access_1_0::Response<> const rsp = REGISTER_LIST_ARRAY[1]->toAccessResponse();
     node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
   }
 }
