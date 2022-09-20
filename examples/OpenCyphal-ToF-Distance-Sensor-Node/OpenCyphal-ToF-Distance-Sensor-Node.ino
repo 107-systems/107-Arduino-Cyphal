@@ -266,8 +266,7 @@ void onList_1_0_Request_Received(CanardRxTransfer const &transfer, Node & node_h
   List_1_0::Request<> const req = List_1_0::Request<>::deserialize(transfer);
   DBG_INFO("onList_1_0_Request_Received: index %d", req.data.index);
 
-  List_1_0::Response<> rsp = List_1_0::Response<>();
-  REGISTER_LIST_ARRAY[req.data.index]->toListResponse(&rsp.data);
+  List_1_0::Response<> const rsp = REGISTER_LIST_ARRAY[req.data.index]->toListResponse();
   node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
 }
 

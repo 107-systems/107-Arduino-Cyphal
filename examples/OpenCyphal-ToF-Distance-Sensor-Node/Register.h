@@ -39,10 +39,12 @@ public:
     memcpy(_name.name.elements, name, _name.name.count);
   }
 
-  void toListResponse(uavcan_register_List_Response_1_0 * rsp_ptr)
+  uavcan::_register::List_1_0::Response<> toListResponse() const
   {
-    memcpy(&rsp_ptr->name.name.elements, _name.name.elements, _name.name.count);
-    rsp_ptr->name.name.count = _name.name.count;
+    uavcan::_register::List_1_0::Response<> rsp;
+    memcpy(&rsp.data.name.name.elements, _name.name.elements, _name.name.count);
+    rsp.data.name.name.count = _name.name.count;
+    return rsp;
   }
 
   bool operator == (uavcan_register_Name_1_0 const & reg_name)
