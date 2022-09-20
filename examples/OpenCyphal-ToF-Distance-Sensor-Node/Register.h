@@ -33,24 +33,30 @@
 class RegisterBase
 {
 public:
-  RegisterBase(std::string const & name)
-  : _name{name}
-  { }
+  RegisterBase(char const * name)
+  {
+    _name.name.count = std::min(strlen(name), uavcan_register_Name_1_0_name_ARRAY_CAPACITY_);
+    memcpy(_name.name.elements, name, _name.name.count);
+  }
 
   void toListResponse(uavcan_register_List_Response_1_0 * rsp_ptr)
   {
-    size_t const bytes_to_copy = std::min(_name.size(), uavcan_register_Name_1_0_name_ARRAY_CAPACITY_);
-    memcpy(&(rsp_ptr->name.name.elements), _name.c_str(), bytes_to_copy);
-    rsp_ptr->name.name.count = bytes_to_copy;
+    memcpy(&rsp_ptr->name.name.elements, _name.name.elements, _name.name.count);
+    rsp_ptr->name.name.count = _name.name.count;
   }
 
   bool operator == (uavcan_register_Name_1_0 const & reg_name)
   {
-    return (strncmp(_name.c_str(), reinterpret_cast<const char *>(reg_name.name.elements), reg_name.name.count) == 0);
+    if (reg_name.name.count != _name.name.count)
+      return false;
+    else
+        return (strncmp(reinterpret_cast<const char *>(_name.name.elements),
+                        reinterpret_cast<const char *>(reg_name.name.elements),
+                        reg_name.name.count) == 0);
   }
 
 private:
-  std::string const _name;
+  uavcan_register_Name_1_0 _name;
 };
 
 template <typename T>
@@ -58,7 +64,7 @@ class RegisterReadOnly : RegisterBase
 {
 public:
 
-  RegisterReadOnly(std::string const & name,
+  RegisterReadOnly(char const * name,
                    T const & initial_val)
   : RegisterBase{name}
   , _val{initial_val}
@@ -79,7 +85,7 @@ class RegisterReadWrite : public RegisterReadOnly<T>
 public:
   typedef std::function<void(RegisterReadWrite<T> const &)> OnRegisterValueChangeFunc;
 
-  RegisterReadWrite(std::string const & name,
+  RegisterReadWrite(char const * name,
                     T const & initial_val,
                     OnRegisterValueChangeFunc func)
   : RegisterReadOnly<T>{name, initial_val}
