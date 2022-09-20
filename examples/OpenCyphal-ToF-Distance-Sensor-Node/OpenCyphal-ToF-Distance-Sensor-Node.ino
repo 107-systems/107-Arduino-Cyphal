@@ -31,7 +31,6 @@
 #include <algorithm>
 
 #include "NodeInfo.h"
-#include "Register.h"
 
 /**************************************************************************************
  * NAMESPACE
@@ -104,6 +103,22 @@ static OpenCyphalNodeConfiguration const OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION 
 /**************************************************************************************
  * GLOBAL VARIABLES
  **************************************************************************************/
+
+/* REGISTER ***************************************************************************/
+
+static RegisterReadWrite<uint8_t>     reg_rw_uavcan_node_id         ("uavcan.node.id", 42, nullptr);
+static RegisterReadOnly <std::string> reg_ro_uavcan_node_description("uavcan.node.description", "OpenCyphal-ToF-Distance-Sensor-Node");
+static RegisterBase                   reg_last                      ("");
+
+static RegisterBase * REGISTER_LIST_ARRAY[] =
+{
+  reinterpret_cast<RegisterBase *>(&reg_rw_uavcan_node_id),
+  reinterpret_cast<RegisterBase *>(&reg_ro_uavcan_node_description),
+  reinterpret_cast<RegisterBase *>(&reg_last)
+};
+static size_t const REGISTER_LIST_ARRAY_SIZE = sizeof(REGISTER_LIST_ARRAY) / sizeof(REGISTER_LIST_ARRAY[0]);
+
+/* DRIVER *****************************************************************************/
 
 ArduinoMCP2515 mcp2515([]()
                        {
