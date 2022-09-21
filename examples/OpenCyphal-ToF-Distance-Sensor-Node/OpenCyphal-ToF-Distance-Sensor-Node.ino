@@ -102,12 +102,6 @@ static OpenCyphalNodeConfiguration const OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION 
  * GLOBAL VARIABLES
  **************************************************************************************/
 
-/* REGISTER ***************************************************************************/
-
-static Register<uint8_t>     reg_rw_uavcan_node_id         ("uavcan.node.id", Register<uint8_t>::Access::ReadWrite, 42, nullptr);
-static Register<std::string> reg_ro_uavcan_node_description("uavcan.node.description", Register<std::string>::Access::ReadOnly, "OpenCyphal-ToF-Distance-Sensor-Node", nullptr);
-static RegisterList          reg_list;
-
 /* DRIVER *****************************************************************************/
 
 ArduinoMCP2515 mcp2515([]()
@@ -159,6 +153,12 @@ drone::ArduinoTMF8801 tmf8801([](uint8_t const i2c_slave_addr, uint8_t const reg
                               publish_tofDistance);
 
 DEBUG_INSTANCE(120, Serial);
+
+/* REGISTER ***************************************************************************/
+
+static Register<uint8_t>     reg_rw_uavcan_node_id         ("uavcan.node.id", Register<uint8_t>::Access::ReadWrite, 42, [&node_hdl](Register<uint8_t> const & reg) { node_hdl.setNodeId(reg.get()); });
+static Register<std::string> reg_ro_uavcan_node_description("uavcan.node.description", Register<std::string>::Access::ReadOnly, "OpenCyphal-ToF-Distance-Sensor-Node", nullptr);
+static RegisterList          reg_list;
 
 /**************************************************************************************
  * SETUP/LOOP
