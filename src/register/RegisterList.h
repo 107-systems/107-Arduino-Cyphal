@@ -25,7 +25,7 @@ class RegisterList
 {
 public:
   RegisterList()
-  : _reg_last{""}
+  : _reg_last{"", 0}
   { }
 
   void subscribe(Node & node_hdl)
@@ -92,16 +92,23 @@ private:
       Serial.print("tag = ");
       Serial.println(req.data.value._tag_);
 
-      /* TODO: How to know to which type one should cast?! */
-      Register<uint8_t> * reg_ptr = reinterpret_cast<Register<uint8_t> *>(*iter);
+      uint8_t const type_tag = (*iter)->type_tag();
 
-      if(uavcan_register_Value_1_0_is_natural8_(&req.data.value))
+      if (type_tag == 0)
       {
-        Serial.println("RW uint8_t");
-        reg_ptr->set(req.data.value);
+        Register<uint8_t> * reg_ptr = reinterpret_cast<Register<uint8_t> *>(*iter);
+        if(uavcan_register_Value_1_0_is_natural8_(&req.data.value))
+          reg_ptr->set(req.data.value);
+        rsp = reg_ptr->toAccessResponse();
       }
-
-      rsp = reg_ptr->toAccessResponse();
+      if (type_tag == 1)
+      {
+        Register<std::string> * reg_ptr = reinterpret_cast<Register<std::string> *>(*iter);
+        if(uavcan_register_Value_1_0_is_string_(&req.data.value))
+          reg_ptr->set(req.data.value);
+        rsp = reg_ptr->toAccessResponse();
+      }
+      /* TODO: Do for other types ... */
     }
 
     /* Send the actual response. */

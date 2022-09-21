@@ -23,7 +23,7 @@
 class RegisterBase
 {
 public:
-  RegisterBase(char const * name)
+  RegisterBase(char const * name, uint8_t const type_tag)
   : _name
   {
     [name]() -> uavcan_register_Name_1_0
@@ -34,7 +34,10 @@ public:
       return n;
     } ()
   }
+  , _type_tag{type_tag}
   { }
+
+  inline uint8_t type_tag() const { return _type_tag; }
 
   uavcan::_register::List_1_0::Response<> toListResponse() const
   {
@@ -56,6 +59,7 @@ public:
 
 private:
   uavcan_register_Name_1_0 _name;
+  uint8_t _type_tag;
 };
 
 #endif /* REGISTER_BASE_H_ */

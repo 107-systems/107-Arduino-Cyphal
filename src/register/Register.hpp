@@ -32,12 +32,11 @@ public:
            Access const access,
            T const & initial_val,
            OnRegisterValueChangeFunc func)
-  : RegisterBase{name}
+  : RegisterBase{name, toTypeTag(initial_val)}
   , _access{access}
   , _val{initial_val}
   , _func{func}
   { }
-
 
   T get() const { return _val; }
   void set(uavcan_register_Value_1_0 const & val)
