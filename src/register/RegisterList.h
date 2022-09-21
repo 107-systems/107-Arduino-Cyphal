@@ -86,24 +86,22 @@ private:
 
     if (iter != std::end(_reg_list))
     {
-      /* Retrieve the content of the iterator for better
-       * understanding of the underlying code operation.
-       */
-      RegisterBase * reg_ptr = *iter;
-
       /* Perform a write operation if the value sent in
        * the request is not empty.
        */
       Serial.print("tag = ");
       Serial.println(req.data.value._tag_);
 
+      Register<uint8_t> * rw_reg_ptr = reinterpret_cast<Register<uint8_t> *>(*iter);
+
       if(uavcan_register_Value_1_0_is_natural8_(&req.data.value))
       {
         Serial.println("RW uint8_t");
-        Register<uint8_t> * rw_reg_ptr = reinterpret_cast<Register<uint8_t> *>(reg_ptr);
         rw_reg_ptr->set(req.data.value);
-        rsp = rw_reg_ptr->toAccessResponse();
       }
+
+      rsp = rw_reg_ptr->toAccessResponse();
+
       /* TODO: Implement for all the other types ... */ 
     }
 
