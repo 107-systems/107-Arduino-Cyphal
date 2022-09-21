@@ -14,7 +14,6 @@
 
 #include "Node.h"
 #include "Types.h"
-#include "register/RegisterReadOnly.hpp"
-#include "register/RegisterReadWrite.hpp"
+#include "register/RegisterList.h"
 
 #endif /* _107_ARDUINO_CYPHAL_H_ */

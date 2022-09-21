@@ -26,10 +26,16 @@ class RegisterReadOnly : RegisterBase
 public:
 
   RegisterReadOnly(char const * name,
+                   AccessType const access_type,
                    T const & initial_val)
-  : RegisterBase{name}
+  : RegisterBase{name, access_type}
   , _val{initial_val}
   { }
+  RegisterReadOnly(char const * name,
+                   T const & initial_val)
+  : RegisterReadOnly{name, RegisterBase::AccessType::ReadOnly, initial_val}
+  { }
+
   virtual ~RegisterReadOnly() { }
 
   inline T get() const { return _val; }

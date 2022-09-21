@@ -63,9 +63,7 @@ typedef struct
  **************************************************************************************/
 
 void mcp2515_onReceiveBufferFull(CanardFrame const &);
-void onList_1_0_Request_Received(CanardRxTransfer const &, Node &);
 void onGetInfo_1_0_Request_Received(CanardRxTransfer const &, Node &);
-void onAccess_1_0_Request_Received(CanardRxTransfer const &, Node &);
 
 void publish_heartbeat(Node &, uint32_t const, Heartbeat_1_0<>::Mode const);
 void publish_tofDistance(drone::unit::Length const l);
@@ -108,15 +106,8 @@ static OpenCyphalNodeConfiguration const OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION 
 
 static RegisterReadWrite<uint8_t>     reg_rw_uavcan_node_id         ("uavcan.node.id", 42, nullptr);
 static RegisterReadOnly <std::string> reg_ro_uavcan_node_description("uavcan.node.description", "OpenCyphal-ToF-Distance-Sensor-Node");
-static RegisterBase                   reg_last                      ("");
-
-static RegisterBase * REGISTER_LIST_ARRAY[] =
-{
-  reinterpret_cast<RegisterBase *>(&reg_rw_uavcan_node_id),
-  reinterpret_cast<RegisterBase *>(&reg_ro_uavcan_node_description),
-  reinterpret_cast<RegisterBase *>(&reg_last)
-};
-static size_t const REGISTER_LIST_ARRAY_SIZE = sizeof(REGISTER_LIST_ARRAY) / sizeof(REGISTER_LIST_ARRAY[0]);
+static RegisterBase                   reg_last                      ("", RegisterBase::AccessType::ReadOnly);
+static RegisterList                   reg_list;
 
 /* DRIVER *****************************************************************************/
 
@@ -218,9 +209,11 @@ void setup()
 
   /* Register callbacks for node info and register api.
    */
-  node_hdl.subscribe<List_1_0::Request<>>(onList_1_0_Request_Received);
   node_hdl.subscribe<GetInfo_1_0::Request<>>(onGetInfo_1_0_Request_Received);
-  node_hdl.subscribe<Access_1_0::Request<>>(onAccess_1_0_Request_Received);
+  reg_list.subscribe(node_hdl);
+  reg_list.add(reinterpret_cast<RegisterBase *>(&reg_rw_uavcan_node_id));
+  reg_list.add(reinterpret_cast<RegisterBase *>(&reg_ro_uavcan_node_description));
+  reg_list.add(reinterpret_cast<RegisterBase *>(&reg_last));
 }
 
 void loop()
@@ -272,39 +265,6 @@ void onGetInfo_1_0_Request_Received(CanardRxTransfer const &transfer, Node & nod
   GetInfo_1_0::Response<> rsp = GetInfo_1_0::Response<>();
   memcpy(&rsp.data, &NODE_INFO, sizeof(uavcan_node_GetInfo_Response_1_0));
   node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
-}
-
-void onList_1_0_Request_Received(CanardRxTransfer const &transfer, Node & node_hdl)
-{
-  List_1_0::Request<> const req = List_1_0::Request<>::deserialize(transfer);
-  DBG_INFO("onList_1_0_Request_Received: index %d", req.data.index);
-
-  List_1_0::Response<> const rsp = REGISTER_LIST_ARRAY[req.data.index]->toListResponse();
-  node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
-}
-
-void onAccess_1_0_Request_Received(CanardRxTransfer const & transfer, Node & node_hdl)
-{
-  Access_1_0::Request<> const req = Access_1_0::Request<>::deserialize(transfer);
-  const char * reg_name = reinterpret_cast<const char *>(req.data.name.name.elements);
-  DBG_INFO("onAccess_1_0_Request_Received: reg: %s", reg_name);
-
-  if (*REGISTER_LIST_ARRAY[0] == req.data.name)
-  {
-    if(uavcan_register_Value_1_0_is_natural8_(&req.data.value))
-    {
-      DBG_INFO("writing uavcan.node.id");
-      reinterpret_cast<RegisterReadWrite<uint8_t> *>(REGISTER_LIST_ARRAY[0])->set(req.data.value);
-    }
-
-    Access_1_0::Response<> const rsp = REGISTER_LIST_ARRAY[0]->toAccessResponse();
-    node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
-  }
-  if (*REGISTER_LIST_ARRAY[1] == req.data.name)
-  {
-    Access_1_0::Response<> const rsp = REGISTER_LIST_ARRAY[1]->toAccessResponse();
-    node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
-  }
 }
 
 void publish_heartbeat(Node & u, uint32_t const uptime, Heartbeat_1_0<>::Mode const mode)

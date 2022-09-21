@@ -29,7 +29,7 @@ public:
   RegisterReadWrite(char const * name,
                     T const & initial_val,
                     OnRegisterValueChangeFunc func)
-  : RegisterReadOnly<T>{name, initial_val}
+  : RegisterReadOnly<T>{name, RegisterBase::AccessType::ReadWrite, initial_val}
   , _func{func}
   { }
   virtual ~RegisterReadWrite() { }
