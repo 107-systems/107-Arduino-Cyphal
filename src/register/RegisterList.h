@@ -26,6 +26,10 @@
 class RegisterList
 {
 public:
+  RegisterList()
+  : _reg_last{"", RegisterBase::AccessType::ReadOnly}
+  { }
+
   void subscribe(Node & node_hdl)
   {
     node_hdl.subscribe<uavcan::_register::List_1_0::Request<>>
@@ -42,11 +46,14 @@ public:
 
 private:
   std::vector<RegisterBase *> _reg_list;
+  RegisterBase const _reg_last;
+
 
   void onList_1_0_Request_Received(CanardRxTransfer const & transfer, Node & node_hdl)
   {
     uavcan::_register::List_1_0::Request<>  const req = uavcan::_register::List_1_0::Request<>::deserialize(transfer);
-    uavcan::_register::List_1_0::Response<> const rsp = _reg_list[req.data.index]->toListResponse();
+    uavcan::_register::List_1_0::Response<> const rsp =
+      (req.data.index < _reg_list.size()) ? _reg_list[req.data.index]->toListResponse() : _reg_last.toListResponse();
     node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
   }
 
@@ -76,6 +83,9 @@ private:
       rsp.data._mutable = false;
       rsp.data.persistent = false;
       Serial.println("no find entry");
+
+      node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
+      return;
     }
 
     /* Retrieve the content of the iterator for better
@@ -100,10 +110,10 @@ private:
 
       if(uavcan_register_Value_1_0_is_natural8_(&req.data.value))
       {
+        Serial.println("RW uint8_t");
         RegisterReadWrite<uint8_t> * rw_reg_ptr = reinterpret_cast<RegisterReadWrite<uint8_t> *>(reg_ptr);
         rw_reg_ptr->set(req.data.value);
         rsp = rw_reg_ptr->toAccessResponse();
-        Serial.println("RW uint8_t");
       }
       /* TODO: Implement for all the other types ... */ 
     }
