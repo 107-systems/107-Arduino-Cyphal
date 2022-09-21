@@ -83,7 +83,6 @@ static int          const MKRCAN_MCP2515_INT_PIN = 7;
 static SPISettings  const MCP2515x_SPI_SETTING{10000000, MSBFIRST, SPI_MODE0};
 
 static CanardNodeID const OPEN_CYPHAL_NODE_ID = 42;
-static CanardNodeID OPEN_CYPHAL_NODE_ID_volatile = OPEN_CYPHAL_NODE_ID;
 static CanardPortID const OPEN_CYPHAL_ID_DISTANCE_DATA = 1001U;
 
 static OpenCyphalNodeData const OPEN_CYPHAL_NODE_INITIAL_DATA =
@@ -156,7 +155,7 @@ DEBUG_INSTANCE(120, Serial);
 
 /* REGISTER ***************************************************************************/
 
-static Register<uint8_t>     reg_rw_uavcan_node_id         ("uavcan.node.id", Register<uint8_t>::Access::ReadWrite, 42, [&node_hdl](Register<uint8_t> const & reg) { node_hdl.setNodeId(reg.get()); });
+static Register<uint8_t>     reg_rw_uavcan_node_id         ("uavcan.node.id", Register<uint8_t>::Access::ReadWrite, OPEN_CYPHAL_NODE_ID, [&node_hdl](Register<uint8_t> const & reg) { node_hdl.setNodeId(reg.get()); });
 static Register<std::string> reg_ro_uavcan_node_description("uavcan.node.description", Register<std::string>::Access::ReadOnly, "OpenCyphal-ToF-Distance-Sensor-Node", nullptr);
 static RegisterList          reg_list;
 
