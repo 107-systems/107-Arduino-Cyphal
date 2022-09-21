@@ -59,16 +59,6 @@ private:
   {
     uavcan::_register::Access_1_0::Request<> const req = uavcan::_register::Access_1_0::Request<>::deserialize(transfer);
 
-    /* Find a register with the same register name within
-     * the register list.
-     */
-    auto iter = std::find_if(std::begin(_reg_list),
-                             std::end  (_reg_list),
-                             [req](RegisterBase * reg_ptr)
-                             {
-                                return ((*reg_ptr) == req.data.name);
-                             });
-
     /* Initialise with an empty response in case we
      * can't find a matching register.
      */
@@ -83,6 +73,16 @@ private:
 
       return r;
     } ();
+
+    /* Find a register with the same register name within
+     * the register list.
+     */
+    auto iter = std::find_if(std::begin(_reg_list),
+                             std::end  (_reg_list),
+                             [req](RegisterBase * reg_ptr)
+                             {
+                                return ((*reg_ptr) == req.data.name);
+                             });
 
     if (iter != std::end(_reg_list))
     {
