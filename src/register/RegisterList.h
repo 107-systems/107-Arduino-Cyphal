@@ -39,7 +39,6 @@ public:
   void add(RegisterBase * reg_ptr)
   {
     _reg_list.push_back(reg_ptr);
-    Serial.println(_reg_list.size());
   }
 
 
@@ -70,21 +69,22 @@ private:
                                 return ((*reg_ptr) == req.data.name);
                              });
 
-    uavcan::_register::Access_1_0::Response<> rsp;
-
-    /* If not register can be found return
-     * an empty response.
+    /* Initialise with an empty response in case we
+     * can't find a matching register.
      */
-    if (iter == std::end(_reg_list))
+    uavcan::_register::Access_1_0::Response<> rsp = []()
     {
-      Serial.println("no find entry");
+      uavcan::_register::Access_1_0::Response<> r;
 
-      uavcan_register_Value_1_0_select_empty_(&rsp.data.value);
-      rsp.data.timestamp.microsecond = 0;
-      rsp.data._mutable = false;
-      rsp.data.persistent = false;
-    }
-    else
+      uavcan_register_Value_1_0_select_empty_(&r.data.value);
+      r.data.timestamp.microsecond = 0;
+      r.data._mutable = false;
+      r.data.persistent = false;
+
+      return r;
+    } ();
+
+    if (iter != std::end(_reg_list))
     {
       /* Retrieve the content of the iterator for better
        * understanding of the underlying code operation.
@@ -94,6 +94,9 @@ private:
       /* Perform a write operation if the value sent in
        * the request is not empty.
        */
+      Serial.print("tag = ");
+      Serial.println(req.data.value._tag_);
+
       if(uavcan_register_Value_1_0_is_natural8_(&req.data.value))
       {
         Serial.println("RW uint8_t");
