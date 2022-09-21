@@ -21,24 +21,31 @@
  **************************************************************************************/
 
 template <typename T>
-class RegisterReadOnly : RegisterBase
+class Register : RegisterBase
 {
 public:
+  typedef std::function<void(Register<T> const &)> OnRegisterValueChangeFunc;
 
-  RegisterReadOnly(char const * name,
-                   AccessType const access_type,
-                   T const & initial_val)
+  Register(char const * name,
+           AccessType const access_type,
+           T const & initial_val,
+           OnRegisterValueChangeFunc func)
   : RegisterBase{name, access_type}
   , _val{initial_val}
+  , _func{func}
   { }
-  RegisterReadOnly(char const * name,
-                   T const & initial_val)
-  : RegisterReadOnly{name, RegisterBase::AccessType::ReadOnly, initial_val}
-  { }
+  virtual ~Register() { }
 
-  virtual ~RegisterReadOnly() { }
-
-  inline T get() const { return _val; }
+  T get() const { return _val; }
+  void set(uavcan_register_Value_1_0 const & val)
+  {
+    if (type() == AccessType::ReadOnly)
+      return;
+    
+    _val = fromRegisterValue<T>(val);
+    if (_func)
+      _func(*this);
+  }
 
   virtual uavcan::_register::Access_1_0::Response<> toAccessResponse()
   {
@@ -46,17 +53,15 @@ public:
 
     rsp.data.value = toRegisterValue(_val);
     rsp.data.timestamp.microsecond = micros();
-    rsp.data._mutable = false;
+    rsp.data._mutable = (type() == AccessType::ReadOnly) ? false : true;
     rsp.data.persistent = false;
 
     return rsp;
   }
 
-protected:
-  inline void set(T const & val) { _val = val; }
-
 private:
   T _val;
+  OnRegisterValueChangeFunc _func;
 };
 
 #endif /* REGISTER_READ_ONLY_H_ */

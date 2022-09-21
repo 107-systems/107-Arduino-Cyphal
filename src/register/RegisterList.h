@@ -15,9 +15,7 @@
 #include <vector>
 
 #include "Node.h"
-#include "RegisterBase.h"
-#include "RegisterReadOnly.hpp"
-#include "RegisterReadWrite.hpp"
+#include "Register.hpp"
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -111,7 +109,7 @@ private:
       if(uavcan_register_Value_1_0_is_natural8_(&req.data.value))
       {
         Serial.println("RW uint8_t");
-        RegisterReadWrite<uint8_t> * rw_reg_ptr = reinterpret_cast<RegisterReadWrite<uint8_t> *>(reg_ptr);
+        Register<uint8_t> * rw_reg_ptr = reinterpret_cast<Register<uint8_t> *>(reg_ptr);
         rw_reg_ptr->set(req.data.value);
         rsp = rw_reg_ptr->toAccessResponse();
       }
