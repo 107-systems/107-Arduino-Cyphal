@@ -25,7 +25,7 @@ class RegisterList
 {
 public:
   RegisterList()
-  : _reg_last{"", RegisterBase::AccessType::ReadOnly}
+  : _reg_last{""}
   { }
 
   void subscribe(Node & node_hdl)
@@ -39,6 +39,7 @@ public:
   void add(RegisterBase * reg_ptr)
   {
     _reg_list.push_back(reg_ptr);
+    Serial.println(_reg_list.size());
   }
 
 
@@ -76,36 +77,23 @@ private:
      */
     if (iter == std::end(_reg_list))
     {
-      uavcan_register_Value_1_0_select_empty_(&rsp.data.value);
-      rsp.data.timestamp.microsecond = micros();
-      rsp.data._mutable = false;
-      rsp.data.persistent = false;
       Serial.println("no find entry");
 
-      node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
-      return;
+      uavcan_register_Value_1_0_select_empty_(&rsp.data.value);
+      rsp.data.timestamp.microsecond = 0;
+      rsp.data._mutable = false;
+      rsp.data.persistent = false;
     }
-
-    /* Retrieve the content of the iterator for better
-     * understanding of the underlying code operation.
-     */
-    RegisterBase * reg_ptr = *iter;
-
-    /* If its a RO register, directly form the response
-     * and send it back.
-     */
-    if (reg_ptr->type() == RegisterBase::AccessType::ReadOnly)
+    else
     {
-      Serial.println("RO");
-    }
+      /* Retrieve the content of the iterator for better
+       * understanding of the underlying code operation.
+       */
+      RegisterBase * reg_ptr = *iter;
 
-    /* Perform a write operation if the value sent in
-     * the request is not empty.
-     */
-    if (reg_ptr->type() == RegisterBase::AccessType::ReadWrite)
-    {
-      Serial.println("RW");
-
+      /* Perform a write operation if the value sent in
+       * the request is not empty.
+       */
       if(uavcan_register_Value_1_0_is_natural8_(&req.data.value))
       {
         Serial.println("RW uint8_t");

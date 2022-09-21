@@ -104,8 +104,8 @@ static OpenCyphalNodeConfiguration const OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION 
 
 /* REGISTER ***************************************************************************/
 
-static Register<uint8_t>     reg_rw_uavcan_node_id         ("uavcan.node.id", RegisterBase::AccessType::ReadWrite, 42, nullptr);
-static Register<std::string> reg_ro_uavcan_node_description("uavcan.node.description", RegisterBase::AccessType::ReadOnly, "OpenCyphal-ToF-Distance-Sensor-Node", nullptr);
+static Register<uint8_t>     reg_rw_uavcan_node_id         ("uavcan.node.id", Register<uint8_t>::Access::ReadWrite, 42, nullptr);
+static Register<std::string> reg_ro_uavcan_node_description("uavcan.node.description", Register<std::string>::Access::ReadOnly, "OpenCyphal-ToF-Distance-Sensor-Node", nullptr);
 static RegisterList          reg_list;
 
 /* DRIVER *****************************************************************************/

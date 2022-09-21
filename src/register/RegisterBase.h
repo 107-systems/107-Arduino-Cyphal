@@ -23,39 +23,24 @@
 class RegisterBase
 {
 public:
-  enum class AccessType
+  RegisterBase(char const * name)
+  : _name
   {
-    ReadWrite, ReadOnly
-  };
-
-  RegisterBase(char const * name, AccessType const access_type)
-  : _access_type{access_type}
-  {
-    _name.name.count = std::min(strlen(name), uavcan_register_Name_1_0_name_ARRAY_CAPACITY_);
-    memcpy(_name.name.elements, name, _name.name.count);
+    [name]() -> uavcan_register_Name_1_0
+    {
+      uavcan_register_Name_1_0 n;
+      n.name.count = std::min(strlen(name), uavcan_register_Name_1_0_name_ARRAY_CAPACITY_);
+      memcpy(n.name.elements, name, n.name.count);
+      return n;
+    } ()
   }
-  virtual ~RegisterBase() { }
-
-
-  inline AccessType type() const { return _access_type; }
+  { }
 
   uavcan::_register::List_1_0::Response<> toListResponse() const
   {
     uavcan::_register::List_1_0::Response<> rsp;
     memcpy(&rsp.data.name.name.elements, _name.name.elements, _name.name.count);
     rsp.data.name.name.count = _name.name.count;
-    return rsp;
-  }
-
-  virtual uavcan::_register::Access_1_0::Response<> toAccessResponse()
-  {
-    uavcan::_register::Access_1_0::Response<> rsp;
-
-    uavcan_register_Value_1_0_select_empty_(&rsp.data.value);
-    rsp.data.timestamp.microsecond = micros();
-    rsp.data._mutable = false;
-    rsp.data.persistent = false;
-
     return rsp;
   }
 
@@ -71,7 +56,6 @@ public:
 
 private:
   uavcan_register_Name_1_0 _name;
-  AccessType const _access_type;
 };
 
 #endif /* REGISTER_BASE_H_ */
