@@ -92,17 +92,16 @@ private:
       Serial.print("tag = ");
       Serial.println(req.data.value._tag_);
 
-      Register<uint8_t> * rw_reg_ptr = reinterpret_cast<Register<uint8_t> *>(*iter);
+      /* TODO: How to know to which type one should cast?! */
+      Register<uint8_t> * reg_ptr = reinterpret_cast<Register<uint8_t> *>(*iter);
 
       if(uavcan_register_Value_1_0_is_natural8_(&req.data.value))
       {
         Serial.println("RW uint8_t");
-        rw_reg_ptr->set(req.data.value);
+        reg_ptr->set(req.data.value);
       }
 
-      rsp = rw_reg_ptr->toAccessResponse();
-
-      /* TODO: Implement for all the other types ... */ 
+      rsp = reg_ptr->toAccessResponse();
     }
 
     /* Send the actual response. */
