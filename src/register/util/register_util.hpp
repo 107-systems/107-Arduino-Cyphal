@@ -21,28 +21,12 @@
  * FUNCTION DECLARATION
  **************************************************************************************/
 
-template <typename T> uint8_t toTypeTag(T const);
 template <typename T> uavcan_register_Value_1_0 toRegisterValue(T const & val);
 template <typename T> T fromRegisterValue(uavcan_register_Value_1_0 const & val);
 
 /**************************************************************************************
  * FUNCTION DEFINITION
  **************************************************************************************/
-
-template<> inline uint8_t toTypeTag(uint8_t const)
-{
-  return 0;
-}
-
-template<> inline uint8_t toTypeTag(std::string const)
-{
-  return 1;
-}
-
-template<> inline uint8_t toTypeTag(uint16_t const)
-{
-  return 2;
-}
 
 template<> inline uavcan_register_Value_1_0 toRegisterValue<uint8_t>(uint8_t const & val)
 {

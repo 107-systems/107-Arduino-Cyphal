@@ -31,7 +31,7 @@ public:
                   Register::Access const access,
                   T const & initial_val,
                   OnRegisterValueChangeFunc func)
-  : RegisterBase{name, toTypeTag(initial_val)}
+  : RegisterBase{name, Register::toTypeTag(initial_val)}
   , _access{access}
   , _val{initial_val}
   , _func{func}

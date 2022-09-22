@@ -25,7 +25,7 @@ class RegisterList
 {
 public:
   RegisterList()
-  : _reg_last{"", 0}
+  : _reg_last{"", Register::TypeTag::Empty}
   { }
 
   void subscribe(Node & node_hdl)
@@ -92,23 +92,23 @@ private:
       Serial.print("tag = ");
       Serial.println(req.data.value._tag_);
 
-      uint8_t const type_tag = (*iter)->type_tag();
+      Register::TypeTag const type_tag = (*iter)->type_tag();
 
-      if (type_tag == 0)
+      if (type_tag == Register::TypeTag::Natural8)
       {
         RegisterNatural8 * reg_ptr = reinterpret_cast<RegisterNatural8 *>(*iter);
         if(uavcan_register_Value_1_0_is_natural8_(&req.data.value))
           reg_ptr->set(req.data.value);
         rsp = reg_ptr->toAccessResponse();
       }
-      if (type_tag == 1)
+      if (type_tag == Register::TypeTag::String)
       {
         RegisterString * reg_ptr = reinterpret_cast<RegisterString *>(*iter);
         if(uavcan_register_Value_1_0_is_string_(&req.data.value))
           reg_ptr->set(req.data.value);
         rsp = reg_ptr->toAccessResponse();
       }
-      if (type_tag == 2)
+      if (type_tag == Register::TypeTag::Natural16)
       {
         RegisterNatural16 * reg_ptr = reinterpret_cast<RegisterNatural16 *>(*iter);
         if(uavcan_register_Value_1_0_is_natural16_(&req.data.value))
