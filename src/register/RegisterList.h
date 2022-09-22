@@ -96,21 +96,21 @@ private:
 
       if (type_tag == 0)
       {
-        RegisterDerived<uint8_t> * reg_ptr = reinterpret_cast<RegisterDerived<uint8_t> *>(*iter);
+        RegisterNatural8 * reg_ptr = reinterpret_cast<RegisterNatural8 *>(*iter);
         if(uavcan_register_Value_1_0_is_natural8_(&req.data.value))
           reg_ptr->set(req.data.value);
         rsp = reg_ptr->toAccessResponse();
       }
       if (type_tag == 1)
       {
-        RegisterDerived<std::string> * reg_ptr = reinterpret_cast<RegisterDerived<std::string> *>(*iter);
+        RegisterString * reg_ptr = reinterpret_cast<RegisterString *>(*iter);
         if(uavcan_register_Value_1_0_is_string_(&req.data.value))
           reg_ptr->set(req.data.value);
         rsp = reg_ptr->toAccessResponse();
       }
       if (type_tag == 2)
       {
-        RegisterDerived<uint16_t> * reg_ptr = reinterpret_cast<RegisterDerived<uint16_t> *>(*iter);
+        RegisterNatural16 * reg_ptr = reinterpret_cast<RegisterNatural16 *>(*iter);
         if(uavcan_register_Value_1_0_is_natural16_(&req.data.value))
           reg_ptr->set(req.data.value);
         rsp = reg_ptr->toAccessResponse();

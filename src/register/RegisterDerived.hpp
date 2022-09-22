@@ -67,4 +67,12 @@ private:
   OnRegisterValueChangeFunc _func;
 };
 
+/**************************************************************************************
+ * TYPEDEF
+ **************************************************************************************/
+
+typedef RegisterDerived<uint8_t>     RegisterNatural8;
+typedef RegisterDerived<uint16_t>    RegisterNatural16;
+typedef RegisterDerived<std::string> RegisterString;
+
 #endif /* REGISTER_READ_ONLY_H_ */
