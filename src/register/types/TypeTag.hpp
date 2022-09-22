@@ -58,6 +58,31 @@ template<> inline TypeTag toTypeTag(std::string const)
   return TypeTag::String;
 }
 
+template<> inline TypeTag toTypeTag(bool const)
+{
+  return TypeTag::Bit;
+}
+
+template<> inline TypeTag toTypeTag(int8_t const)
+{
+  return TypeTag::Integer8;
+}
+
+template<> inline TypeTag toTypeTag(int16_t const)
+{
+  return TypeTag::Integer16;
+}
+
+template<> inline TypeTag toTypeTag(int32_t const)
+{
+  return TypeTag::Integer32;
+}
+
+template<> inline TypeTag toTypeTag(int64_t const)
+{
+  return TypeTag::Integer64;
+}
+
 template<> inline TypeTag toTypeTag(uint8_t const)
 {
   return TypeTag::Natural8;
@@ -66,6 +91,26 @@ template<> inline TypeTag toTypeTag(uint8_t const)
 template<> inline TypeTag toTypeTag(uint16_t const)
 {
   return TypeTag::Natural16;
+}
+
+template<> inline TypeTag toTypeTag(uint32_t const)
+{
+  return TypeTag::Natural32;
+}
+
+template<> inline TypeTag toTypeTag(uint64_t const)
+{
+  return TypeTag::Natural64;
+}
+
+template<> inline TypeTag toTypeTag(float const)
+{
+  return TypeTag::Real32;
+}
+
+template<> inline TypeTag toTypeTag(double const)
+{
+  return TypeTag::Real64;
 }
 
 /**************************************************************************************

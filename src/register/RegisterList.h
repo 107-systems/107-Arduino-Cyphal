@@ -95,7 +95,49 @@ private:
 
       Register::TypeTag const type_tag = (*iter)->type_tag();
 
-      if (type_tag == Register::TypeTag::Natural8)
+      if (type_tag == Register::TypeTag::String)
+      {
+        RegisterString * reg_ptr = reinterpret_cast<RegisterString *>(*iter);
+        if(uavcan_register_Value_1_0_is_string_(&req.data.value))
+          reg_ptr->set(req.data.value);
+        rsp = reg_ptr->toAccessResponse();
+      }
+      else if (type_tag == Register::TypeTag::Bit)
+      {
+        RegisterBit * reg_ptr = reinterpret_cast<RegisterBit *>(*iter);
+        if(uavcan_register_Value_1_0_is_bit_(&req.data.value))
+          reg_ptr->set(req.data.value);
+        rsp = reg_ptr->toAccessResponse();
+      }
+      else if (type_tag == Register::TypeTag::Integer8)
+      {
+        RegisterInteger8 * reg_ptr = reinterpret_cast<RegisterInteger8 *>(*iter);
+        if(uavcan_register_Value_1_0_is_integer8_(&req.data.value))
+          reg_ptr->set(req.data.value);
+        rsp = reg_ptr->toAccessResponse();
+      }
+      else if (type_tag == Register::TypeTag::Integer16)
+      {
+        RegisterInteger16 * reg_ptr = reinterpret_cast<RegisterInteger16 *>(*iter);
+        if(uavcan_register_Value_1_0_is_integer16_(&req.data.value))
+          reg_ptr->set(req.data.value);
+        rsp = reg_ptr->toAccessResponse();
+      }
+      else if (type_tag == Register::TypeTag::Integer32)
+      {
+        RegisterInteger32 * reg_ptr = reinterpret_cast<RegisterInteger32 *>(*iter);
+        if(uavcan_register_Value_1_0_is_integer32_(&req.data.value))
+          reg_ptr->set(req.data.value);
+        rsp = reg_ptr->toAccessResponse();
+      }
+      else if (type_tag == Register::TypeTag::Integer64)
+      {
+        RegisterInteger64 * reg_ptr = reinterpret_cast<RegisterInteger64 *>(*iter);
+        if(uavcan_register_Value_1_0_is_integer64_(&req.data.value))
+          reg_ptr->set(req.data.value);
+        rsp = reg_ptr->toAccessResponse();
+      }
+      else if (type_tag == Register::TypeTag::Natural8)
       {
         RegisterNatural8 * reg_ptr = reinterpret_cast<RegisterNatural8 *>(*iter);
         if(uavcan_register_Value_1_0_is_natural8_(&req.data.value))
@@ -109,14 +151,35 @@ private:
           reg_ptr->set(req.data.value);
         rsp = reg_ptr->toAccessResponse();
       }
-      else if (type_tag == Register::TypeTag::String)
+      else if (type_tag == Register::TypeTag::Natural32)
       {
-        RegisterString * reg_ptr = reinterpret_cast<RegisterString *>(*iter);
-        if(uavcan_register_Value_1_0_is_string_(&req.data.value))
+        RegisterNatural32 * reg_ptr = reinterpret_cast<RegisterNatural32 *>(*iter);
+        if(uavcan_register_Value_1_0_is_natural32_(&req.data.value))
           reg_ptr->set(req.data.value);
         rsp = reg_ptr->toAccessResponse();
       }
-      /* TODO: Do for other types ... */
+      else if (type_tag == Register::TypeTag::Natural64)
+      {
+        RegisterNatural64 * reg_ptr = reinterpret_cast<RegisterNatural64 *>(*iter);
+        if(uavcan_register_Value_1_0_is_natural64_(&req.data.value))
+          reg_ptr->set(req.data.value);
+        rsp = reg_ptr->toAccessResponse();
+      }
+      else if (type_tag == Register::TypeTag::Real32)
+      {
+        RegisterReal32 * reg_ptr = reinterpret_cast<RegisterReal32 *>(*iter);
+        if(uavcan_register_Value_1_0_is_real32_(&req.data.value))
+          reg_ptr->set(req.data.value);
+        rsp = reg_ptr->toAccessResponse();
+      }
+      else if (type_tag == Register::TypeTag::Real64)
+      {
+        RegisterReal64 * reg_ptr = reinterpret_cast<RegisterReal64 *>(*iter);
+        if(uavcan_register_Value_1_0_is_real64_(&req.data.value))
+          reg_ptr->set(req.data.value);
+        rsp = reg_ptr->toAccessResponse();
+      }
+      /* TODO: Do for other types ... Real16  */
     }
 
     /* Send the actual response. */

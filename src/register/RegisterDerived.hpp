@@ -69,8 +69,17 @@ private:
  * TYPEDEF
  **************************************************************************************/
 
+typedef RegisterDerived<std::string> RegisterString;
+typedef RegisterDerived<bool>        RegisterBit;
+typedef RegisterDerived<int8_t>      RegisterInteger8;
+typedef RegisterDerived<int16_t>     RegisterInteger16;
+typedef RegisterDerived<int32_t>     RegisterInteger32;
+typedef RegisterDerived<int64_t>     RegisterInteger64;
 typedef RegisterDerived<uint8_t>     RegisterNatural8;
 typedef RegisterDerived<uint16_t>    RegisterNatural16;
-typedef RegisterDerived<std::string> RegisterString;
+typedef RegisterDerived<uint32_t>    RegisterNatural32;
+typedef RegisterDerived<uint64_t>    RegisterNatural64;
+typedef RegisterDerived<float>       RegisterReal32;
+typedef RegisterDerived<double>      RegisterReal64;
 
 #endif /* REGISTER_READ_ONLY_H_ */
