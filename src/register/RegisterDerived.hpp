@@ -13,6 +13,7 @@
  **************************************************************************************/
 
 #include "RegisterBase.h"
+#include "RegisterAccess.h"
 
 #include "util/register_util.hpp"
 
@@ -26,10 +27,8 @@ class RegisterDerived : public RegisterBase
 public:
   typedef std::function<void(RegisterDerived<T> const &)> OnRegisterValueChangeFunc;
 
-  enum class Access { ReadWrite, ReadOnly };
-
   RegisterDerived(char const * name,
-                  Access const access,
+                  Register::Access const access,
                   T const & initial_val,
                   OnRegisterValueChangeFunc func)
   : RegisterBase{name, toTypeTag(initial_val)}
@@ -41,7 +40,7 @@ public:
   T get() const { return _val; }
   void set(uavcan_register_Value_1_0 const & val)
   {
-    if (_access == Access::ReadOnly)
+    if (_access == Register::Access::ReadOnly)
       return;
     
     _val = fromRegisterValue<T>(val);
@@ -55,7 +54,7 @@ public:
 
     rsp.data.value = toRegisterValue(_val);
     rsp.data.timestamp.microsecond = micros();
-    rsp.data._mutable = (_access == Access::ReadOnly) ? false : true;
+    rsp.data._mutable = (_access == Register::Access::ReadOnly) ? false : true;
     rsp.data.persistent = false;
 
     return rsp;
@@ -63,7 +62,7 @@ public:
 
 private:
   T _val;
-  Access const _access;
+  Register::Access const _access;
   OnRegisterValueChangeFunc _func;
 };
 
