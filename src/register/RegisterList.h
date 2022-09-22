@@ -15,7 +15,7 @@
 #include <vector>
 
 #include "Node.h"
-#include "Register.hpp"
+#include "RegisterDerived.hpp"
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -96,21 +96,21 @@ private:
 
       if (type_tag == 0)
       {
-        Register<uint8_t> * reg_ptr = reinterpret_cast<Register<uint8_t> *>(*iter);
+        RegisterDerived<uint8_t> * reg_ptr = reinterpret_cast<RegisterDerived<uint8_t> *>(*iter);
         if(uavcan_register_Value_1_0_is_natural8_(&req.data.value))
           reg_ptr->set(req.data.value);
         rsp = reg_ptr->toAccessResponse();
       }
       if (type_tag == 1)
       {
-        Register<std::string> * reg_ptr = reinterpret_cast<Register<std::string> *>(*iter);
+        RegisterDerived<std::string> * reg_ptr = reinterpret_cast<RegisterDerived<std::string> *>(*iter);
         if(uavcan_register_Value_1_0_is_string_(&req.data.value))
           reg_ptr->set(req.data.value);
         rsp = reg_ptr->toAccessResponse();
       }
       if (type_tag == 2)
       {
-        Register<uint16_t> * reg_ptr = reinterpret_cast<Register<uint16_t> *>(*iter);
+        RegisterDerived<uint16_t> * reg_ptr = reinterpret_cast<RegisterDerived<uint16_t> *>(*iter);
         if(uavcan_register_Value_1_0_is_natural16_(&req.data.value))
           reg_ptr->set(req.data.value);
         rsp = reg_ptr->toAccessResponse();

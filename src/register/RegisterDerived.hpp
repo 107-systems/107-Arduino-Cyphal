@@ -21,17 +21,17 @@
  **************************************************************************************/
 
 template <typename T>
-class Register : public RegisterBase
+class RegisterDerived : public RegisterBase
 {
 public:
-  typedef std::function<void(Register<T> const &)> OnRegisterValueChangeFunc;
+  typedef std::function<void(RegisterDerived<T> const &)> OnRegisterValueChangeFunc;
 
   enum class Access { ReadWrite, ReadOnly };
 
-  Register(char const * name,
-           Access const access,
-           T const & initial_val,
-           OnRegisterValueChangeFunc func)
+  RegisterDerived(char const * name,
+                  Access const access,
+                  T const & initial_val,
+                  OnRegisterValueChangeFunc func)
   : RegisterBase{name, toTypeTag(initial_val)}
   , _access{access}
   , _val{initial_val}
