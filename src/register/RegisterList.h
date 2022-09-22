@@ -36,9 +36,10 @@ public:
       ([this](CanardRxTransfer const & transfer, Node & node_hdl) { this->onAccess_1_0_Request_Received(transfer, node_hdl); });
   }
 
-  void add(RegisterBase * reg_ptr)
+  template <typename T>
+  void add(RegisterDerived<T> & reg_ptr)
   {
-    _reg_list.push_back(reg_ptr);
+    _reg_list.push_back(reinterpret_cast<RegisterBase *>(&reg_ptr));
   }
 
 
