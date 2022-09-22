@@ -157,6 +157,7 @@ DEBUG_INSTANCE(120, Serial);
 
 static Register<uint8_t>     reg_rw_uavcan_node_id         ("uavcan.node.id", Register<uint8_t>::Access::ReadWrite, OPEN_CYPHAL_NODE_ID, [&node_hdl](Register<uint8_t> const & reg) { node_hdl.setNodeId(reg.get()); });
 static Register<std::string> reg_ro_uavcan_node_description("uavcan.node.description", Register<std::string>::Access::ReadWrite, "OpenCyphal-ToF-Distance-Sensor-Node", nullptr);
+static Register<uint16_t>    reg_ro_uavcan_pub_distance_id ("uavcan.pub.distance.id", Register<uint16_t>::Access::ReadOnly, OPEN_CYPHAL_ID_DISTANCE_DATA, nullptr);
 static RegisterList          reg_list;
 
 /**************************************************************************************
@@ -211,6 +212,7 @@ void setup()
   reg_list.subscribe(node_hdl);
   reg_list.add(reinterpret_cast<RegisterBase *>(&reg_rw_uavcan_node_id));
   reg_list.add(reinterpret_cast<RegisterBase *>(&reg_ro_uavcan_node_description));
+  reg_list.add(reinterpret_cast<RegisterBase *>(&reg_ro_uavcan_pub_distance_id));
 }
 
 void loop()

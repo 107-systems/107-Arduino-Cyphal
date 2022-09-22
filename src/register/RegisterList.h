@@ -108,6 +108,13 @@ private:
           reg_ptr->set(req.data.value);
         rsp = reg_ptr->toAccessResponse();
       }
+      if (type_tag == 2)
+      {
+        Register<uint16_t> * reg_ptr = reinterpret_cast<Register<uint16_t> *>(*iter);
+        if(uavcan_register_Value_1_0_is_natural16_(&req.data.value))
+          reg_ptr->set(req.data.value);
+        rsp = reg_ptr->toAccessResponse();
+      }
       /* TODO: Do for other types ... */
     }
 

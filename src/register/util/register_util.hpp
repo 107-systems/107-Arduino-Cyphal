@@ -39,12 +39,26 @@ template<> inline uint8_t toTypeTag(std::string const)
   return 1;
 }
 
+template<> inline uint8_t toTypeTag(uint16_t const)
+{
+  return 2;
+}
+
 template<> inline uavcan_register_Value_1_0 toRegisterValue<uint8_t>(uint8_t const & val)
 {
   uavcan_register_Value_1_0 reg_val;
   reg_val.natural8.value.elements[0] = val;
   reg_val.natural8.value.count = 1;
   uavcan_register_Value_1_0_select_natural8_(&reg_val);
+  return reg_val;
+}
+
+template<> inline uavcan_register_Value_1_0 toRegisterValue<uint16_t>(uint16_t const & val)
+{
+  uavcan_register_Value_1_0 reg_val;
+  reg_val.natural16.value.elements[0] = val;
+  reg_val.natural16.value.count = 1;
+  uavcan_register_Value_1_0_select_natural16_(&reg_val);
   return reg_val;
 }
 
@@ -60,6 +74,11 @@ template<> inline uavcan_register_Value_1_0 toRegisterValue<std::string>(std::st
 template<> inline uint8_t fromRegisterValue<uint8_t>(uavcan_register_Value_1_0 const & val)
 {
   return val.natural8.value.elements[0];
+}
+
+template<> inline uint16_t fromRegisterValue<uint16_t>(uavcan_register_Value_1_0 const & val)
+{
+  return val.natural16.value.elements[0];
 }
 
 template<> inline std::string fromRegisterValue<std::string>(uavcan_register_Value_1_0 const & val)
