@@ -101,17 +101,17 @@ private:
           reg_ptr->set(req.data.value);
         rsp = reg_ptr->toAccessResponse();
       }
-      if (type_tag == Register::TypeTag::String)
-      {
-        RegisterString * reg_ptr = reinterpret_cast<RegisterString *>(*iter);
-        if(uavcan_register_Value_1_0_is_string_(&req.data.value))
-          reg_ptr->set(req.data.value);
-        rsp = reg_ptr->toAccessResponse();
-      }
-      if (type_tag == Register::TypeTag::Natural16)
+      else if (type_tag == Register::TypeTag::Natural16)
       {
         RegisterNatural16 * reg_ptr = reinterpret_cast<RegisterNatural16 *>(*iter);
         if(uavcan_register_Value_1_0_is_natural16_(&req.data.value))
+          reg_ptr->set(req.data.value);
+        rsp = reg_ptr->toAccessResponse();
+      }
+      else if (type_tag == Register::TypeTag::String)
+      {
+        RegisterString * reg_ptr = reinterpret_cast<RegisterString *>(*iter);
+        if(uavcan_register_Value_1_0_is_string_(&req.data.value))
           reg_ptr->set(req.data.value);
         rsp = reg_ptr->toAccessResponse();
       }
