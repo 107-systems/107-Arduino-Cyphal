@@ -41,7 +41,7 @@ public:
   {
     if (_access == Register::Access::ReadOnly)
       return;
-    
+
     _val = fromRegisterValue<T>(val);
     if (_func)
       _func(*this);
