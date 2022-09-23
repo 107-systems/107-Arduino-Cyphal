@@ -5,8 +5,8 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef REGISTER_READ_ONLY_H_
-#define REGISTER_READ_ONLY_H_
+#ifndef REGISTER_DERIVED_HPP_
+#define REGISTER_DERIVED_HPP_
 
 /**************************************************************************************
  * INCLUDES
@@ -67,4 +67,4 @@ typedef RegisterDerived<double>      RegisterReal64;
 
 #include "RegisterDerived.ipp"
 
-#endif /* REGISTER_READ_ONLY_H_ */
+#endif /* REGISTER_DERIVED_HPP_ */

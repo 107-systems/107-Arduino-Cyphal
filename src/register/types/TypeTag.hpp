@@ -5,8 +5,8 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef REGISTER_TAG_H_
-#define REGISTER_TAG_H_
+#ifndef REGISTER_TYPE_TAG_HPP_
+#define REGISTER_TYPE_TAG_HPP_
 
 /**************************************************************************************
  * INCLUDE
@@ -119,4 +119,4 @@ template<> inline TypeTag toTypeTag(double const)
 
 } /* Register */
 
-#endif /* REGISTER_TAG_H_ */
+#endif /* REGISTER_TYPE_TAG_HPP_ */
