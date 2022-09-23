@@ -155,9 +155,10 @@ DEBUG_INSTANCE(120, Serial);
 
 /* REGISTER ***************************************************************************/
 
-static RegisterNatural8  reg_rw_uavcan_node_id         ("uavcan.node.id",          Register::Access::ReadWrite, OPEN_CYPHAL_NODE_ID, [&node_hdl](RegisterNatural8 const & reg) { node_hdl.setNodeId(reg.get()); });
-static RegisterString    reg_ro_uavcan_node_description("uavcan.node.description", Register::Access::ReadWrite, "OpenCyphal-ToF-Distance-Sensor-Node", nullptr);
-static RegisterNatural16 reg_ro_uavcan_pub_distance_id ("uavcan.pub.distance.id",  Register::Access::ReadOnly,  OPEN_CYPHAL_ID_DISTANCE_DATA, nullptr);
+static RegisterNatural8  reg_rw_uavcan_node_id          ("uavcan.node.id",           Register::Access::ReadWrite, OPEN_CYPHAL_NODE_ID, [&node_hdl](RegisterNatural8 const & reg) { node_hdl.setNodeId(reg.get()); });
+static RegisterString    reg_ro_uavcan_node_description ("uavcan.node.description",  Register::Access::ReadWrite, "OpenCyphal-ToF-Distance-Sensor-Node", nullptr);
+static RegisterNatural16 reg_ro_uavcan_pub_distance_id  ("uavcan.pub.distance.id",   Register::Access::ReadOnly,  OPEN_CYPHAL_ID_DISTANCE_DATA, nullptr);
+static RegisterString    reg_ro_uavcan_pub_distance_type("uavcan.pub.distance.type", Register::Access::ReadOnly,  "uavcan.primitive.scalar.Real32.1.0", nullptr);
 static RegisterList      reg_list;
 
 /**************************************************************************************
@@ -213,6 +214,7 @@ void setup()
   reg_list.add(reg_rw_uavcan_node_id);
   reg_list.add(reg_ro_uavcan_node_description);
   reg_list.add(reg_ro_uavcan_pub_distance_id);
+  reg_list.add(reg_ro_uavcan_pub_distance_type);
   reg_list.subscribe(node_hdl);
 }
 
