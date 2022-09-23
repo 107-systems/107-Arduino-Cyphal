@@ -14,9 +14,6 @@
 
 #include "RegisterBase.h"
 #include "types/Access.h"
-#include "util/register_util.hpp"
-
-extern unsigned long micros(void);
 
 /**************************************************************************************
  * CLASS DECLARATION
