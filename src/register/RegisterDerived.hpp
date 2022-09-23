@@ -36,8 +36,8 @@ public:
 
 
 private:
-  T _val;
   Register::Access const _access;
+  T _val;
   OnRegisterValueChangeFunc _func;
 };
 
