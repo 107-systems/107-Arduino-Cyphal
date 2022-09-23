@@ -209,10 +209,11 @@ void setup()
   /* Register callbacks for node info and register api.
    */
   node_hdl.subscribe<GetInfo_1_0::Request<>>(onGetInfo_1_0_Request_Received);
-  reg_list.subscribe(node_hdl);
+
   reg_list.add(reg_rw_uavcan_node_id);
   reg_list.add(reg_ro_uavcan_node_description);
   reg_list.add(reg_ro_uavcan_pub_distance_id);
+  reg_list.subscribe(node_hdl);
 }
 
 void loop()
