@@ -31,35 +31,12 @@ public:
   RegisterDerived(char const * name,
                   Register::Access const access,
                   T const & initial_val,
-                  OnRegisterValueChangeFunc func)
-  : RegisterBase{name, Register::toTypeTag(initial_val)}
-  , _access{access}
-  , _val{initial_val}
-  , _func{func}
-  { }
+                  OnRegisterValueChangeFunc func);
 
-  T get() const { return _val; }
-  void set(uavcan_register_Value_1_0 const & val)
-  {
-    if (_access == Register::Access::ReadOnly)
-      return;
+  inline T get() const { return _val; }
+  void set(uavcan_register_Value_1_0 const & val);
+  uavcan::_register::Access_1_0::Response<> toAccessResponse();
 
-    _val = fromRegisterValue<T>(val);
-    if (_func)
-      _func(*this);
-  }
-
-  uavcan::_register::Access_1_0::Response<> toAccessResponse()
-  {
-    uavcan::_register::Access_1_0::Response<> rsp;
-
-    rsp.data.value = toRegisterValue(_val);
-    rsp.data.timestamp.microsecond = micros();
-    rsp.data._mutable = (_access == Register::Access::ReadOnly) ? false : true;
-    rsp.data.persistent = false;
-
-    return rsp;
-  }
 
 private:
   T _val;
@@ -83,5 +60,11 @@ typedef RegisterDerived<uint32_t>    RegisterNatural32;
 typedef RegisterDerived<uint64_t>    RegisterNatural64;
 typedef RegisterDerived<float>       RegisterReal32;
 typedef RegisterDerived<double>      RegisterReal64;
+
+/**************************************************************************************
+ * TEMPLATE IMPLEMENTATION
+ **************************************************************************************/
+
+#include "RegisterDerived.ipp"
 
 #endif /* REGISTER_READ_ONLY_H_ */
