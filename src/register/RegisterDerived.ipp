@@ -9,7 +9,7 @@
  * EXTERN DECLARATION
  **************************************************************************************/
 
-extern unsigned long micros(void);
+extern "C" unsigned long micros(void);
 
 /**************************************************************************************
  * FUNCTION DECLARATION
