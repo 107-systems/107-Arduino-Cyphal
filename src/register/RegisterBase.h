@@ -28,7 +28,7 @@ public:
                bool const is_persistent);
 
 
-  inline uavcan_register_Name_1_0 const & name()  const { return _name; }
+  inline uavcan_register_Name_1_0 const & name() const { return _name; }
   inline Register::TypeTag type_tag() const { return _type_tag; }
   inline bool isMutable() const { return _is_mutable; }
   inline bool isPersistent() const { return _is_persistent; }

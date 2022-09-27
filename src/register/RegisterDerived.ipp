@@ -24,13 +24,13 @@ template <typename T> T fromRegisterValue(uavcan_register_Value_1_0 const & val)
 template <typename T>
 RegisterDerived<T>::RegisterDerived(char const * name,
                                     Register::Access const access,
-                                    Register::Persistence const persistence,
+                                    Register::Persistent const is_persistent,
                                     T const & initial_val,
                                     OnRegisterValueChangeFunc func)
 : RegisterBase{name,
                Register::toTypeTag(initial_val),
                (access == Register::Access::ReadOnly),
-               (persistence == Register::Persistence::Yes)}
+               (is_persistent == Register::Persistent::Yes)}
 , _val{initial_val}
 , _func{func}
 { }

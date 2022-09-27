@@ -5,8 +5,8 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef REGISTER_PERSISTENCE_H_
-#define REGISTER_PERSISTENCE_H_
+#ifndef REGISTER_PERSISTENT_H_
+#define REGISTER_PERSISTENT_H_
 
 /**************************************************************************************
  * NAMESPACE
@@ -19,7 +19,7 @@ namespace Register
  * TYPEDEF
  **************************************************************************************/
 
-enum class Persistence { Yes, No };
+enum class Persistent { Yes, No };
 
 /**************************************************************************************
  * NAMESPACE
@@ -27,4 +27,4 @@ enum class Persistence { Yes, No };
 
 } /* Register */
 
-#endif /* REGISTER_PERSISTENCE_H_ */
+#endif /* REGISTER_PERSISTENT_H_ */
