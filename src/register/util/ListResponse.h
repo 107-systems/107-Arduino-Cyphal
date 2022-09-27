@@ -5,34 +5,26 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef ACCESS_RESPONSE_H_
-#define ACCESS_RESPONSE_H_
+#ifndef LIST_RESPONSE_H_
+#define LIST_RESPONSE_H_
 
 /**************************************************************************************
  * INCLUDES
  **************************************************************************************/
 
-#include "../Types.h"
-#include "RegisterDerived.hpp"
+#include "../../Types.h"
 
 /**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
 
-class AccessResponse
+class ListResponse
 {
 public:
-  AccessResponse() = delete;
-  AccessResponse(AccessResponse const & other) = delete;
+  ListResponse() = delete;
+  ListResponse(ListResponse const & other) = delete;
 
-  template <typename T>
-  static uavcan::_register::Access_1_0::Response<> create(RegisterDerived<T> const & reg);
+  static uavcan::_register::List_1_0::Response<> create(uavcan_register_Name_1_0 const & name);
 };
 
-/**************************************************************************************
- * TEMPLATE IMPLEMEMTATION
- **************************************************************************************/
-
-#include "AccessResponse.ipp"
-
-#endif /* ACCESS_RESPONSE_H_ */
+#endif /* LIST_RESPONSE_H_ */

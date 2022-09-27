@@ -14,8 +14,8 @@
 
 #include <algorithm>
 
-#include "ListResponse.h"
-#include "AccessResponse.hpp"
+#include "util/ListResponse.h"
+#include "util/AccessResponse.hpp"
 
 /**************************************************************************************
  * CTOR/DTOR
