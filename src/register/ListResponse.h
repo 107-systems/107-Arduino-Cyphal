@@ -5,40 +5,26 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef REGISTER_LIST_H_
-#define REGISTER_LIST_H_
+#ifndef LIST_RESPONSE_H_
+#define LIST_RESPONSE_H_
 
 /**************************************************************************************
  * INCLUDES
  **************************************************************************************/
 
-#include <vector>
-
-#include "Node.h"
-#include "RegisterDerived.hpp"
+#include "../Types.h"
 
 /**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
 
-class RegisterList
+class ListResponse
 {
 public:
-  RegisterList();
+  ListResponse() = delete;
+  ListResponse(ListResponse const & other) = delete;
 
-  void subscribe(Node & node_hdl);
-
-  template <typename T> inline void add(RegisterDerived<T> & reg_ptr) {
-    _reg_list.push_back(reinterpret_cast<RegisterBase *>(&reg_ptr));
-  }
-
-
-private:
-  std::vector<RegisterBase *> _reg_list;
-  RegisterBase const _reg_last;
-
-  void onList_1_0_Request_Received(CanardRxTransfer const & transfer, Node & node_hdl);
-  void onAccess_1_0_Request_Received(CanardRxTransfer const & transfer, Node & node_hdl);
+  static uavcan::_register::List_1_0::Response<> create(uavcan_register_Name_1_0 const & name);
 };
 
-#endif /* REGISTER_LIST_H_ */
+#endif /* LIST_RESPONSE_H_ */
