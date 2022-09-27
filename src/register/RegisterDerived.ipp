@@ -29,9 +29,8 @@ RegisterDerived<T>::RegisterDerived(char const * name,
                                     OnRegisterValueChangeFunc func)
 : RegisterBase{name,
                Register::toTypeTag(initial_val),
-               (_access == Register::Access::ReadOnly),
+               (access == Register::Access::ReadOnly),
                is_persistent}
-, _access{access}
 , _val{initial_val}
 , _func{func}
 { }
@@ -43,7 +42,7 @@ RegisterDerived<T>::RegisterDerived(char const * name,
 template <typename T>
 void RegisterDerived<T>::set(uavcan_register_Value_1_0 const & val)
 {
-  if (_access == Register::Access::ReadOnly)
+  if (!isMutable())
     return;
 
   _val = fromRegisterValue<T>(val);
