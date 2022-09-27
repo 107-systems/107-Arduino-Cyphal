@@ -37,6 +37,21 @@ public:
                   OnReadRequestFunc on_read_request_func,
                   ValueLimiterFunc value_limiter_func);
 
+  RegisterDerived(char const * name,
+                  Register::Access const access,
+                  Register::Persistent const is_persistent,
+                  T const & initial_val)
+  : RegisterDerived<T>(name, access, is_persistent, initial_val, nullptr, nullptr, nullptr)
+  { }
+
+  RegisterDerived(char const * name,
+                  Register::Access const access,
+                  Register::Persistent const is_persistent,
+                  T const & initial_val,
+                  OnWriteRequestFunc on_write_request_func)
+  : RegisterDerived<T>(name, access, is_persistent, initial_val, on_write_request_func, nullptr, nullptr)
+  { }
+
 
   inline T get() const { return _val; }
   void set(T const & val);
