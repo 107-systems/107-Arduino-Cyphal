@@ -24,13 +24,13 @@ template <typename T>
 class RegisterDerived : public RegisterBase
 {
 public:
-  typedef std::function<void(RegisterDerived<T> const &)> OnRegisterValueChangeFunc;
+  typedef std::function<void(T const &)> OnWriteRequestFunc;
 
   RegisterDerived(char const * name,
                   Register::Access const access,
                   Register::Persistent const is_persistent,
                   T const & initial_val,
-                  OnRegisterValueChangeFunc func);
+                  OnWriteRequestFunc on_write_func);
 
   inline T get() const { return _val; }
   void set(uavcan_register_Value_1_0 const & val);
@@ -38,7 +38,9 @@ public:
 
 private:
   T _val;
-  OnRegisterValueChangeFunc _func;
+  OnWriteRequestFunc _on_write_func;
+
+  inline void onWriteFunc() const { if (_on_write_func) _on_write_func(_val); }
 };
 
 /**************************************************************************************
