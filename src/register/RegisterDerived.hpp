@@ -14,6 +14,7 @@
 
 #include "RegisterBase.h"
 #include "types/Access.h"
+#include "types/Persistence.h"
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -27,7 +28,7 @@ public:
 
   RegisterDerived(char const * name,
                   Register::Access const access,
-                  bool const is_persistent,
+                  Register::Persistence const persistence,
                   T const & initial_val,
                   OnRegisterValueChangeFunc func);
 
