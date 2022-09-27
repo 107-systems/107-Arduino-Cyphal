@@ -46,6 +46,7 @@ RegisterList::RegisterList()
       reg_ptr->onReadRequest();
     if(uavcan_register_Value_1_0_is_string_(&req.data.value) && reg_ptr->isMutable())
     {
+      /* Limitation makes no sense for 'std::string' */
       reg_ptr->set(AccessRequest::toRegisterValue<std::string>(req.data.value));
       reg_ptr->onWriteRequest();
     }
@@ -60,6 +61,7 @@ RegisterList::RegisterList()
       reg_ptr->onReadRequest();
     if(uavcan_register_Value_1_0_is_bit_(&req.data.value) && reg_ptr->isMutable())
     {
+      /* Limitation makes no sense for 'bool' */
       reg_ptr->set(AccessRequest::toRegisterValue<bool>(req.data.value));
       reg_ptr->onWriteRequest();
     }
@@ -74,7 +76,9 @@ RegisterList::RegisterList()
       reg_ptr->onReadRequest();
     if(uavcan_register_Value_1_0_is_integer8_(&req.data.value) && reg_ptr->isMutable())
     {
-      reg_ptr->set(AccessRequest::toRegisterValue<int8_t>(req.data.value));
+      int8_t const reg_val = AccessRequest::toRegisterValue<int8_t>(req.data.value);
+      int8_t const limited_reg_val = reg_ptr->limitValue(reg_val);
+      reg_ptr->set(limited_reg_val);
       reg_ptr->onWriteRequest();
     }
     return AccessResponse::create(*reg_ptr);
@@ -88,7 +92,9 @@ RegisterList::RegisterList()
       reg_ptr->onReadRequest();
     if(uavcan_register_Value_1_0_is_integer16_(&req.data.value) && reg_ptr->isMutable())
     {
-      reg_ptr->set(AccessRequest::toRegisterValue<int16_t>(req.data.value));
+      int16_t const reg_val = AccessRequest::toRegisterValue<int16_t>(req.data.value);
+      int16_t const limited_reg_val = reg_ptr->limitValue(reg_val);
+      reg_ptr->set(limited_reg_val);
       reg_ptr->onWriteRequest();
     }
     return AccessResponse::create(*reg_ptr);
@@ -102,7 +108,9 @@ RegisterList::RegisterList()
       reg_ptr->onReadRequest();
     if(uavcan_register_Value_1_0_is_integer32_(&req.data.value) && reg_ptr->isMutable())
     {
-      reg_ptr->set(AccessRequest::toRegisterValue<int32_t>(req.data.value));
+      int32_t const reg_val = AccessRequest::toRegisterValue<int32_t>(req.data.value);
+      int32_t const limited_reg_val = reg_ptr->limitValue(reg_val);
+      reg_ptr->set(limited_reg_val);
       reg_ptr->onWriteRequest();
     }
     return AccessResponse::create(*reg_ptr);
@@ -116,7 +124,9 @@ RegisterList::RegisterList()
       reg_ptr->onReadRequest();
     if(uavcan_register_Value_1_0_is_integer64_(&req.data.value) && reg_ptr->isMutable())
     {
-      reg_ptr->set(AccessRequest::toRegisterValue<int64_t>(req.data.value));
+      int64_t const reg_val = AccessRequest::toRegisterValue<int64_t>(req.data.value);
+      int64_t const limited_reg_val = reg_ptr->limitValue(reg_val);
+      reg_ptr->set(limited_reg_val);
       reg_ptr->onWriteRequest();
     }
     return AccessResponse::create(*reg_ptr);
@@ -130,7 +140,9 @@ RegisterList::RegisterList()
       reg_ptr->onReadRequest();
     if(uavcan_register_Value_1_0_is_natural8_(&req.data.value) && reg_ptr->isMutable())
     {
-      reg_ptr->set(AccessRequest::toRegisterValue<uint8_t>(req.data.value));
+      uint8_t const reg_val = AccessRequest::toRegisterValue<uint8_t>(req.data.value);
+      uint8_t const limited_reg_val = reg_ptr->limitValue(reg_val);
+      reg_ptr->set(limited_reg_val);
       reg_ptr->onWriteRequest();
     }
     return AccessResponse::create(*reg_ptr);
@@ -144,7 +156,9 @@ RegisterList::RegisterList()
       reg_ptr->onReadRequest();
     if(uavcan_register_Value_1_0_is_natural16_(&req.data.value) && reg_ptr->isMutable())
     {
-      reg_ptr->set(AccessRequest::toRegisterValue<uint16_t>(req.data.value));
+      uint16_t const reg_val = AccessRequest::toRegisterValue<uint16_t>(req.data.value);
+      uint16_t const limited_reg_val = reg_ptr->limitValue(reg_val);
+      reg_ptr->set(limited_reg_val);
       reg_ptr->onWriteRequest();
     }
     return AccessResponse::create(*reg_ptr);
@@ -158,7 +172,9 @@ RegisterList::RegisterList()
       reg_ptr->onReadRequest();
     if(uavcan_register_Value_1_0_is_natural32_(&req.data.value) && reg_ptr->isMutable())
     {
-      reg_ptr->set(AccessRequest::toRegisterValue<uint32_t>(req.data.value));
+      uint32_t const reg_val = AccessRequest::toRegisterValue<uint32_t>(req.data.value);
+      uint32_t const limited_reg_val = reg_ptr->limitValue(reg_val);
+      reg_ptr->set(limited_reg_val);
       reg_ptr->onWriteRequest();
     }
     return AccessResponse::create(*reg_ptr);
@@ -172,7 +188,9 @@ RegisterList::RegisterList()
       reg_ptr->onReadRequest();
     if(uavcan_register_Value_1_0_is_natural64_(&req.data.value) && reg_ptr->isMutable())
     {
-      reg_ptr->set(AccessRequest::toRegisterValue<uint64_t>(req.data.value));
+      uint64_t const reg_val = AccessRequest::toRegisterValue<uint64_t>(req.data.value);
+      uint64_t const limited_reg_val = reg_ptr->limitValue(reg_val);
+      reg_ptr->set(limited_reg_val);
       reg_ptr->onWriteRequest();
     }
     return AccessResponse::create(*reg_ptr);
@@ -186,7 +204,9 @@ RegisterList::RegisterList()
       reg_ptr->onReadRequest();
     if(uavcan_register_Value_1_0_is_real32_(&req.data.value) && reg_ptr->isMutable())
     {
-      reg_ptr->set(AccessRequest::toRegisterValue<float>(req.data.value));
+      float const reg_val = AccessRequest::toRegisterValue<float>(req.data.value);
+      float const limited_reg_val = reg_ptr->limitValue(reg_val);
+      reg_ptr->set(limited_reg_val);
       reg_ptr->onWriteRequest();
     }
     return AccessResponse::create(*reg_ptr);
@@ -200,7 +220,9 @@ RegisterList::RegisterList()
       reg_ptr->onReadRequest();
     if(uavcan_register_Value_1_0_is_real64_(&req.data.value) && reg_ptr->isMutable())
     {
-      reg_ptr->set(AccessRequest::toRegisterValue<double>(req.data.value));
+      double const reg_val = AccessRequest::toRegisterValue<double>(req.data.value);
+      double const limited_reg_val = reg_ptr->limitValue(reg_val);
+      reg_ptr->set(limited_reg_val);
       reg_ptr->onWriteRequest();
     }
     return AccessResponse::create(*reg_ptr);

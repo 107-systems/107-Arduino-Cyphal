@@ -26,6 +26,7 @@ class RegisterDerived : public RegisterBase
 public:
   typedef std::function<void(T const &)> OnWriteRequestFunc;
   typedef std::function<void(RegisterDerived<T> &)> OnReadRequestFunc;
+  typedef std::function<T(T const &)> ValueLimiterFunc;
 
 
   RegisterDerived(char const * name,
@@ -33,20 +34,22 @@ public:
                   Register::Persistent const is_persistent,
                   T const & initial_val,
                   OnWriteRequestFunc on_write_request_func,
-                  OnReadRequestFunc on_read_request_func);
+                  OnReadRequestFunc on_read_request_func,
+                  ValueLimiterFunc value_limiter_func);
 
 
   inline T get() const { return _val; }
   inline void set(T const & val) { _val = val; }
+  T limitValue(T const & val) const;
 
   inline void onReadRequest() { if (_on_read_request_func) _on_read_request_func(*this); }
   inline void onWriteRequest() const { if (_on_write_request_func) _on_write_request_func(_val); }
-
 
 private:
   T _val;
   OnWriteRequestFunc _on_write_request_func;
   OnReadRequestFunc _on_read_request_func;
+  ValueLimiterFunc _value_limiter_func;
 };
 
 /**************************************************************************************
