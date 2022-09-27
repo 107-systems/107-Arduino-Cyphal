@@ -27,6 +27,7 @@ public:
   typedef std::function<void(T const &)> OnWriteRequestFunc;
   typedef std::function<void(RegisterDerived<T> &)> onReadRequestFunc;
 
+
   RegisterDerived(char const * name,
                   Register::Access const access,
                   Register::Persistent const is_persistent,
@@ -34,16 +35,19 @@ public:
                   OnWriteRequestFunc on_write_request_func,
                   onReadRequestFunc on_read_request_func);
 
+
   inline T get() const { return _val; }
   void set(uavcan_register_Value_1_0 const & val);
+
   inline void onReadRequest() { if (_on_read_request_func) _on_read_request_func(*this); }
+  inline void onWriteRequest() const { if (_on_write_request_func) _on_write_request_func(_val); }
+
 
 private:
   T _val;
   OnWriteRequestFunc _on_write_request_func;
   onReadRequestFunc _on_read_request_func;
 
-  inline void onWriteRequest() const { if (_on_write_request_func) _on_write_request_func(_val); }
 };
 
 /**************************************************************************************

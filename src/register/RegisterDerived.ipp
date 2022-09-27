@@ -45,8 +45,6 @@ template <typename T>
 void RegisterDerived<T>::set(uavcan_register_Value_1_0 const & val)
 {
   _val = fromRegisterValue<T>(val);
-
-  onWriteRequest();
 }
 
 /**************************************************************************************

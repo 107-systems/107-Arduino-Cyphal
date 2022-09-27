@@ -93,7 +93,10 @@ void RegisterList::onAccess_1_0_Request_Received(CanardRxTransfer const & transf
       if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
         reg_ptr->onReadRequest();
       if(uavcan_register_Value_1_0_is_string_(&req.data.value) && reg_ptr->isMutable())
+      {
         reg_ptr->set(req.data.value);
+        reg_ptr->onWriteRequest();
+      }
       rsp = AccessResponse::create(*reg_ptr);
     }
     else if (type_tag == Register::TypeTag::Bit)
@@ -102,7 +105,10 @@ void RegisterList::onAccess_1_0_Request_Received(CanardRxTransfer const & transf
       if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
         reg_ptr->onReadRequest();
       if(uavcan_register_Value_1_0_is_bit_(&req.data.value) && reg_ptr->isMutable())
+      {
         reg_ptr->set(req.data.value);
+        reg_ptr->onWriteRequest();
+      }
       rsp = AccessResponse::create(*reg_ptr);
     }
     else if (type_tag == Register::TypeTag::Integer8)
@@ -111,7 +117,10 @@ void RegisterList::onAccess_1_0_Request_Received(CanardRxTransfer const & transf
       if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
         reg_ptr->onReadRequest();
       if(uavcan_register_Value_1_0_is_integer8_(&req.data.value) && reg_ptr->isMutable())
+      {
         reg_ptr->set(req.data.value);
+        reg_ptr->onWriteRequest();
+      }
       rsp = AccessResponse::create(*reg_ptr);
     }
     else if (type_tag == Register::TypeTag::Integer16)
@@ -120,7 +129,10 @@ void RegisterList::onAccess_1_0_Request_Received(CanardRxTransfer const & transf
       if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
         reg_ptr->onReadRequest();
       if(uavcan_register_Value_1_0_is_integer16_(&req.data.value) && reg_ptr->isMutable())
+      {
         reg_ptr->set(req.data.value);
+        reg_ptr->onWriteRequest();
+      }
       rsp = AccessResponse::create(*reg_ptr);
     }
     else if (type_tag == Register::TypeTag::Integer32)
@@ -129,7 +141,10 @@ void RegisterList::onAccess_1_0_Request_Received(CanardRxTransfer const & transf
       if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
         reg_ptr->onReadRequest();
       if(uavcan_register_Value_1_0_is_integer32_(&req.data.value) && reg_ptr->isMutable())
+      {
         reg_ptr->set(req.data.value);
+        reg_ptr->onWriteRequest();
+      }
       rsp = AccessResponse::create(*reg_ptr);
     }
     else if (type_tag == Register::TypeTag::Integer64)
@@ -138,7 +153,10 @@ void RegisterList::onAccess_1_0_Request_Received(CanardRxTransfer const & transf
       if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
         reg_ptr->onReadRequest();
       if(uavcan_register_Value_1_0_is_integer64_(&req.data.value) && reg_ptr->isMutable())
+      {
         reg_ptr->set(req.data.value);
+        reg_ptr->onWriteRequest();
+      }
       rsp = AccessResponse::create(*reg_ptr);
     }
     else if (type_tag == Register::TypeTag::Natural8)
@@ -147,7 +165,10 @@ void RegisterList::onAccess_1_0_Request_Received(CanardRxTransfer const & transf
       if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
         reg_ptr->onReadRequest();
       if(uavcan_register_Value_1_0_is_natural8_(&req.data.value) && reg_ptr->isMutable())
+      {
         reg_ptr->set(req.data.value);
+        reg_ptr->onWriteRequest();
+      }
       rsp = AccessResponse::create(*reg_ptr);
     }
     else if (type_tag == Register::TypeTag::Natural16)
@@ -156,7 +177,10 @@ void RegisterList::onAccess_1_0_Request_Received(CanardRxTransfer const & transf
       if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
         reg_ptr->onReadRequest();
       if(uavcan_register_Value_1_0_is_natural16_(&req.data.value) && reg_ptr->isMutable())
+      {
         reg_ptr->set(req.data.value);
+        reg_ptr->onWriteRequest();
+      }
       rsp = AccessResponse::create(*reg_ptr);
     }
     else if (type_tag == Register::TypeTag::Natural32)
@@ -165,7 +189,10 @@ void RegisterList::onAccess_1_0_Request_Received(CanardRxTransfer const & transf
       if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
         reg_ptr->onReadRequest();
       if(uavcan_register_Value_1_0_is_natural32_(&req.data.value) && reg_ptr->isMutable())
+      {
         reg_ptr->set(req.data.value);
+        reg_ptr->onWriteRequest();
+      }
       rsp = AccessResponse::create(*reg_ptr);
     }
     else if (type_tag == Register::TypeTag::Natural64)
@@ -174,7 +201,10 @@ void RegisterList::onAccess_1_0_Request_Received(CanardRxTransfer const & transf
       if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
         reg_ptr->onReadRequest();
       if(uavcan_register_Value_1_0_is_natural64_(&req.data.value) && reg_ptr->isMutable())
+      {
         reg_ptr->set(req.data.value);
+        reg_ptr->onWriteRequest();
+      }
       rsp = AccessResponse::create(*reg_ptr);
     }
     else if (type_tag == Register::TypeTag::Real32)
@@ -183,7 +213,10 @@ void RegisterList::onAccess_1_0_Request_Received(CanardRxTransfer const & transf
       if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
         reg_ptr->onReadRequest();
       if(uavcan_register_Value_1_0_is_real32_(&req.data.value) && reg_ptr->isMutable())
+      {
         reg_ptr->set(req.data.value);
+        reg_ptr->onWriteRequest();
+      }
       rsp = AccessResponse::create(*reg_ptr);
     }
     else if (type_tag == Register::TypeTag::Real64)
@@ -192,7 +225,10 @@ void RegisterList::onAccess_1_0_Request_Received(CanardRxTransfer const & transf
       if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
         reg_ptr->onReadRequest();
       if(uavcan_register_Value_1_0_is_real64_(&req.data.value) && reg_ptr->isMutable())
+      {
         reg_ptr->set(req.data.value);
+        reg_ptr->onWriteRequest();
+      }
       rsp = AccessResponse::create(*reg_ptr);
     }
     /* TODO: Do for other types ... Real16  */
