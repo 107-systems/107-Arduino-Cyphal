@@ -27,12 +27,12 @@ public:
 
   RegisterDerived(char const * name,
                   Register::Access const access,
+                  bool const is_persistent,
                   T const & initial_val,
                   OnRegisterValueChangeFunc func);
 
   inline T get() const { return _val; }
   void set(uavcan_register_Value_1_0 const & val);
-  uavcan::_register::Access_1_0::Response<> toAccessResponse();
 
 
 private:

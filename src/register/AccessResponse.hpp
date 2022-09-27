@@ -5,35 +5,34 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
+#ifndef ACCESS_RESPONSE_H_
+#define ACCESS_RESPONSE_H_
+
 /**************************************************************************************
  * INCLUDES
  **************************************************************************************/
 
-#include "RegisterBase.h"
-
-#include <algorithm>
+#include "../Types.h"
+#include "RegisterDerived.hpp"
 
 /**************************************************************************************
- * CTOR/DTOR
+ * CLASS DECLARATION
  **************************************************************************************/
 
-RegisterBase::RegisterBase(char const * name,
-                           Register::TypeTag const type_tag,
-                           bool const is_mutable,
-                           bool const is_persistent)
-: _name
+class AccessResponse
 {
-  [name]() -> uavcan_register_Name_1_0
-  {
-    uavcan_register_Name_1_0 n;
-    n.name.count = std::min(strlen(name), uavcan_register_Name_1_0_name_ARRAY_CAPACITY_);
-    memcpy(n.name.elements, name, n.name.count);
-    return n;
-  } ()
-}
-, _type_tag{type_tag}
-, _is_mutable{is_mutable}
-, _is_persistent{is_persistent}
-{
+public:
+  AccessResponse() = delete;
+  AccessResponse(AccessResponse const & other) = delete;
 
-}
+  template <typename T>
+  static uavcan::_register::Access_1_0::Response<> create(RegisterDerived<T> const & reg);
+};
+
+/**************************************************************************************
+ * TEMPLATE IMPLEMEMTATION
+ **************************************************************************************/
+
+#include "AccessResponse.ipp"
+
+#endif /* ACCESS_RESPONSE_H_ */
