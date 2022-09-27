@@ -26,13 +26,15 @@ RegisterDerived<T>::RegisterDerived(char const * name,
                                     Register::Access const access,
                                     Register::Persistent const is_persistent,
                                     T const & initial_val,
-                                    OnWriteRequestFunc on_write_func)
+                                    OnWriteRequestFunc on_write_request_func,
+                                    onReadRequestFunc on_read_request_func)
 : RegisterBase{name,
                Register::toTypeTag(initial_val),
                (access == Register::Access::ReadOnly),
                (is_persistent == Register::Persistent::Yes)}
 , _val{initial_val}
-, _on_write_func{on_write_func}
+, _on_write_request_func{on_write_request_func}
+, _on_read_request_func{on_read_request_func}
 { }
 
 /**************************************************************************************
@@ -47,7 +49,7 @@ void RegisterDerived<T>::set(uavcan_register_Value_1_0 const & val)
 
   _val = fromRegisterValue<T>(val);
 
-  onWriteFunc();
+  onWriteRequest();
 }
 
 /**************************************************************************************
