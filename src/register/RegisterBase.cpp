@@ -30,17 +30,3 @@ RegisterBase::RegisterBase(char const * name, Register::TypeTag const type_tag)
 }
 , _type_tag{type_tag}
 { }
-
-/**************************************************************************************
- * PUBLIC MEMBER FUNCTIONS
- **************************************************************************************/
-
-bool RegisterBase::operator == (uavcan_register_Name_1_0 const & reg_name)
-{
-  if (reg_name.name.count != _name.name.count)
-    return false;
-  else
-      return (strncmp(reinterpret_cast<const char *>(_name.name.elements),
-                      reinterpret_cast<const char *>(reg_name.name.elements),
-                      reg_name.name.count) == 0);
-}

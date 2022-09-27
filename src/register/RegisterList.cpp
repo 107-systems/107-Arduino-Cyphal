@@ -72,7 +72,12 @@ void RegisterList::onAccess_1_0_Request_Received(CanardRxTransfer const & transf
                            std::end  (_reg_list),
                            [req](RegisterBase * reg_ptr)
                            {
-                              return ((*reg_ptr) == req.data.name);
+                             if (reg_ptr->name().name.count != req.data.name.name.count)
+                               return false;
+
+                             return (strncmp(reinterpret_cast<const char *>(reg_ptr->name().name.elements),
+                                     reinterpret_cast<const char *>(req.data.name.name.elements),
+                                     reg_ptr->name().name.count) == 0);
                            });
 
   if (iter != std::end(_reg_list))

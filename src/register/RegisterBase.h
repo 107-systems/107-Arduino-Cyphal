@@ -26,7 +26,6 @@ public:
 
   inline uavcan_register_Name_1_0 const & name()  const { return _name; }
   inline Register::TypeTag type_tag() const { return _type_tag; }
-  bool operator == (uavcan_register_Name_1_0 const & reg_name);
 
 
 private:
