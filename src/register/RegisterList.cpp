@@ -42,7 +42,7 @@ void RegisterList::onList_1_0_Request_Received(CanardRxTransfer const & transfer
 {
   uavcan::_register::List_1_0::Request<>  const req = uavcan::_register::List_1_0::Request<>::deserialize(transfer);
   uavcan::_register::List_1_0::Response<> const rsp =
-    (req.data.index < _reg_list.size()) ? _reg_list[req.data.index]->toListResponse() : _reg_last.toListResponse();
+    (req.data.index < _reg_list.size()) ? toListResponse(_reg_list[req.data.index]->name()) : toListResponse(_reg_last.name());
   node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
 }
 
@@ -168,4 +168,12 @@ void RegisterList::onAccess_1_0_Request_Received(CanardRxTransfer const & transf
 
   /* Send the actual response. */
   node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
+}
+
+uavcan::_register::List_1_0::Response<> RegisterList::toListResponse(uavcan_register_Name_1_0 const & name)
+{
+  uavcan::_register::List_1_0::Response<> rsp;
+  memcpy(&rsp.data.name.name.elements, name.name.elements, name.name.count);
+  rsp.data.name.name.count = name.name.count;
+  return rsp;
 }

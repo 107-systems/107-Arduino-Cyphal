@@ -24,8 +24,8 @@ class RegisterBase
 public:
   RegisterBase(char const * name, Register::TypeTag const type_tag);
 
+  inline uavcan_register_Name_1_0 const & name()  const { return _name; }
   inline Register::TypeTag type_tag() const { return _type_tag; }
-  uavcan::_register::List_1_0::Response<> toListResponse() const;
   bool operator == (uavcan_register_Name_1_0 const & reg_name);
 
 

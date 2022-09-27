@@ -39,6 +39,8 @@ private:
 
   void onList_1_0_Request_Received(CanardRxTransfer const & transfer, Node & node_hdl);
   void onAccess_1_0_Request_Received(CanardRxTransfer const & transfer, Node & node_hdl);
+
+  static uavcan::_register::List_1_0::Response<> toListResponse(uavcan_register_Name_1_0 const & name);
 };
 
 #endif /* REGISTER_LIST_H_ */
