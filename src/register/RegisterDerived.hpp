@@ -37,7 +37,7 @@ public:
 
 
   inline T get() const { return _val; }
-  void set(uavcan_register_Value_1_0 const & val);
+  inline void set(T const & val) { _val = val; }
 
   inline void onReadRequest() { if (_on_read_request_func) _on_read_request_func(*this); }
   inline void onWriteRequest() const { if (_on_write_request_func) _on_write_request_func(_val); }

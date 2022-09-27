@@ -12,12 +12,6 @@
 extern "C" unsigned long micros(void);
 
 /**************************************************************************************
- * FUNCTION DECLARATION
- **************************************************************************************/
-
-template <typename T> T fromRegisterValue(uavcan_register_Value_1_0 const & val);
-
-/**************************************************************************************
  * CTOR/DTOR
  **************************************************************************************/
 
@@ -36,80 +30,3 @@ RegisterDerived<T>::RegisterDerived(char const * name,
 , _on_write_request_func{on_write_request_func}
 , _on_read_request_func{on_read_request_func}
 { }
-
-/**************************************************************************************
- * PUBLIC MEMBER FUNCTIONS
- **************************************************************************************/
-
-template <typename T>
-void RegisterDerived<T>::set(uavcan_register_Value_1_0 const & val)
-{
-  _val = fromRegisterValue<T>(val);
-}
-
-/**************************************************************************************
- * FUNCTION DEFINITION
- **************************************************************************************/
-
-template<> inline std::string fromRegisterValue<std::string>(uavcan_register_Value_1_0 const & val)
-{
-  char str[uavcan_primitive_String_1_0_value_ARRAY_CAPACITY_] = {0};
-  memcpy(str, val._string.value.elements, val._string.value.count);
-  str[val._string.value.count + 1] = '\0';
-  return std::string(str);
-}
-
-template<> inline bool fromRegisterValue<bool>(uavcan_register_Value_1_0 const & val)
-{
-  return val.bit.value.bitpacked[0];
-}
-
-template<> inline int8_t fromRegisterValue<int8_t>(uavcan_register_Value_1_0 const & val)
-{
-  return val.integer8.value.elements[0];
-}
-
-template<> inline int16_t fromRegisterValue<int16_t>(uavcan_register_Value_1_0 const & val)
-{
-  return val.integer16.value.elements[0];
-}
-
-template<> inline int32_t fromRegisterValue<int32_t>(uavcan_register_Value_1_0 const & val)
-{
-  return val.integer32.value.elements[0];
-}
-
-template<> inline int64_t fromRegisterValue<int64_t>(uavcan_register_Value_1_0 const & val)
-{
-  return val.integer64.value.elements[0];
-}
-
-template<> inline uint8_t fromRegisterValue<uint8_t>(uavcan_register_Value_1_0 const & val)
-{
-  return val.natural8.value.elements[0];
-}
-
-template<> inline uint16_t fromRegisterValue<uint16_t>(uavcan_register_Value_1_0 const & val)
-{
-  return val.natural16.value.elements[0];
-}
-
-template<> inline uint32_t fromRegisterValue<uint32_t>(uavcan_register_Value_1_0 const & val)
-{
-  return val.natural32.value.elements[0];
-}
-
-template<> inline uint64_t fromRegisterValue<uint64_t>(uavcan_register_Value_1_0 const & val)
-{
-  return val.natural64.value.elements[0];
-}
-
-template<> inline float fromRegisterValue<float>(uavcan_register_Value_1_0 const & val)
-{
-  return val.real32.value.elements[0];
-}
-
-template<> inline double fromRegisterValue<double>(uavcan_register_Value_1_0 const & val)
-{
-  return val.real64.value.elements[0];
-}
