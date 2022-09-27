@@ -24,7 +24,188 @@
 
 RegisterList::RegisterList()
 : _reg_last{"", Register::TypeTag::Empty, false, false}
-{ }
+{
+  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Empty)] =
+  [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
+  {
+    uavcan::_register::Access_1_0::Response<> r;
+
+    uavcan_register_Value_1_0_select_empty_(&r.data.value);
+    r.data.timestamp.microsecond = 0;
+    r.data._mutable = false;
+    r.data.persistent = false;
+
+    return r;
+  };
+
+  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::String)] =
+  [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
+  {
+    RegisterString * reg_ptr = reinterpret_cast<RegisterString *>(reg_base_ptr);
+    if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
+      reg_ptr->onReadRequest();
+    if(uavcan_register_Value_1_0_is_string_(&req.data.value) && reg_ptr->isMutable())
+    {
+      reg_ptr->set(AccessRequest::toRegisterValue<std::string>(req.data.value));
+      reg_ptr->onWriteRequest();
+    }
+    return AccessResponse::create(*reg_ptr);
+  };
+
+  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Bit)] =
+  [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
+  {
+    RegisterBit * reg_ptr = reinterpret_cast<RegisterBit *>(reg_base_ptr);
+    if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
+      reg_ptr->onReadRequest();
+    if(uavcan_register_Value_1_0_is_bit_(&req.data.value) && reg_ptr->isMutable())
+    {
+      reg_ptr->set(AccessRequest::toRegisterValue<bool>(req.data.value));
+      reg_ptr->onWriteRequest();
+    }
+    return AccessResponse::create(*reg_ptr);
+  };
+
+  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Integer8)] =
+  [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
+  {
+    RegisterInteger8 * reg_ptr = reinterpret_cast<RegisterInteger8 *>(reg_base_ptr);
+    if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
+      reg_ptr->onReadRequest();
+    if(uavcan_register_Value_1_0_is_integer8_(&req.data.value) && reg_ptr->isMutable())
+    {
+      reg_ptr->set(AccessRequest::toRegisterValue<int8_t>(req.data.value));
+      reg_ptr->onWriteRequest();
+    }
+    return AccessResponse::create(*reg_ptr);
+  };
+
+  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Integer16)] =
+  [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
+  {
+    RegisterInteger16 * reg_ptr = reinterpret_cast<RegisterInteger16 *>(reg_base_ptr);
+    if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
+      reg_ptr->onReadRequest();
+    if(uavcan_register_Value_1_0_is_integer16_(&req.data.value) && reg_ptr->isMutable())
+    {
+      reg_ptr->set(AccessRequest::toRegisterValue<int16_t>(req.data.value));
+      reg_ptr->onWriteRequest();
+    }
+    return AccessResponse::create(*reg_ptr);
+  };
+
+  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Integer32)] =
+  [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
+  {
+    RegisterInteger32 * reg_ptr = reinterpret_cast<RegisterInteger32 *>(reg_base_ptr);
+    if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
+      reg_ptr->onReadRequest();
+    if(uavcan_register_Value_1_0_is_integer32_(&req.data.value) && reg_ptr->isMutable())
+    {
+      reg_ptr->set(AccessRequest::toRegisterValue<int32_t>(req.data.value));
+      reg_ptr->onWriteRequest();
+    }
+    return AccessResponse::create(*reg_ptr);
+  };
+
+  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Integer64)] =
+  [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
+  {
+    RegisterInteger64 * reg_ptr = reinterpret_cast<RegisterInteger64 *>(reg_base_ptr);
+    if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
+      reg_ptr->onReadRequest();
+    if(uavcan_register_Value_1_0_is_integer64_(&req.data.value) && reg_ptr->isMutable())
+    {
+      reg_ptr->set(AccessRequest::toRegisterValue<int64_t>(req.data.value));
+      reg_ptr->onWriteRequest();
+    }
+    return AccessResponse::create(*reg_ptr);
+  };
+
+  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Natural8)] =
+  [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
+  {
+    RegisterNatural8 * reg_ptr = reinterpret_cast<RegisterNatural8 *>(reg_base_ptr);
+    if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
+      reg_ptr->onReadRequest();
+    if(uavcan_register_Value_1_0_is_natural8_(&req.data.value) && reg_ptr->isMutable())
+    {
+      reg_ptr->set(AccessRequest::toRegisterValue<uint8_t>(req.data.value));
+      reg_ptr->onWriteRequest();
+    }
+    return AccessResponse::create(*reg_ptr);
+  };
+
+  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Natural16)] =
+  [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
+  {
+    RegisterNatural16 * reg_ptr = reinterpret_cast<RegisterNatural16 *>(reg_base_ptr);
+    if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
+      reg_ptr->onReadRequest();
+    if(uavcan_register_Value_1_0_is_natural16_(&req.data.value) && reg_ptr->isMutable())
+    {
+      reg_ptr->set(AccessRequest::toRegisterValue<uint16_t>(req.data.value));
+      reg_ptr->onWriteRequest();
+    }
+    return AccessResponse::create(*reg_ptr);
+  };
+
+  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Natural32)] =
+  [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
+  {
+    RegisterNatural32 * reg_ptr = reinterpret_cast<RegisterNatural32 *>(reg_base_ptr);
+    if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
+      reg_ptr->onReadRequest();
+    if(uavcan_register_Value_1_0_is_natural32_(&req.data.value) && reg_ptr->isMutable())
+    {
+      reg_ptr->set(AccessRequest::toRegisterValue<uint32_t>(req.data.value));
+      reg_ptr->onWriteRequest();
+    }
+    return AccessResponse::create(*reg_ptr);
+  };
+
+  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Natural64)] =
+  [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
+  {
+    RegisterNatural64 * reg_ptr = reinterpret_cast<RegisterNatural64 *>(reg_base_ptr);
+    if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
+      reg_ptr->onReadRequest();
+    if(uavcan_register_Value_1_0_is_natural64_(&req.data.value) && reg_ptr->isMutable())
+    {
+      reg_ptr->set(AccessRequest::toRegisterValue<uint64_t>(req.data.value));
+      reg_ptr->onWriteRequest();
+    }
+    return AccessResponse::create(*reg_ptr);
+  };
+
+  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Real32)] =
+  [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
+  {
+    RegisterReal32 * reg_ptr = reinterpret_cast<RegisterReal32 *>(reg_base_ptr);
+    if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
+      reg_ptr->onReadRequest();
+    if(uavcan_register_Value_1_0_is_real32_(&req.data.value) && reg_ptr->isMutable())
+    {
+      reg_ptr->set(AccessRequest::toRegisterValue<float>(req.data.value));
+      reg_ptr->onWriteRequest();
+    }
+    return AccessResponse::create(*reg_ptr);
+  };
+
+  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Real64)] =
+  [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
+  {
+    RegisterReal64 * reg_ptr = reinterpret_cast<RegisterReal64 *>(reg_base_ptr);
+    if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
+      reg_ptr->onReadRequest();
+    if(uavcan_register_Value_1_0_is_real64_(&req.data.value) && reg_ptr->isMutable())
+    {
+      reg_ptr->set(AccessRequest::toRegisterValue<double>(req.data.value));
+      reg_ptr->onWriteRequest();
+    }
+    return AccessResponse::create(*reg_ptr);
+  };
+}
 
 /**************************************************************************************
  * PUBLIC MEMBER FUNCTIONS
@@ -86,153 +267,12 @@ void RegisterList::onAccess_1_0_Request_Received(CanardRxTransfer const & transf
 
   if (iter != std::end(_reg_list))
   {
-    Register::TypeTag const type_tag = (*iter)->type_tag();
-
-    if (type_tag == Register::TypeTag::String)
-    {
-      RegisterString * reg_ptr = reinterpret_cast<RegisterString *>(*iter);
-      if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
-        reg_ptr->onReadRequest();
-      if(uavcan_register_Value_1_0_is_string_(&req.data.value) && reg_ptr->isMutable())
-      {
-        reg_ptr->set(AccessRequest::toRegisterValue<std::string>(req.data.value));
-        reg_ptr->onWriteRequest();
-      }
-      rsp = AccessResponse::create(*reg_ptr);
-    }
-    else if (type_tag == Register::TypeTag::Bit)
-    {
-      RegisterBit * reg_ptr = reinterpret_cast<RegisterBit *>(*iter);
-      if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
-        reg_ptr->onReadRequest();
-      if(uavcan_register_Value_1_0_is_bit_(&req.data.value) && reg_ptr->isMutable())
-      {
-        reg_ptr->set(AccessRequest::toRegisterValue<bool>(req.data.value));
-        reg_ptr->onWriteRequest();
-      }
-      rsp = AccessResponse::create(*reg_ptr);
-    }
-    else if (type_tag == Register::TypeTag::Integer8)
-    {
-      RegisterInteger8 * reg_ptr = reinterpret_cast<RegisterInteger8 *>(*iter);
-      if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
-        reg_ptr->onReadRequest();
-      if(uavcan_register_Value_1_0_is_integer8_(&req.data.value) && reg_ptr->isMutable())
-      {
-        reg_ptr->set(AccessRequest::toRegisterValue<int8_t>(req.data.value));
-        reg_ptr->onWriteRequest();
-      }
-      rsp = AccessResponse::create(*reg_ptr);
-    }
-    else if (type_tag == Register::TypeTag::Integer16)
-    {
-      RegisterInteger16 * reg_ptr = reinterpret_cast<RegisterInteger16 *>(*iter);
-      if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
-        reg_ptr->onReadRequest();
-      if(uavcan_register_Value_1_0_is_integer16_(&req.data.value) && reg_ptr->isMutable())
-      {
-        reg_ptr->set(AccessRequest::toRegisterValue<int16_t>(req.data.value));
-        reg_ptr->onWriteRequest();
-      }
-      rsp = AccessResponse::create(*reg_ptr);
-    }
-    else if (type_tag == Register::TypeTag::Integer32)
-    {
-      RegisterInteger32 * reg_ptr = reinterpret_cast<RegisterInteger32 *>(*iter);
-      if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
-        reg_ptr->onReadRequest();
-      if(uavcan_register_Value_1_0_is_integer32_(&req.data.value) && reg_ptr->isMutable())
-      {
-        reg_ptr->set(AccessRequest::toRegisterValue<int32_t>(req.data.value));
-        reg_ptr->onWriteRequest();
-      }
-      rsp = AccessResponse::create(*reg_ptr);
-    }
-    else if (type_tag == Register::TypeTag::Integer64)
-    {
-      RegisterInteger64 * reg_ptr = reinterpret_cast<RegisterInteger64 *>(*iter);
-      if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
-        reg_ptr->onReadRequest();
-      if(uavcan_register_Value_1_0_is_integer64_(&req.data.value) && reg_ptr->isMutable())
-      {
-        reg_ptr->set(AccessRequest::toRegisterValue<int64_t>(req.data.value));
-        reg_ptr->onWriteRequest();
-      }
-      rsp = AccessResponse::create(*reg_ptr);
-    }
-    else if (type_tag == Register::TypeTag::Natural8)
-    {
-      RegisterNatural8 * reg_ptr = reinterpret_cast<RegisterNatural8 *>(*iter);
-      if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
-        reg_ptr->onReadRequest();
-      if(uavcan_register_Value_1_0_is_natural8_(&req.data.value) && reg_ptr->isMutable())
-      {
-        reg_ptr->set(AccessRequest::toRegisterValue<uint8_t>(req.data.value));
-        reg_ptr->onWriteRequest();
-      }
-      rsp = AccessResponse::create(*reg_ptr);
-    }
-    else if (type_tag == Register::TypeTag::Natural16)
-    {
-      RegisterNatural16 * reg_ptr = reinterpret_cast<RegisterNatural16 *>(*iter);
-      if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
-        reg_ptr->onReadRequest();
-      if(uavcan_register_Value_1_0_is_natural16_(&req.data.value) && reg_ptr->isMutable())
-      {
-        reg_ptr->set(AccessRequest::toRegisterValue<uint16_t>(req.data.value));
-        reg_ptr->onWriteRequest();
-      }
-      rsp = AccessResponse::create(*reg_ptr);
-    }
-    else if (type_tag == Register::TypeTag::Natural32)
-    {
-      RegisterNatural32 * reg_ptr = reinterpret_cast<RegisterNatural32 *>(*iter);
-      if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
-        reg_ptr->onReadRequest();
-      if(uavcan_register_Value_1_0_is_natural32_(&req.data.value) && reg_ptr->isMutable())
-      {
-        reg_ptr->set(AccessRequest::toRegisterValue<uint32_t>(req.data.value));
-        reg_ptr->onWriteRequest();
-      }
-      rsp = AccessResponse::create(*reg_ptr);
-    }
-    else if (type_tag == Register::TypeTag::Natural64)
-    {
-      RegisterNatural64 * reg_ptr = reinterpret_cast<RegisterNatural64 *>(*iter);
-      if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
-        reg_ptr->onReadRequest();
-      if(uavcan_register_Value_1_0_is_natural64_(&req.data.value) && reg_ptr->isMutable())
-      {
-        reg_ptr->set(AccessRequest::toRegisterValue<uint64_t>(req.data.value));
-        reg_ptr->onWriteRequest();
-      }
-      rsp = AccessResponse::create(*reg_ptr);
-    }
-    else if (type_tag == Register::TypeTag::Real32)
-    {
-      RegisterReal32 * reg_ptr = reinterpret_cast<RegisterReal32 *>(*iter);
-      if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
-        reg_ptr->onReadRequest();
-      if(uavcan_register_Value_1_0_is_real32_(&req.data.value) && reg_ptr->isMutable())
-      {
-        reg_ptr->set(AccessRequest::toRegisterValue<float>(req.data.value));
-        reg_ptr->onWriteRequest();
-      }
-      rsp = AccessResponse::create(*reg_ptr);
-    }
-    else if (type_tag == Register::TypeTag::Real64)
-    {
-      RegisterReal64 * reg_ptr = reinterpret_cast<RegisterReal64 *>(*iter);
-      if(uavcan_register_Value_1_0_is_empty_(&req.data.value))
-        reg_ptr->onReadRequest();
-      if(uavcan_register_Value_1_0_is_real64_(&req.data.value) && reg_ptr->isMutable())
-      {
-        reg_ptr->set(AccessRequest::toRegisterValue<double>(req.data.value));
-        reg_ptr->onWriteRequest();
-      }
-      rsp = AccessResponse::create(*reg_ptr);
-    }
-    /* TODO: Do for other types ... Real16  */
+    /* Store in separate variable for better clarity. */
+    RegisterBase * reg_base_ptr = *iter;
+    /* Determine the actual type of the register. */
+    Register::TypeTag const type_tag = reg_base_ptr->type_tag();
+    /* Call the approbriate callback handler. */
+    rsp = _on_access_request_handler[arduino::_107_::opencyphal::to_integer(type_tag)](req, reg_base_ptr);
   }
 
   /* Send the actual response. */
