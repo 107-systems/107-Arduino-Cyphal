@@ -38,7 +38,6 @@ enum class TypeTag : size_t
   Natural16,
   Natural32,
   Natural64,
-  Real16,
   Real32,
   Real64,
 };
