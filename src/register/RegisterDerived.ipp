@@ -27,7 +27,7 @@ RegisterDerived<T>::RegisterDerived(char const * name,
                                     Register::Persistent const is_persistent,
                                     T const & initial_val,
                                     OnWriteRequestFunc on_write_request_func,
-                                    onReadRequestFunc on_read_request_func)
+                                    OnReadRequestFunc on_read_request_func)
 : RegisterBase{name,
                Register::toTypeTag(initial_val),
                (access == Register::Access::ReadOnly),

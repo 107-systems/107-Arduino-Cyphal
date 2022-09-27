@@ -25,7 +25,7 @@ class RegisterDerived : public RegisterBase
 {
 public:
   typedef std::function<void(T const &)> OnWriteRequestFunc;
-  typedef std::function<void(RegisterDerived<T> &)> onReadRequestFunc;
+  typedef std::function<void(RegisterDerived<T> &)> OnReadRequestFunc;
 
 
   RegisterDerived(char const * name,
@@ -33,7 +33,7 @@ public:
                   Register::Persistent const is_persistent,
                   T const & initial_val,
                   OnWriteRequestFunc on_write_request_func,
-                  onReadRequestFunc on_read_request_func);
+                  OnReadRequestFunc on_read_request_func);
 
 
   inline T get() const { return _val; }
@@ -46,8 +46,7 @@ public:
 private:
   T _val;
   OnWriteRequestFunc _on_write_request_func;
-  onReadRequestFunc _on_read_request_func;
-
+  OnReadRequestFunc _on_read_request_func;
 };
 
 /**************************************************************************************
