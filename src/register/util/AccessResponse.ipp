@@ -12,12 +12,6 @@
 template <typename T> uavcan_register_Value_1_0 toRegisterValue(T const & val);
 
 /**************************************************************************************
- * EXTERN DECLARATION
- **************************************************************************************/
-
-extern "C" unsigned long micros(void);
-
-/**************************************************************************************
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
@@ -27,7 +21,7 @@ uavcan::_register::Access_1_0::Response<> AccessResponse::create(RegisterDerived
   uavcan::_register::Access_1_0::Response<> rsp;
 
   rsp.data.value = toRegisterValue(reg.get());
-  rsp.data.timestamp.microsecond = micros();
+  rsp.data.timestamp = reg.timestamp();
   rsp.data._mutable = reg.isMutable();
   rsp.data.persistent = reg.isPersistent();
 

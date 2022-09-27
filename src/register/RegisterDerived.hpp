@@ -39,7 +39,7 @@ public:
 
 
   inline T get() const { return _val; }
-  inline void set(T const & val) { _val = val; }
+  void set(T const & val);
   T limitValue(T const & val) const;
 
   inline void onReadRequest() { if (_on_read_request_func) _on_read_request_func(*this); }

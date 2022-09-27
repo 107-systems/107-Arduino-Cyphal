@@ -38,6 +38,13 @@ RegisterDerived<T>::RegisterDerived(char const * name,
  **************************************************************************************/
 
 template <typename T>
+void RegisterDerived<T>::set(T const & val)
+{
+  _val = val;
+  setTimestamp(micros());
+}
+
+template <typename T>
 T RegisterDerived<T>::limitValue(T const & val) const
 {
   if (_value_limiter_func)

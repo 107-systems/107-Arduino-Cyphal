@@ -32,6 +32,11 @@ public:
   inline Register::TypeTag type_tag() const { return _type_tag; }
   inline bool isMutable() const { return _is_mutable; }
   inline bool isPersistent() const { return _is_persistent; }
+  inline uavcan_time_SynchronizedTimestamp_1_0 timestamp() const { return _timestamp; }
+
+
+protected:
+  inline void setTimestamp(uint64_t const microsecond) { _timestamp.microsecond = microsecond; }
 
 
 private:
@@ -39,6 +44,7 @@ private:
   Register::TypeTag const _type_tag;
   bool const _is_mutable;
   bool const _is_persistent;
+  uavcan_time_SynchronizedTimestamp_1_0 _timestamp;
 };
 
 #endif /* REGISTER_BASE_H_ */

@@ -34,6 +34,15 @@ RegisterBase::RegisterBase(char const * name,
 , _type_tag{type_tag}
 , _is_mutable{is_mutable}
 , _is_persistent{is_persistent}
+, _timestamp
+{
+  []() -> uavcan_time_SynchronizedTimestamp_1_0
+  {
+    uavcan_time_SynchronizedTimestamp_1_0 ts;
+    ts.microsecond = 0;
+    return ts;
+  } ()
+}
 {
 
 }
