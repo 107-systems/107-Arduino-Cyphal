@@ -25,7 +25,7 @@ RegisterDerived<T>::RegisterDerived(char const * name,
                                     ValueLimiterFunc value_limiter_func)
 : RegisterBase{name,
                Register::toTypeTag(initial_val),
-               (access == Register::Access::ReadOnly),
+               (access == Register::Access::ReadWrite),
                (is_persistent == Register::Persistent::Yes)}
 , _val{initial_val}
 , _on_write_request_func{on_write_request_func}
