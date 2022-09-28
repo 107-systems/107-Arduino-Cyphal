@@ -77,7 +77,9 @@ void setup()
 
 void loop()
 {
-
+  /* Process all pending OpenCyphal actions.
+   */
+  node_hdl.spinSome();
 }
 
 /**************************************************************************************

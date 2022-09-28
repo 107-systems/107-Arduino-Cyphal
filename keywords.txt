@@ -15,7 +15,7 @@ Response	KEYWORD1
 #######################################
 
 onCanFrameReceived	KEYWORD2
-transmitCanFrame	KEYWORD2
+spinSome	KEYWORD2
 subscribe	KEYWORD2
 publish	KEYWORD2
 respond	KEYWORD2

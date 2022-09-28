@@ -143,6 +143,10 @@ void setup()
 
 void loop()
 {
+  /* Process all pending OpenCyphal actions.
+   */
+  node_hdl.spinSome();
+
   /* Handle actions common to all states.
    */
   unsigned long const now = millis();
@@ -169,9 +173,6 @@ void loop()
   }
 
   node_data.mode = next_mode;
-
-  /* Transmit all enqeued CAN frames */
-  while(node_hdl.transmitCanFrame()) { }
 }
 
 /**************************************************************************************

@@ -30,13 +30,22 @@
 #undef min
 #include <algorithm>
 
+#include "NodeInfo.h"
+
+/**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+using namespace uavcan::node;
+using namespace uavcan::_register;
+
 /**************************************************************************************
  * TYPEDEF
  **************************************************************************************/
 
 typedef struct
 {
-  uavcan::node::Heartbeat_1_0<>::Mode mode;
+  Heartbeat_1_0<>::Mode mode;
 } OpenCyphalNodeData;
 
 #warning "Run 'TMF8801-FactoryCalib' once in order to obtain sensor calibration data for node configuration 'calib_data'"
@@ -50,17 +59,35 @@ typedef struct
 } OpenCyphalNodeConfiguration;
 
 /**************************************************************************************
+ * FUNCTION DECLARATION
+ **************************************************************************************/
+
+void mcp2515_onReceiveBufferFull(CanardFrame const &);
+void onGetInfo_1_0_Request_Received(CanardRxTransfer const &, Node &);
+
+void publish_heartbeat(Node &, uint32_t const, Heartbeat_1_0<>::Mode const);
+void publish_tofDistance(drone::unit::Length const l);
+
+Heartbeat_1_0<>::Mode handle_INITIALIZATION();
+Heartbeat_1_0<>::Mode handle_OPERATIONAL();
+Heartbeat_1_0<>::Mode handle_MAINTENANCE();
+Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE();
+
+/**************************************************************************************
  * CONSTANTS
  **************************************************************************************/
 
-static int const MKRCAN_MCP2515_CS_PIN    = 3;
-static int const MKRCAN_MCP2515_INT_PIN   = 7;
+static int          const MKRCAN_MCP2515_CS_PIN  = 3;
+static int          const TMF8801_INT_PIN        = 6;
+static int          const MKRCAN_MCP2515_INT_PIN = 7;
+static SPISettings  const MCP2515x_SPI_SETTING{10000000, MSBFIRST, SPI_MODE0};
 
+static CanardNodeID const OPEN_CYPHAL_NODE_ID = 42;
 static CanardPortID const OPEN_CYPHAL_ID_DISTANCE_DATA = 1001U;
 
 static OpenCyphalNodeData const OPEN_CYPHAL_NODE_INITIAL_DATA =
 {
-  uavcan::node::Heartbeat_1_0<>::Mode::INITIALIZATION,
+  Heartbeat_1_0<>::Mode::INITIALIZATION,
 };
 static OpenCyphalNodeConfiguration const OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION =
 {
@@ -71,60 +98,68 @@ static OpenCyphalNodeConfiguration const OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION 
 };
 
 /**************************************************************************************
- * FUNCTION DECLARATION
- **************************************************************************************/
-
-void i2c_generic_write(uint8_t const i2c_slave_addr, uint8_t const reg_addr, uint8_t const * buf, uint8_t const num_bytes);
-void i2c_generic_read (uint8_t const i2c_slave_addr, uint8_t const reg_addr, uint8_t       * buf, uint8_t const num_bytes);
-
-namespace MCP2515
-{
-void onReceive(CanardFrame const &);
-}
-
-namespace node
-{
-uavcan::node::Heartbeat_1_0<>::Mode handle_INITIALIZATION();
-uavcan::node::Heartbeat_1_0<>::Mode handle_OPERATIONAL();
-uavcan::node::Heartbeat_1_0<>::Mode handle_MAINTENANCE();
-uavcan::node::Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE();
-}
-
-namespace heartbeat
-{
-void publish(Node &, uint32_t const, uavcan::node::Heartbeat_1_0<>::Mode const);
-}
-
-namespace tof
-{
-void onTofDistanceUpdate(drone::unit::Length const l);
-}
-
-/**************************************************************************************
  * GLOBAL VARIABLES
  **************************************************************************************/
 
-ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
-                       []() { digitalWrite(MKRCAN_MCP2515_CS_PIN, HIGH); },
-                       [](uint8_t const data) { return SPI.transfer(data); },
+/* DRIVER *****************************************************************************/
+
+ArduinoMCP2515 mcp2515([]()
+                       {
+                         noInterrupts();
+                         SPI.beginTransaction(MCP2515x_SPI_SETTING);
+                         digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW);
+                       },
+                       []()
+                       {
+                         digitalWrite(MKRCAN_MCP2515_CS_PIN, HIGH);
+                         SPI.endTransaction();
+                         interrupts();
+                       },
+                       [](uint8_t const d) { return SPI.transfer(d); },
                        micros,
-                       MCP2515::onReceive,
+                       mcp2515_onReceiveBufferFull,
                        nullptr);
 
-Node node_hdl([](CanardFrame const & frame) { return mcp2515.transmit(frame); });
+Node node_hdl([](CanardFrame const & frame) { return mcp2515.transmit(frame); }, OPEN_CYPHAL_NODE_ID);
 
 OpenCyphalNodeData node_data = OPEN_CYPHAL_NODE_INITIAL_DATA;
 OpenCyphalNodeConfiguration node_config = OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION;
 
-drone::ArduinoTMF8801 tmf8801(i2c_generic_write,
-                              i2c_generic_read,
+drone::ArduinoTMF8801 tmf8801([](uint8_t const i2c_slave_addr, uint8_t const reg_addr, uint8_t const * buf, uint8_t const num_bytes)
+                              {
+                                Wire.beginTransmission(i2c_slave_addr);
+                                Wire.write(reg_addr);
+                                for(uint8_t bytes_written = 0; bytes_written < num_bytes; bytes_written++) {
+                                  Wire.write(buf[bytes_written]);
+                                }
+                                Wire.endTransmission();
+                              },
+                              [](uint8_t const i2c_slave_addr, uint8_t const reg_addr, uint8_t * buf, uint8_t const num_bytes)
+                              {
+                                Wire.beginTransmission(i2c_slave_addr);
+                                Wire.write(reg_addr);
+                                Wire.endTransmission();
+
+                                Wire.requestFrom(i2c_slave_addr, num_bytes);
+                                for(uint8_t bytes_read = 0; (bytes_read < num_bytes) && Wire.available(); bytes_read++) {
+                                  buf[bytes_read] = Wire.read();
+                                }
+                              },
                               delay,
                               TMF8801::DEFAULT_I2C_ADDR,
                               node_config.calib_data,
                               node_config.algo_state,
-                              tof::onTofDistanceUpdate);
+                              publish_tofDistance);
 
 DEBUG_INSTANCE(120, Serial);
+
+/* REGISTER ***************************************************************************/
+
+static RegisterNatural8  reg_rw_uavcan_node_id          ("uavcan.node.id",           Register::Access::ReadWrite, Register::Persistent::No, OPEN_CYPHAL_NODE_ID, [&node_hdl](uint8_t const & val) { node_hdl.setNodeId(val); });
+static RegisterString    reg_ro_uavcan_node_description ("uavcan.node.description",  Register::Access::ReadWrite, Register::Persistent::No, "OpenCyphal-ToF-Distance-Sensor-Node");
+static RegisterNatural16 reg_ro_uavcan_pub_distance_id  ("uavcan.pub.distance.id",   Register::Access::ReadOnly,  Register::Persistent::No, OPEN_CYPHAL_ID_DISTANCE_DATA);
+static RegisterString    reg_ro_uavcan_pub_distance_type("uavcan.pub.distance.type", Register::Access::ReadOnly,  Register::Persistent::No, "uavcan.primitive.scalar.Real32.1.0");
+static RegisterList      reg_list;
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -140,6 +175,12 @@ void setup()
   /* I2C to which the TMF8801 is connected.
    */
   Wire.begin();
+
+  /* Attach interrupt handler to obtain events
+   * signalled by the TMF8801.
+   */
+  pinMode(TMF8801_INT_PIN, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(TMF8801_INT_PIN), [](){ tmf8801.onExternalEventHandler(); }, FALLING);
 
   /* Setup SPI access
    */
@@ -157,7 +198,7 @@ void setup()
    */
   mcp2515.begin();
   mcp2515.setBitRate(CanBitRate::BR_250kBPS_16MHZ);
-  mcp2515.setListenOnlyMode();
+  mcp2515.setNormalMode();
 
   /* Configure TMF8801
    */
@@ -166,10 +207,23 @@ void setup()
     for(;;) { }
   }
 
+  /* Register callbacks for node info and register api.
+   */
+  node_hdl.subscribe<GetInfo_1_0::Request<>>(onGetInfo_1_0_Request_Received);
+
+  reg_list.add(reg_rw_uavcan_node_id);
+  reg_list.add(reg_ro_uavcan_node_description);
+  reg_list.add(reg_ro_uavcan_pub_distance_id);
+  reg_list.add(reg_ro_uavcan_pub_distance_type);
+  reg_list.subscribe(node_hdl);
 }
 
 void loop()
 {
+  /* Process all pending OpenCyphal actions.
+   */
+  node_hdl.spinSome();
+
   /* Handle actions common to all states.
    */
   unsigned long const now = millis();
@@ -178,118 +232,56 @@ void loop()
    */
   static unsigned long prev_heartbeat = 0;
   if ((now - prev_heartbeat) > node_config.heartbeat_period_ms) {
-    heartbeat::publish(node_hdl, now / 1000, node_data.mode);
+    publish_heartbeat(node_hdl, now / 1000, node_data.mode);
     prev_heartbeat = now;
   }
 
 
   /* Handle state transitions and state specific action.
    */
-  uavcan::node::Heartbeat_1_0<>::Mode next_mode = node_data.mode;
+  Heartbeat_1_0<>::Mode next_mode = node_data.mode;
 
   switch(node_data.mode)
   {
-  case uavcan::node::Heartbeat_1_0<>::Mode::INITIALIZATION:  next_mode = node::handle_INITIALIZATION();  break;
-  case uavcan::node::Heartbeat_1_0<>::Mode::OPERATIONAL:     next_mode = node::handle_OPERATIONAL();     break;
-  case uavcan::node::Heartbeat_1_0<>::Mode::MAINTENANCE:     next_mode = node::handle_MAINTENANCE();     break;
-  case uavcan::node::Heartbeat_1_0<>::Mode::SOFTWARE_UPDATE: next_mode = node::handle_SOFTWARE_UPDATE(); break;
+  case Heartbeat_1_0<>::Mode::INITIALIZATION:  next_mode = handle_INITIALIZATION();  break;
+  case Heartbeat_1_0<>::Mode::OPERATIONAL:     next_mode = handle_OPERATIONAL();     break;
+  case Heartbeat_1_0<>::Mode::MAINTENANCE:     next_mode = handle_MAINTENANCE();     break;
+  case Heartbeat_1_0<>::Mode::SOFTWARE_UPDATE: next_mode = handle_SOFTWARE_UPDATE(); break;
   }
 
   node_data.mode = next_mode;
-
-  /* Transmit all enqeued CAN frames */
-  while(node_hdl.transmitCanFrame()) { }
 }
 
 /**************************************************************************************
  * FUNCTION DEFINITION
  **************************************************************************************/
 
-void i2c_generic_write(uint8_t const i2c_slave_addr, uint8_t const reg_addr, uint8_t const * buf, uint8_t const num_bytes)
+void mcp2515_onReceiveBufferFull(CanardFrame const & frame)
 {
-  Wire.beginTransmission(i2c_slave_addr);
-  Wire.write(reg_addr);
-  for(uint8_t bytes_written = 0; bytes_written < num_bytes; bytes_written++) {
-    Wire.write(buf[bytes_written]);
-  }
-  Wire.endTransmission();
-}
-
-void i2c_generic_read(uint8_t const i2c_slave_addr, uint8_t const reg_addr, uint8_t * buf, uint8_t const num_bytes)
-{
-  Wire.beginTransmission(i2c_slave_addr);
-  Wire.write(reg_addr);
-  Wire.endTransmission();
-
-  Wire.requestFrom(i2c_slave_addr, num_bytes);
-  for(uint8_t bytes_read = 0; (bytes_read < num_bytes) && Wire.available(); bytes_read++) {
-    buf[bytes_read] = Wire.read();
-  }
-}
-
-namespace MCP2515
-{
-
-void onReceive(CanardFrame const & frame) {
   node_hdl.onCanFrameReceived(frame, micros());
 }
 
-} /* MCP2515 */
-
-namespace node
+void onGetInfo_1_0_Request_Received(CanardRxTransfer const &transfer, Node & node_hdl)
 {
-
-uavcan::node::Heartbeat_1_0<>::Mode handle_INITIALIZATION()
-{
-  DBG_VERBOSE("INITIALIZATION");
-
-  return uavcan::node::Heartbeat_1_0<>::Mode::OPERATIONAL;
+  DBG_INFO("onGetInfo_1_0_Request_Received");
+  GetInfo_1_0::Response<> rsp = GetInfo_1_0::Response<>();
+  memcpy(&rsp.data, &NODE_INFO, sizeof(uavcan_node_GetInfo_Response_1_0));
+  node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
 }
 
-uavcan::node::Heartbeat_1_0<>::Mode handle_OPERATIONAL()
+void publish_heartbeat(Node & u, uint32_t const uptime, Heartbeat_1_0<>::Mode const mode)
 {
-  DBG_VERBOSE("OPERATIONAL");
-
-  return uavcan::node::Heartbeat_1_0<>::Mode::OPERATIONAL;
-}
-
-uavcan::node::Heartbeat_1_0<>::Mode handle_MAINTENANCE()
-{
-  DBG_VERBOSE("MAINTENANCE");
-
-  return uavcan::node::Heartbeat_1_0<>::Mode::INITIALIZATION;
-}
-
-uavcan::node::Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE()
-{
-  DBG_VERBOSE("SOFTWARE_UPDATE");
-
-  return uavcan::node::Heartbeat_1_0<>::Mode::INITIALIZATION;
-}
-
-} /* node */
-
-namespace heartbeat
-{
-
-void publish(Node & u, uint32_t const uptime, uavcan::node::Heartbeat_1_0<>::Mode const mode)
-{
-  uavcan::node::Heartbeat_1_0<> hb;
+  Heartbeat_1_0<> hb;
 
   hb.data.uptime = uptime;
-  hb = uavcan::node::Heartbeat_1_0<>::Health::NOMINAL;
+  hb = Heartbeat_1_0<>::Health::NOMINAL;
   hb = mode;
   hb.data.vendor_specific_status_code = 0;
 
   u.publish(hb);
 }
 
-} /* heartbeat */
-
-namespace tof
-{
-
-void onTofDistanceUpdate(drone::unit::Length const l)
+void publish_tofDistance(drone::unit::Length const l)
 {
   DBG_INFO("[%05lu] Distance = %.3f m", millis(), l.value());
 
@@ -300,4 +292,30 @@ void onTofDistanceUpdate(drone::unit::Length const l)
   node_hdl.publish(tof_distance_msg);
 }
 
+Heartbeat_1_0<>::Mode handle_INITIALIZATION()
+{
+  DBG_VERBOSE("INITIALIZATION");
+
+  return Heartbeat_1_0<>::Mode::OPERATIONAL;
+}
+
+Heartbeat_1_0<>::Mode handle_OPERATIONAL()
+{
+  DBG_VERBOSE("OPERATIONAL");
+
+  return Heartbeat_1_0<>::Mode::OPERATIONAL;
+}
+
+Heartbeat_1_0<>::Mode handle_MAINTENANCE()
+{
+  DBG_VERBOSE("MAINTENANCE");
+
+  return Heartbeat_1_0<>::Mode::INITIALIZATION;
+}
+
+Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE()
+{
+  DBG_VERBOSE("SOFTWARE_UPDATE");
+
+  return Heartbeat_1_0<>::Mode::INITIALIZATION;
 }
