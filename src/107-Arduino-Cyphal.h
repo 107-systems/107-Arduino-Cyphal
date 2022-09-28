@@ -15,5 +15,6 @@
 #include "Node.h"
 #include "Types.h"
 #include "register/RegisterList.h"
+#include "utility/UniqueId.hpp"
 
 #endif /* _107_ARDUINO_CYPHAL_H_ */
