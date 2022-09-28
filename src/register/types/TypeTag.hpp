@@ -25,9 +25,9 @@ namespace Register
  * TYPEDEF
  **************************************************************************************/
 
-enum class TypeTag : size_t
+enum class TypeTag
 {
-  Empty = 0,
+  Empty,
   String,
   Bit,
   Integer8,
