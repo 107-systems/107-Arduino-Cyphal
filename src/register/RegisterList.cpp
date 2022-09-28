@@ -25,7 +25,7 @@
 RegisterList::RegisterList()
 : _reg_last{"", Register::TypeTag::Empty, false, false}
 {
-  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Empty)] =
+  _on_access_request_handler_map[Register::TypeTag::Empty] =
   [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
   {
     uavcan::_register::Access_1_0::Response<> r;
@@ -38,7 +38,7 @@ RegisterList::RegisterList()
     return r;
   };
 
-  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::String)] =
+  _on_access_request_handler_map[Register::TypeTag::String] =
   [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
   {
     RegisterString * reg_ptr = reinterpret_cast<RegisterString *>(reg_base_ptr);
@@ -53,7 +53,7 @@ RegisterList::RegisterList()
     return AccessResponse::create(*reg_ptr);
   };
 
-  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Bit)] =
+  _on_access_request_handler_map[Register::TypeTag::Bit] =
   [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
   {
     RegisterBit * reg_ptr = reinterpret_cast<RegisterBit *>(reg_base_ptr);
@@ -68,7 +68,7 @@ RegisterList::RegisterList()
     return AccessResponse::create(*reg_ptr);
   };
 
-  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Integer8)] =
+  _on_access_request_handler_map[Register::TypeTag::Integer8] =
   [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
   {
     RegisterInteger8 * reg_ptr = reinterpret_cast<RegisterInteger8 *>(reg_base_ptr);
@@ -84,7 +84,7 @@ RegisterList::RegisterList()
     return AccessResponse::create(*reg_ptr);
   };
 
-  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Integer16)] =
+  _on_access_request_handler_map[Register::TypeTag::Integer16] =
   [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
   {
     RegisterInteger16 * reg_ptr = reinterpret_cast<RegisterInteger16 *>(reg_base_ptr);
@@ -100,7 +100,7 @@ RegisterList::RegisterList()
     return AccessResponse::create(*reg_ptr);
   };
 
-  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Integer32)] =
+  _on_access_request_handler_map[Register::TypeTag::Integer32] =
   [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
   {
     RegisterInteger32 * reg_ptr = reinterpret_cast<RegisterInteger32 *>(reg_base_ptr);
@@ -116,7 +116,7 @@ RegisterList::RegisterList()
     return AccessResponse::create(*reg_ptr);
   };
 
-  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Integer64)] =
+  _on_access_request_handler_map[Register::TypeTag::Integer64] =
   [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
   {
     RegisterInteger64 * reg_ptr = reinterpret_cast<RegisterInteger64 *>(reg_base_ptr);
@@ -132,7 +132,7 @@ RegisterList::RegisterList()
     return AccessResponse::create(*reg_ptr);
   };
 
-  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Natural8)] =
+  _on_access_request_handler_map[Register::TypeTag::Natural8] =
   [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
   {
     RegisterNatural8 * reg_ptr = reinterpret_cast<RegisterNatural8 *>(reg_base_ptr);
@@ -148,7 +148,7 @@ RegisterList::RegisterList()
     return AccessResponse::create(*reg_ptr);
   };
 
-  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Natural16)] =
+  _on_access_request_handler_map[Register::TypeTag::Natural16] =
   [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
   {
     RegisterNatural16 * reg_ptr = reinterpret_cast<RegisterNatural16 *>(reg_base_ptr);
@@ -164,7 +164,7 @@ RegisterList::RegisterList()
     return AccessResponse::create(*reg_ptr);
   };
 
-  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Natural32)] =
+  _on_access_request_handler_map[Register::TypeTag::Natural32] =
   [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
   {
     RegisterNatural32 * reg_ptr = reinterpret_cast<RegisterNatural32 *>(reg_base_ptr);
@@ -180,7 +180,7 @@ RegisterList::RegisterList()
     return AccessResponse::create(*reg_ptr);
   };
 
-  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Natural64)] =
+  _on_access_request_handler_map[Register::TypeTag::Natural64] =
   [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
   {
     RegisterNatural64 * reg_ptr = reinterpret_cast<RegisterNatural64 *>(reg_base_ptr);
@@ -196,7 +196,7 @@ RegisterList::RegisterList()
     return AccessResponse::create(*reg_ptr);
   };
 
-  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Real32)] =
+  _on_access_request_handler_map[Register::TypeTag::Real32] =
   [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
   {
     RegisterReal32 * reg_ptr = reinterpret_cast<RegisterReal32 *>(reg_base_ptr);
@@ -212,7 +212,7 @@ RegisterList::RegisterList()
     return AccessResponse::create(*reg_ptr);
   };
 
-  _on_access_request_handler[arduino::_107_::opencyphal::to_integer(Register::TypeTag::Real64)] =
+  _on_access_request_handler_map[Register::TypeTag::Real64] =
   [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
   {
     RegisterReal64 * reg_ptr = reinterpret_cast<RegisterReal64 *>(reg_base_ptr);
@@ -294,7 +294,8 @@ void RegisterList::onAccess_1_0_Request_Received(CanardRxTransfer const & transf
     /* Determine the actual type of the register. */
     Register::TypeTag const type_tag = reg_base_ptr->type_tag();
     /* Call the approbriate callback handler. */
-    rsp = _on_access_request_handler[arduino::_107_::opencyphal::to_integer(type_tag)](req, reg_base_ptr);
+    if (_on_access_request_handler_map.count(type_tag) > 0)
+      rsp = _on_access_request_handler_map.at(type_tag)(req, reg_base_ptr);
   }
 
   /* Send the actual response. */

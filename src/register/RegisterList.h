@@ -12,6 +12,7 @@
  * INCLUDES
  **************************************************************************************/
 
+#include <map>
 #include <vector>
 
 #include "Node.h"
@@ -37,7 +38,7 @@ private:
   std::vector<RegisterBase *> _reg_list;
   RegisterBase const _reg_last;
   typedef std::function<uavcan::_register::Access_1_0::Response<>(uavcan::_register::Access_1_0::Request<> const &, RegisterBase *)> OnAccessRequestHandlerFunc;
-  OnAccessRequestHandlerFunc _on_access_request_handler[Register::TYPE_TAG_SIZE];
+  std::map<Register::TypeTag, OnAccessRequestHandlerFunc> _on_access_request_handler_map;
 
 
   void onList_1_0_Request_Received(CanardRxTransfer const & transfer, Node & node_hdl);
