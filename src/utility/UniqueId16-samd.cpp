@@ -6,6 +6,23 @@
  */
 
 /**************************************************************************************
+ * INCLUDE
+ **************************************************************************************/
+
+#include "UniqueId16.h"
+
+#ifdef ARDUINO_ARCH_SAMD
+
+#include <cstring>
+
+/**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+namespace impl
+{
+
+/**************************************************************************************
  * DEFINES
  **************************************************************************************/
 
@@ -18,8 +35,7 @@
  * CTOR/DTOR
  **************************************************************************************/
 
-template<size_t ID_SIZE>
-UniqueId<ID_SIZE>::UniqueId()
+UniqueId16::UniqueId16()
 {
   union
   {
@@ -30,12 +46,18 @@ UniqueId<ID_SIZE>::UniqueId()
     uint8_t byte_buf[16];
   } uid;
 
-  static_assert(ID_SIZE == sizeof(uid.byte_buf), "samd only has a unique ID size of 16 bytes");
-
   uid.word_buf.w0 = ATSAMD21G18_SERIAL_NUMBER_WORD_0;
   uid.word_buf.w1 = ATSAMD21G18_SERIAL_NUMBER_WORD_1;
   uid.word_buf.w2 = ATSAMD21G18_SERIAL_NUMBER_WORD_2;
   uid.word_buf.w3 = ATSAMD21G18_SERIAL_NUMBER_WORD_3;
 
-  memcpy(_unique_id, uid.byte_buf, sizeof(uid.byte_buf));
+  memcpy(_unique_id, uid.byte_buf, sizeof(_unique_id));
 }
+
+/**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+} /* impl */
+
+#endif /* ARDUINO_ARCH_SAMD */

@@ -6,6 +6,12 @@
  */
 
 /**************************************************************************************
+ * INCLUDE
+ **************************************************************************************/
+
+#include "UniqueId16.h"
+
+/**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
 
@@ -16,12 +22,9 @@ namespace impl
  * CTOR/DTOR
  **************************************************************************************/
 
-#ifdef ARDUINO_ARCH_SAMD
-# include "UniqueId-samd.ipp"
-#else
+#if !defined(ARDUINO_ARCH_SAMD)
 # warning "No Unique ID support for your platform, defaulting to hard-coded ID"
-template<size_t ID_SIZE>
-UniqueId<ID_SIZE>::UniqueId()
+UniqueId16::UniqueId16()
 : _unique_id{0}
 { }
 #endif
@@ -30,17 +33,15 @@ UniqueId<ID_SIZE>::UniqueId()
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-template<size_t ID_SIZE>
-UniqueId<ID_SIZE> const & UniqueId<ID_SIZE>::instance()
+UniqueId16 const & UniqueId16::instance()
 {
-  static UniqueId<ID_SIZE> instance;
+  static UniqueId16 instance;
   return instance;
 }
 
-template<size_t ID_SIZE>
-uint8_t UniqueId<ID_SIZE>::operator[](size_t const idx) const
+uint8_t UniqueId16::operator[](size_t const idx) const
 {
-  if (idx < ID_SIZE)
+  if (idx < MAX_INDEX)
     return _unique_id[idx];
   else
     return 0;

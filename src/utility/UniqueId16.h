@@ -5,8 +5,15 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef ARDUINO_UNIQUE_ID_HPP_
-#define ARDUINO_UNIQUE_ID_HPP_
+#ifndef ARDUINO_UNIQUE_ID_H_
+#define ARDUINO_UNIQUE_ID_H_
+
+/**************************************************************************************
+ * INCLUDE
+ **************************************************************************************/
+
+#include <cstdlib>
+#include <cstdint>
 
 /**************************************************************************************
  * NAMESPACE
@@ -16,28 +23,23 @@ namespace impl
 {
 
 /**************************************************************************************
- * CONSTANTS
- **************************************************************************************/
-
-static size_t constexpr OPEN_CYPHAL_UNIQUE_ID_SIZE = 16;
-
-/**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
 
-template<size_t ID_SIZE>
-class UniqueId
+class UniqueId16
 {
 public:
-  UniqueId(UniqueId const &) = delete;
+  UniqueId16(UniqueId16 const &) = delete;
 
-  static UniqueId const & instance();
+  static UniqueId16 const & instance();
+
+  static size_t constexpr MAX_INDEX = 16;
   uint8_t operator[](size_t const idx) const;
 
 
 private:
-  UniqueId();
-  uint8_t _unique_id[ID_SIZE];
+  UniqueId16();
+  uint8_t _unique_id[MAX_INDEX];
 };
 
 /**************************************************************************************
@@ -47,15 +49,9 @@ private:
 } /* impl */
 
 /**************************************************************************************
- * TEMPLATE IMPLEMENTATION
- **************************************************************************************/
-
-#include "UniqueId.ipp"
-
-/**************************************************************************************
  * DEFINE
  **************************************************************************************/
 
-#define UniqueId impl::UniqueId<impl::OPEN_CYPHAL_UNIQUE_ID_SIZE>::instance()
+#define OpenCyphalUniqueId impl::UniqueId16::instance()
 
-#endif /* ARDUINO_UNIQUE_ID_HPP_ */
+#endif /* ARDUINO_UNIQUE_ID_H_ */

@@ -29,10 +29,10 @@ static const uavcan_node_GetInfo_Response_1_0 NODE_INFO = {
     NULL,
     /* saturated uint8[16] unique_id */
     {
-      UniqueId[ 0], UniqueId[ 1], UniqueId[ 2], UniqueId[ 3],
-      UniqueId[ 4], UniqueId[ 5], UniqueId[ 6], UniqueId[ 7],
-      UniqueId[ 8], UniqueId[ 9], UniqueId[10], UniqueId[11],
-      UniqueId[12], UniqueId[13], UniqueId[14], UniqueId[15]
+      OpenCyphalUniqueId[ 0], OpenCyphalUniqueId[ 1], OpenCyphalUniqueId[ 2], OpenCyphalUniqueId[ 3],
+      OpenCyphalUniqueId[ 4], OpenCyphalUniqueId[ 5], OpenCyphalUniqueId[ 6], OpenCyphalUniqueId[ 7],
+      OpenCyphalUniqueId[ 8], OpenCyphalUniqueId[ 9], OpenCyphalUniqueId[10], OpenCyphalUniqueId[11],
+      OpenCyphalUniqueId[12], OpenCyphalUniqueId[13], OpenCyphalUniqueId[14], OpenCyphalUniqueId[15]
     },
     /* saturated uint8[<=50] name */
     {
