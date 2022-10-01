@@ -11,6 +11,11 @@
 
 #include "UniqueId16.h"
 
+#ifdef ARDUINO_ARCH_RP2040
+
+#include <cstring>
+#include <pico/unique_id.h>
+
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
@@ -19,32 +24,33 @@ namespace impl
 {
 
 /**************************************************************************************
+ * DEFINES
+ **************************************************************************************/
+
+#define IDSIZE 8
+
+/**************************************************************************************
  * CTOR/DTOR
  **************************************************************************************/
 
-#if !defined(ARDUINO_ARCH_SAMD) && !defined(ARDUINO_ARCH_RP2040)
-# warning "No Unique ID support for your platform, defaulting to hard-coded ID"
 UniqueId16::UniqueId16()
-: _unique_id{0}
-{ }
-#endif
-
-/**************************************************************************************
- * PUBLIC MEMBER FUNCTIONS
- **************************************************************************************/
-
-UniqueId16 const & UniqueId16::instance()
 {
-  static UniqueId16 instance;
-  return instance;
-}
+  union
+  {
+    struct __attribute__((packed))
+    {
+      uint32_t w0, w1, w2, w3;
+    } word_buf;
+    uint8_t byte_buf[16];
+  } uid;
 
-uint8_t UniqueId16::operator[](size_t const idx) const
-{
-  if (idx < MAX_INDEX)
-    return _unique_id[idx];
-  else
-    return 0;
+  pico_unique_board_id_t pico;
+  pico_get_unique_board_id(&pico);
+  for (int i = 0; i < IDSIZE; i++) {
+    uid.byte_buf[i] = pico.id[i];
+  }
+
+  memcpy(_unique_id, uid.byte_buf, sizeof(_unique_id));
 }
 
 /**************************************************************************************
@@ -52,3 +58,5 @@ uint8_t UniqueId16::operator[](size_t const idx) const
  **************************************************************************************/
 
 } /* impl */
+
+#endif /* ARDUINO_ARCH_RP2040 */
