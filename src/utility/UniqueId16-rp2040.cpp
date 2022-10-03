@@ -24,33 +24,16 @@ namespace impl
 {
 
 /**************************************************************************************
- * DEFINES
- **************************************************************************************/
-
-#define IDSIZE 8
-
-/**************************************************************************************
  * CTOR/DTOR
  **************************************************************************************/
 
 UniqueId16::UniqueId16()
+: _unique_id{0}
 {
-  union
-  {
-    struct __attribute__((packed))
-    {
-      uint32_t w0, w1, w2, w3;
-    } word_buf;
-    uint8_t byte_buf[16];
-  } uid;
+  pico_unique_board_id_t pico_id;
+  pico_get_unique_board_id(&pico_id);
 
-  pico_unique_board_id_t pico;
-  pico_get_unique_board_id(&pico);
-  for (int i = 0; i < IDSIZE; i++) {
-    uid.byte_buf[i] = pico.id[i];
-  }
-
-  memcpy(_unique_id, uid.byte_buf, sizeof(_unique_id));
+  memcpy(_unique_id, pico_id.id, PICO_UNIQUE_BOARD_ID_SIZE_BYTES);
 }
 
 /**************************************************************************************
