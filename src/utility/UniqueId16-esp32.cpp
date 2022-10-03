@@ -11,6 +11,10 @@
 
 #include "UniqueId16.h"
 
+#if defined(ARDUINO_ARCH_ESP32)
+
+#include <Arduino.h>
+
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
@@ -22,29 +26,12 @@ namespace impl
  * CTOR/DTOR
  **************************************************************************************/
 
-#if !defined(ARDUINO_ARCH_SAMD) && !defined(ARDUINO_ARCH_RP2040) && !defined(ARDUINO_ARCH_ESP32)
-# warning "No Unique ID support for your platform, defaulting to hard-coded ID"
 UniqueId16::UniqueId16()
 : _unique_id{0}
-{ }
-#endif
-
-/**************************************************************************************
- * PUBLIC MEMBER FUNCTIONS
- **************************************************************************************/
-
-UniqueId16 const & UniqueId16::instance()
 {
-  static UniqueId16 instance;
-  return instance;
-}
-
-uint8_t UniqueId16::operator[](size_t const idx) const
-{
-  if (idx < MAX_INDEX)
-    return _unique_id[idx];
-  else
-    return 0;
+  size_t constexpr CHIP_ID_SIZE = 6;
+  uint64_t const chipid = ESP.getEfuseMac();
+  memcpy(_unique_id, &chipid, CHIP_ID_SIZE);
 }
 
 /**************************************************************************************
@@ -52,3 +39,5 @@ uint8_t UniqueId16::operator[](size_t const idx) const
  **************************************************************************************/
 
 } /* impl */
+
+#endif /* defined(ARDUINO_ARCH_ESP32) */
