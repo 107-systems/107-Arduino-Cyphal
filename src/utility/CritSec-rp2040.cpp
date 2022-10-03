@@ -11,7 +11,7 @@
 
 #include "CritSec.h"
 
-#if defined(ARDUINO_ARCH_RP2040) && !defined(ARDUINO_NANO_RP2040_CONNECT)
+#if defined(ARDUINO_ARCH_RP2040) && !defined(ARDUINO_ARDUINO_NANO_RP2040_CONNECT)
 #include <Arduino.h>
 
 /**************************************************************************************
@@ -28,4 +28,4 @@ extern "C" void crit_sec_leave()
   interrupts();
 }
 
-#endif /* ARDUINO_ARCH_RP2040 */
+#endif /* defined(ARDUINO_ARCH_RP2040) && !defined(ARDUINO_ARDUINO_NANO_RP2040_CONNECT) */

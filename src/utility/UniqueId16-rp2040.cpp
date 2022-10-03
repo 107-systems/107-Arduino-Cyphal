@@ -11,7 +11,7 @@
 
 #include "UniqueId16.h"
 
-#ifdef ARDUINO_ARCH_RP2040
+#if defined(ARDUINO_ARCH_RP2040) && !defined(ARDUINO_ARDUINO_NANO_RP2040_CONNECT)
 
 #include <cstring>
 #include <pico/unique_id.h>
@@ -42,4 +42,4 @@ UniqueId16::UniqueId16()
 
 } /* impl */
 
-#endif /* ARDUINO_ARCH_RP2040 */
+#endif /* defined(ARDUINO_ARCH_RP2040) && !defined(ARDUINO_ARDUINO_NANO_RP2040_CONNECT) */
