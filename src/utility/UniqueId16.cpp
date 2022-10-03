@@ -22,7 +22,7 @@ namespace impl
  * CTOR/DTOR
  **************************************************************************************/
 
-#if !defined(ARDUINO_ARCH_SAMD) && !defined(ARDUINO_ARCH_RP2040) && !defined(ARDUINO_ARCH_ESP32)
+#if !defined(ARDUINO_ARCH_SAMD) && !defined(ARDUINO_ARCH_RP2040) && !defined(ARDUINO_ARCH_ESP32) || defined(ARDUINO_ARCH_MBED)
 # warning "No Unique ID support for your platform, defaulting to hard-coded ID"
 UniqueId16::UniqueId16()
 : _unique_id{0}
