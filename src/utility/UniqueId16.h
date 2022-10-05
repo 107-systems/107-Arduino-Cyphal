@@ -31,18 +31,19 @@ namespace impl
 class UniqueId16
 {
 public:
+  static size_t constexpr ID_SIZE = 16;
+
   UniqueId16(UniqueId16 const &) = delete;
 
   static UniqueId16 const & instance();
 
-  static size_t constexpr MAX_INDEX = 16;
   uint8_t operator[](size_t const idx) const;
-  std::array<uint8_t, MAX_INDEX> operator()() const;
+  std::array<uint8_t, ID_SIZE> operator()() const;
 
 
 private:
   UniqueId16();
-  uint8_t _unique_id[MAX_INDEX];
+  uint8_t _unique_id[ID_SIZE];
 };
 
 /**************************************************************************************
