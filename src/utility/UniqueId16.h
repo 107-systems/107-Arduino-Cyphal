@@ -15,6 +15,8 @@
 #include <cstdlib>
 #include <cstdint>
 
+#include <array>
+
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
@@ -35,6 +37,7 @@ public:
 
   static size_t constexpr MAX_INDEX = 16;
   uint8_t operator[](size_t const idx) const;
+  std::array<uint8_t, MAX_INDEX> operator()() const;
 
 
 private:
