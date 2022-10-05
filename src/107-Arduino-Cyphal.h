@@ -14,6 +14,7 @@
 
 #include "Node.h"
 #include "Types.h"
+#include "NodeInfo.h"
 #include "register/RegisterList.h"
 #include "utility/UniqueId16.h"
 
