@@ -30,8 +30,6 @@
 #undef min
 #include <algorithm>
 
-#include "NodeInfo.h"
-
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
@@ -161,6 +159,24 @@ static RegisterNatural16 reg_ro_uavcan_pub_distance_id  ("uavcan.pub.distance.id
 static RegisterString    reg_ro_uavcan_pub_distance_type("uavcan.pub.distance.type", Register::Access::ReadOnly,  Register::Persistent::No, "uavcan.primitive.scalar.Real32.1.0");
 static RegisterList      reg_list;
 
+/* NODE INFO **************************************************************************/
+
+static NodeInfo node_info
+(
+  /* uavcan.node.Version.1.0 protocol_version */
+  1, 0,
+  /* uavcan.node.Version.1.0 hardware_version */
+  1, 0,
+  /* uavcan.node.Version.1.0 software_version */
+  0, 1,
+  /* saturated uint64 software_vcs_revision_id */
+  NULL,
+  /* saturated uint8[16] unique_id */
+  OpenCyphalUniqueId(),
+  /* saturated uint8[<=50] name */
+  "107-systems.tof-sensor-node"
+);
+
 /**************************************************************************************
  * SETUP/LOOP
  **************************************************************************************/
@@ -209,7 +225,7 @@ void setup()
 
   /* Register callbacks for node info and register api.
    */
-  node_hdl.subscribe<GetInfo_1_0::Request<>>(onGetInfo_1_0_Request_Received);
+  node_info.subscribe(node_hdl);
 
   reg_list.add(reg_rw_uavcan_node_id);
   reg_list.add(reg_ro_uavcan_node_description);
@@ -259,14 +275,6 @@ void loop()
 void mcp2515_onReceiveBufferFull(CanardFrame const & frame)
 {
   node_hdl.onCanFrameReceived(frame, micros());
-}
-
-void onGetInfo_1_0_Request_Received(CanardRxTransfer const &transfer, Node & node_hdl)
-{
-  DBG_INFO("onGetInfo_1_0_Request_Received");
-  GetInfo_1_0::Response<> rsp = GetInfo_1_0::Response<>();
-  memcpy(&rsp.data, &NODE_INFO, sizeof(uavcan_node_GetInfo_Response_1_0));
-  node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
 }
 
 void publish_heartbeat(Node & u, uint32_t const uptime, Heartbeat_1_0<>::Mode const mode)

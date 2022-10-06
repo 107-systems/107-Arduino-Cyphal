@@ -11,6 +11,8 @@
 
 #include "UniqueId16.h"
 
+#include <algorithm>
+
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
@@ -41,10 +43,19 @@ UniqueId16 const & UniqueId16::instance()
 
 uint8_t UniqueId16::operator[](size_t const idx) const
 {
-  if (idx < MAX_INDEX)
+  if (idx < ID_SIZE)
     return _unique_id[idx];
   else
     return 0;
+}
+
+std::array<uint8_t, UniqueId16::ID_SIZE> UniqueId16::operator()() const
+{
+  std::array<uint8_t, ID_SIZE> uid;
+  std::copy(std::begin(_unique_id),
+            std::end  (_unique_id),
+            std::begin(uid));
+  return uid;
 }
 
 /**************************************************************************************
