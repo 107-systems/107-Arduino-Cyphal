@@ -12,6 +12,9 @@
  * INCLUDE
  **************************************************************************************/
 
+#include <Print.h>
+#include <Printable.h>
+
 #include <cstdlib>
 #include <cstdint>
 
@@ -28,17 +31,21 @@ namespace impl
  * CLASS DECLARATION
  **************************************************************************************/
 
-class UniqueId16
+class UniqueId16 : public arduino::Printable
 {
 public:
   static size_t constexpr ID_SIZE = 16;
 
+  virtual ~UniqueId16() { }
   UniqueId16(UniqueId16 const &) = delete;
 
   static UniqueId16 const & instance();
 
   uint8_t operator[](size_t const idx) const;
   std::array<uint8_t, ID_SIZE> operator()() const;
+
+
+  virtual size_t printTo(Print & p) const override;
 
 
 private:

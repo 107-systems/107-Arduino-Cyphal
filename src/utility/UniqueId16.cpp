@@ -58,6 +58,18 @@ std::array<uint8_t, UniqueId16::ID_SIZE> UniqueId16::operator()() const
   return uid;
 }
 
+size_t UniqueId16::printTo(Print & p) const
+{
+  char msg[ID_SIZE * 2 + 1] = {0}; /* Reserve enough space for displaying ID including string 0 termination. */
+  snprintf(msg, sizeof(msg), "%0X%0X%0X%0X%0X%0X%0X%0X%0X%0X%0X%0X%0X%0X%0X%0X",
+    _unique_id[ 0], _unique_id[ 1], _unique_id[ 2], _unique_id[ 3],
+    _unique_id[ 4], _unique_id[ 5], _unique_id[ 6], _unique_id[ 7],
+    _unique_id[ 8], _unique_id[ 9], _unique_id[10], _unique_id[11],
+    _unique_id[12], _unique_id[13], _unique_id[14], _unique_id[15]);
+
+  return p.write(msg);
+}
+
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
