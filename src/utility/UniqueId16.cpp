@@ -49,9 +49,9 @@ uint8_t UniqueId16::operator[](size_t const idx) const
     return 0;
 }
 
-std::array<uint8_t, UniqueId16::ID_SIZE> UniqueId16::operator()() const
+UniqueId16::Array UniqueId16::operator()() const
 {
-  std::array<uint8_t, ID_SIZE> uid;
+  Array uid;
   std::copy(std::begin(_unique_id),
             std::end  (_unique_id),
             std::begin(uid));

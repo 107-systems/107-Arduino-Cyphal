@@ -42,7 +42,8 @@ public:
   static UniqueId16 const & instance();
 
   uint8_t operator[](size_t const idx) const;
-  std::array<uint8_t, ID_SIZE> operator()() const;
+  typedef std::array<uint8_t, ID_SIZE> Array;
+  Array operator()() const;
 
 
   virtual size_t printTo(Print & p) const override;
@@ -58,6 +59,12 @@ private:
  **************************************************************************************/
 
 } /* impl */
+
+/**************************************************************************************
+ * TYPEDEF
+ **************************************************************************************/
+
+typedef impl::UniqueId16::Array UniqueId16Array;
 
 /**************************************************************************************
  * DEFINE
