@@ -9,23 +9,21 @@
  * INCLUDE
  **************************************************************************************/
 
-#include "CritSec.h"
-
-#if defined(ARDUINO_ARCH_RP2040) && !defined(ARDUINO_ARCH_MBED)
-#include <Arduino.h>
+#include <107-Arduino-Cyphal.h>
 
 /**************************************************************************************
- * FUNCTION DEFINITION
+ * SETUP/LOOP
  **************************************************************************************/
 
-extern "C" void crit_sec_enter()
+void setup()
 {
-  noInterrupts();
+  Serial.begin(115200);
+  while (!Serial) { }
+
+  Serial.println(OpenCyphalUniqueId);
 }
 
-extern "C" void crit_sec_leave()
+void loop()
 {
-  interrupts();
-}
 
-#endif /* defined(ARDUINO_ARCH_RP2040) && !defined(ARDUINO_ARCH_MBED) */
+}
