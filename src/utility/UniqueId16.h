@@ -31,7 +31,12 @@ namespace impl
  * CLASS DECLARATION
  **************************************************************************************/
 
-class UniqueId16 : public arduino::Printable
+class UniqueId16 :
+#if defined(ARDUINO_ARCH_ESP32)
+public Printable
+#else
+public arduino::Printable
+#endif
 {
 public:
   static size_t constexpr ID_SIZE = 16;
