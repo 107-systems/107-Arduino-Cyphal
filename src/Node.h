@@ -22,7 +22,7 @@
 #include <functional>
 
 #include "Types.h"
-#include "O1Heap.hpp"
+#include "O1Heap.h"
 
 #include "libcanard/canard.h"
 
@@ -53,16 +53,18 @@ public:
   static CanardNodeID constexpr DEFAULT_NODE_ID       = 42;
 
 
-  Node(CanFrameTransmitFunc transmit_func,
+  Node(uint8_t * heap_ptr,
+       size_t const heap_size,
+       CanFrameTransmitFunc transmit_func,
        CanardNodeID const node_id,
        size_t const tx_queue_capacity,
        size_t const mtu_bytes);
 
-  Node(CanFrameTransmitFunc transmit_func)
-  : Node(transmit_func, DEFAULT_NODE_ID, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
+  Node(uint8_t * heap_ptr, size_t const heap_size, CanFrameTransmitFunc transmit_func)
+  : Node(heap_ptr, heap_size, transmit_func, DEFAULT_NODE_ID, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
-  Node(CanFrameTransmitFunc transmit_func, CanardNodeID const node_id)
-  : Node(transmit_func, node_id, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
+  Node(uint8_t * heap_ptr, size_t const heap_size, CanFrameTransmitFunc transmit_func, CanardNodeID const node_id)
+  : Node(heap_ptr, heap_size, transmit_func, node_id, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
 
   void setNodeId(CanardNodeID const node_id);
@@ -91,15 +93,13 @@ public:
 
 private:
 
-  typedef O1Heap<DEFAULT_O1HEAP_SIZE> O1HeapLibcanard;
-
   typedef struct
   {
     CanardRxSubscription canard_rx_sub;
     OnTransferReceivedFunc transfer_complete_callback;
   } RxTransferData;
 
-  O1HeapLibcanard _o1heap_hdl;
+  O1Heap _o1heap_hdl;
   CanardInstance _canard_hdl;
   CanardTxQueue _canard_tx_queue;
   arduino::_107_::opencyphal::ThreadsafeRingBuffer<std::tuple<uint32_t, size_t, std::array<uint8_t, 8>, CanardMicrosecond>> _canard_rx_queue;

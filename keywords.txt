@@ -9,6 +9,7 @@
 Node	KEYWORD1
 Request	KEYWORD1
 Response	KEYWORD1
+CYPHAL_DECLARE_HEAP	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)

@@ -5,8 +5,8 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef ARDUINO_O1_HEAP_HPP_
-#define ARDUINO_O1_HEAP_HPP_
+#ifndef ARDUINO_O1_HEAP_H_
+#define ARDUINO_O1_HEAP_H_
 
 /**************************************************************************************
  * INCLUDE
@@ -15,32 +15,34 @@
 #include <o1heap/o1heap.h>
 
 /**************************************************************************************
+ * DEFINE
+ **************************************************************************************/
+
+#define CYPHAL_DECLARE_HEAP(name,size) \
+  static uint8_t name[size] __attribute__ ((aligned (O1HEAP_ALIGNMENT)))
+
+/**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
 
-template <size_t HEAP_SIZE>
 class O1Heap
 {
 public:
+  O1Heap(uint8_t * heap_ptr, size_t const heap_size)
+  : _o1heap_ins{o1heapInit(heap_ptr, heap_size)}
+  { }
 
-  O1Heap();
 
-
-  void * allocate(size_t const amount);
-  void   free    (void * const pointer);
+  void * allocate(size_t const amount) {
+    return o1heapAllocate(_o1heap_ins, amount);
+  }
+  void free (void * const pointer) {
+    o1heapFree(_o1heap_ins, pointer);
+  }
 
 
 private:
-
-  uint8_t _base[HEAP_SIZE] __attribute__ ((aligned (O1HEAP_ALIGNMENT)));
   O1HeapInstance * _o1heap_ins;
-
 };
 
-/**************************************************************************************
- * TEMPLATE SOURCE
- **************************************************************************************/
-
-#include "O1Heap.ipp"
-
-#endif /* ARDUINO_O1_HEAP_HPP_ */
+#endif /* ARDUINO_O1_HEAP_H_ */

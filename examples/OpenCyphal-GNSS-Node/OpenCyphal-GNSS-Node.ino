@@ -99,7 +99,8 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
                        MCP2515::onReceive,
                        nullptr);
 
-Node node_hdl([](CanardFrame const & frame) { return mcp2515.transmit(frame); });
+CYPHAL_DECLARE_HEAP(node_heap, Node::DEFAULT_O1HEAP_SIZE);
+Node node_hdl(node_heap, sizeof(node_heap), [](CanardFrame const & frame) { return mcp2515.transmit(frame); });
 
 ArduinoNmeaParser nmea_parser(gnss::onRmcUpdate, gnss::onGgaUpdate);
 
