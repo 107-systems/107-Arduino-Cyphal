@@ -34,16 +34,6 @@ Node::Node(uint8_t * heap_ptr,
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-void Node::setNodeId(CanardNodeID const node_id)
-{
-  _canard_hdl.node_id = node_id;
-}
-
-CanardNodeID Node::getNodeId() const
-{
-  return _canard_hdl.node_id;
-}
-
 void Node::spinSome(CanFrameTransmitFunc tx_func)
 {
   processRxQueue();
