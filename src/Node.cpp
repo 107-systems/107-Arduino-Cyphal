@@ -19,11 +19,12 @@ Node::Node(uint8_t * heap_ptr,
            size_t const heap_size,
            CanardNodeID const node_id,
            size_t const tx_queue_capacity,
+           size_t const rx_queue_capacity,
            size_t const mtu_bytes)
 : _o1heap_hdl(heap_ptr, heap_size)
 , _canard_hdl{canardInit(Node::o1heap_allocate, Node::o1heap_free)}
 , _canard_tx_queue{canardTxInit(tx_queue_capacity, mtu_bytes)}
-, _canard_rx_queue{DEFAULT_RX_QUEUE_SIZE}
+, _canard_rx_queue{rx_queue_capacity}
 {
   _canard_hdl.node_id = node_id;
   _canard_hdl.user_reference = reinterpret_cast<void *>(&_o1heap_hdl);

@@ -57,13 +57,14 @@ public:
        size_t const heap_size,
        CanardNodeID const node_id,
        size_t const tx_queue_capacity,
+       size_t const rx_queue_capacity,
        size_t const mtu_bytes);
 
   Node(uint8_t * heap_ptr, size_t const heap_size)
-  : Node(heap_ptr, heap_size, DEFAULT_NODE_ID, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
+  : Node(heap_ptr, heap_size, DEFAULT_NODE_ID, DEFAULT_TX_QUEUE_SIZE, DEFAULT_RX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
   Node(uint8_t * heap_ptr, size_t const heap_size, CanardNodeID const node_id)
-  : Node(heap_ptr, heap_size, node_id, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
+  : Node(heap_ptr, heap_size, node_id, DEFAULT_TX_QUEUE_SIZE, DEFAULT_RX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
 
   void setNodeId(CanardNodeID const node_id);
