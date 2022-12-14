@@ -17,7 +17,6 @@
 
 Node::Node(uint8_t * heap_ptr,
            size_t const heap_size,
-           CanFrameTransmitFunc transmit_func,
            CanardNodeID const node_id,
            size_t const tx_queue_capacity,
            size_t const mtu_bytes)
@@ -25,7 +24,6 @@ Node::Node(uint8_t * heap_ptr,
 , _canard_hdl{canardInit(Node::o1heap_allocate, Node::o1heap_free)}
 , _canard_tx_queue{canardTxInit(tx_queue_capacity, mtu_bytes)}
 , _canard_rx_queue{DEFAULT_RX_QUEUE_SIZE}
-, _transmit_func{transmit_func}
 {
   _canard_hdl.node_id = node_id;
   _canard_hdl.user_reference = reinterpret_cast<void *>(&_o1heap_hdl);
@@ -45,10 +43,10 @@ CanardNodeID Node::getNodeId() const
   return _canard_hdl.node_id;
 }
 
-void Node::spinSome()
+void Node::spinSome(CanFrameTransmitFunc tx_func)
 {
   processRxQueue();
-  processTxQueue();
+  processTxQueue(tx_func);
 }
 
 void Node::onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us)
@@ -120,13 +118,13 @@ void Node::processRxQueue()
   }
 }
 
-void Node::processTxQueue()
+void Node::processTxQueue(CanFrameTransmitFunc tx_func)
 {
   for(CanardTxQueueItem * tx_queue_item = const_cast<CanardTxQueueItem *>(canardTxPeek(&_canard_tx_queue));
       tx_queue_item != nullptr;
       tx_queue_item = const_cast<CanardTxQueueItem *>(canardTxPeek(&_canard_tx_queue)))
   {
-    if (!_transmit_func(tx_queue_item->frame))
+    if (!tx_func(tx_queue_item->frame))
       return;
 
     _canard_hdl.memory_free(&_canard_hdl, canardTxPop(&_canard_tx_queue, tx_queue_item));
@@ -171,9 +169,6 @@ bool Node::unsubscribe(CanardTransferKind const transfer_kind, CanardPortID cons
 
 bool Node::enqeueTransfer(CanardNodeID const remote_node_id, CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload, CanardTransferID const transfer_id)
 {
-  if (!_transmit_func)
-    return false;
-
   CanardTransferMetadata const transfer_metadata =
   {
     .priority       = CanardPriorityNominal,

@@ -119,7 +119,7 @@ ArduinoMCP2515 mcp2515([]()
                        nullptr);
 
 CYPHAL_DECLARE_HEAP(node_heap, Node::DEFAULT_O1HEAP_SIZE);
-Node node_hdl(node_heap, sizeof(node_heap), [](CanardFrame const & frame) { return mcp2515.transmit(frame); }, OPEN_CYPHAL_NODE_ID);
+Node node_hdl(node_heap, sizeof(node_heap), OPEN_CYPHAL_NODE_ID);
 
 OpenCyphalNodeData node_data = OPEN_CYPHAL_NODE_INITIAL_DATA;
 OpenCyphalNodeConfiguration node_config = OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION;
@@ -239,7 +239,7 @@ void loop()
 {
   /* Process all pending OpenCyphal actions.
    */
-  node_hdl.spinSome();
+  node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
 
   /* Handle actions common to all states.
    */

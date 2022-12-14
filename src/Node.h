@@ -55,16 +55,15 @@ public:
 
   Node(uint8_t * heap_ptr,
        size_t const heap_size,
-       CanFrameTransmitFunc transmit_func,
        CanardNodeID const node_id,
        size_t const tx_queue_capacity,
        size_t const mtu_bytes);
 
-  Node(uint8_t * heap_ptr, size_t const heap_size, CanFrameTransmitFunc transmit_func)
-  : Node(heap_ptr, heap_size, transmit_func, DEFAULT_NODE_ID, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
+  Node(uint8_t * heap_ptr, size_t const heap_size)
+  : Node(heap_ptr, heap_size, DEFAULT_NODE_ID, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
-  Node(uint8_t * heap_ptr, size_t const heap_size, CanFrameTransmitFunc transmit_func, CanardNodeID const node_id)
-  : Node(heap_ptr, heap_size, transmit_func, node_id, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
+  Node(uint8_t * heap_ptr, size_t const heap_size, CanardNodeID const node_id)
+  : Node(heap_ptr, heap_size, node_id, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
 
   void setNodeId(CanardNodeID const node_id);
@@ -73,7 +72,7 @@ public:
   /* Must be called from the application to process
    * all received CAN frames.
    */
-  void spinSome();
+  void spinSome(CanFrameTransmitFunc tx_func);
   /* Must be called from the application upon the
    * reception of a can frame.
    */
@@ -103,7 +102,6 @@ private:
   CanardInstance _canard_hdl;
   CanardTxQueue _canard_tx_queue;
   arduino::_107_::opencyphal::ThreadsafeRingBuffer<std::tuple<uint32_t, size_t, std::array<uint8_t, 8>, CanardMicrosecond>> _canard_rx_queue;
-  CanFrameTransmitFunc _transmit_func;
   std::map<CanardPortID, RxTransferData> _rx_transfer_map;
   std::map<CanardPortID, CanardTransferID> _tx_transfer_map;
 
@@ -111,7 +109,7 @@ private:
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
 
   void processRxQueue();
-  void processTxQueue();
+  void processTxQueue(CanFrameTransmitFunc tx_func);
 
   CanardTransferID getNextTransferId(CanardPortID const port_id);
   bool             subscribe        (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func);

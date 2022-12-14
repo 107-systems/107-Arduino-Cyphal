@@ -47,7 +47,7 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
                        nullptr);
 
 CYPHAL_DECLARE_HEAP(node_heap, Node::DEFAULT_O1HEAP_SIZE);
-Node node_hdl(node_heap, sizeof(node_heap), nullptr);
+Node node_hdl(node_heap, sizeof(node_heap));
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -80,7 +80,7 @@ void loop()
 {
   /* Process all pending OpenCyphal actions.
    */
-  node_hdl.spinSome();
+  node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
 }
 
 /**************************************************************************************
