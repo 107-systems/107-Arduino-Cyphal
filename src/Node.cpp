@@ -27,7 +27,7 @@ Node::Node(uint8_t * heap_ptr,
 , _canard_rx_queue{rx_queue_capacity}
 {
   _canard_hdl.node_id = node_id;
-  _canard_hdl.user_reference = reinterpret_cast<void *>(_o1heap_ins);
+  _canard_hdl.user_reference = static_cast<void *>(_o1heap_ins);
 }
 
 /**************************************************************************************
