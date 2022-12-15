@@ -12,7 +12,7 @@
  * INCLUDE
  **************************************************************************************/
 
-#include "Node.h"
+#include "Node.hpp"
 #include "Types.h"
 #include "nodeinfo/NodeInfo.h"
 #include "register/RegisterList.h"

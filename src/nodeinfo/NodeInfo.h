@@ -14,7 +14,7 @@
 
 #include <string>
 
-#include "../Node.h"
+#include "../Node.hpp"
 #include "../utility/UniqueId16.h"
 
 /**************************************************************************************
