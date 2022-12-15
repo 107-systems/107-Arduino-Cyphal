@@ -5,8 +5,8 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef ARDUINO_UAVCAN_H_
-#define ARDUINO_UAVCAN_H_
+#ifndef ARDUINO_CYPHAL_NODE_HPP_
+#define ARDUINO_CYPHAL_NODE_HPP_
 
 /**************************************************************************************
  * INCLUDE
@@ -128,4 +128,4 @@ private:
 
 #include "Node.ipp"
 
-#endif /* ARDUINO_UAVCAN_H_ */
+#endif /* ARDUINO_CYPHAL_NODE_HPP_ */
