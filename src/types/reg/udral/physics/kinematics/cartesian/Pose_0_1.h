@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/physics/kinematics/cartesian/Pose.0.1.dsdl
-// Generated at:  2022-12-15 21:30:30.545675 UTC
+// Generated at:  2022-12-15 23:20:53.180030 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.physics.kinematics.cartesian.Pose
@@ -36,9 +36,9 @@
 #define REG_UDRAL_PHYSICS_KINEMATICS_CARTESIAN_POSE_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <reg/udral/physics/kinematics/cartesian/Point_0_1.h>
+#include <types/reg/udral/physics/kinematics/cartesian/Point_0_1.h>
 #include <stdlib.h>
-#include <uavcan/si/unit/angle/Quaternion_1_0.h>
+#include <types/uavcan/si/unit/angle/Quaternion_1_0.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
               "/tmp/public_regulated_data_types/reg/udral/physics/kinematics/cartesian/Pose.0.1.dsdl is trying to use a serialization library that was compiled with "

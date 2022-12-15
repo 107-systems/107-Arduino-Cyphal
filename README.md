@@ -57,6 +57,16 @@ void loop() {
 
 ### Contribution
 #### How to add missing wrappers
+
+##### Docker automatization
+
+Step 1-3 of the following instruction are also automated in a Docker container. The container can be built and executed with the following commands:
+```bash
+cd extras/script
+./build_docker.sh
+./docker_codegen.sh
+```
+
 ##### Step 1) Generate C header files from DSDL
 **Option A) Use [nunavut/nnvg](https://github.com/OpenCyphal/nunavut)**
 * Install **nunavut**: `pip install nunavut` (you will need a functional [Python installation](https://docs.python.org/3/using/index.html))

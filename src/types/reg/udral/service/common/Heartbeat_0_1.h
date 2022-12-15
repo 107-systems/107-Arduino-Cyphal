@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/service/common/Heartbeat.0.1.dsdl
-// Generated at:  2022-12-15 21:30:30.007947 UTC
+// Generated at:  2022-12-15 23:20:53.090472 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.service.common.Heartbeat
@@ -36,10 +36,10 @@
 #define REG_UDRAL_SERVICE_COMMON_HEARTBEAT_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <reg/udral/service/common/Readiness_0_1.h>
+#include <types/reg/udral/service/common/Readiness_0_1.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <uavcan/node/Health_1_0.h>
+#include <types/uavcan/node/Health_1_0.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
               "/tmp/public_regulated_data_types/reg/udral/service/common/Heartbeat.0.1.dsdl is trying to use a serialization library that was compiled with "

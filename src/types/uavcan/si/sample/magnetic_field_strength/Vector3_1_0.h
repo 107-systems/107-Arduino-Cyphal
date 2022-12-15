@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/si/sample/magnetic_field_strength/Vector3.1.0.dsdl
-// Generated at:  2022-12-15 21:30:28.530122 UTC
+// Generated at:  2022-12-15 23:20:51.904193 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.si.sample.magnetic_field_strength.Vector3
@@ -38,7 +38,7 @@
 #include <nunavut/support/serialization.h>
 #include <stdlib.h>
 #include <string.h>
-#include <uavcan/time/SynchronizedTimestamp_1_0.h>
+#include <types/uavcan/time/SynchronizedTimestamp_1_0.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
               "/tmp/public_regulated_data_types/uavcan/si/sample/magnetic_field_strength/Vector3.1.0.dsdl is trying to use a serialization library that was compiled with "

@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/register/Value.1.0.dsdl
-// Generated at:  2022-12-15 21:30:28.451679 UTC
+// Generated at:  2022-12-15 23:20:52.230595 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.register.Value
@@ -38,21 +38,21 @@
 #include <nunavut/support/serialization.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <uavcan/primitive/Empty_1_0.h>
-#include <uavcan/primitive/String_1_0.h>
-#include <uavcan/primitive/Unstructured_1_0.h>
-#include <uavcan/primitive/array/Bit_1_0.h>
-#include <uavcan/primitive/array/Integer16_1_0.h>
-#include <uavcan/primitive/array/Integer32_1_0.h>
-#include <uavcan/primitive/array/Integer64_1_0.h>
-#include <uavcan/primitive/array/Integer8_1_0.h>
-#include <uavcan/primitive/array/Natural16_1_0.h>
-#include <uavcan/primitive/array/Natural32_1_0.h>
-#include <uavcan/primitive/array/Natural64_1_0.h>
-#include <uavcan/primitive/array/Natural8_1_0.h>
-#include <uavcan/primitive/array/Real16_1_0.h>
-#include <uavcan/primitive/array/Real32_1_0.h>
-#include <uavcan/primitive/array/Real64_1_0.h>
+#include <types/uavcan/primitive/Empty_1_0.h>
+#include <types/uavcan/primitive/String_1_0.h>
+#include <types/uavcan/primitive/Unstructured_1_0.h>
+#include <types/uavcan/primitive/array/Bit_1_0.h>
+#include <types/uavcan/primitive/array/Integer16_1_0.h>
+#include <types/uavcan/primitive/array/Integer32_1_0.h>
+#include <types/uavcan/primitive/array/Integer64_1_0.h>
+#include <types/uavcan/primitive/array/Integer8_1_0.h>
+#include <types/uavcan/primitive/array/Natural16_1_0.h>
+#include <types/uavcan/primitive/array/Natural32_1_0.h>
+#include <types/uavcan/primitive/array/Natural64_1_0.h>
+#include <types/uavcan/primitive/array/Natural8_1_0.h>
+#include <types/uavcan/primitive/array/Real16_1_0.h>
+#include <types/uavcan/primitive/array/Real32_1_0.h>
+#include <types/uavcan/primitive/array/Real64_1_0.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
               "/tmp/public_regulated_data_types/uavcan/register/Value.1.0.dsdl is trying to use a serialization library that was compiled with "

@@ -14,6 +14,9 @@
 #ifndef NUNAVUT_SUPPORT_SERIALIZATION_H_INCLUDED
 #define NUNAVUT_SUPPORT_SERIALIZATION_H_INCLUDED
 
+#define NUNAVUT_ASSERT(expr) assert(expr)
+
+
 #ifdef __cplusplus
 #   if (__cplusplus < 201100L)
 #       error "Unsupported language: ISO C11, C++11, or a newer version of either is required."

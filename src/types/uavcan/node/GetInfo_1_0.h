@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.dsdl
-// Generated at:  2022-12-15 21:30:28.898456 UTC
+// Generated at:  2022-12-15 23:20:52.169833 UTC
 // Is deprecated: no
 // Fixed port-ID: 430
 // Full name:     uavcan.node.GetInfo
@@ -39,7 +39,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
-#include <uavcan/node/Version_1_0.h>
+#include <types/uavcan/node/Version_1_0.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
               "/tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.dsdl is trying to use a serialization library that was compiled with "

@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/si/unit/torque/Scalar.1.0.dsdl
-// Generated at:  2022-12-15 21:30:28.659927 UTC
+// Generated at:  2022-12-15 23:20:51.784956 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.si.unit.torque.Scalar

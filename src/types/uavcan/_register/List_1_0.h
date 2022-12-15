@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/register/385.List.1.0.dsdl
-// Generated at:  2022-12-15 21:30:28.440881 UTC
+// Generated at:  2022-12-15 23:20:52.224112 UTC
 // Is deprecated: no
 // Fixed port-ID: 385
 // Full name:     uavcan.register.List
@@ -38,7 +38,7 @@
 #include <nunavut/support/serialization.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <uavcan/_register/Name_1_0.h>
+#include <types/uavcan/_register/Name_1_0.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
               "/tmp/public_regulated_data_types/uavcan/register/385.List.1.0.dsdl is trying to use a serialization library that was compiled with "

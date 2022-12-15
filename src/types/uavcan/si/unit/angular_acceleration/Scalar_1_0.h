@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/si/unit/angular_acceleration/Scalar.1.0.dsdl
-// Generated at:  2022-12-15 21:30:28.741238 UTC
+// Generated at:  2022-12-15 23:20:51.816485 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.si.unit.angular_acceleration.Scalar

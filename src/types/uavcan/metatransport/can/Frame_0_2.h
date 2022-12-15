@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/metatransport/can/Frame.0.2.dsdl
-// Generated at:  2022-12-15 21:30:28.789821 UTC
+// Generated at:  2022-12-15 23:20:52.130907 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.metatransport.can.Frame
@@ -38,10 +38,10 @@
 #include <nunavut/support/serialization.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <uavcan/metatransport/can/DataClassic_0_1.h>
-#include <uavcan/metatransport/can/DataFD_0_1.h>
-#include <uavcan/metatransport/can/Error_0_1.h>
-#include <uavcan/metatransport/can/RTR_0_1.h>
+#include <types/uavcan/metatransport/can/DataClassic_0_1.h>
+#include <types/uavcan/metatransport/can/DataFD_0_1.h>
+#include <types/uavcan/metatransport/can/Error_0_1.h>
+#include <types/uavcan/metatransport/can/RTR_0_1.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
               "/tmp/public_regulated_data_types/uavcan/metatransport/can/Frame.0.2.dsdl is trying to use a serialization library that was compiled with "

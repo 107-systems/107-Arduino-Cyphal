@@ -26,3 +26,4 @@ RUN apt-get install -y git
 RUN apt-get install -y python3-pip
 RUN pip3 install nunavut
 
+CMD ["/bin/bash", "-c", "cd /107-Arduino-Cyphal; ./extras/script/update_c_header.sh; exit"]

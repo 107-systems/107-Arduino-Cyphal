@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/file/Path.2.0.dsdl
-// Generated at:  2022-12-15 21:30:29.027636 UTC
+// Generated at:  2022-12-15 23:20:51.966728 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.file.Path

@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/service/battery/Parameters.0.3.dsdl
-// Generated at:  2022-12-15 21:30:30.255784 UTC
+// Generated at:  2022-12-15 23:20:53.065017 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.service.battery.Parameters
@@ -36,13 +36,13 @@
 #define REG_UDRAL_SERVICE_BATTERY_PARAMETERS_0_3_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <reg/udral/service/battery/Technology_0_1.h>
+#include <types/reg/udral/service/battery/Technology_0_1.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <uavcan/si/unit/electric_charge/Scalar_1_0.h>
-#include <uavcan/si/unit/electric_current/Scalar_1_0.h>
-#include <uavcan/si/unit/mass/Scalar_1_0.h>
-#include <uavcan/si/unit/voltage/Scalar_1_0.h>
+#include <types/uavcan/si/unit/electric_charge/Scalar_1_0.h>
+#include <types/uavcan/si/unit/electric_current/Scalar_1_0.h>
+#include <types/uavcan/si/unit/mass/Scalar_1_0.h>
+#include <types/uavcan/si/unit/voltage/Scalar_1_0.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
               "/tmp/public_regulated_data_types/reg/udral/service/battery/Parameters.0.3.dsdl is trying to use a serialization library that was compiled with "

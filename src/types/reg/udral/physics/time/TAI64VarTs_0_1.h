@@ -9,7 +9,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/physics/time/TAI64VarTs.0.1.dsdl
-// Generated at:  2022-12-15 21:30:30.372193 UTC
+// Generated at:  2022-12-15 23:20:53.100971 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.physics.time.TAI64VarTs
@@ -36,9 +36,9 @@
 #define REG_UDRAL_PHYSICS_TIME_TAI64VAR_TS_0_1_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <reg/udral/physics/time/TAI64Var_0_1.h>
+#include <types/reg/udral/physics/time/TAI64Var_0_1.h>
 #include <stdlib.h>
-#include <uavcan/time/SynchronizedTimestamp_1_0.h>
+#include <types/uavcan/time/SynchronizedTimestamp_1_0.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
               "/tmp/public_regulated_data_types/reg/udral/physics/time/TAI64VarTs.0.1.dsdl is trying to use a serialization library that was compiled with "
