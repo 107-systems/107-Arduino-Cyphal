@@ -14,8 +14,8 @@
 
 #include <string>
 
-#include "Node.h"
-#include "utility/UniqueId16.h"
+#include "../Node.h"
+#include "../utility/UniqueId16.h"
 
 /**************************************************************************************
  * CLASS DECLARATION
