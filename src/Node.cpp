@@ -21,13 +21,13 @@ Node::Node(uint8_t * heap_ptr,
            size_t const tx_queue_capacity,
            size_t const rx_queue_capacity,
            size_t const mtu_bytes)
-: _o1heap_hdl(heap_ptr, heap_size)
+: _o1heap_ins{o1heapInit(heap_ptr, heap_size)}
 , _canard_hdl{canardInit(Node::o1heap_allocate, Node::o1heap_free)}
 , _canard_tx_queue{canardTxInit(tx_queue_capacity, mtu_bytes)}
 , _canard_rx_queue{rx_queue_capacity}
 {
   _canard_hdl.node_id = node_id;
-  _canard_hdl.user_reference = reinterpret_cast<void *>(&_o1heap_hdl);
+  _canard_hdl.user_reference = reinterpret_cast<void *>(_o1heap_ins);
 }
 
 /**************************************************************************************
@@ -58,14 +58,14 @@ void Node::onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const
 
 void * Node::o1heap_allocate(CanardInstance * const ins, size_t const amount)
 {
-  O1Heap * o1heap = reinterpret_cast<O1Heap*>(ins->user_reference);
-  return o1heap->allocate(amount);
+  O1HeapInstance * o1heap = reinterpret_cast<O1HeapInstance *>(ins->user_reference);
+  return o1heapAllocate(o1heap, amount);
 }
 
 void Node::o1heap_free(CanardInstance * const ins, void * const pointer)
 {
-  O1Heap * o1heap = reinterpret_cast<O1Heap*>(ins->user_reference);
-  o1heap->free(pointer);
+  O1HeapInstance * o1heap = reinterpret_cast<O1HeapInstance *>(ins->user_reference);
+  o1heapFree(o1heap, pointer);
 }
 
 void Node::processRxQueue()

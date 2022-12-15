@@ -18,12 +18,13 @@
 #undef min
 #include <map>
 #include <tuple>
+#include <array>
 #include <memory>
 #include <functional>
 
 #include "Types.h"
-#include "O1Heap.h"
 
+#include "o1heap/o1heap.h"
 #include "libcanard/canard.h"
 
 #include "utility/convert.hpp"
@@ -37,6 +38,9 @@
 class Node;
 typedef std::function<void(CanardRxTransfer const &, Node &)> OnTransferReceivedFunc;
 typedef std::function<bool(CanardFrame const &)> CanFrameTransmitFunc;
+
+template <size_t SIZE>
+struct alignas(O1HEAP_ALIGNMENT) CyphalHeap final : public std::array<uint8_t, SIZE> {};
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -99,7 +103,7 @@ private:
     OnTransferReceivedFunc transfer_complete_callback;
   } RxTransferData;
 
-  O1Heap _o1heap_hdl;
+  O1HeapInstance * _o1heap_ins;
   CanardInstance _canard_hdl;
   CanardTxQueue _canard_tx_queue;
   arduino::_107_::opencyphal::ThreadsafeRingBuffer<std::tuple<uint32_t, size_t, std::array<uint8_t, 8>, CanardMicrosecond>> _canard_rx_queue;
@@ -116,7 +120,6 @@ private:
   bool             subscribe        (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func);
   bool             unsubscribe      (CanardTransferKind const transfer_kind, CanardPortID const port_id);
   bool             enqeueTransfer   (CanardNodeID const remote_node_id, CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload, CanardTransferID const transfer_id);
-
 };
 
 /**************************************************************************************
