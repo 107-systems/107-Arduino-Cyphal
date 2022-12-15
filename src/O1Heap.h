@@ -14,12 +14,14 @@
 
 #include <o1heap/o1heap.h>
 
+#include <array>
+
 /**************************************************************************************
  * DEFINE
  **************************************************************************************/
 
-#define CYPHAL_DECLARE_HEAP(name,size) \
-  static uint8_t name[size] __attribute__ ((aligned (O1HEAP_ALIGNMENT)))
+template <size_t SIZE>
+struct alignas(O1HEAP_ALIGNMENT) CyphalHeap final : public std::array<uint8_t, SIZE> {};
 
 /**************************************************************************************
  * CLASS DECLARATION

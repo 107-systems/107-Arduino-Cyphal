@@ -118,8 +118,8 @@ ArduinoMCP2515 mcp2515([]()
                        mcp2515_onReceiveBufferFull,
                        nullptr);
 
-CYPHAL_DECLARE_HEAP(node_heap, Node::DEFAULT_O1HEAP_SIZE);
-Node node_hdl(node_heap, sizeof(node_heap), OPEN_CYPHAL_NODE_ID);
+CyphalHeap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
+Node node_hdl(node_heap.data(), node_heap.size(), OPEN_CYPHAL_NODE_ID);
 
 OpenCyphalNodeData node_data = OPEN_CYPHAL_NODE_INITIAL_DATA;
 OpenCyphalNodeConfiguration node_config = OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION;

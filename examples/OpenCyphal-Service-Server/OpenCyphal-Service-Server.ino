@@ -47,8 +47,8 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
                        onReceiveBufferFull,
                        nullptr);
 
-CYPHAL_DECLARE_HEAP(node_heap, Node::DEFAULT_O1HEAP_SIZE);
-Node node_hdl(node_heap, sizeof(node_heap));
+CyphalHeap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
+Node node_hdl(node_heap.data(), node_heap.size());
 
 /**************************************************************************************
  * SETUP/LOOP
