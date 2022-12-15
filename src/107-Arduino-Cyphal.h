@@ -12,9 +12,9 @@
  * INCLUDE
  **************************************************************************************/
 
-#include "Node.h"
+#include "Node.hpp"
 #include "Types.h"
-#include "NodeInfo.h"
+#include "nodeinfo/NodeInfo.h"
 #include "register/RegisterList.h"
 #include "utility/UniqueId16.h"
 
