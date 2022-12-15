@@ -24,7 +24,7 @@
 
 #include "Types.h"
 
-#include "o1heap/o1heap.h"
+#include "libo1heap/o1heap.h"
 #include "libcanard/canard.h"
 
 #include "utility/convert.hpp"
