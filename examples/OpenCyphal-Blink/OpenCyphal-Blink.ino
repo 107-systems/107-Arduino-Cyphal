@@ -62,7 +62,8 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
                        onReceiveBufferFull,
                        nullptr);
 
-Node node_hdl([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+CyphalHeap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
+Node node_hdl(node_heap.data(), node_heap.size());
 
 Heartbeat_1_0<> hb;
 
@@ -118,7 +119,7 @@ void loop()
 {
   /* Process all pending OpenCyphal actions.
    */
-  node_hdl.spinSome();
+  node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
 
   /* Update the heartbeat object */
   hb.data.uptime = millis() / 1000;

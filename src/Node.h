@@ -18,12 +18,13 @@
 #undef min
 #include <map>
 #include <tuple>
+#include <array>
 #include <memory>
 #include <functional>
 
 #include "Types.h"
-#include "O1Heap.hpp"
 
+#include "o1heap/o1heap.h"
 #include "libcanard/canard.h"
 
 #include "utility/convert.hpp"
@@ -38,6 +39,9 @@ class Node;
 typedef std::function<void(CanardRxTransfer const &, Node &)> OnTransferReceivedFunc;
 typedef std::function<bool(CanardFrame const &)> CanFrameTransmitFunc;
 
+template <size_t SIZE>
+struct alignas(O1HEAP_ALIGNMENT) CyphalHeap final : public std::array<uint8_t, SIZE> {};
+
 /**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
@@ -47,31 +51,33 @@ class Node
 public:
 
   static size_t       constexpr DEFAULT_O1HEAP_SIZE   = 4096;
-  static size_t       constexpr DEFAULT_TX_QUEUE_SIZE = 100;
-  static size_t       constexpr DEFAULT_RX_QUEUE_SIZE = 32;
-  static size_t       constexpr DEFAULT_MTU_SIZE      = CANARD_MTU_CAN_CLASSIC;
   static CanardNodeID constexpr DEFAULT_NODE_ID       = 42;
+  static size_t       constexpr DEFAULT_TX_QUEUE_SIZE = 64;
+  static size_t       constexpr DEFAULT_RX_QUEUE_SIZE = 64;
+  static size_t       constexpr DEFAULT_MTU_SIZE      = CANARD_MTU_CAN_CLASSIC;
 
 
-  Node(CanFrameTransmitFunc transmit_func,
+  Node(uint8_t * heap_ptr,
+       size_t const heap_size,
        CanardNodeID const node_id,
        size_t const tx_queue_capacity,
+       size_t const rx_queue_capacity,
        size_t const mtu_bytes);
 
-  Node(CanFrameTransmitFunc transmit_func)
-  : Node(transmit_func, DEFAULT_NODE_ID, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
+  Node(uint8_t * heap_ptr, size_t const heap_size)
+  : Node(heap_ptr, heap_size, DEFAULT_NODE_ID, DEFAULT_TX_QUEUE_SIZE, DEFAULT_RX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
-  Node(CanFrameTransmitFunc transmit_func, CanardNodeID const node_id)
-  : Node(transmit_func, node_id, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
+  Node(uint8_t * heap_ptr, size_t const heap_size, CanardNodeID const node_id)
+  : Node(heap_ptr, heap_size, node_id, DEFAULT_TX_QUEUE_SIZE, DEFAULT_RX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
 
-  void setNodeId(CanardNodeID const node_id);
-  CanardNodeID getNodeId() const;
+  inline void setNodeId(CanardNodeID const node_id) { _canard_hdl.node_id = node_id; }
+  inline CanardNodeID getNodeId() const { return _canard_hdl.node_id; }
 
   /* Must be called from the application to process
    * all received CAN frames.
    */
-  void spinSome();
+  void spinSome(CanFrameTransmitFunc const tx_func);
   /* Must be called from the application upon the
    * reception of a can frame.
    */
@@ -91,19 +97,16 @@ public:
 
 private:
 
-  typedef O1Heap<DEFAULT_O1HEAP_SIZE> O1HeapLibcanard;
-
   typedef struct
   {
     CanardRxSubscription canard_rx_sub;
     OnTransferReceivedFunc transfer_complete_callback;
   } RxTransferData;
 
-  O1HeapLibcanard _o1heap_hdl;
+  O1HeapInstance * _o1heap_ins;
   CanardInstance _canard_hdl;
   CanardTxQueue _canard_tx_queue;
   arduino::_107_::opencyphal::ThreadsafeRingBuffer<std::tuple<uint32_t, size_t, std::array<uint8_t, 8>, CanardMicrosecond>> _canard_rx_queue;
-  CanFrameTransmitFunc _transmit_func;
   std::map<CanardPortID, RxTransferData> _rx_transfer_map;
   std::map<CanardPortID, CanardTransferID> _tx_transfer_map;
 
@@ -111,13 +114,12 @@ private:
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
 
   void processRxQueue();
-  void processTxQueue();
+  void processTxQueue(CanFrameTransmitFunc const tx_func);
 
   CanardTransferID getNextTransferId(CanardPortID const port_id);
   bool             subscribe        (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func);
   bool             unsubscribe      (CanardTransferKind const transfer_kind, CanardPortID const port_id);
   bool             enqeueTransfer   (CanardNodeID const remote_node_id, CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload, CanardTransferID const transfer_id);
-
 };
 
 /**************************************************************************************
