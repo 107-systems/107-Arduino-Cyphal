@@ -7,9 +7,9 @@
 // To avoid conflicts with definitions given in the source DSDL file, all entities created by the code generator
 // are named with an underscore at the end, like foo_bar_().
 //
-// Generator:     nunavut-1.8.2 (serialization was enabled)
+// Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/primitive/scalar/Integer8.1.0.dsdl
-// Generated at:  2022-06-14 07:08:29.871462 UTC
+// Generated at:  2022-12-15 21:30:28.402908 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.primitive.scalar.Integer8
@@ -17,13 +17,13 @@
 //
 // Platform
 //     python_implementation:  CPython
-//     python_version:  3.8.10
+//     python_version:  3.10.6
 //     python_release_level:  final
-//     python_build:  ('default', 'Mar 15 2022 12:22:08')
-//     python_compiler:  GCC 9.4.0
+//     python_build:  ('main', 'Nov 14 2022 16:10:14')
+//     python_compiler:  GCC 11.3.0
 //     python_revision:
 //     python_xoptions:  {}
-//     runtime_platform:  Linux-5.4.0-117-generic-x86_64-with-glibc2.29
+//     runtime_platform:  Linux-5.15.0-56-generic-x86_64-with-glibc2.35
 //
 // Language Options
 //     target_endianness:  any

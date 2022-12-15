@@ -1,11 +1,10 @@
-#!/bin/sh
+
 
 SCRIPT_DIR=$(dirname $(readlink -f "$0"))
 HEADER_DIR="$SCRIPT_DIR/../../src/types"
 NUNAVUT_DIR="$SCRIPT_DIR/../../src/nunavut"
 
 cd /tmp
-pip install -U nunavut
 rm -rf public_regulated_data_types
 git clone https://github.com/OpenCyphal/public_regulated_data_types
 nnvg --target-language c \
