@@ -24,6 +24,8 @@
 
 #include "Types.h"
 
+#include "Publisher.hpp"
+
 #include "libo1heap/o1heap.h"
 #include "libcanard/canard.h"
 
@@ -74,6 +76,8 @@ public:
   inline void setNodeId(CanardNodeID const node_id) { _canard_hdl.node_id = node_id; }
   inline CanardNodeID getNodeId() const { return _canard_hdl.node_id; }
 
+  Publisher create_publisher(CanardPortID const port_id);
+
   /* Must be called from the application to process
    * all received CAN frames.
    */
@@ -86,9 +90,6 @@ public:
 
   template <typename T>                     bool subscribe       (OnTransferReceivedFunc func);
   template <typename T>                     bool unsubscribe     ();
-
-  /* publish/subscribe API for "message" data exchange paradigm */
-  template <typename T_MSG>                 bool publish         (T_MSG const & msg);
 
   /* request/response API for "service" data exchange paradigm */
   template <typename T_RSP>                 bool respond         (T_RSP const & rsp, CanardNodeID const remote_node_id, CanardTransferID const transfer_id);

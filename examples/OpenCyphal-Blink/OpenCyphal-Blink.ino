@@ -64,8 +64,9 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
 
 CyphalHeap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
 Node node_hdl(node_heap.data(), node_heap.size());
+Publisher heartbeat_pub = node_hdl.create_publisher(Heartbeat_1_0<>::PORT_ID);
 
-Heartbeat_1_0<> hb;
+Heartbeat_1_0<> hb_msg;
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -106,10 +107,10 @@ void setup()
   mcp2515.setNormalMode();
 
   /* Configure initial heartbeat */
-  hb.data.uptime = 0;
-  hb = Heartbeat_1_0<>::Health::NOMINAL;
-  hb = Heartbeat_1_0<>::Mode::INITIALIZATION;
-  hb.data.vendor_specific_status_code = 0;
+  hb_msg.data.uptime = 0;
+  hb_msg = Heartbeat_1_0<>::Health::NOMINAL;
+  hb_msg = Heartbeat_1_0<>::Mode::INITIALIZATION;
+  hb_msg.data.vendor_specific_status_code = 0;
 
   /* Subscribe to the reception of Bit message. */
   node_hdl.subscribe<Bit_1_0<BIT_PORT_ID>>(onBit_1_0_Received);
@@ -122,14 +123,14 @@ void loop()
   node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
 
   /* Update the heartbeat object */
-  hb.data.uptime = millis() / 1000;
-  hb = Heartbeat_1_0<>::Mode::OPERATIONAL;
+  hb_msg.data.uptime = millis() / 1000;
+  hb_msg = Heartbeat_1_0<>::Mode::OPERATIONAL;
 
   /* Publish the heartbeat once/second */
   static unsigned long prev = 0;
   unsigned long const now = millis();
   if(now - prev > 1000) {
-    node_hdl.publish(hb);
+    heartbeat_pub.publish(hb_msg);
     prev = now;
   }
 }

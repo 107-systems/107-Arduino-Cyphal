@@ -79,7 +79,7 @@ uavcan::node::Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE();
 
 namespace heartbeat
 {
-void publish(Node &, uint32_t const, uavcan::node::Heartbeat_1_0<>::Mode const);
+void publish(uint32_t const, uavcan::node::Heartbeat_1_0<>::Mode const);
 }
 
 namespace gnss
@@ -101,6 +101,7 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
 
 CyphalHeap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
 Node node_hdl(node_heap.data(), node_heap.size());
+Publisher heartbeat_pub = node_hdl.create_publisher(uavcan::node::Heartbeat_1_0<>::PORT_ID);
 
 ArduinoNmeaParser nmea_parser(gnss::onRmcUpdate, gnss::onGgaUpdate);
 
@@ -156,7 +157,7 @@ void loop()
    */
   static unsigned long prev_heartbeat = 0;
   if ((now - prev_heartbeat) > node_config.heartbeat_period_ms) {
-    heartbeat::publish(node_hdl, now / 1000, node_data.mode);
+    heartbeat::publish(now / 1000, node_data.mode);
     prev_heartbeat = now;
   }
 
@@ -233,16 +234,16 @@ uavcan::node::Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE()
 namespace heartbeat
 {
 
-void publish(Node & u, uint32_t const uptime, uavcan::node::Heartbeat_1_0<>::Mode const mode)
+void publish(uint32_t const uptime, uavcan::node::Heartbeat_1_0<>::Mode const mode)
 {
-  uavcan::node::Heartbeat_1_0<> hb;
+  uavcan::node::Heartbeat_1_0<> hb_msg;
 
-  hb.data.uptime = uptime;
-  hb = uavcan::node::Heartbeat_1_0<>::Health::NOMINAL;
-  hb = mode;
-  hb.data.vendor_specific_status_code = 0;
+  hb_msg.data.uptime = uptime;
+  hb_msg = uavcan::node::Heartbeat_1_0<>::Health::NOMINAL;
+  hb_msg = mode;
+  hb_msg.data.vendor_specific_status_code = 0;
 
-  u.publish(hb);
+  heartbeat_pub.publish(hb_msg);
 }
 
 } /* heartbeat */

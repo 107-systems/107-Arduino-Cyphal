@@ -21,19 +21,6 @@ bool Node::unsubscribe()
   return unsubscribe(T::TRANSFER_KIND, T::PORT_ID);
 }
 
-template <typename T_MSG>
-bool Node::publish(T_MSG const & msg)
-{
-  static_assert(T_MSG::TRANSFER_KIND == CanardTransferKindMessage, "Node::publish API only works with CanardTransferKindMessage");
-
-  std::array<uint8_t, T_MSG::MAX_PAYLOAD_SIZE> payload_buf;
-  payload_buf.fill(0);
-  size_t const payload_size = msg.serialize(payload_buf.data());
-  CanardTransferID const transfer_id = getNextTransferId(T_MSG::PORT_ID);
-
-  return enqeueTransfer(CANARD_NODE_ID_UNSET, T_MSG::TRANSFER_KIND, T_MSG::PORT_ID, payload_size, payload_buf.data(), transfer_id);
-}
-
 template <typename T_RSP>
 bool Node::respond(T_RSP const & rsp, CanardNodeID const remote_node_id, CanardTransferID const transfer_id)
 {

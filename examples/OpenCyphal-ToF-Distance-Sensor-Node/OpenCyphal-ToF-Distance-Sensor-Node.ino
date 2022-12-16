@@ -63,7 +63,7 @@ typedef struct
 void mcp2515_onReceiveBufferFull(CanardFrame const &);
 void onGetInfo_1_0_Request_Received(CanardRxTransfer const &, Node &);
 
-void publish_heartbeat(Node &, uint32_t const, Heartbeat_1_0<>::Mode const);
+void publish_heartbeat(uint32_t const, Heartbeat_1_0<>::Mode const);
 void publish_tofDistance(drone::unit::Length const l);
 
 Heartbeat_1_0<>::Mode handle_INITIALIZATION();
@@ -120,6 +120,8 @@ ArduinoMCP2515 mcp2515([]()
 
 CyphalHeap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
 Node node_hdl(node_heap.data(), node_heap.size(), OPEN_CYPHAL_NODE_ID);
+Publisher heartbeat_pub = node_hdl.create_publisher(Heartbeat_1_0<>::PORT_ID);
+Publisher tof_pub = node_hdl.create_publisher(OPEN_CYPHAL_ID_DISTANCE_DATA);
 
 OpenCyphalNodeData node_data = OPEN_CYPHAL_NODE_INITIAL_DATA;
 OpenCyphalNodeConfiguration node_config = OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION;
@@ -249,7 +251,7 @@ void loop()
    */
   static unsigned long prev_heartbeat = 0;
   if ((now - prev_heartbeat) > node_config.heartbeat_period_ms) {
-    publish_heartbeat(node_hdl, now / 1000, node_data.mode);
+    publish_heartbeat(now / 1000, node_data.mode);
     prev_heartbeat = now;
   }
 
@@ -278,16 +280,16 @@ void mcp2515_onReceiveBufferFull(CanardFrame const & frame)
   node_hdl.onCanFrameReceived(frame, micros());
 }
 
-void publish_heartbeat(Node & u, uint32_t const uptime, Heartbeat_1_0<>::Mode const mode)
+void publish_heartbeat(uint32_t const uptime, Heartbeat_1_0<>::Mode const mode)
 {
-  Heartbeat_1_0<> hb;
+  Heartbeat_1_0<> hb_msg;
 
-  hb.data.uptime = uptime;
-  hb = Heartbeat_1_0<>::Health::NOMINAL;
-  hb = mode;
-  hb.data.vendor_specific_status_code = 0;
+  hb_msg.data.uptime = uptime;
+  hb_msg = Heartbeat_1_0<>::Health::NOMINAL;
+  hb_msg = mode;
+  hb_msg.data.vendor_specific_status_code = 0;
 
-  u.publish(hb);
+  heartbeat_pub.publish(hb_msg);
 }
 
 void publish_tofDistance(drone::unit::Length const l)
@@ -298,7 +300,7 @@ void publish_tofDistance(drone::unit::Length const l)
   DistanceMessageType tof_distance_msg;
   tof_distance_msg.data.value = l.value();
 
-  node_hdl.publish(tof_distance_msg);
+  tof_pub.publish(tof_distance_msg);
 }
 
 Heartbeat_1_0<>::Mode handle_INITIALIZATION()
