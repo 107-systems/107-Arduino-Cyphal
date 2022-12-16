@@ -44,4 +44,3 @@ private:
 #include "Publisher.ipp"
 
 #endif /* INC_107_ARDUINO_CYPHAL_PUBLISHER_H */
-
