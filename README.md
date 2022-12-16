@@ -57,6 +57,24 @@ void loop() {
 
 ### Contribution
 #### How to add missing wrappers
+##### Docker automatization
+The generation of C header files from OpenCyphal's [public_regulated_data_types](https://github.com/OpenCyphal/public_regulated_data_types) (step 1-3 in the instructions below) can also be executed by invoking a Docker container. It can be built and executed with the following commands:
+
+Install Docker via `snap` or follow the official [instructions](https://docs.docker.com/engine/install/ubuntu/):
+```bash
+sudo snap install docker
+```
+**Note**: You may need to add your user to the `docker` group:
+```bash
+sudo usermod -a -G docker $USER
+```
+Generating the C header files using a Docker container:
+```bash
+cd extras/script
+./build_docker.sh
+./docker_codegen.sh
+```
+
 ##### Step 1) Generate C header files from DSDL
 **Option A) Use [nunavut/nnvg](https://github.com/OpenCyphal/nunavut)**
 * Install **nunavut**: `pip install nunavut` (you will need a functional [Python installation](https://docs.python.org/3/using/index.html))
