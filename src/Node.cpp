@@ -36,7 +36,7 @@ Node::Node(uint8_t * heap_ptr,
 
 Publisher Node::create_publisher(CanardPortID const port_id)
 {
-  return Publisher(_canard_hdl, _canard_tx_queue, port_id);
+  return std::make_shared<impl::Publisher>(_canard_hdl, _canard_tx_queue, port_id);
 }
 
 void Node::spinSome(CanFrameTransmitFunc const tx_func)

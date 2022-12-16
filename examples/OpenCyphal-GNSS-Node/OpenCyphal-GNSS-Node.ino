@@ -243,7 +243,7 @@ void publish(uint32_t const uptime, uavcan::node::Heartbeat_1_0<>::Mode const mo
   hb_msg = mode;
   hb_msg.data.vendor_specific_status_code = 0;
 
-  heartbeat_pub.publish(hb_msg);
+  heartbeat_pub->publish(hb_msg);
 }
 
 } /* heartbeat */

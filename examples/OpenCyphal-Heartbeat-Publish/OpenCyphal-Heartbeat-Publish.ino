@@ -89,7 +89,7 @@ void loop()
   static unsigned long prev = 0;
   unsigned long const now = millis();
   if(now - prev > 1000) {
-    heartbeat_pub.publish(hb_msg);
+    heartbeat_pub->publish(hb_msg);
     prev = now;
   }
 }

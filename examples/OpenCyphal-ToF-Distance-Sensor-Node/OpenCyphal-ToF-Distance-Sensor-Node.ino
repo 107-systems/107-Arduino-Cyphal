@@ -289,7 +289,7 @@ void publish_heartbeat(uint32_t const uptime, Heartbeat_1_0<>::Mode const mode)
   hb_msg = mode;
   hb_msg.data.vendor_specific_status_code = 0;
 
-  heartbeat_pub.publish(hb_msg);
+  heartbeat_pub->publish(hb_msg);
 }
 
 void publish_tofDistance(drone::unit::Length const l)
@@ -300,7 +300,7 @@ void publish_tofDistance(drone::unit::Length const l)
   DistanceMessageType tof_distance_msg;
   tof_distance_msg.data.value = l.value();
 
-  tof_pub.publish(tof_distance_msg);
+  tof_pub->publish(tof_distance_msg);
 }
 
 Heartbeat_1_0<>::Mode handle_INITIALIZATION()
