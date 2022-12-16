@@ -64,6 +64,10 @@ Install Docker via `snap` or follow the official [instructions](https://docs.doc
 ```bash
 sudo snap install docker
 ```
+**Note**: You may need to add your user to the `docker` group:
+```bash
+sudo usermod -a -G docker $USER
+```
 Generating the C header files using a Docker container:
 ```bash
 cd extras/script
