@@ -35,8 +35,7 @@ bool Publisher::publish(T const & msg)
   };
 
   /* Serialize message into payload buffer. */
-  std::array<uint8_t, T::MAX_PAYLOAD_SIZE> payload_buf;
-  payload_buf.fill(0);
+  std::array<uint8_t, T::MAX_PAYLOAD_SIZE> payload_buf{};
   size_t const payload_buf_size = msg.serialize(payload_buf.data());
 
   /* Serialize transfer into a series of CAN frames */
