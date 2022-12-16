@@ -57,11 +57,10 @@ void loop() {
 
 ### Contribution
 #### How to add missing wrappers
-
 ##### Docker automatization
-
 The generation of C header files from OpenCyphal's [public_regulated_data_types](https://github.com/OpenCyphal/public_regulated_data_types) (step 1-3 in the instructions below) can also be executed by invoking a Docker container. It can be built and executed with the following commands:
-Installing Docker:
+
+Install Docker via `snap` or follow the official [instructions](https://docs.docker.com/engine/install/ubuntu/):
 ```bash
 sudo snap install docker
 ```
