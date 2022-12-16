@@ -60,7 +60,12 @@ void loop() {
 
 ##### Docker automatization
 
-Step 1-3 of the following instruction are also automated in a Docker container. The container can be built and executed with the following commands:
+The generation of C header files from OpenCyphal's [public_regulated_data_types](https://github.com/OpenCyphal/public_regulated_data_types) (step 1-3 in the instructions below) can also be executed by invoking a Docker container. It can be built and executed with the following commands:
+Installing Docker:
+```bash
+sudo snap install docker
+```
+Generating the C header files using a Docker container:
 ```bash
 cd extras/script
 ./build_docker.sh
