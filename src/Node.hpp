@@ -76,7 +76,7 @@ public:
   inline void setNodeId(CanardNodeID const node_id) { _canard_hdl.node_id = node_id; }
   inline CanardNodeID getNodeId() const { return _canard_hdl.node_id; }
 
-  template <typename T> Publisher<T> create_publisher(CanardPortID const port_id);
+  template <typename T> Publisher<T> create_publisher(CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec);
 
   /* Must be called from the application to process
    * all received CAN frames.

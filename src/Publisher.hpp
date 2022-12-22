@@ -29,7 +29,7 @@ template <typename T>
 class Publisher
 {
 public:
-  Publisher(CanardInstance & canard_hdl, CanardTxQueue & canard_tx_queue, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC)
+  Publisher(CanardInstance & canard_hdl, CanardTxQueue & canard_tx_queue, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec)
   : _canard_hdl{canard_hdl}
   , _canard_tx_queue{canard_tx_queue}
   , _port_id{port_id}
