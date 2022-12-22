@@ -23,7 +23,7 @@ namespace impl
  **************************************************************************************/
 
 template<typename T>
-bool Publisher::publish(T const & msg)
+bool Publisher<T>::publish(T const & msg)
 {
   CanardTransferMetadata const transfer_metadata =
   {

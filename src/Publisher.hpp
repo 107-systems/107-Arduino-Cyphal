@@ -25,6 +25,7 @@ namespace impl
  * CLASS DECLARATION
  **************************************************************************************/
 
+template <typename T>
 class Publisher
 {
 public:
@@ -35,7 +36,7 @@ public:
   , _transfer_id{0}
   { }
 
-  template <typename T> bool publish(T const & msg);
+  bool publish(T const & msg);
 
 private:
   CanardInstance & _canard_hdl;
@@ -54,7 +55,8 @@ private:
  * TYPEDEF
  **************************************************************************************/
 
-typedef std::shared_ptr<impl::Publisher> Publisher;
+template <typename T>
+using Publisher = std::shared_ptr<impl::Publisher<T>>;
 
 /**************************************************************************************
  * TEMPLATE IMPLEMENTATION

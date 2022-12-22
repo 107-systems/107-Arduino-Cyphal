@@ -83,6 +83,8 @@ static SPISettings  const MCP2515x_SPI_SETTING{10000000, MSBFIRST, SPI_MODE0};
 static CanardNodeID const OPEN_CYPHAL_NODE_ID = 42;
 static CanardPortID const OPEN_CYPHAL_ID_DISTANCE_DATA = 1001U;
 
+typedef uavcan::primitive::scalar::Real32_1_0<OPEN_CYPHAL_ID_DISTANCE_DATA> DistanceMessageType;
+
 static OpenCyphalNodeData const OPEN_CYPHAL_NODE_INITIAL_DATA =
 {
   Heartbeat_1_0<>::Mode::INITIALIZATION,
@@ -120,8 +122,8 @@ ArduinoMCP2515 mcp2515([]()
 
 CyphalHeap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
 Node node_hdl(node_heap.data(), node_heap.size(), OPEN_CYPHAL_NODE_ID);
-Publisher heartbeat_pub = node_hdl.create_publisher(Heartbeat_1_0<>::PORT_ID);
-Publisher tof_pub = node_hdl.create_publisher(OPEN_CYPHAL_ID_DISTANCE_DATA);
+Publisher<Heartbeat_1_0<>> heartbeat_pub = node_hdl.create_publisher<Heartbeat_1_0<>>(Heartbeat_1_0<>::PORT_ID);
+Publisher<DistanceMessageType> tof_pub = node_hdl.create_publisher<DistanceMessageType>(OPEN_CYPHAL_ID_DISTANCE_DATA);
 
 OpenCyphalNodeData node_data = OPEN_CYPHAL_NODE_INITIAL_DATA;
 OpenCyphalNodeConfiguration node_config = OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION;
@@ -296,7 +298,6 @@ void publish_tofDistance(drone::unit::Length const l)
 {
   DBG_INFO("[%05lu] Distance = %.3f m", millis(), l.value());
 
-  typedef uavcan::primitive::scalar::Real32_1_0<OPEN_CYPHAL_ID_DISTANCE_DATA> DistanceMessageType;
   DistanceMessageType tof_distance_msg;
   tof_distance_msg.data.value = l.value();
 
