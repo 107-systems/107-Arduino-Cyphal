@@ -12,6 +12,12 @@
 #include "Node.hpp"
 
 /**************************************************************************************
+ * FORWARD DECLARATION
+ **************************************************************************************/
+
+extern "C" unsigned long micros();
+
+/**************************************************************************************
  * CTOR/DTOR
  **************************************************************************************/
 
@@ -115,10 +121,19 @@ void Node::processTxQueue(CanFrameTransmitFunc const tx_func)
       tx_queue_item != nullptr;
       tx_queue_item = const_cast<CanardTxQueueItem *>(canardTxPeek(&_canard_tx_queue)))
   {
-    if (!tx_func(tx_queue_item->frame))
-      return;
+    /* Discard the frame if the transmit deadline has expired. */
+    if (tx_queue_item->tx_deadline_usec > micros()) {
+      _canard_hdl.memory_free(&_canard_hdl, canardTxPop(&_canard_tx_queue, tx_queue_item));
+      continue;
+    }
 
-    _canard_hdl.memory_free(&_canard_hdl, canardTxPop(&_canard_tx_queue, tx_queue_item));
+    /* Attempt to transmit the frame via CAN. */
+    if (tx_func(tx_queue_item->frame)) {
+      _canard_hdl.memory_free(&_canard_hdl, canardTxPop(&_canard_tx_queue, tx_queue_item));
+      continue;
+    }
+
+    return;
   }
 }
 
