@@ -34,7 +34,7 @@ Node::Node(uint8_t * heap_ptr,
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-void Node::spinSome(CanFrameTransmitFunc const tx_func, TransferTimestampFunc const micros_func)
+void Node::spinSome(CanFrameTransmitFunc const tx_func, CyphalMicrosFunc const micros_func)
 {
   processRxQueue();
   processTxQueue(tx_func, micros_func);
@@ -109,7 +109,7 @@ void Node::processRxQueue()
   }
 }
 
-void Node::processTxQueue(CanFrameTransmitFunc const tx_func, TransferTimestampFunc const micros_func)
+void Node::processTxQueue(CanFrameTransmitFunc const tx_func, CyphalMicrosFunc const micros_func)
 {
   for(CanardTxQueueItem * tx_queue_item = const_cast<CanardTxQueueItem *>(canardTxPeek(&_canard_tx_queue));
       tx_queue_item != nullptr;

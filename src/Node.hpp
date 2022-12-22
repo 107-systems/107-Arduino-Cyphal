@@ -22,6 +22,7 @@
 #include <memory>
 #include <functional>
 
+#include "Const.h"
 #include "Types.h"
 
 #include "Publisher.hpp"
@@ -40,7 +41,6 @@
 class Node;
 typedef std::function<void(CanardRxTransfer const &, Node &)> OnTransferReceivedFunc;
 typedef std::function<bool(CanardFrame const &)> CanFrameTransmitFunc;
-typedef std::function<CanardMicrosecond(void)> TransferTimestampFunc;
 
 template <size_t SIZE>
 struct alignas(O1HEAP_ALIGNMENT) CyphalHeap final : public std::array<uint8_t, SIZE> {};
@@ -80,12 +80,12 @@ public:
   template <typename T>
   Publisher<T> create_publisher(CanardPortID const port_id,
                                 CanardMicrosecond const tx_timeout_usec,
-                                std::function<CanardMicrosecond(void)> const micros_func);
+                                CyphalMicrosFunc const micros_func);
 
   /* Must be called from the application to process
    * all received CAN frames.
    */
-  void spinSome(CanFrameTransmitFunc const tx_func, TransferTimestampFunc const micros_func);
+  void spinSome(CanFrameTransmitFunc const tx_func, CyphalMicrosFunc const micros_func);
   /* Must be called from the application upon the
    * reception of a can frame.
    */
@@ -119,7 +119,7 @@ private:
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
 
   void processRxQueue();
-  void processTxQueue(CanFrameTransmitFunc const tx_func, TransferTimestampFunc const micros_func);
+  void processTxQueue(CanFrameTransmitFunc const tx_func, CyphalMicrosFunc const micros_func);
 
   CanardTransferID getNextTransferId(CanardPortID const port_id);
   bool             subscribe        (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func);
