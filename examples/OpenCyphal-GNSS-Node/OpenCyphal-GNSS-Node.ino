@@ -147,7 +147,7 @@ void loop()
 {
   /* Process all pending OpenCyphal actions.
    */
-  node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+  node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); }, micros);
 
   /* Handle actions common to all states.
    */

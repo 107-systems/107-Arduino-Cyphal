@@ -29,11 +29,12 @@ template <typename T>
 class Publisher
 {
 public:
-  Publisher(CanardInstance & canard_hdl, CanardTxQueue & canard_tx_queue, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec)
+  Publisher(CanardInstance & canard_hdl, CanardTxQueue & canard_tx_queue, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, std::function<CanardMicrosecond(void)> const micros_func)
   : _canard_hdl{canard_hdl}
   , _canard_tx_queue{canard_tx_queue}
   , _port_id{port_id}
   , _tx_timeout_usec{tx_timeout_usec}
+  , _micros_func{micros_func}
   , _transfer_id{0}
   { }
 
@@ -44,6 +45,7 @@ private:
   CanardTxQueue & _canard_tx_queue;
   CanardPortID const _port_id;
   CanardMicrosecond const _tx_timeout_usec;
+  std::function<CanardMicrosecond(void)> const _micros_func;
   CanardTransferID _transfer_id;
 };
 
