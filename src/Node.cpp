@@ -17,12 +17,14 @@
 
 Node::Node(uint8_t * heap_ptr,
            size_t const heap_size,
+           CyphalMicrosFunc const micros_func,
            CanardNodeID const node_id,
            size_t const tx_queue_capacity,
            size_t const rx_queue_capacity,
            size_t const mtu_bytes)
 : _o1heap_ins{o1heapInit(heap_ptr, heap_size)}
 , _canard_hdl{canardInit(Node::o1heap_allocate, Node::o1heap_free)}
+, _micros_func{micros_func}
 , _canard_tx_queue{canardTxInit(tx_queue_capacity, mtu_bytes)}
 , _canard_rx_queue{rx_queue_capacity}
 {
@@ -34,10 +36,10 @@ Node::Node(uint8_t * heap_ptr,
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-void Node::spinSome(CanFrameTransmitFunc const tx_func, CyphalMicrosFunc const micros_func)
+void Node::spinSome(CanFrameTransmitFunc const tx_func)
 {
   processRxQueue();
-  processTxQueue(tx_func, micros_func);
+  processTxQueue(tx_func);
 }
 
 void Node::onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us)
@@ -109,14 +111,14 @@ void Node::processRxQueue()
   }
 }
 
-void Node::processTxQueue(CanFrameTransmitFunc const tx_func, CyphalMicrosFunc const micros_func)
+void Node::processTxQueue(CanFrameTransmitFunc const tx_func)
 {
   for(CanardTxQueueItem * tx_queue_item = const_cast<CanardTxQueueItem *>(canardTxPeek(&_canard_tx_queue));
       tx_queue_item != nullptr;
       tx_queue_item = const_cast<CanardTxQueueItem *>(canardTxPeek(&_canard_tx_queue)))
   {
     /* Discard the frame if the transmit deadline has expired. */
-    if (tx_queue_item->tx_deadline_usec > micros_func()) {
+    if (tx_queue_item->tx_deadline_usec > _micros_func()) {
       _canard_hdl.memory_free(&_canard_hdl, canardTxPop(&_canard_tx_queue, tx_queue_item));
       continue;
     }

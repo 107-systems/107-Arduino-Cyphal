@@ -11,10 +11,9 @@
 
 template <typename T>
 Publisher<T> Node::create_publisher(CanardPortID const port_id,
-                                    CanardMicrosecond const tx_timeout_usec,
-                                    CyphalMicrosFunc const micros_func)
+                                    CanardMicrosecond const tx_timeout_usec)
 {
-  return std::make_shared<impl::Publisher<T>>(_canard_hdl, _canard_tx_queue, port_id, tx_timeout_usec, micros_func);
+  return std::make_shared<impl::Publisher<T>>(_canard_hdl, _canard_tx_queue, port_id, tx_timeout_usec, _micros_func);
 }
 
 template <typename T>
