@@ -22,6 +22,7 @@
 #include <memory>
 #include <functional>
 
+#include "Const.h"
 #include "Types.h"
 
 #include "Publisher.hpp"
@@ -61,22 +62,25 @@ public:
 
   Node(uint8_t * heap_ptr,
        size_t const heap_size,
+       CyphalMicrosFunc const micros_func,
        CanardNodeID const node_id,
        size_t const tx_queue_capacity,
        size_t const rx_queue_capacity,
        size_t const mtu_bytes);
 
-  Node(uint8_t * heap_ptr, size_t const heap_size)
-  : Node(heap_ptr, heap_size, DEFAULT_NODE_ID, DEFAULT_TX_QUEUE_SIZE, DEFAULT_RX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
+  Node(uint8_t * heap_ptr, size_t const heap_size, CyphalMicrosFunc const micros_func)
+  : Node(heap_ptr, heap_size, micros_func, DEFAULT_NODE_ID, DEFAULT_TX_QUEUE_SIZE, DEFAULT_RX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
-  Node(uint8_t * heap_ptr, size_t const heap_size, CanardNodeID const node_id)
-  : Node(heap_ptr, heap_size, node_id, DEFAULT_TX_QUEUE_SIZE, DEFAULT_RX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
+  Node(uint8_t * heap_ptr, size_t const heap_size, CyphalMicrosFunc const micros_func, CanardNodeID const node_id)
+  : Node(heap_ptr, heap_size, micros_func, node_id, DEFAULT_TX_QUEUE_SIZE, DEFAULT_RX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
 
   inline void setNodeId(CanardNodeID const node_id) { _canard_hdl.node_id = node_id; }
   inline CanardNodeID getNodeId() const { return _canard_hdl.node_id; }
 
-  template <typename T> Publisher<T> create_publisher(CanardPortID const port_id);
+  template <typename T>
+  Publisher<T> create_publisher(CanardPortID const port_id,
+                                CanardMicrosecond const tx_timeout_usec);
 
   /* Must be called from the application to process
    * all received CAN frames.
@@ -106,6 +110,7 @@ private:
 
   O1HeapInstance * _o1heap_ins;
   CanardInstance _canard_hdl;
+  CyphalMicrosFunc const _micros_func;
   CanardTxQueue _canard_tx_queue;
   arduino::_107_::opencyphal::ThreadsafeRingBuffer<std::tuple<uint32_t, size_t, std::array<uint8_t, 8>, CanardMicrosecond>> _canard_rx_queue;
   std::map<CanardPortID, RxTransferData> _rx_transfer_map;

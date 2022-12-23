@@ -41,7 +41,7 @@ bool Publisher<T>::publish(T const & msg)
   /* Serialize transfer into a series of CAN frames */
   int32_t result = canardTxPush(&_canard_tx_queue,
                                 &_canard_hdl,
-                                CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC,
+                                _micros_func() + _tx_timeout_usec,
                                 &transfer_metadata,
                                 payload_buf_size,
                                 payload_buf.data());
