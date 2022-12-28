@@ -98,8 +98,8 @@ void Node::processRxQueue()
        */
       if (transfer.metadata.transfer_kind == CanardTransferKindMessage)
       {
-        if (_subscription_map.count(transfer.metadata.port_id) > 0)
-          _subscription_map.at(transfer.metadata.port_id)->onTransferReceived(transfer);
+        if (_msg_subscription_map.count(transfer.metadata.port_id) > 0)
+          _msg_subscription_map.at(transfer.metadata.port_id)->onTransferReceived(transfer);
       }
 
       if (_rx_transfer_map.count(transfer.metadata.port_id) > 0)
@@ -150,7 +150,7 @@ void Node::unsubscribe_subscription(CanardPortID const port_id)
                       CanardTransferKindMessage,
                       port_id);
 
-  _subscription_map.erase(port_id);
+  _msg_subscription_map.erase(port_id);
 }
 
 CanardTransferID Node::getNextTransferId(CanardPortID const port_id)

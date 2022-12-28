@@ -33,7 +33,7 @@ Subscription<T> Node::create_subscription(CanardPortID const port_id,
   if (rc < 0)
     return nullptr;
 
-  _subscription_map[port_id] = dynamic_cast<impl::SubscriptionBase *>(sub.get());
+  _msg_subscription_map[port_id] = dynamic_cast<impl::SubscriptionBase *>(sub.get());
   return sub;
 }
 
