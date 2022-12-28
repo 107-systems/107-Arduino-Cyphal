@@ -91,6 +91,17 @@ void Node::processRxQueue()
 
     if(result == 1)
     {
+      /* Check whether or not the incoming transfer is a message transfer,
+       * if the incoming port id has been subscribed too and, if all those
+       * preconditions hold true, invoke the required transfer received
+       * callback.
+       */
+      if (transfer.metadata.transfer_kind == CanardTransferKindMessage)
+      {
+        if (_subscription_map.count(transfer.metadata.port_id) > 0)
+          _subscription_map.at(transfer.metadata.port_id)->onTransferReceived(transfer);
+      }
+
       if (_rx_transfer_map.count(transfer.metadata.port_id) > 0)
       {
         OnTransferReceivedFunc transfer_received_func = _rx_transfer_map[transfer.metadata.port_id].transfer_complete_callback;
@@ -131,6 +142,15 @@ void Node::processTxQueue(CanFrameTransmitFunc const tx_func)
 
     return;
   }
+}
+
+void Node::unsubscribe_subscription(CanardPortID const port_id)
+{
+  canardRxUnsubscribe(&_canard_hdl,
+                      CanardTransferKindMessage,
+                      port_id);
+
+  _subscription_map.erase(port_id);
 }
 
 CanardTransferID Node::getNextTransferId(CanardPortID const port_id)
