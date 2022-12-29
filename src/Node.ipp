@@ -22,7 +22,7 @@ Subscription<T> Node::create_subscription(CanardPortID const port_id,
                                           std::function<void(T const &)> on_receive_cb)
 {
   auto sub = std::make_shared<impl::Subscription<T>>(on_receive_cb,
-                                                     [this, port_id]() { unsubscribe_subscription(port_id); });
+                                                     [this, port_id]() { unsubscribe_message(port_id); });
 
   int8_t const rc = canardRxSubscribe(&_canard_hdl,
                                       CanardTransferKindMessage,

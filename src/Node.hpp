@@ -126,7 +126,7 @@ private:
   void processRxQueue();
   void processTxQueue(CanFrameTransmitFunc const tx_func);
 
-  void unsubscribe_subscription(CanardPortID const port_id);
+  void unsubscribe_message(CanardPortID const port_id);
   CanardTransferID getNextTransferId(CanardPortID const port_id);
   bool             subscribe        (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func);
   bool             unsubscribe      (CanardTransferKind const transfer_kind, CanardPortID const port_id);

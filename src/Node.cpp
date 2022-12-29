@@ -144,7 +144,7 @@ void Node::processTxQueue(CanFrameTransmitFunc const tx_func)
   }
 }
 
-void Node::unsubscribe_subscription(CanardPortID const port_id)
+void Node::unsubscribe_message(CanardPortID const port_id)
 {
   canardRxUnsubscribe(&_canard_hdl,
                       CanardTransferKindMessage,
