@@ -5,8 +5,8 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef INC_107_ARDUINO_CYPHAL_SUBSCRIPTION_HPP
-#define INC_107_ARDUINO_CYPHAL_SUBSCRIPTION_HPP
+#ifndef INC_107_ARDUINO_CYPHAL_SERVICE_HPP
+#define INC_107_ARDUINO_CYPHAL_SERVICE_HPP
 
 /**************************************************************************************
  * INCLUDE
@@ -27,33 +27,41 @@ namespace impl
  * CLASS DECLARATION
  **************************************************************************************/
 
-class SubscriptionBase
+class ServiceBase
 {
 public:
-  virtual ~SubscriptionBase() { }
-  virtual void onTransferReceived(CanardRxTransfer const & transfer) = 0;
+  virtual ~ServiceBase() { }
+  virtual bool onTransferReceived(CanardRxTransfer const & transfer) = 0;
 };
 
-template <typename T>
-class Subscription : public SubscriptionBase
+template<typename T_REQ, typename T_RSP>
+class Service : public ServiceBase
 {
 public:
-  Subscription(std::function<void(T const &)> on_receive_cb, std::function<void(void)> on_destruction_cb)
-  : SubscriptionBase{}
-  , _on_receive_cb{on_receive_cb}
+  Service(CanardInstance & canard_hdl, CanardTxQueue & canard_tx_queue, CanardMicrosecond const tx_timeout_usec, CyphalMicrosFunc const micros_func, std::function<T_RSP(T_REQ const &)> service_cb, std::function<void(void)> on_destruction_cb)
+  : _canard_hdl{canard_hdl}
+  , _canard_tx_queue{canard_tx_queue}
+  , _tx_timeout_usec{tx_timeout_usec}
+  , _micros_func{micros_func}
+  , _service_cb{service_cb}
   , _on_destruction_cb{on_destruction_cb}
   { }
-  virtual ~Subscription();
+  virtual ~Service();
 
-  virtual void onTransferReceived(CanardRxTransfer const & transfer) override;
+
+  virtual bool onTransferReceived(CanardRxTransfer const & transfer) override;
 
 
   inline CanardRxSubscription & canard_rx_subscription() { return _canard_rx_sub; }
 
 
 private:
+  CanardInstance & _canard_hdl;
+  CanardTxQueue & _canard_tx_queue;
+  CanardMicrosecond const _tx_timeout_usec;
+  CyphalMicrosFunc const _micros_func;
   CanardRxSubscription _canard_rx_sub;
-  std::function<void(T const &)> _on_receive_cb;
+  std::function<T_RSP(T_REQ const &)> _service_cb;
   std::function<void(void)> _on_destruction_cb;
 };
 
@@ -67,13 +75,13 @@ private:
  * TYPEDEF
  **************************************************************************************/
 
-template <typename T>
-using Subscription = std::shared_ptr<impl::Subscription<T>>;
+template <typename T_REQ, typename T_RSP>
+using Service = std::shared_ptr<impl::Service<T_REQ, T_RSP>>;
 
 /**************************************************************************************
  * TEMPLATE IMPLEMENTATION
  **************************************************************************************/
 
-#include "Subscription.ipp"
+#include "Service.ipp"
 
-#endif /* INC_107_ARDUINO_CYPHAL_SUBSCRIPTION_HPP */
+#endif /* INC_107_ARDUINO_CYPHAL_SERVICE_HPP */

@@ -25,6 +25,7 @@
 #include "Const.h"
 #include "Types.h"
 
+#include "Service.hpp"
 #include "Publisher.hpp"
 #include "Subscription.hpp"
 
@@ -88,6 +89,11 @@ public:
                                       CanardMicrosecond const rx_timeout_usec,
                                       std::function<void(T const &)> on_receive_cb);
 
+  template <typename T_REQ, typename T_RSP>
+  Service<T_REQ, T_RSP> create_service(CanardPortID const port_id,
+                                       CanardMicrosecond const tx_timeout_usec,
+                                       std::function<T_RSP(T_REQ const &)> service_cb);
+
   /* Must be called from the application to process
    * all received CAN frames.
    */
@@ -98,27 +104,14 @@ public:
   void onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us);
 
 
-  /* request/response API for "service" data exchange paradigm */
-  template <typename T_RSP>                 bool respond         (T_RSP const & rsp, CanardNodeID const remote_node_id, CanardTransferID const transfer_id);
-  template <typename T_REQ, typename T_RSP> bool request         (T_REQ const & req, CanardNodeID const remote_node_id, OnTransferReceivedFunc func);
-
-
 private:
-
-  typedef struct
-  {
-    CanardRxSubscription canard_rx_sub;
-    OnTransferReceivedFunc transfer_complete_callback;
-  } RxTransferData;
-
   O1HeapInstance * _o1heap_ins;
   CanardInstance _canard_hdl;
   CyphalMicrosFunc const _micros_func;
   CanardTxQueue _canard_tx_queue;
   arduino::_107_::opencyphal::ThreadsafeRingBuffer<std::tuple<uint32_t, size_t, std::array<uint8_t, 8>, CanardMicrosecond>> _canard_rx_queue;
-  std::map<CanardPortID, RxTransferData> _rx_transfer_map;
-  std::map<CanardPortID, CanardTransferID> _tx_transfer_map;
   std::map<CanardPortID, impl::SubscriptionBase *> _msg_subscription_map;
+  std::map<CanardPortID, impl::ServiceBase *> _req_subscription_map;
 
   static void * o1heap_allocate(CanardInstance * const ins, size_t const amount);
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
@@ -127,10 +120,7 @@ private:
   void processTxQueue(CanFrameTransmitFunc const tx_func);
 
   void unsubscribe_message(CanardPortID const port_id);
-  CanardTransferID getNextTransferId(CanardPortID const port_id);
-  bool             subscribe        (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func);
-  bool             unsubscribe      (CanardTransferKind const transfer_kind, CanardPortID const port_id);
-  bool             enqeueTransfer   (CanardNodeID const remote_node_id, CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload, CanardTransferID const transfer_id);
+  void unsubscribe_request(CanardPortID const port_id);
 };
 
 /**************************************************************************************

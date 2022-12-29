@@ -47,8 +47,7 @@ void Node::onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const
   uint32_t const extended_can_id = frame.extended_can_id;
   size_t   const payload_size    = frame.payload_size;
 
-  std::array<uint8_t, 8> payload;
-  payload.fill(0);
+  std::array<uint8_t, 8> payload{};
   memcpy(payload.data(), frame.payload, std::min(payload_size, payload.size()));
 
   _canard_rx_queue.enqueue(std::make_tuple(extended_can_id, payload_size, payload, rx_timestamp_us));
@@ -102,10 +101,17 @@ void Node::processRxQueue()
           _msg_subscription_map.at(transfer.metadata.port_id)->onTransferReceived(transfer);
       }
 
-      if (_rx_transfer_map.count(transfer.metadata.port_id) > 0)
+      /* If the incoming message is a service request, and we're providing
+       * such a service at this node then redirect the request message
+       * to the appropriate service callback.
+       */
+      if (transfer.metadata.transfer_kind == CanardTransferKindRequest)
       {
-        OnTransferReceivedFunc transfer_received_func = _rx_transfer_map[transfer.metadata.port_id].transfer_complete_callback;
+        if (_req_subscription_map.count(transfer.metadata.port_id) > 0)
+          _req_subscription_map.at(transfer.metadata.port_id)->onTransferReceived(transfer);
+      }
 
+        /*
         if (transfer.metadata.transfer_kind == CanardTransferKindResponse) {
           if ((_tx_transfer_map.count(transfer.metadata.port_id) > 0) && (_tx_transfer_map[transfer.metadata.port_id] == transfer.metadata.transfer_id))
           {
@@ -115,7 +121,8 @@ void Node::processRxQueue()
         }
         else
           transfer_received_func(transfer, *this);
-      }
+          */
+
       /* Free dynamically allocated memory after processing. */
       _canard_hdl.memory_free(&_canard_hdl, transfer.payload);
     }
@@ -153,60 +160,11 @@ void Node::unsubscribe_message(CanardPortID const port_id)
   _msg_subscription_map.erase(port_id);
 }
 
-CanardTransferID Node::getNextTransferId(CanardPortID const port_id)
+void Node::unsubscribe_request(CanardPortID const port_id)
 {
-  CanardTransferID const next_transfer_id = (_tx_transfer_map.count(port_id) > 0) ? ((_tx_transfer_map[port_id] + 1) % CANARD_TRANSFER_ID_MAX) : 0;
-  _tx_transfer_map[port_id] = next_transfer_id;
-  return next_transfer_id;
-}
+  canardRxUnsubscribe(&_canard_hdl,
+                      CanardTransferKindRequest,
+                      port_id);
 
-bool Node::subscribe(CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func)
-{
-  _rx_transfer_map[port_id].transfer_complete_callback = func;
-  int8_t const result = canardRxSubscribe(&_canard_hdl,
-                                          transfer_kind,
-                                          port_id,
-                                          payload_size_max,
-                                          CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC,
-                                          &(_rx_transfer_map[port_id].canard_rx_sub));
-
-  bool const success = (result >= 0);
-  return success;
-}
-
-bool Node::unsubscribe(CanardTransferKind const transfer_kind, CanardPortID const port_id)
-{
-  int8_t const result = canardRxUnsubscribe(&_canard_hdl,
-                                            transfer_kind,
-                                            port_id);
-
-  /* Remove CanardRxSubscription instance from internal list since the
-   * structure is no longed needed.
-   */
-  _rx_transfer_map.erase(port_id);
-
-  bool const success = (result >= 0);
-  return success;
-}
-
-bool Node::enqeueTransfer(CanardNodeID const remote_node_id, CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload, CanardTransferID const transfer_id)
-{
-  CanardTransferMetadata const transfer_metadata =
-  {
-    .priority       = CanardPriorityNominal,
-    .transfer_kind  = transfer_kind,
-    .port_id        = port_id,
-    .remote_node_id = remote_node_id,
-    .transfer_id    = transfer_id,
-  };
-
-  /* Serialize transfer into a series of CAN frames */
-  int32_t result = canardTxPush(&_canard_tx_queue,
-                                &_canard_hdl,
-                                CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC,
-                                &transfer_metadata,
-                                payload_size,
-                                payload);
-  bool const success = (result >= 0);
-  return success;
+  _req_subscription_map.erase(port_id);
 }

@@ -15,9 +15,13 @@
  * CTOR/DTOR
  **************************************************************************************/
 
-NodeInfo::NodeInfo(uint8_t const protocol_major, uint8_t const protocol_minor,
-                   uint8_t const hardware_major, uint8_t const hardware_minor,
-                   uint8_t const software_major, uint8_t const software_minor,
+NodeInfo::NodeInfo(Node & node_hdl,
+                   uint8_t const protocol_major,
+                   uint8_t const protocol_minor,
+                   uint8_t const hardware_major,
+                   uint8_t const hardware_minor,
+                   uint8_t const software_major,
+                   uint8_t const software_minor,
                    uint64_t const software_vcs_revision_id,
                    UniqueId16Array const unique_id,
                    std::string const & name)
@@ -37,25 +41,14 @@ NodeInfo::NodeInfo(uint8_t const protocol_major, uint8_t const protocol_minor,
 
   _node_info.name.count = std::min(name.length(), uavcan_node_GetInfo_Response_1_0_name_ARRAY_CAPACITY_);
   memcpy(_node_info.name.elements, name.c_str(), _node_info.name.count);
-}
 
-/**************************************************************************************
- * PUBLIC MEMBER FUNCTIONS
- **************************************************************************************/
-
-void NodeInfo::subscribe(Node & node_hdl)
-{
-  node_hdl.subscribe<uavcan::node::GetInfo_1_0::Request<>>
-    ([this](CanardRxTransfer const & transfer, Node & node_hdl) { this->onGetInfo_1_0_Request_Received(transfer, node_hdl); });
-}
-
-/**************************************************************************************
- * PRIVATE MEMBER FUNCTIONS
- **************************************************************************************/
-
-void NodeInfo::onGetInfo_1_0_Request_Received(CanardRxTransfer const & transfer, Node & node_hdl)
-{
-  uavcan::node::GetInfo_1_0::Response<> rsp = uavcan::node::GetInfo_1_0::Response<>();
-  memcpy(&rsp.data, &_node_info, sizeof(uavcan_node_GetInfo_Response_1_0));
-  node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
+  _node_info_srv = node_hdl.create_service<uavcan::node::GetInfo_1_0::Request<>, uavcan::node::GetInfo_1_0::Response<>>(
+    uavcan::node::GetInfo_1_0::Request<>::PORT_ID,
+    2*1000*1000UL,
+    [this](uavcan::node::GetInfo_1_0::Request<> const & req) -> uavcan::node::GetInfo_1_0::Response<>
+    {
+      uavcan::node::GetInfo_1_0::Response<> rsp = uavcan::node::GetInfo_1_0::Response<>();
+      memcpy(&rsp.data, &_node_info, sizeof(uavcan_node_GetInfo_Response_1_0));
+      return rsp;
+    });
 }

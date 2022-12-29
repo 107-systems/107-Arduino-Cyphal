@@ -14,6 +14,7 @@
 
 #include "Node.hpp"
 #include "Types.h"
+#include "Service.hpp"
 #include "Publisher.hpp"
 #include "Subscription.hpp"
 #include "nodeinfo/NodeInfo.h"

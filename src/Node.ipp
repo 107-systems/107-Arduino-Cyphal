@@ -37,18 +37,34 @@ Subscription<T> Node::create_subscription(CanardPortID const port_id,
   return sub;
 }
 
-template <typename T_RSP>
-bool Node::respond(T_RSP const & rsp, CanardNodeID const remote_node_id, CanardTransferID const transfer_id)
+template <typename T_REQ, typename T_RSP>
+Service<T_REQ, T_RSP> Node::create_service(CanardPortID const port_id,
+                                           CanardMicrosecond const tx_timeout_usec,
+                                           std::function<T_RSP(T_REQ const &)> service_cb)
 {
-  static_assert(T_RSP::TRANSFER_KIND == CanardTransferKindResponse, "Node::respond API only works with CanardTransferKindResponse");
+  auto srv = std::make_shared<impl::Service<T_REQ, T_RSP>>(
+    _canard_hdl,
+    _canard_tx_queue,
+    tx_timeout_usec,
+    _micros_func,
+    service_cb,
+    [this, port_id]() { unsubscribe_request(port_id); }
+    );
 
-  std::array<uint8_t, T_RSP::MAX_PAYLOAD_SIZE> payload_buf;
-  payload_buf.fill(0);
-  size_t const payload_size = rsp.serialize(payload_buf.data());
+  int8_t const rc = canardRxSubscribe(&_canard_hdl,
+                                      CanardTransferKindRequest,
+                                      port_id,
+                                      T_REQ::MAX_PAYLOAD_SIZE,
+                                      CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC,
+                                      &(srv->canard_rx_subscription()));
+  if (rc < 0)
+    return nullptr;
 
-  return enqeueTransfer(remote_node_id, T_RSP::TRANSFER_KIND, T_RSP::PORT_ID, payload_size, payload_buf.data(), transfer_id);
+  _req_subscription_map[port_id] = dynamic_cast<impl::ServiceBase *>(srv.get());
+  return srv;
 }
 
+/*
 template <typename T_REQ, typename T_RSP>
 bool Node::request(T_REQ const & req, CanardNodeID const remote_node_id, OnTransferReceivedFunc func)
 {
@@ -65,3 +81,4 @@ bool Node::request(T_REQ const & req, CanardNodeID const remote_node_id, OnTrans
 
   return subscribe(T_RSP::TRANSFER_KIND, T_RSP::PORT_ID, T_RSP::MAX_PAYLOAD_SIZE, func);
 }
+*/
