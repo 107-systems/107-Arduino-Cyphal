@@ -46,7 +46,7 @@ public:
   virtual void onTransferReceived(CanardRxTransfer const & transfer) override;
 
 
-  inline CanardRxSubscription & canard_rx_subscription() { return _canard_rx_sub; }
+  CanardRxSubscription & canard_rx_subscription() { return _canard_rx_sub; }
 
 
 private:
