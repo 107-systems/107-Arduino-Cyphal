@@ -40,7 +40,6 @@
  * TYPEDEF
  **************************************************************************************/
 
-class Node;
 typedef std::function<void(CanardRxTransfer const &, Node &)> OnTransferReceivedFunc;
 typedef std::function<bool(CanardFrame const &)> CanFrameTransmitFunc;
 
@@ -104,6 +103,9 @@ public:
   void onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us);
 
 
+  void unsubscribe_message(CanardPortID const port_id);
+
+
 private:
   O1HeapInstance * _o1heap_ins;
   CanardInstance _canard_hdl;
@@ -119,7 +121,6 @@ private:
   void processRxQueue();
   void processTxQueue(CanFrameTransmitFunc const tx_func);
 
-  void unsubscribe_message(CanardPortID const port_id);
   void unsubscribe_request(CanardPortID const port_id);
 };
 

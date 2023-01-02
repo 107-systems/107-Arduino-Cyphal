@@ -17,6 +17,12 @@
 #include "libcanard/canard.h"
 
 /**************************************************************************************
+ * FORWARD DECLARATION
+ **************************************************************************************/
+
+class Node;
+
+/**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
 
@@ -41,14 +47,15 @@ public:
   virtual void onTransferReceived(CanardRxTransfer const & transfer) = 0;
 };
 
-template <typename T, typename OnReceiveCb, typename OnDestructionCb>
+template <typename T, typename OnReceiveCb>
 class Subscription : public SubscriptionBase
 {
 public:
-  Subscription(OnReceiveCb const & on_receive_cb, OnDestructionCb const & on_destruction_cb)
+  Subscription(Node & node_hdl, CanardPortID const port_id, OnReceiveCb const & on_receive_cb)
   : SubscriptionBase{}
+  , _node_hdl{node_hdl}
+  , _port_id{port_id}
   , _on_receive_cb{on_receive_cb}
-  , _on_destruction_cb{on_destruction_cb}
   { }
   virtual ~Subscription();
 
@@ -59,9 +66,10 @@ public:
 
 
 private:
+  Node & _node_hdl;
+  CanardPortID const _port_id;
   CanardRxSubscription _canard_rx_sub;
   OnReceiveCb _on_receive_cb;
-  OnDestructionCb _on_destruction_cb;
 };
 
 /**************************************************************************************
@@ -75,7 +83,7 @@ private:
  **************************************************************************************/
 
 template <typename T, typename OnReceiveCb>
-using Subscription = std::shared_ptr<impl::Subscription<T, OnReceiveCb, std::function<void(void)>>>;
+using Subscription = std::shared_ptr<impl::Subscription<T, OnReceiveCb>>;
 
 /**************************************************************************************
  * TEMPLATE IMPLEMENTATION

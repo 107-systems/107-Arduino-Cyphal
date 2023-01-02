@@ -21,10 +21,7 @@ Subscription<T, OnReceiveCb> Node::create_subscription(CanardPortID const port_i
                                                        CanardMicrosecond const rx_timeout_usec,
                                                        OnReceiveCb&& on_receive_cb)
 {
-  auto sub = std::make_shared<impl::Subscription<T, OnReceiveCb, std::function<void(void)>>>(
-    std::forward<OnReceiveCb>(on_receive_cb),
-    [this, port_id]() { unsubscribe_message(port_id); }
-    );
+  auto sub = std::make_shared<impl::Subscription<T, OnReceiveCb>>(*this, port_id, std::forward<OnReceiveCb>(on_receive_cb));
 
   int8_t const rc = canardRxSubscribe(&_canard_hdl,
                                       CanardTransferKindMessage,
