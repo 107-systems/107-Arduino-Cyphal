@@ -39,7 +39,6 @@
  * TYPEDEF
  **************************************************************************************/
 
-class Node;
 typedef std::function<void(CanardRxTransfer const &, Node &)> OnTransferReceivedFunc;
 typedef std::function<bool(CanardFrame const &)> CanFrameTransmitFunc;
 
@@ -103,6 +102,9 @@ public:
   template <typename T_REQ, typename T_RSP> bool request         (T_REQ const & req, CanardNodeID const remote_node_id, OnTransferReceivedFunc func);
 
 
+  void unsubscribe_message(CanardPortID const port_id);
+
+
 private:
 
   typedef struct
@@ -126,7 +128,6 @@ private:
   void processRxQueue();
   void processTxQueue(CanFrameTransmitFunc const tx_func);
 
-  void unsubscribe_message(CanardPortID const port_id);
   CanardTransferID getNextTransferId(CanardPortID const port_id);
   bool             subscribe        (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func);
   bool             unsubscribe      (CanardTransferKind const transfer_kind, CanardPortID const port_id);

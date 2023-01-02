@@ -54,6 +54,15 @@ void Node::onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const
   _canard_rx_queue.enqueue(std::make_tuple(extended_can_id, payload_size, payload, rx_timestamp_us));
 }
 
+void Node::unsubscribe_message(CanardPortID const port_id)
+{
+  canardRxUnsubscribe(&_canard_hdl,
+                      CanardTransferKindMessage,
+                      port_id);
+
+  _msg_subscription_map.erase(port_id);
+}
+
 /**************************************************************************************
  * PRIVATE MEMBER FUNCTIONS
  **************************************************************************************/
@@ -145,15 +154,6 @@ void Node::processTxQueue(CanFrameTransmitFunc const tx_func)
 
     return;
   }
-}
-
-void Node::unsubscribe_message(CanardPortID const port_id)
-{
-  canardRxUnsubscribe(&_canard_hdl,
-                      CanardTransferKindMessage,
-                      port_id);
-
-  _msg_subscription_map.erase(port_id);
 }
 
 CanardTransferID Node::getNextTransferId(CanardPortID const port_id)
