@@ -84,10 +84,10 @@ public:
   Publisher<T> create_publisher(CanardPortID const port_id,
                                 CanardMicrosecond const tx_timeout_usec);
 
-  template <typename T>
-  Subscription<T> create_subscription(CanardPortID const port_id,
-                                      CanardMicrosecond const rx_timeout_usec,
-                                      std::function<void(T const &)> on_receive_cb);
+  template <typename T, typename OnReceiveCb>
+  Subscription<T, OnReceiveCb> create_subscription(CanardPortID const port_id,
+                                                   CanardMicrosecond const rx_timeout_usec,
+                                                   OnReceiveCb&& on_receive_cb);
 
   template <typename T_REQ, typename T_RSP>
   Service<T_REQ, T_RSP> create_service(CanardPortID const port_id,
