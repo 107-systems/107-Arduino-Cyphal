@@ -66,7 +66,7 @@ CyphalHeap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
 Node node_hdl(node_heap.data(), node_heap.size(), micros);
 Publisher<Heartbeat_1_0<>> heartbeat_pub = node_hdl.create_publisher<Heartbeat_1_0<>>(
   Heartbeat_1_0<>::PORT_ID, 1*1000*1000UL /* = 1 sec in usecs. */);
-Subscription<Bit_1_0<BIT_PORT_ID>> heartbeat_subscription = node_hdl.create_subscription<Bit_1_0<BIT_PORT_ID>>(
+auto heartbeat_subscription = node_hdl.create_subscription<Bit_1_0<BIT_PORT_ID>>(
   Bit_1_0<BIT_PORT_ID>::PORT_ID, CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC, onBit_1_0_Received);
 
 Heartbeat_1_0<> hb_msg;
