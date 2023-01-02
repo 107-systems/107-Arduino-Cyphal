@@ -28,7 +28,14 @@ namespace impl
 class SubscriptionBase
 {
 public:
+           SubscriptionBase() { }
   virtual ~SubscriptionBase() { }
+           SubscriptionBase(SubscriptionBase const &) = delete;
+           SubscriptionBase(SubscriptionBase &&) = delete;
+
+  SubscriptionBase & operator = (SubscriptionBase const &) = delete;
+  SubscriptionBase & operator = (SubscriptionBase &&) = delete;
+
   virtual void onTransferReceived(CanardRxTransfer const & transfer) = 0;
 };
 
