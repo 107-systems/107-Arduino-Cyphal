@@ -72,8 +72,8 @@ private:
  * TYPEDEF
  **************************************************************************************/
 
-template <typename T>
-using Subscription = std::shared_ptr<impl::Subscription<T, std::function<void(T const &)>, std::function<void(void)>>>;
+template <typename T, typename OnReceiveCb>
+using Subscription = std::shared_ptr<impl::Subscription<T, OnReceiveCb, std::function<void(void)>>>;
 
 /**************************************************************************************
  * TEMPLATE IMPLEMENTATION

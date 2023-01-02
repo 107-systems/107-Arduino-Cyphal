@@ -16,13 +16,13 @@ Publisher<T> Node::create_publisher(CanardPortID const port_id,
   return std::make_shared<impl::Publisher<T>>(_canard_hdl, _canard_tx_queue, port_id, tx_timeout_usec, _micros_func);
 }
 
-template <typename T>
-Subscription<T> Node::create_subscription(CanardPortID const port_id,
-                                          CanardMicrosecond const rx_timeout_usec,
-                                          std::function<void(T const &)> on_receive_cb)
+template <typename T, typename OnReceiveCb>
+Subscription<T, OnReceiveCb> Node::create_subscription(CanardPortID const port_id,
+                                                       CanardMicrosecond const rx_timeout_usec,
+                                                       OnReceiveCb&& on_receive_cb)
 {
-  auto sub = std::make_shared<impl::Subscription<T, std::function<void(T const &)>, std::function<void(void)>>>(
-    on_receive_cb,
+  auto sub = std::make_shared<impl::Subscription<T, OnReceiveCb, std::function<void(void)>>>(
+    std::forward<OnReceiveCb>(on_receive_cb),
     [this, port_id]() { unsubscribe_message(port_id); }
     );
 
