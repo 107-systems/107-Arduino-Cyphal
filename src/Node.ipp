@@ -21,8 +21,10 @@ Subscription<T> Node::create_subscription(CanardPortID const port_id,
                                           CanardMicrosecond const rx_timeout_usec,
                                           std::function<void(T const &)> on_receive_cb)
 {
-  auto sub = std::make_shared<impl::Subscription<T>>(on_receive_cb,
-                                                     [this, port_id]() { unsubscribe_message(port_id); });
+  auto sub = std::make_shared<impl::Subscription<T, std::function<void(T const &)>, std::function<void(void)>>>(
+    on_receive_cb,
+    [this, port_id]() { unsubscribe_message(port_id); }
+    );
 
   int8_t const rc = canardRxSubscribe(&_canard_hdl,
                                       CanardTransferKindMessage,
@@ -33,7 +35,7 @@ Subscription<T> Node::create_subscription(CanardPortID const port_id,
   if (rc < 0)
     return nullptr;
 
-  _msg_subscription_map[port_id] = dynamic_cast<impl::SubscriptionBase *>(sub.get());
+  _msg_subscription_map[port_id] = sub;
   return sub;
 }
 
