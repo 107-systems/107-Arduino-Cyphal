@@ -30,7 +30,14 @@ namespace impl
 class ServiceBase
 {
 public:
+           ServiceBase() { }
   virtual ~ServiceBase() { }
+           ServiceBase(ServiceBase const &) = delete;
+           ServiceBase(ServiceBase &&) = delete;
+
+  ServiceBase & operator = (ServiceBase const &) = delete;
+  ServiceBase & operator = (ServiceBase &&) = delete;
+
   virtual bool onTransferReceived(CanardRxTransfer const & transfer) = 0;
 };
 
