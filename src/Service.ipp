@@ -32,7 +32,7 @@ bool Service<T_REQ, T_RSP>::onTransferReceived(CanardRxTransfer const & transfer
   T_REQ const req = T_REQ::deserialize(transfer);
 
   /* Invoke the service callback and obtain the desired response. */
-  T_RSP const rsp = _service_cb(req);
+  T_RSP const rsp = _on_request_cb(req);
 
   /* Serialize the response message. */
   std::array<uint8_t, T_RSP::MAX_PAYLOAD_SIZE> payload_buf{};

@@ -51,14 +51,14 @@ template<typename T_REQ, typename T_RSP>
 class Service : public ServiceBase
 {
 public:
-  Service(Node & node_hdl, CanardPortID const port_id, CanardInstance & canard_hdl, CanardTxQueue & canard_tx_queue, CanardMicrosecond const tx_timeout_usec, CyphalMicrosFunc const micros_func, std::function<T_RSP(T_REQ const &)> service_cb)
+  Service(Node & node_hdl, CanardPortID const port_id, CanardInstance & canard_hdl, CanardTxQueue & canard_tx_queue, CanardMicrosecond const tx_timeout_usec, CyphalMicrosFunc const micros_func, std::function<T_RSP(T_REQ const &)> on_request_cb)
   : _node_hdl{node_hdl}
   , _port_id{port_id}
   , _canard_hdl{canard_hdl}
   , _canard_tx_queue{canard_tx_queue}
   , _tx_timeout_usec{tx_timeout_usec}
   , _micros_func{micros_func}
-  , _service_cb{service_cb}
+  , _on_request_cb{on_request_cb}
   { }
   virtual ~Service();
 
@@ -77,7 +77,7 @@ private:
   CanardMicrosecond const _tx_timeout_usec;
   CyphalMicrosFunc const _micros_func;
   CanardRxSubscription _canard_rx_sub;
-  std::function<T_RSP(T_REQ const &)> _service_cb;
+  std::function<T_RSP(T_REQ const &)> _on_request_cb;
 };
 
 /**************************************************************************************
