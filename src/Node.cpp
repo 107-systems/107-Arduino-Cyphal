@@ -110,8 +110,11 @@ void Node::processRxQueue()
        */
       if (transfer.metadata.transfer_kind == CanardTransferKindRequest)
       {
-        if (_req_subscription_map.count(transfer.metadata.port_id) > 0)
-          _req_subscription_map.at(transfer.metadata.port_id)->onTransferReceived(transfer);
+        auto const msg_req_citer = _req_subscription_map.find(transfer.metadata.port_id);
+        if (msg_req_citer != std::end(_req_subscription_map)) {
+          auto const msg_req_ptr = msg_req_citer->second;
+          msg_req_ptr->onTransferReceived(transfer);
+        }
       }
 
         /*
