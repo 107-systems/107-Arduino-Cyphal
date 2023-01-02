@@ -40,9 +40,6 @@
  * TYPEDEF
  **************************************************************************************/
 
-typedef std::function<void(CanardRxTransfer const &, Node &)> OnTransferReceivedFunc;
-typedef std::function<bool(CanardFrame const &)> CanFrameTransmitFunc;
-
 template <size_t SIZE>
 struct alignas(O1HEAP_ALIGNMENT) CyphalHeap final : public std::array<uint8_t, SIZE> {};
 
@@ -96,7 +93,7 @@ public:
   /* Must be called from the application to process
    * all received CAN frames.
    */
-  void spinSome(CanFrameTransmitFunc const tx_func);
+  void spinSome(CyphalCanFrameTxFunc const tx_func);
   /* Must be called from the application upon the
    * reception of a can frame.
    */
@@ -119,7 +116,7 @@ private:
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
 
   void processRxQueue();
-  void processTxQueue(CanFrameTransmitFunc const tx_func);
+  void processTxQueue(CyphalCanFrameTxFunc const tx_func);
 
   void unsubscribe_request(CanardPortID const port_id);
 };

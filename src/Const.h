@@ -21,5 +21,6 @@
  **************************************************************************************/
 
 typedef std::function<CanardMicrosecond(void)> CyphalMicrosFunc;
+typedef std::function<bool(CanardFrame const &)> CyphalCanFrameTxFunc;
 
 #endif /* INC_107_ARDUINO_CYPHAL_CONST_H */

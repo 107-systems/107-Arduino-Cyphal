@@ -36,7 +36,7 @@ Node::Node(uint8_t * heap_ptr,
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-void Node::spinSome(CanFrameTransmitFunc const tx_func)
+void Node::spinSome(CyphalCanFrameTxFunc const tx_func)
 {
   processRxQueue();
   processTxQueue(tx_func);
@@ -144,7 +144,7 @@ void Node::processRxQueue()
   }
 }
 
-void Node::processTxQueue(CanFrameTransmitFunc const tx_func)
+void Node::processTxQueue(CyphalCanFrameTxFunc const tx_func)
 {
   for(CanardTxQueueItem * tx_queue_item = const_cast<CanardTxQueueItem *>(canardTxPeek(&_canard_tx_queue));
       tx_queue_item != nullptr;
