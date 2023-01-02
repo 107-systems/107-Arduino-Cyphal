@@ -15,8 +15,8 @@ namespace impl {
  * CTOR/DTOR
  **************************************************************************************/
 
-template<typename T>
-Subscription<T>::~Subscription()
+template<typename T, typename OnReceiveCb, typename OnDestructionCb>
+Subscription<T, OnReceiveCb, OnDestructionCb>::~Subscription()
 {
   _on_destruction_cb();
 }
@@ -25,8 +25,8 @@ Subscription<T>::~Subscription()
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-template<typename T>
-void Subscription<T>::onTransferReceived(CanardRxTransfer const & transfer)
+template<typename T, typename OnReceiveCb, typename OnDestructionCb>
+void Subscription<T, OnReceiveCb, OnDestructionCb>::onTransferReceived(CanardRxTransfer const & transfer)
 {
   T const msg = T::deserialize(transfer);
 

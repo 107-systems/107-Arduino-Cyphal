@@ -39,11 +39,11 @@ public:
   virtual void onTransferReceived(CanardRxTransfer const & transfer) = 0;
 };
 
-template <typename T>
+template <typename T, typename OnReceiveCb, typename OnDestructionCb>
 class Subscription : public SubscriptionBase
 {
 public:
-  Subscription(std::function<void(T const &)> on_receive_cb, std::function<void(void)> on_destruction_cb)
+  Subscription(OnReceiveCb const & on_receive_cb, OnDestructionCb const & on_destruction_cb)
   : SubscriptionBase{}
   , _on_receive_cb{on_receive_cb}
   , _on_destruction_cb{on_destruction_cb}
@@ -58,8 +58,8 @@ public:
 
 private:
   CanardRxSubscription _canard_rx_sub;
-  std::function<void(T const &)> _on_receive_cb;
-  std::function<void(void)> _on_destruction_cb;
+  OnReceiveCb _on_receive_cb;
+  OnDestructionCb _on_destruction_cb;
 };
 
 /**************************************************************************************
@@ -73,7 +73,7 @@ private:
  **************************************************************************************/
 
 template <typename T>
-using Subscription = std::shared_ptr<impl::Subscription<T>>;
+using Subscription = std::shared_ptr<impl::Subscription<T, std::function<void(T const &)>, std::function<void(void)>>>;
 
 /**************************************************************************************
  * TEMPLATE IMPLEMENTATION
