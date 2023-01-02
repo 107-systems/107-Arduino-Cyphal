@@ -62,7 +62,7 @@ Service<T_REQ, T_RSP> Node::create_service(CanardPortID const port_id,
   if (rc < 0)
     return nullptr;
 
-  _req_subscription_map[port_id] = dynamic_cast<impl::ServiceBase *>(srv.get());
+  _req_subscription_map[port_id] = srv;
   return srv;
 }
 
