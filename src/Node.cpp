@@ -62,6 +62,15 @@ void Node::unsubscribe_message(CanardPortID const port_id)
   _msg_subscription_map.erase(port_id);
 }
 
+void Node::unsubscribe_request(CanardPortID const port_id)
+{
+  canardRxUnsubscribe(&_canard_hdl,
+                      CanardTransferKindRequest,
+                      port_id);
+
+  _req_subscription_map.erase(port_id);
+}
+
 /**************************************************************************************
  * PRIVATE MEMBER FUNCTIONS
  **************************************************************************************/
@@ -164,13 +173,4 @@ void Node::processTxQueue(CyphalCanFrameTxFunc const tx_func)
 
     return;
   }
-}
-
-void Node::unsubscribe_request(CanardPortID const port_id)
-{
-  canardRxUnsubscribe(&_canard_hdl,
-                      CanardTransferKindRequest,
-                      port_id);
-
-  _req_subscription_map.erase(port_id);
 }

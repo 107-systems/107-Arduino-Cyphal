@@ -18,7 +18,7 @@ namespace impl {
 template<typename T_REQ, typename T_RSP>
 Service<T_REQ, T_RSP>::~Service()
 {
-  _on_destruction_cb();
+  _node_hdl.unsubscribe_request(_port_id);
 }
 
 /**************************************************************************************

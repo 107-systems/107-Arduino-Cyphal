@@ -42,12 +42,13 @@ Service<T_REQ, T_RSP> Node::create_service(CanardPortID const port_id,
                                            std::function<T_RSP(T_REQ const &)> service_cb)
 {
   auto srv = std::make_shared<impl::Service<T_REQ, T_RSP>>(
+    *this,
+    port_id,
     _canard_hdl,
     _canard_tx_queue,
     tx_timeout_usec,
     _micros_func,
-    service_cb,
-    [this, port_id]() { unsubscribe_request(port_id); }
+    service_cb
     );
 
   int8_t const rc = canardRxSubscribe(&_canard_hdl,

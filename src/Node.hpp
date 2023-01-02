@@ -101,6 +101,7 @@ public:
 
 
   void unsubscribe_message(CanardPortID const port_id);
+  void unsubscribe_request(CanardPortID const port_id);
 
 
 private:
@@ -117,8 +118,6 @@ private:
 
   void processRxQueue();
   void processTxQueue(CyphalCanFrameTxFunc const tx_func);
-
-  void unsubscribe_request(CanardPortID const port_id);
 };
 
 /**************************************************************************************
