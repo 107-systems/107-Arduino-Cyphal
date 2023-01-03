@@ -38,7 +38,9 @@ public:
 
 
 private:
-  typedef Service<uavcan::node::GetInfo_1_0::Request<>, uavcan::node::GetInfo_1_0::Response<>> NodeInfoService;
+  typedef uavcan::node::GetInfo_1_0::Request<>  TGetInfoRequest;
+  typedef uavcan::node::GetInfo_1_0::Response<> TGetInfoResponse;
+  typedef Service<TGetInfoRequest, TGetInfoResponse> NodeInfoService;
   NodeInfoService _node_info_srv;
   uavcan_node_GetInfo_Response_1_0 _node_info;
 };

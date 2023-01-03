@@ -42,12 +42,12 @@ NodeInfo::NodeInfo(Node & node_hdl,
   _node_info.name.count = std::min(name.length(), uavcan_node_GetInfo_Response_1_0_name_ARRAY_CAPACITY_);
   memcpy(_node_info.name.elements, name.c_str(), _node_info.name.count);
 
-  _node_info_srv = node_hdl.create_service<uavcan::node::GetInfo_1_0::Request<>, uavcan::node::GetInfo_1_0::Response<>>(
-    uavcan::node::GetInfo_1_0::Request<>::PORT_ID,
+  _node_info_srv = node_hdl.create_service<TGetInfoRequest, TGetInfoResponse>(
+    TGetInfoRequest::PORT_ID,
     2*1000*1000UL,
-    [this](uavcan::node::GetInfo_1_0::Request<> const & req) -> uavcan::node::GetInfo_1_0::Response<>
+    [this](TGetInfoRequest const & req) -> TGetInfoResponse
     {
-      uavcan::node::GetInfo_1_0::Response<> rsp = uavcan::node::GetInfo_1_0::Response<>();
+      TGetInfoResponse rsp = TGetInfoResponse();
       memcpy(&rsp.data, &_node_info, sizeof(uavcan_node_GetInfo_Response_1_0));
       return rsp;
     });
