@@ -7,9 +7,9 @@
 // To avoid conflicts with definitions given in the source DSDL file, all entities created by the code generator
 // are named with an underscore at the end, like foo_bar_().
 //
-// Generator:     nunavut-1.8.2 (serialization was enabled)
+// Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/file/405.GetInfo.0.2.dsdl
-// Generated at:  2022-06-14 07:08:30.146030 UTC
+// Generated at:  2022-12-15 23:20:51.934076 UTC
 // Is deprecated: no
 // Fixed port-ID: 405
 // Full name:     uavcan.file.GetInfo
@@ -17,13 +17,13 @@
 //
 // Platform
 //     python_implementation:  CPython
-//     python_version:  3.8.10
+//     python_version:  3.10.6
 //     python_release_level:  final
-//     python_build:  ('default', 'Mar 15 2022 12:22:08')
-//     python_compiler:  GCC 9.4.0
+//     python_build:  ('main', 'Nov 14 2022 16:10:14')
+//     python_compiler:  GCC 11.3.0
 //     python_revision:
 //     python_xoptions:  {}
-//     runtime_platform:  Linux-5.4.0-117-generic-x86_64-with-glibc2.29
+//     runtime_platform:  Linux-5.15.0-56-generic-x86_64-with-glibc2.35
 //
 // Language Options
 //     target_endianness:  any
@@ -36,11 +36,11 @@
 #define UAVCAN_FILE_GET_INFO_0_2_INCLUDED_
 
 #include <nunavut/support/serialization.h>
-#include <types/uavcan/file/Error_1_0.h>
-#include <types/uavcan/file/Path_2_0.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <types/uavcan/file/Error_1_0.h>
+#include <types/uavcan/file/Path_2_0.h>
 
 static_assert( NUNAVUT_SUPPORT_LANGUAGE_OPTION_TARGET_ENDIANNESS == 1693710260,
               "/tmp/public_regulated_data_types/uavcan/file/405.GetInfo.0.2.dsdl is trying to use a serialization library that was compiled with "
