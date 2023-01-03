@@ -32,7 +32,7 @@ namespace impl
  **************************************************************************************/
 
 class UniqueId16 :
-#if defined(ARDUINO_ARCH_ESP32)
+#if defined(ARDUINO_ARCH_ESP32) || defined(ARDUINO_SAMD_ADAFRUIT)
 public Printable
 #else
 public arduino::Printable
