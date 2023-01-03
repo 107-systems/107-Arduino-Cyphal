@@ -16,16 +16,24 @@ Publisher<T> Node::create_publisher(CanardPortID const port_id,
   return std::make_shared<impl::Publisher<T>>(_canard_hdl, _canard_tx_queue, port_id, tx_timeout_usec, _micros_func);
 }
 
-template <typename T>
-bool Node::subscribe(OnTransferReceivedFunc func)
+template <typename T, typename OnReceiveCb>
+Subscription<T, OnReceiveCb> Node::create_subscription(CanardPortID const port_id,
+                                                       CanardMicrosecond const rx_timeout_usec,
+                                                       OnReceiveCb&& on_receive_cb)
 {
-  return subscribe(T::TRANSFER_KIND, T::PORT_ID, T::MAX_PAYLOAD_SIZE, func);
-}
+  auto sub = std::make_shared<impl::Subscription<T, OnReceiveCb>>(*this, port_id, std::forward<OnReceiveCb>(on_receive_cb));
 
-template <typename T>
-bool Node::unsubscribe()
-{
-  return unsubscribe(T::TRANSFER_KIND, T::PORT_ID);
+  int8_t const rc = canardRxSubscribe(&_canard_hdl,
+                                      CanardTransferKindMessage,
+                                      port_id,
+                                      T::MAX_PAYLOAD_SIZE,
+                                      rx_timeout_usec,
+                                      &(sub->canard_rx_subscription()));
+  if (rc < 0)
+    return nullptr;
+
+  _msg_subscription_map[port_id] = sub;
+  return sub;
 }
 
 template <typename T_RSP>

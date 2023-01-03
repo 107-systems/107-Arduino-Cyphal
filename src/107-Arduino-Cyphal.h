@@ -15,6 +15,7 @@
 #include "Node.hpp"
 #include "Types.h"
 #include "Publisher.hpp"
+#include "Subscription.hpp"
 #include "nodeinfo/NodeInfo.h"
 #include "register/RegisterList.h"
 #include "utility/UniqueId16.h"

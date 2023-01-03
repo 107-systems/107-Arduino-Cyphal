@@ -54,6 +54,15 @@ void Node::onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const
   _canard_rx_queue.enqueue(std::make_tuple(extended_can_id, payload_size, payload, rx_timestamp_us));
 }
 
+void Node::unsubscribe_message(CanardPortID const port_id)
+{
+  canardRxUnsubscribe(&_canard_hdl,
+                      CanardTransferKindMessage,
+                      port_id);
+
+  _msg_subscription_map.erase(port_id);
+}
+
 /**************************************************************************************
  * PRIVATE MEMBER FUNCTIONS
  **************************************************************************************/
@@ -91,6 +100,20 @@ void Node::processRxQueue()
 
     if(result == 1)
     {
+      /* Check whether or not the incoming transfer is a message transfer,
+       * if the incoming port id has been subscribed too and, if all those
+       * preconditions hold true, invoke the required transfer received
+       * callback.
+       */
+      if (transfer.metadata.transfer_kind == CanardTransferKindMessage)
+      {
+        auto const msg_sub_citer = _msg_subscription_map.find(transfer.metadata.port_id);
+        if (msg_sub_citer != std::end(_msg_subscription_map)) {
+          auto const msg_sub_ptr = msg_sub_citer->second;
+          msg_sub_ptr->onTransferReceived(transfer);
+        }
+      }
+
       if (_rx_transfer_map.count(transfer.metadata.port_id) > 0)
       {
         OnTransferReceivedFunc transfer_received_func = _rx_transfer_map[transfer.metadata.port_id].transfer_complete_callback;

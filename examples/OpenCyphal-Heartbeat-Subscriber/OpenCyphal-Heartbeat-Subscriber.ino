@@ -33,7 +33,7 @@ static int const MKRCAN_MCP2515_INT_PIN = 7;
  **************************************************************************************/
 
 void onReceiveBufferFull    (CanardFrame const &);
-void onHeartbeat_1_0_Received(CanardRxTransfer const &, Node &);
+void onHeartbeat_1_0_Received(Heartbeat_1_0<> const & msg);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -48,6 +48,8 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
 
 CyphalHeap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
 Node node_hdl(node_heap.data(), node_heap.size(), micros);
+auto heartbeat_subscription =
+  node_hdl.create_subscription<Heartbeat_1_0<>>(Heartbeat_1_0<>::PORT_ID, CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC, onHeartbeat_1_0_Received);
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -71,9 +73,6 @@ void setup()
   mcp2515.begin();
   mcp2515.setBitRate(CanBitRate::BR_250kBPS_16MHZ);
   mcp2515.setNormalMode();
-
-  /* Subscribe to the reception of Heartbeat message. */
-  node_hdl.subscribe<Heartbeat_1_0<>>(onHeartbeat_1_0_Received);
 }
 
 void loop()
@@ -92,14 +91,12 @@ void onReceiveBufferFull(CanardFrame const & frame)
   node_hdl.onCanFrameReceived(frame, micros());
 }
 
-void onHeartbeat_1_0_Received(CanardRxTransfer const & transfer, Node & /* node_hdl */)
+void onHeartbeat_1_0_Received(Heartbeat_1_0<> const & msg)
 {
-  Heartbeat_1_0<> const hb = Heartbeat_1_0<>::deserialize(transfer);
+  char msg_buf[64];
+  snprintf(msg_buf, sizeof(msg_buf),
+           "Uptime = %d, Health = %d, Mode = %d, VSSC = %d",
+           msg.data.uptime, msg.data.health.value, msg.data.mode.value, msg.data.vendor_specific_status_code);
 
-  char msg[64];
-  snprintf(msg, 64,
-           "ID %02X, Uptime = %d, Health = %d, Mode = %d, VSSC = %d",
-           transfer.metadata.remote_node_id, hb.data.uptime, hb.data.health.value, hb.data.mode.value, hb.data.vendor_specific_status_code);
-
-  Serial.println(msg);
+  Serial.println(msg_buf);
 }

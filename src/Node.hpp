@@ -26,6 +26,7 @@
 #include "Types.h"
 
 #include "Publisher.hpp"
+#include "Subscription.hpp"
 
 #include "libo1heap/o1heap.h"
 #include "libcanard/canard.h"
@@ -38,7 +39,6 @@
  * TYPEDEF
  **************************************************************************************/
 
-class Node;
 typedef std::function<void(CanardRxTransfer const &, Node &)> OnTransferReceivedFunc;
 typedef std::function<bool(CanardFrame const &)> CanFrameTransmitFunc;
 
@@ -82,6 +82,11 @@ public:
   Publisher<T> create_publisher(CanardPortID const port_id,
                                 CanardMicrosecond const tx_timeout_usec);
 
+  template <typename T, typename OnReceiveCb>
+  Subscription<T, OnReceiveCb> create_subscription(CanardPortID const port_id,
+                                                   CanardMicrosecond const rx_timeout_usec,
+                                                   OnReceiveCb&& on_receive_cb);
+
   /* Must be called from the application to process
    * all received CAN frames.
    */
@@ -92,12 +97,12 @@ public:
   void onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us);
 
 
-  template <typename T>                     bool subscribe       (OnTransferReceivedFunc func);
-  template <typename T>                     bool unsubscribe     ();
-
   /* request/response API for "service" data exchange paradigm */
   template <typename T_RSP>                 bool respond         (T_RSP const & rsp, CanardNodeID const remote_node_id, CanardTransferID const transfer_id);
   template <typename T_REQ, typename T_RSP> bool request         (T_REQ const & req, CanardNodeID const remote_node_id, OnTransferReceivedFunc func);
+
+
+  void unsubscribe_message(CanardPortID const port_id);
 
 
 private:
@@ -115,6 +120,7 @@ private:
   arduino::_107_::opencyphal::ThreadsafeRingBuffer<std::tuple<uint32_t, size_t, std::array<uint8_t, 8>, CanardMicrosecond>> _canard_rx_queue;
   std::map<CanardPortID, RxTransferData> _rx_transfer_map;
   std::map<CanardPortID, CanardTransferID> _tx_transfer_map;
+  std::map<CanardPortID, std::shared_ptr<impl::SubscriptionBase>> _msg_subscription_map;
 
   static void * o1heap_allocate(CanardInstance * const ins, size_t const amount);
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);

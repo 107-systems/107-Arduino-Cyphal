@@ -49,7 +49,7 @@ static int const LED_BUILTIN = 2;
  **************************************************************************************/
 
 void onReceiveBufferFull(CanardFrame const &);
-void onBit_1_0_Received (CanardRxTransfer const &, Node &);
+void onBit_1_0_Received (Bit_1_0<BIT_PORT_ID> const & msg);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -64,7 +64,10 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
 
 CyphalHeap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
 Node node_hdl(node_heap.data(), node_heap.size(), micros);
-Publisher<Heartbeat_1_0<>> heartbeat_pub = node_hdl.create_publisher<Heartbeat_1_0<>>(Heartbeat_1_0<>::PORT_ID, 1*1000*1000UL /* = 1 sec in usecs. */);
+Publisher<Heartbeat_1_0<>> heartbeat_pub = node_hdl.create_publisher<Heartbeat_1_0<>>(
+  Heartbeat_1_0<>::PORT_ID, 1*1000*1000UL /* = 1 sec in usecs. */);
+auto heartbeat_subscription = node_hdl.create_subscription<Bit_1_0<BIT_PORT_ID>>(
+  Bit_1_0<BIT_PORT_ID>::PORT_ID, CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC, onBit_1_0_Received);
 
 Heartbeat_1_0<> hb_msg;
 
@@ -111,9 +114,6 @@ void setup()
   hb_msg = Heartbeat_1_0<>::Health::NOMINAL;
   hb_msg = Heartbeat_1_0<>::Mode::INITIALIZATION;
   hb_msg.data.vendor_specific_status_code = 0;
-
-  /* Subscribe to the reception of Bit message. */
-  node_hdl.subscribe<Bit_1_0<BIT_PORT_ID>>(onBit_1_0_Received);
 }
 
 void loop()
@@ -144,11 +144,9 @@ void onReceiveBufferFull(CanardFrame const & frame)
   node_hdl.onCanFrameReceived(frame, micros());
 }
 
-void onBit_1_0_Received(CanardRxTransfer const & transfer, Node & /* node_hdl */)
+void onBit_1_0_Received(Bit_1_0<BIT_PORT_ID> const & msg)
 {
-  Bit_1_0<BIT_PORT_ID> const uavcan_led = Bit_1_0<BIT_PORT_ID>::deserialize(transfer);
-
-  if(uavcan_led.data.value)
+  if(msg.data.value)
   {
 #if defined(ARDUINO_EDGE_CONTROL)
     Expander.digitalWrite(EXP_LED1, LOW);
