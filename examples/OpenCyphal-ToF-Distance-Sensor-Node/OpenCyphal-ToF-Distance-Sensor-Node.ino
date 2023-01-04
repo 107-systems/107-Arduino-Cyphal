@@ -19,6 +19,7 @@
 #include <107-Arduino-Cyphal.h>
 #include <107-Arduino-MCP2515.h>
 #include <107-Arduino-TMF8801.h>
+#include <107-Arduino-UniqueId.h>
 #define DBG_ENABLE_ERROR
 #define DBG_ENABLE_WARNING
 #define DBG_ENABLE_INFO
