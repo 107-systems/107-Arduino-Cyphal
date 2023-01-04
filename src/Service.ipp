@@ -15,8 +15,8 @@ namespace impl {
  * CTOR/DTOR
  **************************************************************************************/
 
-template<typename T_REQ, typename T_RSP>
-Service<T_REQ, T_RSP>::~Service()
+template<typename T_REQ, typename T_RSP, typename OnRequestCb>
+Service<T_REQ, T_RSP, OnRequestCb>::~Service()
 {
   _node_hdl.unsubscribe_request(_port_id);
 }
@@ -25,8 +25,8 @@ Service<T_REQ, T_RSP>::~Service()
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-template<typename T_REQ, typename T_RSP>
-bool Service<T_REQ, T_RSP>::onTransferReceived(CanardRxTransfer const & transfer)
+template<typename T_REQ, typename T_RSP, typename OnRequestCb>
+bool Service<T_REQ, T_RSP, OnRequestCb>::onTransferReceived(CanardRxTransfer const & transfer)
 {
   /* Deserialize the request message. */
   T_REQ const req = T_REQ::deserialize(transfer);

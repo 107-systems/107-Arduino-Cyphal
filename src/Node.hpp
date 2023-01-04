@@ -85,10 +85,10 @@ public:
                                                    CanardMicrosecond const rx_timeout_usec,
                                                    OnReceiveCb&& on_receive_cb);
 
-  template <typename T_REQ, typename T_RSP>
-  Service<T_REQ, T_RSP> create_service(CanardPortID const port_id,
-                                       CanardMicrosecond const tx_timeout_usec,
-                                       std::function<T_RSP(T_REQ const &)> on_request_cb);
+  template <typename T_REQ, typename T_RSP, typename OnRequestCb>
+  Service<T_REQ, T_RSP, OnRequestCb> create_service(CanardPortID const port_id,
+                                                    CanardMicrosecond const tx_timeout_usec,
+                                                    OnRequestCb&& on_request_cb);
 
   /* Must be called from the application to process
    * all received CAN frames.

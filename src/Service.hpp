@@ -47,11 +47,11 @@ public:
   virtual bool onTransferReceived(CanardRxTransfer const & transfer) = 0;
 };
 
-template<typename T_REQ, typename T_RSP>
+template<typename T_REQ, typename T_RSP, typename OnRequestCb>
 class Service : public ServiceBase
 {
 public:
-  Service(Node & node_hdl, CanardPortID const port_id, CanardInstance & canard_hdl, CanardTxQueue & canard_tx_queue, CanardMicrosecond const tx_timeout_usec, CyphalMicrosFunc const micros_func, std::function<T_RSP(T_REQ const &)> on_request_cb)
+  Service(Node & node_hdl, CanardPortID const port_id, CanardInstance & canard_hdl, CanardTxQueue & canard_tx_queue, CanardMicrosecond const tx_timeout_usec, CyphalMicrosFunc const micros_func, OnRequestCb on_request_cb)
   : _node_hdl{node_hdl}
   , _port_id{port_id}
   , _canard_hdl{canard_hdl}
@@ -77,7 +77,7 @@ private:
   CanardMicrosecond const _tx_timeout_usec;
   CyphalMicrosFunc const _micros_func;
   CanardRxSubscription _canard_rx_sub;
-  std::function<T_RSP(T_REQ const &)> _on_request_cb;
+  OnRequestCb _on_request_cb;
 };
 
 /**************************************************************************************
@@ -90,8 +90,8 @@ private:
  * TYPEDEF
  **************************************************************************************/
 
-template <typename T_REQ, typename T_RSP>
-using Service = std::shared_ptr<impl::Service<T_REQ, T_RSP>>;
+template <typename T_REQ, typename T_RSP, typename OnRequestCb>
+using Service = std::shared_ptr<impl::Service<T_REQ, T_RSP, OnRequestCb>>;
 
 /**************************************************************************************
  * TEMPLATE IMPLEMENTATION

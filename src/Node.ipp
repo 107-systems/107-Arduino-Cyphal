@@ -36,19 +36,19 @@ Subscription<T, OnReceiveCb> Node::create_subscription(CanardPortID const port_i
   return sub;
 }
 
-template <typename T_REQ, typename T_RSP>
-Service<T_REQ, T_RSP> Node::create_service(CanardPortID const port_id,
-                                           CanardMicrosecond const tx_timeout_usec,
-                                           std::function<T_RSP(T_REQ const &)> on_request_cb)
+template <typename T_REQ, typename T_RSP, typename OnRequestCb>
+Service<T_REQ, T_RSP, OnRequestCb> Node::create_service(CanardPortID const port_id,
+                                                        CanardMicrosecond const tx_timeout_usec,
+                                                        OnRequestCb&& on_request_cb)
 {
-  auto srv = std::make_shared<impl::Service<T_REQ, T_RSP>>(
+  auto srv = std::make_shared<impl::Service<T_REQ, T_RSP, OnRequestCb>>(
     *this,
     port_id,
     _canard_hdl,
     _canard_tx_queue,
     tx_timeout_usec,
     _micros_func,
-    on_request_cb
+    std::forward<OnRequestCb>(on_request_cb)
     );
 
   int8_t const rc = canardRxSubscribe(&_canard_hdl,
