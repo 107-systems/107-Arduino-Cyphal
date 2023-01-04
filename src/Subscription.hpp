@@ -82,8 +82,7 @@ private:
  * TYPEDEF
  **************************************************************************************/
 
-template <typename T, typename OnReceiveCb>
-using Subscription = std::shared_ptr<impl::Subscription<T, OnReceiveCb>>;
+using Subscription = std::shared_ptr<impl::SubscriptionBase>;
 
 /**************************************************************************************
  * TEMPLATE IMPLEMENTATION

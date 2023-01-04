@@ -81,14 +81,14 @@ public:
                                 CanardMicrosecond const tx_timeout_usec);
 
   template <typename T, typename OnReceiveCb>
-  Subscription<T, OnReceiveCb> create_subscription(CanardPortID const port_id,
-                                                   CanardMicrosecond const rx_timeout_usec,
-                                                   OnReceiveCb&& on_receive_cb);
+  Subscription create_subscription(CanardPortID const port_id,
+                                   CanardMicrosecond const rx_timeout_usec,
+                                   OnReceiveCb&& on_receive_cb);
 
   template <typename T_REQ, typename T_RSP, typename OnRequestCb>
-  Service<T_REQ, T_RSP, OnRequestCb> create_service(CanardPortID const port_id,
-                                                    CanardMicrosecond const tx_timeout_usec,
-                                                    OnRequestCb&& on_request_cb);
+  Service create_service(CanardPortID const port_id,
+                         CanardMicrosecond const tx_timeout_usec,
+                         OnRequestCb&& on_request_cb);
 
   /* Must be called from the application to process
    * all received CAN frames.

@@ -90,8 +90,7 @@ private:
  * TYPEDEF
  **************************************************************************************/
 
-template <typename T_REQ, typename T_RSP, typename OnRequestCb>
-using Service = std::shared_ptr<impl::Service<T_REQ, T_RSP, OnRequestCb>>;
+using Service = std::shared_ptr<impl::ServiceBase>;
 
 /**************************************************************************************
  * TEMPLATE IMPLEMENTATION
