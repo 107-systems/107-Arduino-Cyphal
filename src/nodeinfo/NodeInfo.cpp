@@ -23,7 +23,7 @@ NodeInfo::NodeInfo(Node & node_hdl,
                    uint8_t const software_major,
                    uint8_t const software_minor,
                    uint64_t const software_vcs_revision_id,
-                   UniqueId16Array const unique_id,
+                   std::array<uint8_t, 16> const unique_id,
                    std::string const & name)
 {
   _node_info.protocol_version.major = protocol_major;

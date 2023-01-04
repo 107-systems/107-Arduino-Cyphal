@@ -28,6 +28,7 @@ jobs:
         - name: Arduino_EdgeControl
         - name: 107-Arduino-BoostUnits
         - name: 107-Arduino-NMEA-Parser
+        - name: 107-Arduino-UniqueId
 
     strategy:
       fail-fast: false
@@ -57,6 +58,10 @@ jobs:
             platforms: |
               - name: rp2040:rp2040
                 source-url: https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
+          - fqbn: adafruit:samd:adafruit_feather_m4_can
+            platforms: |
+              - name: adafruit:samd
+                source-url:  https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
 
     steps:
       - name: Checkout

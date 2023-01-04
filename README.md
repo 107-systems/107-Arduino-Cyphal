@@ -19,6 +19,7 @@ This library works for
 * [ArduinoCore-mbed](https://github.com/arduino/ArduinoCore-mbed): [`Portenta H7`](https://store.arduino.cc/portenta-h7), [`Nano 33 BLE`](https://store.arduino.cc/arduino-nano-33-ble), [`Nano RP2040 Connect`](https://store.arduino.cc/nano-rp2040-connect), [`Edge Control`](https://store.arduino.cc/edge-control) :heavy_check_mark:
 * [arduino-esp32](https://github.com/espressif/arduino-esp32): `ESP32 Dev Module`, `ESP32 Wrover Module`, ... :heavy_check_mark:
 * [arduino-pico](https://github.com/earlephilhower/arduino-pico): [`Raspberry Pi Pico`](https://www.raspberrypi.org/products/raspberry-pi-pico), `Adafruit Feather RP2040`, ... :heavy_check_mark:
+* [adafruit/ArduinoCore-samd](https://github.com/adafruit/ArduinoCore-samd): [`Adafruit Feather M4 CAN Express`](https://www.adafruit.com/product/4759), ... :heavy_check_mark:
 
 ### Reference-Implementation OpenCyphal on Arduino
 * [OpenCyphal-GNSS-Node](examples/OpenCyphal-GNSS-Node): A OpenCyphal node with a GNSS sensor providing location data.
@@ -57,6 +58,24 @@ void loop() {
 
 ### Contribution
 #### How to add missing wrappers
+##### Docker automatization
+The generation of C header files from OpenCyphal's [public_regulated_data_types](https://github.com/OpenCyphal/public_regulated_data_types) (step 1-3 in the instructions below) can also be executed by invoking a Docker container. It can be built and executed with the following commands:
+
+Install Docker via `snap` or follow the official [instructions](https://docs.docker.com/engine/install/ubuntu/):
+```bash
+sudo snap install docker
+```
+**Note**: You may need to add your user to the `docker` group:
+```bash
+sudo usermod -a -G docker $USER
+```
+Generating the C header files using a Docker container:
+```bash
+cd extras/script
+./build_docker.sh
+./docker_codegen.sh
+```
+
 ##### Step 1) Generate C header files from DSDL
 **Option A) Use [nunavut/nnvg](https://github.com/OpenCyphal/nunavut)**
 * Install **nunavut**: `pip install nunavut` (you will need a functional [Python installation](https://docs.python.org/3/using/index.html))
