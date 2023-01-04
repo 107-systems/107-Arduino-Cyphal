@@ -49,8 +49,7 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
 
 CyphalHeap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
 Node node_hdl(node_heap.data(), node_heap.size(), micros);
-
-auto execute_command_srv = node_hdl.create_service<ExecuteCommand_1_0::Request<>, ExecuteCommand_1_0::Response<>>(
+Service execute_command_srv = node_hdl.create_service<ExecuteCommand_1_0::Request<>, ExecuteCommand_1_0::Response<>>(
   ExecuteCommand_1_0::Request<>::PORT_ID,
   2*1000*1000UL,
   onExecuteCommand_1_0_Request_Received);
