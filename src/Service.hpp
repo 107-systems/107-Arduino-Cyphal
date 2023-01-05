@@ -5,8 +5,8 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef INC_107_ARDUINO_CYPHAL_SUBSCRIPTION_HPP
-#define INC_107_ARDUINO_CYPHAL_SUBSCRIPTION_HPP
+#ifndef INC_107_ARDUINO_CYPHAL_SERVICE_HPP
+#define INC_107_ARDUINO_CYPHAL_SERVICE_HPP
 
 /**************************************************************************************
  * INCLUDE
@@ -33,43 +33,51 @@ namespace impl
  * CLASS DECLARATION
  **************************************************************************************/
 
-class SubscriptionBase
+class ServiceBase
 {
 public:
-           SubscriptionBase() { }
-  virtual ~SubscriptionBase() { }
-           SubscriptionBase(SubscriptionBase const &) = delete;
-           SubscriptionBase(SubscriptionBase &&) = delete;
+           ServiceBase() { }
+  virtual ~ServiceBase() { }
+           ServiceBase(ServiceBase const &) = delete;
+           ServiceBase(ServiceBase &&) = delete;
 
-  SubscriptionBase & operator = (SubscriptionBase const &) = delete;
-  SubscriptionBase & operator = (SubscriptionBase &&) = delete;
+  ServiceBase & operator = (ServiceBase const &) = delete;
+  ServiceBase & operator = (ServiceBase &&) = delete;
 
-  virtual void onTransferReceived(CanardRxTransfer const & transfer) = 0;
+  virtual bool onTransferReceived(CanardRxTransfer const & transfer) = 0;
 };
 
-template <typename T, typename OnReceiveCb>
-class Subscription : public SubscriptionBase
+template<typename T_REQ, typename T_RSP, typename OnRequestCb>
+class Service : public ServiceBase
 {
 public:
-  Subscription(Node & node_hdl, CanardPortID const port_id, OnReceiveCb const & on_receive_cb)
-  : SubscriptionBase{}
-  , _node_hdl{node_hdl}
+  Service(Node & node_hdl, CanardPortID const port_id, CanardInstance & canard_hdl, CanardTxQueue & canard_tx_queue, CanardMicrosecond const tx_timeout_usec, CyphalMicrosFunc const micros_func, OnRequestCb on_request_cb)
+  : _node_hdl{node_hdl}
   , _port_id{port_id}
-  , _on_receive_cb{on_receive_cb}
+  , _canard_hdl{canard_hdl}
+  , _canard_tx_queue{canard_tx_queue}
+  , _tx_timeout_usec{tx_timeout_usec}
+  , _micros_func{micros_func}
+  , _on_request_cb{on_request_cb}
   { }
-  virtual ~Subscription();
-
-  virtual void onTransferReceived(CanardRxTransfer const & transfer) override;
+  virtual ~Service();
 
 
-  CanardRxSubscription & canard_rx_subscription() { return _canard_rx_sub; }
+  virtual bool onTransferReceived(CanardRxTransfer const & transfer) override;
+
+
+  inline CanardRxSubscription & canard_rx_subscription() { return _canard_rx_sub; }
 
 
 private:
   Node & _node_hdl;
   CanardPortID const _port_id;
+  CanardInstance & _canard_hdl;
+  CanardTxQueue & _canard_tx_queue;
+  CanardMicrosecond const _tx_timeout_usec;
+  CyphalMicrosFunc const _micros_func;
   CanardRxSubscription _canard_rx_sub;
-  OnReceiveCb _on_receive_cb;
+  OnRequestCb _on_request_cb;
 };
 
 /**************************************************************************************
@@ -82,12 +90,12 @@ private:
  * TYPEDEF
  **************************************************************************************/
 
-using Subscription = std::shared_ptr<impl::SubscriptionBase>;
+using Service = std::shared_ptr<impl::ServiceBase>;
 
 /**************************************************************************************
  * TEMPLATE IMPLEMENTATION
  **************************************************************************************/
 
-#include "Subscription.ipp"
+#include "Service.ipp"
 
-#endif /* INC_107_ARDUINO_CYPHAL_SUBSCRIPTION_HPP */
+#endif /* INC_107_ARDUINO_CYPHAL_SERVICE_HPP */
