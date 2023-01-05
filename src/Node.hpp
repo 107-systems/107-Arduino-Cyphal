@@ -16,7 +16,6 @@
 
 #undef max
 #undef min
-#include <map>
 #include <tuple>
 #include <array>
 #include <memory>
@@ -109,7 +108,6 @@ private:
   MicrosFunc const _micros_func;
   CanardTxQueue _canard_tx_queue;
   arduino::_107_::opencyphal::ThreadsafeRingBuffer<std::tuple<uint32_t, size_t, std::array<uint8_t, 8>, CanardMicrosecond>> _canard_rx_queue;
-  std::map<CanardPortID, std::shared_ptr<impl::CanardSubscription>> _canard_subscription_map;
 
   static void * o1heap_allocate(CanardInstance * const ins, size_t const amount);
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);

@@ -76,8 +76,6 @@ void Node::unsubscribe(CanardPortID const port_id, CanardTransferKind const tran
   canardRxUnsubscribe(&_canard_hdl,
                       transfer_kind,
                       port_id);
-
-  _canard_subscription_map.erase(port_id);
 }
 
 /**************************************************************************************
@@ -108,23 +106,17 @@ void Node::processRxQueue()
     frame.payload = reinterpret_cast<const void *>(payload.data());
 
     CanardRxTransfer transfer;
+    CanardRxSubscription * rx_subscription;
     int8_t const result = canardRxAccept(&_canard_hdl,
                                         rx_timestamp_us,
                                         &frame,
                                         0, /* redundant_transport_index */
                                         &transfer,
-                                        nullptr);
+                                        &rx_subscription);
 
     if(result == 1)
     {
-      auto const sub_citer = _canard_subscription_map.find(transfer.metadata.port_id);
-      if (sub_citer == std::end(_canard_subscription_map))
-        continue;
-
-      auto const sub_ptr = sub_citer->second;
-      if (sub_ptr->canard_transfer_kind() != transfer.metadata.transfer_kind)
-        continue;
-
+      impl::CanardSubscription * sub_ptr = static_cast<impl::CanardSubscription *>(rx_subscription->user_reference);
       sub_ptr->onTransferReceived(transfer);
 
       /* Free dynamically allocated memory after processing. */

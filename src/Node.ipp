@@ -40,7 +40,6 @@ Subscription Node::create_subscription(CanardPortID const port_id,
   if (rc < 0)
     return nullptr;
 
-  _canard_subscription_map[port_id] = sub;
   return sub;
 }
 
@@ -65,7 +64,6 @@ Service Node::create_service(CanardPortID const port_id,
   if (rc < 0)
     return nullptr;
 
-  _canard_subscription_map[port_id] = srv;
   return srv;
 }
 

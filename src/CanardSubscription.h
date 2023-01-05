@@ -28,7 +28,11 @@ namespace impl
 class CanardSubscription
 {
 public:
-  CanardSubscription(CanardTransferKind const transfer_kind) : _transfer_kind{transfer_kind} { }
+  CanardSubscription(CanardTransferKind const transfer_kind)
+  : _transfer_kind{transfer_kind}
+  {
+    _canard_rx_sub.user_reference = static_cast<void *>(this);
+  }
   virtual ~CanardSubscription() { }
   CanardSubscription(CanardSubscription const &) = delete;
   CanardSubscription(CanardSubscription &&) = delete;
