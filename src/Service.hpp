@@ -14,6 +14,8 @@
 
 #include <memory>
 
+#include "CanardSubscription.h"
+
 #include "libcanard/canard.h"
 
 /**************************************************************************************
@@ -33,26 +35,10 @@ namespace impl
  * CLASS DECLARATION
  **************************************************************************************/
 
-class ServiceBase
+class ServiceBase : public CanardSubscription
 {
 public:
-           ServiceBase() { }
-  virtual ~ServiceBase() { }
-           ServiceBase(ServiceBase const &) = delete;
-           ServiceBase(ServiceBase &&) = delete;
-
-  ServiceBase & operator = (ServiceBase const &) = delete;
-  ServiceBase & operator = (ServiceBase &&) = delete;
-
-
-  virtual bool onTransferReceived(CanardRxTransfer const & transfer) = 0;
-
-
-  [[nodiscard]] CanardRxSubscription & canard_rx_subscription() { return _canard_rx_sub; }
-
-
-private:
-  CanardRxSubscription _canard_rx_sub;
+  ServiceBase() : CanardSubscription{CanardTransferKindRequest} { }
 };
 
 template<typename T_REQ, typename T_RSP, typename OnRequestCb>

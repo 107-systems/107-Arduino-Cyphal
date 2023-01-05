@@ -26,12 +26,14 @@ Subscription<T, OnReceiveCb>::~Subscription()
  **************************************************************************************/
 
 template<typename T, typename OnReceiveCb>
-void Subscription<T, OnReceiveCb>::onTransferReceived(CanardRxTransfer const & transfer)
+bool Subscription<T, OnReceiveCb>::onTransferReceived(CanardRxTransfer const & transfer)
 {
   T const msg = T::deserialize(transfer);
 
   if (_on_receive_cb)
     _on_receive_cb(msg);
+
+  return true;
 }
 
 /**************************************************************************************

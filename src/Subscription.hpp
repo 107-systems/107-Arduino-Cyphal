@@ -14,6 +14,8 @@
 
 #include <memory>
 
+#include "CanardSubscription.h"
+
 #include "libcanard/canard.h"
 
 /**************************************************************************************
@@ -33,26 +35,10 @@ namespace impl
  * CLASS DECLARATION
  **************************************************************************************/
 
-class SubscriptionBase
+class SubscriptionBase : public CanardSubscription
 {
 public:
-           SubscriptionBase() { }
-  virtual ~SubscriptionBase() { }
-           SubscriptionBase(SubscriptionBase const &) = delete;
-           SubscriptionBase(SubscriptionBase &&) = delete;
-
-  SubscriptionBase & operator = (SubscriptionBase const &) = delete;
-  SubscriptionBase & operator = (SubscriptionBase &&) = delete;
-
-
-  virtual void onTransferReceived(CanardRxTransfer const & transfer) = 0;
-
-
-  [[nodiscard]] CanardRxSubscription & canard_rx_subscription() { return _canard_rx_sub; }
-
-
-private:
-  CanardRxSubscription _canard_rx_sub;
+  SubscriptionBase() : CanardSubscription{CanardTransferKindMessage} { }
 };
 
 template <typename T, typename OnReceiveCb>
@@ -68,7 +54,7 @@ public:
   virtual ~Subscription();
 
 
-  virtual void onTransferReceived(CanardRxTransfer const & transfer) override;
+  virtual bool onTransferReceived(CanardRxTransfer const & transfer) override;
 
 
 private:
