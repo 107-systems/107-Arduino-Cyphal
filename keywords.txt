@@ -8,7 +8,7 @@
 
 Node	KEYWORD1
 Publisher	KEYWORD1
-CyphalHeap	KEYWORD1
+Node::Heap	KEYWORD1
 Request	KEYWORD1
 Response	KEYWORD1
 

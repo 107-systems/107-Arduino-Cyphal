@@ -35,22 +35,18 @@
 #include "utility/RingBuffer.hpp"
 
 /**************************************************************************************
- * TYPEDEF
- **************************************************************************************/
-
-typedef std::function<CanardMicrosecond(void)> CyphalMicrosFunc;
-typedef std::function<bool(CanardFrame const &)> CyphalCanFrameTxFunc;
-
-template <size_t SIZE>
-struct alignas(O1HEAP_ALIGNMENT) CyphalHeap final : public std::array<uint8_t, SIZE> {};
-
-/**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
 
 class Node
 {
 public:
+
+  typedef std::function<CanardMicrosecond(void)> CyphalMicrosFunc;
+  typedef std::function<bool(CanardFrame const &)> CyphalCanFrameTxFunc;
+
+  template <size_t SIZE>
+  struct alignas(O1HEAP_ALIGNMENT) Heap final : public std::array<uint8_t, SIZE> {};
 
   static size_t       constexpr DEFAULT_O1HEAP_SIZE   = 4096;
   static CanardNodeID constexpr DEFAULT_NODE_ID       = 42;
