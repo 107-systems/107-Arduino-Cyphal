@@ -24,11 +24,10 @@
 #include "Service.hpp"
 #include "Publisher.hpp"
 #include "Subscription.hpp"
+#include "RingBuffer.hpp"
 
 #include "libo1heap/o1heap.h"
 #include "libcanard/canard.h"
-
-#include "utility/RingBuffer.hpp"
 
 /**************************************************************************************
  * CLASS DECLARATION
