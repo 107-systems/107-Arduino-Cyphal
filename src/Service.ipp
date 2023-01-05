@@ -48,14 +48,11 @@ bool Service<T_REQ, T_RSP, OnRequestCb>::onTransferReceived(CanardRxTransfer con
     .transfer_id    = transfer.metadata.transfer_id,
   };
 
-  int32_t const rc = canardTxPush(&_canard_tx_queue,
-                                  &_canard_hdl,
-                                  _micros_func() + _tx_timeout_usec,
-                                  &transfer_metadata,
-                                  payload_buf_size,
-                                  payload_buf.data());
-  bool const success = (rc >= 0);
-  return success;
+  /* Serialize transfer into a series of CAN frames */
+  return _node_hdl.enqueue_transfer(_micros_func() + _tx_timeout_usec,
+                                    &transfer_metadata,
+                                    payload_buf_size,
+                                    payload_buf.data());
 }
 
 /**************************************************************************************

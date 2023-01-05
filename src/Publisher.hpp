@@ -17,6 +17,12 @@
 #include "libcanard/canard.h"
 
 /**************************************************************************************
+ * FORWARD DECLARATION
+ **************************************************************************************/
+
+class Node;
+
+/**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
 
@@ -31,9 +37,8 @@ template <typename T>
 class Publisher
 {
 public:
-  Publisher(CanardInstance & canard_hdl, CanardTxQueue & canard_tx_queue, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, CyphalMicrosFunc const micros_func)
-  : _canard_hdl{canard_hdl}
-  , _canard_tx_queue{canard_tx_queue}
+  Publisher(Node & node_hdl, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, CyphalMicrosFunc const micros_func)
+  : _node_hdl{node_hdl}
   , _port_id{port_id}
   , _tx_timeout_usec{tx_timeout_usec}
   , _micros_func{micros_func}
@@ -43,8 +48,7 @@ public:
   bool publish(T const & msg);
 
 private:
-  CanardInstance & _canard_hdl;
-  CanardTxQueue & _canard_tx_queue;
+  Node & _node_hdl;
   CanardPortID const _port_id;
   CanardMicrosecond const _tx_timeout_usec;
   CyphalMicrosFunc const _micros_func;

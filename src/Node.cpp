@@ -53,6 +53,22 @@ void Node::onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const
   _canard_rx_queue.enqueue(std::make_tuple(extended_can_id, payload_size, payload, rx_timestamp_us));
 }
 
+bool Node::enqueue_transfer(CanardMicrosecond const tx_deadline_usec,
+                            CanardTransferMetadata const * const transfer_metadata,
+                            size_t const payload_buf_size,
+                            uint8_t const * const payload_buf)
+{
+  int32_t const rc = canardTxPush(&_canard_tx_queue,
+                                  &_canard_hdl,
+                                  tx_deadline_usec,
+                                  transfer_metadata,
+                                  payload_buf_size,
+                                  payload_buf);
+
+  bool const success = (rc >= 0);
+  return success;
+}
+
 void Node::unsubscribe_message(CanardPortID const port_id)
 {
   canardRxUnsubscribe(&_canard_hdl,

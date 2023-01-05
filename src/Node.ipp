@@ -13,7 +13,7 @@ template <typename T>
 Publisher<T> Node::create_publisher(CanardPortID const port_id,
                                     CanardMicrosecond const tx_timeout_usec)
 {
-  return std::make_shared<impl::Publisher<T>>(_canard_hdl, _canard_tx_queue, port_id, tx_timeout_usec, _micros_func);
+  return std::make_shared<impl::Publisher<T>>(*this, port_id, tx_timeout_usec, _micros_func);
 }
 
 template <typename T, typename OnReceiveCb>
@@ -44,8 +44,6 @@ Service Node::create_service(CanardPortID const port_id,
   auto srv = std::make_shared<impl::Service<T_REQ, T_RSP, OnRequestCb>>(
     *this,
     port_id,
-    _canard_hdl,
-    _canard_tx_queue,
     tx_timeout_usec,
     _micros_func,
     std::forward<OnRequestCb>(on_request_cb)

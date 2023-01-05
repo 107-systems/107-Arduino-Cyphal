@@ -92,6 +92,10 @@ public:
   void onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us);
 
 
+  bool enqueue_transfer(CanardMicrosecond const tx_deadline_usec,
+                        CanardTransferMetadata const * const transfer_metadata,
+                        size_t const payload_buf_size,
+                        uint8_t const * const payload_buf);
   void unsubscribe_message(CanardPortID const port_id);
   void unsubscribe_request(CanardPortID const port_id);
 

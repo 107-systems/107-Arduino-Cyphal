@@ -59,11 +59,9 @@ template<typename T_REQ, typename T_RSP, typename OnRequestCb>
 class Service : public ServiceBase
 {
 public:
-  Service(Node & node_hdl, CanardPortID const port_id, CanardInstance & canard_hdl, CanardTxQueue & canard_tx_queue, CanardMicrosecond const tx_timeout_usec, CyphalMicrosFunc const micros_func, OnRequestCb on_request_cb)
+  Service(Node & node_hdl, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, CyphalMicrosFunc const micros_func, OnRequestCb on_request_cb)
   : _node_hdl{node_hdl}
   , _port_id{port_id}
-  , _canard_hdl{canard_hdl}
-  , _canard_tx_queue{canard_tx_queue}
   , _tx_timeout_usec{tx_timeout_usec}
   , _micros_func{micros_func}
   , _on_request_cb{on_request_cb}
@@ -77,8 +75,6 @@ public:
 private:
   Node & _node_hdl;
   CanardPortID const _port_id;
-  CanardInstance & _canard_hdl;
-  CanardTxQueue & _canard_tx_queue;
   CanardMicrosecond const _tx_timeout_usec;
   CyphalMicrosFunc const _micros_func;
   OnRequestCb _on_request_cb;
