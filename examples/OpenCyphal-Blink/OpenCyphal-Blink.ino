@@ -111,8 +111,8 @@ void setup()
 
   /* Configure initial heartbeat */
   hb_msg.data.uptime = 0;
-  hb_msg = Heartbeat_1_0<>::Health::NOMINAL;
-  hb_msg = Heartbeat_1_0<>::Mode::INITIALIZATION;
+  hb_msg.data.health.value = uavcan_node_Health_1_0_NOMINAL;
+  hb_msg.data.mode.value = uavcan_node_Mode_1_0_INITIALIZATION;
   hb_msg.data.vendor_specific_status_code = 0;
 }
 
@@ -124,7 +124,7 @@ void loop()
 
   /* Update the heartbeat object */
   hb_msg.data.uptime = millis() / 1000;
-  hb_msg = Heartbeat_1_0<>::Mode::OPERATIONAL;
+  hb_msg.data.mode.value = uavcan_node_Mode_1_0_OPERATIONAL;
 
   /* Publish the heartbeat once/second */
   static unsigned long prev = 0;

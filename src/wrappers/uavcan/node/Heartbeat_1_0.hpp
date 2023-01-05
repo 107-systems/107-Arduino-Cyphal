@@ -16,8 +16,6 @@
 
 #include <types/uavcan/node/Heartbeat_1_0.h>
 
-#include <utility/convert.hpp>
-
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
@@ -79,16 +77,6 @@ public:
   {
     size_t inout_buffer_size_bytes = Heartbeat_1_0::MAX_PAYLOAD_SIZE;
     return (uavcan_node_Heartbeat_1_0_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS) ? 0 : inout_buffer_size_bytes;
-  }
-
-  void operator = (Health const health)
-  {
-    data.health.value = arduino::_107_::opencyphal::to_integer(health);
-  }
-
-  void operator = (Mode const mode)
-  {
-    data.mode.value = arduino::_107_::opencyphal::to_integer(mode);
   }
 };
 

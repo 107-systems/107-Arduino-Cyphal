@@ -35,7 +35,7 @@
 
 typedef struct
 {
-  uavcan::node::Heartbeat_1_0<>::Mode mode;
+  uavcan_node_Mode_1_0 mode;
 } OpenCyphalNodeData;
 
 typedef struct
@@ -52,7 +52,7 @@ static int const MKRCAN_MCP2515_INT_PIN = 7;
 
 static OpenCyphalNodeData const OPEN_CYPHAL_NODE_INITIAL_DATA =
 {
-  uavcan::node::Heartbeat_1_0<>::Mode::INITIALIZATION,
+  uavcan_node_Mode_1_0_INITIALIZATION,
 };
 
 static OpenCyphalNodeConfiguration const OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION =
@@ -71,15 +71,15 @@ void onReceive(CanardFrame const &);
 
 namespace node
 {
-uavcan::node::Heartbeat_1_0<>::Mode handle_INITIALIZATION();
-uavcan::node::Heartbeat_1_0<>::Mode handle_OPERATIONAL();
-uavcan::node::Heartbeat_1_0<>::Mode handle_MAINTENANCE();
-uavcan::node::Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE();
+uint8_t handle_INITIALIZATION();
+uint8_t handle_OPERATIONAL();
+uint8_t handle_MAINTENANCE();
+uint8_t handle_SOFTWARE_UPDATE();
 }
 
 namespace heartbeat
 {
-void publish(uint32_t const, uavcan::node::Heartbeat_1_0<>::Mode const);
+void publish(uint32_t const, uavcan_node_Mode_1_0 const);
 }
 
 namespace gnss
@@ -164,14 +164,14 @@ void loop()
 
   /* Handle state transitions and state specific action.
    */
-  uavcan::node::Heartbeat_1_0<>::Mode next_mode = node_data.mode;
+  uavcan_node_Mode_1_0 next_mode = node_data.mode;
 
-  switch(node_data.mode)
+  switch(node_data.mode.value)
   {
-  case uavcan::node::Heartbeat_1_0<>::Mode::INITIALIZATION:  next_mode = node::handle_INITIALIZATION();  break;
-  case uavcan::node::Heartbeat_1_0<>::Mode::OPERATIONAL:     next_mode = node::handle_OPERATIONAL();     break;
-  case uavcan::node::Heartbeat_1_0<>::Mode::MAINTENANCE:     next_mode = node::handle_MAINTENANCE();     break;
-  case uavcan::node::Heartbeat_1_0<>::Mode::SOFTWARE_UPDATE: next_mode = node::handle_SOFTWARE_UPDATE(); break;
+  case uavcan_node_Mode_1_0_INITIALIZATION:  next_mode.value = node::handle_INITIALIZATION();  break;
+  case uavcan_node_Mode_1_0_OPERATIONAL:     next_mode.value = node::handle_OPERATIONAL();     break;
+  case uavcan_node_Mode_1_0_MAINTENANCE:     next_mode.value = node::handle_MAINTENANCE();     break;
+  case uavcan_node_Mode_1_0_SOFTWARE_UPDATE: next_mode.value = node::handle_SOFTWARE_UPDATE(); break;
   }
 
   node_data.mode = next_mode;
@@ -193,14 +193,14 @@ void onReceive(CanardFrame const & frame) {
 namespace node
 {
 
-uavcan::node::Heartbeat_1_0<>::Mode handle_INITIALIZATION()
+uint8_t handle_INITIALIZATION()
 {
   DBG_VERBOSE("INITIALIZATION");
 
-  return uavcan::node::Heartbeat_1_0<>::Mode::OPERATIONAL;
+  return uavcan_node_Mode_1_0_OPERATIONAL;
 }
 
-uavcan::node::Heartbeat_1_0<>::Mode handle_OPERATIONAL()
+uint8_t handle_OPERATIONAL()
 {
   DBG_VERBOSE("OPERATIONAL");
 
@@ -212,21 +212,21 @@ uavcan::node::Heartbeat_1_0<>::Mode handle_OPERATIONAL()
     nmea_parser.encode((char)Serial1.read());
   }
 
-  return uavcan::node::Heartbeat_1_0<>::Mode::OPERATIONAL;
+  return uavcan_node_Mode_1_0_OPERATIONAL;
 }
 
-uavcan::node::Heartbeat_1_0<>::Mode handle_MAINTENANCE()
+uint8_t handle_MAINTENANCE()
 {
   DBG_VERBOSE("MAINTENANCE");
 
-  return uavcan::node::Heartbeat_1_0<>::Mode::INITIALIZATION;
+  return uavcan_node_Mode_1_0_INITIALIZATION;
 }
 
-uavcan::node::Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE()
+uint8_t handle_SOFTWARE_UPDATE()
 {
   DBG_VERBOSE("SOFTWARE_UPDATE");
 
-  return uavcan::node::Heartbeat_1_0<>::Mode::INITIALIZATION;
+  return uavcan_node_Mode_1_0_INITIALIZATION;
 }
 
 } /* node */
@@ -234,13 +234,13 @@ uavcan::node::Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE()
 namespace heartbeat
 {
 
-void publish(uint32_t const uptime, uavcan::node::Heartbeat_1_0<>::Mode const mode)
+void publish(uint32_t const uptime, uavcan_node_Mode_1_0 const mode)
 {
   uavcan::node::Heartbeat_1_0<> hb_msg;
 
   hb_msg.data.uptime = uptime;
-  hb_msg = uavcan::node::Heartbeat_1_0<>::Health::NOMINAL;
-  hb_msg = mode;
+  hb_msg.data.health.value = uavcan_node_Health_1_0_NOMINAL;
+  hb_msg.data.mode.value = mode.value;
   hb_msg.data.vendor_specific_status_code = 0;
 
   heartbeat_pub->publish(hb_msg);

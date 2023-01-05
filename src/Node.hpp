@@ -32,7 +32,6 @@
 #include "libo1heap/o1heap.h"
 #include "libcanard/canard.h"
 
-#include "utility/convert.hpp"
 #include "utility/LockGuard.h"
 #include "utility/RingBuffer.hpp"
 

@@ -16,8 +16,6 @@
 
 #include <types/reg/udral/service/actuator/common/Feedback_0_1.h>
 
-#include <utility/convert.hpp>
-
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
@@ -37,22 +35,6 @@ class Feedback_0_1
 {
 
 public:
-
-  enum class Health : uint8_t
-  {
-    NOMINAL  = uavcan_node_Health_1_0_NOMINAL,
-    ADVISORY = uavcan_node_Health_1_0_ADVISORY,
-    CAUTION  = uavcan_node_Health_1_0_CAUTION,
-    WARNING  = uavcan_node_Health_1_0_WARNING,
-  };
-
-  enum class Readiness : uint8_t
-  {
-    SLEEP      = reg_udral_service_common_Readiness_0_1_SLEEP,
-    STANDBY    = reg_udral_service_common_Readiness_0_1_STANDBY,
-    ENGAGED    = reg_udral_service_common_Readiness_0_1_ENGAGED,
-  };
-
   reg_udral_service_actuator_common_Feedback_0_1 data;
 
   static constexpr CanardPortID       PORT_ID          = ID;
@@ -82,16 +64,6 @@ public:
   {
     size_t inout_buffer_size_bytes = Feedback_0_1::MAX_PAYLOAD_SIZE;
     return (reg_udral_service_actuator_common_Feedback_0_1_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS) ? 0 : inout_buffer_size_bytes;
-  }
-
-  void operator = (Health const health)
-  {
-    data.heartbeat.health.value = arduino::_107_::opencyphal::to_integer(health);
-  }
-
-  void operator = (Readiness const readiness)
-  {
-    data.heartbeat.readiness.value = arduino::_107_::opencyphal::to_integer(readiness);
   }
 };
 

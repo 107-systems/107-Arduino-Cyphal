@@ -99,9 +99,9 @@ ExecuteCommand_1_0::Response<> onExecuteCommand_1_0_Request_Received(ExecuteComm
   ExecuteCommand_1_0::Response<> rsp;
 
   if (req.data.command == 0xCAFE)
-    rsp = ExecuteCommand_1_0::Response<>::Status::SUCCESS;
+    rsp.data.status = uavcan_node_ExecuteCommand_Response_1_0_STATUS_SUCCESS;
   else
-    rsp = ExecuteCommand_1_0::Response<>::Status::NOT_AUTHORIZED;
+    rsp.data.status = uavcan_node_ExecuteCommand_Response_1_0_STATUS_NOT_AUTHORIZED;
 
   return rsp;
 }
