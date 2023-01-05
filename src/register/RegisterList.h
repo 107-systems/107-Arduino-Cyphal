@@ -15,8 +15,10 @@
 #include <map>
 #include <vector>
 
-#include "Node.hpp"
 #include "RegisterDerived.hpp"
+
+#include "../Node.hpp"
+#include "../DSDL_Types.h"
 
 /**************************************************************************************
  * CLASS DECLARATION

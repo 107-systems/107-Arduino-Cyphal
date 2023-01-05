@@ -13,6 +13,9 @@
  **************************************************************************************/
 
 #include "RegisterBase.h"
+
+#include <functional>
+
 #include "types/Access.h"
 #include "types/Persistent.h"
 

@@ -12,7 +12,7 @@
  * INCLUDE
  **************************************************************************************/
 
-#include <stdint.h>
+#include <cstdint>
 
 #undef max
 #undef min
@@ -21,8 +21,6 @@
 #include <array>
 #include <memory>
 #include <functional>
-
-#include "DSDL_Types.h"
 
 #include "Service.hpp"
 #include "Publisher.hpp"
