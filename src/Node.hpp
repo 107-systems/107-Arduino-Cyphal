@@ -92,7 +92,7 @@ public:
   void onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us);
 
 
-  bool enqueue_transfer(CanardMicrosecond const tx_deadline_usec,
+  bool enqueue_transfer(CanardMicrosecond const tx_timeout_usec,
                         CanardTransferMetadata const * const transfer_metadata,
                         size_t const payload_buf_size,
                         uint8_t const * const payload_buf);

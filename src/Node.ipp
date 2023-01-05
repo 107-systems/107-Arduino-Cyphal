@@ -13,7 +13,11 @@ template <typename T>
 Publisher<T> Node::create_publisher(CanardPortID const port_id,
                                     CanardMicrosecond const tx_timeout_usec)
 {
-  return std::make_shared<impl::Publisher<T>>(*this, port_id, tx_timeout_usec, _micros_func);
+  return std::make_shared<impl::Publisher<T>>(
+    *this,
+    port_id,
+    tx_timeout_usec
+    );
 }
 
 template <typename T, typename OnReceiveCb>
@@ -21,7 +25,11 @@ Subscription Node::create_subscription(CanardPortID const port_id,
                                        CanardMicrosecond const rx_timeout_usec,
                                        OnReceiveCb&& on_receive_cb)
 {
-  auto sub = std::make_shared<impl::Subscription<T, OnReceiveCb>>(*this, port_id, std::forward<OnReceiveCb>(on_receive_cb));
+  auto sub = std::make_shared<impl::Subscription<T, OnReceiveCb>>(
+    *this,
+    port_id,
+    std::forward<OnReceiveCb>(on_receive_cb)
+    );
 
   int8_t const rc = canardRxSubscribe(&_canard_hdl,
                                       CanardTransferKindMessage,
@@ -45,7 +53,6 @@ Service Node::create_service(CanardPortID const port_id,
     *this,
     port_id,
     tx_timeout_usec,
-    _micros_func,
     std::forward<OnRequestCb>(on_request_cb)
     );
 

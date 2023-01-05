@@ -39,7 +39,7 @@ bool Publisher<T>::publish(T const & msg)
   size_t const payload_buf_size = msg.serialize(payload_buf.data());
 
   /* Serialize transfer into a series of CAN frames */
-  return _node_hdl.enqueue_transfer(_micros_func() + _tx_timeout_usec,
+  return _node_hdl.enqueue_transfer(_tx_timeout_usec,
                                     &transfer_metadata,
                                     payload_buf_size,
                                     payload_buf.data());
