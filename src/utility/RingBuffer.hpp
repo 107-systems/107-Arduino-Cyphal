@@ -12,10 +12,6 @@
  * NAMESPACE
  **************************************************************************************/
 
-namespace arduino
-{
-namespace _107_
-{
 namespace opencyphal
 {
 
@@ -24,10 +20,10 @@ namespace opencyphal
  **************************************************************************************/
 
 template <class T>
-class Ringbuffer
+class RingBuffer
 {
 public:
-  Ringbuffer(size_t const size)
+  RingBuffer(size_t const size)
   : _buffer{new T[size]}
   , _size{size}
   , _head{0}
@@ -35,7 +31,7 @@ public:
   , _num_elems{0}
   { }
 
-  ~Ringbuffer()
+  ~RingBuffer()
   {
     delete[] _buffer;
     _size = 0;
@@ -86,49 +82,10 @@ private:
   }
 };
 
-template <class T>
-class ThreadsafeRingBuffer : private Ringbuffer<T>
-{
-public:
-  ThreadsafeRingBuffer(size_t const size) : Ringbuffer<T>(size) { }
-
-  void enqueue(T const & val)
-  {
-    LockGuard lock;
-    Ringbuffer<T>::enqueue(val);
-  }
-
-  T dequeue()
-  {
-    LockGuard lock;
-    return Ringbuffer<T>::dequeue();
-  }
-
-  size_t available() const
-  {
-    LockGuard lock;
-    return Ringbuffer<T>::available();
-  }
-
-  bool isFull() const
-  {
-    LockGuard lock;
-    return Ringbuffer<T>::isFull();
-  }
-
-  bool isEmpty() const
-  {
-    LockGuard lock;
-    return Ringbuffer<T>::isEmpty();
-  }
-};
-
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
 
-} /* arduino */
-} /* _107_ */
 } /* opencyphal */
 
 #endif /* ARDUINO_CYPHAL_UTILITY_RINGBUFFER_H_ */
