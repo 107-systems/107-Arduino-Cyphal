@@ -18,7 +18,7 @@ namespace impl {
 template<typename T, typename OnReceiveCb>
 Subscription<T, OnReceiveCb>::~Subscription()
 {
-  _node_hdl.unsubscribe_message(_port_id);
+  _node_hdl.unsubscribe(_port_id, canard_transfer_kind());
 }
 
 /**************************************************************************************

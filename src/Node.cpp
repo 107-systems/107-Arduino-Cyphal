@@ -69,22 +69,13 @@ bool Node::enqueue_transfer(CanardMicrosecond const tx_timeout_usec,
   return success;
 }
 
-void Node::unsubscribe_message(CanardPortID const port_id)
+void Node::unsubscribe(CanardPortID const port_id, CanardTransferKind const transfer_kind)
 {
   canardRxUnsubscribe(&_canard_hdl,
-                      CanardTransferKindMessage,
+                      transfer_kind,
                       port_id);
 
-  _msg_subscription_map.erase(port_id);
-}
-
-void Node::unsubscribe_request(CanardPortID const port_id)
-{
-  canardRxUnsubscribe(&_canard_hdl,
-                      CanardTransferKindRequest,
-                      port_id);
-
-  _req_subscription_map.erase(port_id);
+  _canard_subscription_map.erase(port_id);
 }
 
 /**************************************************************************************
@@ -124,31 +115,18 @@ void Node::processRxQueue()
 
     if(result == 1)
     {
-      /* Check whether or not the incoming transfer is a message transfer,
-       * if the incoming port id has been subscribed too and, if all those
-       * preconditions hold true, invoke the required transfer received
-       * callback.
-       */
-      if (transfer.metadata.transfer_kind == CanardTransferKindMessage)
-      {
-        auto const msg_sub_citer = _msg_subscription_map.find(transfer.metadata.port_id);
-        if (msg_sub_citer != std::end(_msg_subscription_map)) {
-          auto const msg_sub_ptr = msg_sub_citer->second;
-          msg_sub_ptr->onTransferReceived(transfer);
-        }
-      }
-      /* If the incoming message is a service request, and we're providing
-       * such a service at this node then redirect the request message
-       * to the appropriate service callback.
-       */
-      else if (transfer.metadata.transfer_kind == CanardTransferKindRequest)
-      {
-        auto const msg_req_citer = _req_subscription_map.find(transfer.metadata.port_id);
-        if (msg_req_citer != std::end(_req_subscription_map)) {
-          auto const msg_req_ptr = msg_req_citer->second;
-          msg_req_ptr->onTransferReceived(transfer);
-        }
-      }
+      auto const sub_citer = _canard_subscription_map.find(transfer.metadata.port_id);
+      if (sub_citer == std::end(_canard_subscription_map))
+        continue;
+
+      auto const sub_ptr = sub_citer->second;
+      if (sub_ptr->canard_transfer_kind() != transfer.metadata.transfer_kind)
+        continue;
+
+      sub_ptr->onTransferReceived(transfer);
+
+      /* Free dynamically allocated memory after processing. */
+      _canard_hdl.memory_free(&_canard_hdl, transfer.payload);
 
         /*
         if (transfer.metadata.transfer_kind == CanardTransferKindResponse) {
@@ -161,9 +139,6 @@ void Node::processRxQueue()
         else
           transfer_received_func(transfer, *this);
           */
-
-      /* Free dynamically allocated memory after processing. */
-      _canard_hdl.memory_free(&_canard_hdl, transfer.payload);
     }
   }
 }
