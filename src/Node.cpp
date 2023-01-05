@@ -121,12 +121,11 @@ void Node::processRxQueue()
           msg_sub_ptr->onTransferReceived(transfer);
         }
       }
-
       /* If the incoming message is a service request, and we're providing
        * such a service at this node then redirect the request message
        * to the appropriate service callback.
        */
-      if (transfer.metadata.transfer_kind == CanardTransferKindRequest)
+      else if (transfer.metadata.transfer_kind == CanardTransferKindRequest)
       {
         auto const msg_req_citer = _req_subscription_map.find(transfer.metadata.port_id);
         if (msg_req_citer != std::end(_req_subscription_map)) {
