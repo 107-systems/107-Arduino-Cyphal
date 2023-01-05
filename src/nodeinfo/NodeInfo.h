@@ -23,22 +23,21 @@
 class NodeInfo
 {
 public:
-
-  NodeInfo(uint8_t const protocol_major, uint8_t const protocol_minor,
-           uint8_t const hardware_major, uint8_t const hardware_minor,
-           uint8_t const software_major, uint8_t const software_minor,
+  NodeInfo(Node & node_hdl,
+           uint8_t const protocol_major,
+           uint8_t const protocol_minor,
+           uint8_t const hardware_major,
+           uint8_t const hardware_minor,
+           uint8_t const software_major,
+           uint8_t const software_minor,
            uint64_t const software_vcs_revision_id,
            std::array<uint8_t, 16> const unique_id,
            std::string const & name);
 
 
-  void subscribe(Node & node_hdl);
-
-
 private:
+  Service _node_info_srv;
   uavcan_node_GetInfo_Response_1_0 _node_info;
-
-  void onGetInfo_1_0_Request_Received(CanardRxTransfer const & transfer, Node & node_hdl);
 };
 
 #endif /* ARDUINO_OPENCYPHAL_NODE_INFO_H_ */

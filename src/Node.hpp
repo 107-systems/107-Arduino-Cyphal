@@ -25,6 +25,7 @@
 #include "Const.h"
 #include "Types.h"
 
+#include "Service.hpp"
 #include "Publisher.hpp"
 #include "Subscription.hpp"
 
@@ -38,9 +39,6 @@
 /**************************************************************************************
  * TYPEDEF
  **************************************************************************************/
-
-typedef std::function<void(CanardRxTransfer const &, Node &)> OnTransferReceivedFunc;
-typedef std::function<bool(CanardFrame const &)> CanFrameTransmitFunc;
 
 template <size_t SIZE>
 struct alignas(O1HEAP_ALIGNMENT) CyphalHeap final : public std::array<uint8_t, SIZE> {};
@@ -83,55 +81,43 @@ public:
                                 CanardMicrosecond const tx_timeout_usec);
 
   template <typename T, typename OnReceiveCb>
-  Subscription<T, OnReceiveCb> create_subscription(CanardPortID const port_id,
-                                                   CanardMicrosecond const rx_timeout_usec,
-                                                   OnReceiveCb&& on_receive_cb);
+  Subscription create_subscription(CanardPortID const port_id,
+                                   CanardMicrosecond const rx_timeout_usec,
+                                   OnReceiveCb&& on_receive_cb);
+
+  template <typename T_REQ, typename T_RSP, typename OnRequestCb>
+  Service create_service(CanardPortID const port_id,
+                         CanardMicrosecond const tx_timeout_usec,
+                         OnRequestCb&& on_request_cb);
 
   /* Must be called from the application to process
    * all received CAN frames.
    */
-  void spinSome(CanFrameTransmitFunc const tx_func);
+  void spinSome(CyphalCanFrameTxFunc const tx_func);
   /* Must be called from the application upon the
    * reception of a can frame.
    */
   void onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us);
 
 
-  /* request/response API for "service" data exchange paradigm */
-  template <typename T_RSP>                 bool respond         (T_RSP const & rsp, CanardNodeID const remote_node_id, CanardTransferID const transfer_id);
-  template <typename T_REQ, typename T_RSP> bool request         (T_REQ const & req, CanardNodeID const remote_node_id, OnTransferReceivedFunc func);
-
-
   void unsubscribe_message(CanardPortID const port_id);
+  void unsubscribe_request(CanardPortID const port_id);
 
 
 private:
-
-  typedef struct
-  {
-    CanardRxSubscription canard_rx_sub;
-    OnTransferReceivedFunc transfer_complete_callback;
-  } RxTransferData;
-
   O1HeapInstance * _o1heap_ins;
   CanardInstance _canard_hdl;
   CyphalMicrosFunc const _micros_func;
   CanardTxQueue _canard_tx_queue;
   arduino::_107_::opencyphal::ThreadsafeRingBuffer<std::tuple<uint32_t, size_t, std::array<uint8_t, 8>, CanardMicrosecond>> _canard_rx_queue;
-  std::map<CanardPortID, RxTransferData> _rx_transfer_map;
-  std::map<CanardPortID, CanardTransferID> _tx_transfer_map;
   std::map<CanardPortID, std::shared_ptr<impl::SubscriptionBase>> _msg_subscription_map;
+  std::map<CanardPortID, std::shared_ptr<impl::ServiceBase>> _req_subscription_map;
 
   static void * o1heap_allocate(CanardInstance * const ins, size_t const amount);
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
 
   void processRxQueue();
-  void processTxQueue(CanFrameTransmitFunc const tx_func);
-
-  CanardTransferID getNextTransferId(CanardPortID const port_id);
-  bool             subscribe        (CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size_max, OnTransferReceivedFunc func);
-  bool             unsubscribe      (CanardTransferKind const transfer_kind, CanardPortID const port_id);
-  bool             enqeueTransfer   (CanardNodeID const remote_node_id, CanardTransferKind const transfer_kind, CanardPortID const port_id, size_t const payload_size, void * payload, CanardTransferID const transfer_id);
+  void processTxQueue(CyphalCanFrameTxFunc const tx_func);
 };
 
 /**************************************************************************************
