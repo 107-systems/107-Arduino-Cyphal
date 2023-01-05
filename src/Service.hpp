@@ -44,7 +44,15 @@ public:
   ServiceBase & operator = (ServiceBase const &) = delete;
   ServiceBase & operator = (ServiceBase &&) = delete;
 
+
   virtual bool onTransferReceived(CanardRxTransfer const & transfer) = 0;
+
+
+  [[nodiscard]] CanardRxSubscription & canard_rx_subscription() { return _canard_rx_sub; }
+
+
+private:
+  CanardRxSubscription _canard_rx_sub;
 };
 
 template<typename T_REQ, typename T_RSP, typename OnRequestCb>
@@ -66,9 +74,6 @@ public:
   virtual bool onTransferReceived(CanardRxTransfer const & transfer) override;
 
 
-  inline CanardRxSubscription & canard_rx_subscription() { return _canard_rx_sub; }
-
-
 private:
   Node & _node_hdl;
   CanardPortID const _port_id;
@@ -76,7 +81,6 @@ private:
   CanardTxQueue & _canard_tx_queue;
   CanardMicrosecond const _tx_timeout_usec;
   CyphalMicrosFunc const _micros_func;
-  CanardRxSubscription _canard_rx_sub;
   OnRequestCb _on_request_cb;
 };
 

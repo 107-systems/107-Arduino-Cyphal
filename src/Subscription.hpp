@@ -44,7 +44,15 @@ public:
   SubscriptionBase & operator = (SubscriptionBase const &) = delete;
   SubscriptionBase & operator = (SubscriptionBase &&) = delete;
 
+
   virtual void onTransferReceived(CanardRxTransfer const & transfer) = 0;
+
+
+  [[nodiscard]] CanardRxSubscription & canard_rx_subscription() { return _canard_rx_sub; }
+
+
+private:
+  CanardRxSubscription _canard_rx_sub;
 };
 
 template <typename T, typename OnReceiveCb>
@@ -59,16 +67,13 @@ public:
   { }
   virtual ~Subscription();
 
+
   virtual void onTransferReceived(CanardRxTransfer const & transfer) override;
-
-
-  CanardRxSubscription & canard_rx_subscription() { return _canard_rx_sub; }
 
 
 private:
   Node & _node_hdl;
   CanardPortID const _port_id;
-  CanardRxSubscription _canard_rx_sub;
   OnReceiveCb _on_receive_cb;
 };
 
