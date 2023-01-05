@@ -29,6 +29,7 @@ jobs:
         - name: 107-Arduino-BoostUnits
         - name: 107-Arduino-NMEA-Parser
         - name: 107-Arduino-UniqueId
+        - name: 107-Arduino-CriticalSection
 
     strategy:
       fail-fast: false

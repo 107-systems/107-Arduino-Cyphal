@@ -15,6 +15,7 @@
 
 #include <107-Arduino-Cyphal.h>
 #include <107-Arduino-MCP2515.h>
+#include <107-Arduino-CriticalSection.h>
 
 /**************************************************************************************
  * NAMESPACE
@@ -89,7 +90,10 @@ void loop()
 {
   /* Process all pending OpenCyphal actions.
    */
-  node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+  {
+    CriticalSection crit_sec;
+    node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+  }
 }
 
 /**************************************************************************************

@@ -20,6 +20,7 @@
 #include <107-Arduino-MCP2515.h>
 #include <107-Arduino-TMF8801.h>
 #include <107-Arduino-UniqueId.h>
+#include <107-Arduino-CriticalSection.h>
 #define DBG_ENABLE_ERROR
 #define DBG_ENABLE_WARNING
 #define DBG_ENABLE_INFO
@@ -242,7 +243,10 @@ void loop()
 {
   /* Process all pending OpenCyphal actions.
    */
-  node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+  {
+    CriticalSection crit_sec;
+    node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+  }
 
   /* Handle actions common to all states.
    */

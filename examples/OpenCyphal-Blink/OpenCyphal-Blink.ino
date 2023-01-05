@@ -21,6 +21,7 @@
 
 #include <107-Arduino-Cyphal.h>
 #include <107-Arduino-MCP2515.h>
+#include <107-Arduino-CriticalSection.h>
 #if defined(ARDUINO_EDGE_CONTROL)
 #  include <Arduino_EdgeControl.h>
 #endif
@@ -120,7 +121,10 @@ void loop()
 {
   /* Process all pending OpenCyphal actions.
    */
-  node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+  {
+    CriticalSection crit_sec;
+    node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+  }
 
   /* Update the heartbeat object */
   hb_msg.data.uptime = millis() / 1000;
