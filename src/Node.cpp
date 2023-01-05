@@ -17,7 +17,7 @@
 
 Node::Node(uint8_t * heap_ptr,
            size_t const heap_size,
-           CyphalMicrosFunc const micros_func,
+           MicrosFunc const micros_func,
            CanardNodeID const node_id,
            size_t const tx_queue_capacity,
            size_t const rx_queue_capacity,
@@ -36,7 +36,7 @@ Node::Node(uint8_t * heap_ptr,
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-void Node::spinSome(CyphalCanFrameTxFunc const tx_func)
+void Node::spinSome(CanFrameTxFunc const tx_func)
 {
   processRxQueue();
   processTxQueue(tx_func);
@@ -143,7 +143,7 @@ void Node::processRxQueue()
   }
 }
 
-void Node::processTxQueue(CyphalCanFrameTxFunc const tx_func)
+void Node::processTxQueue(CanFrameTxFunc const tx_func)
 {
   for(CanardTxQueueItem * tx_queue_item = const_cast<CanardTxQueueItem *>(canardTxPeek(&_canard_tx_queue));
       tx_queue_item != nullptr;

@@ -42,11 +42,12 @@ class Node
 {
 public:
 
-  typedef std::function<CanardMicrosecond(void)> CyphalMicrosFunc;
-  typedef std::function<bool(CanardFrame const &)> CyphalCanFrameTxFunc;
+  typedef std::function<CanardMicrosecond(void)> MicrosFunc;
+  typedef std::function<bool(CanardFrame const &)> CanFrameTxFunc;
 
   template <size_t SIZE>
   struct alignas(O1HEAP_ALIGNMENT) Heap final : public std::array<uint8_t, SIZE> {};
+
 
   static size_t       constexpr DEFAULT_O1HEAP_SIZE   = 4096;
   static CanardNodeID constexpr DEFAULT_NODE_ID       = 42;
@@ -57,16 +58,16 @@ public:
 
   Node(uint8_t * heap_ptr,
        size_t const heap_size,
-       CyphalMicrosFunc const micros_func,
+       MicrosFunc const micros_func,
        CanardNodeID const node_id,
        size_t const tx_queue_capacity,
        size_t const rx_queue_capacity,
        size_t const mtu_bytes);
 
-  Node(uint8_t * heap_ptr, size_t const heap_size, CyphalMicrosFunc const micros_func)
+  Node(uint8_t * heap_ptr, size_t const heap_size, MicrosFunc const micros_func)
   : Node(heap_ptr, heap_size, micros_func, DEFAULT_NODE_ID, DEFAULT_TX_QUEUE_SIZE, DEFAULT_RX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
-  Node(uint8_t * heap_ptr, size_t const heap_size, CyphalMicrosFunc const micros_func, CanardNodeID const node_id)
+  Node(uint8_t * heap_ptr, size_t const heap_size, MicrosFunc const micros_func, CanardNodeID const node_id)
   : Node(heap_ptr, heap_size, micros_func, node_id, DEFAULT_TX_QUEUE_SIZE, DEFAULT_RX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
 
@@ -90,7 +91,7 @@ public:
   /* Must be called from the application to process
    * all received CAN frames.
    */
-  void spinSome(CyphalCanFrameTxFunc const tx_func);
+  void spinSome(CanFrameTxFunc const tx_func);
   /* Must be called from the application upon the
    * reception of a can frame.
    */
@@ -107,7 +108,7 @@ public:
 private:
   O1HeapInstance * _o1heap_ins;
   CanardInstance _canard_hdl;
-  CyphalMicrosFunc const _micros_func;
+  MicrosFunc const _micros_func;
   CanardTxQueue _canard_tx_queue;
   arduino::_107_::opencyphal::ThreadsafeRingBuffer<std::tuple<uint32_t, size_t, std::array<uint8_t, 8>, CanardMicrosecond>> _canard_rx_queue;
   std::map<CanardPortID, std::shared_ptr<impl::CanardSubscription>> _canard_subscription_map;
@@ -116,7 +117,7 @@ private:
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
 
   void processRxQueue();
-  void processTxQueue(CyphalCanFrameTxFunc const tx_func);
+  void processTxQueue(CanFrameTxFunc const tx_func);
 };
 
 /**************************************************************************************
