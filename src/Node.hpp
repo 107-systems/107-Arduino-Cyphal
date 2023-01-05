@@ -22,7 +22,6 @@
 #include <memory>
 #include <functional>
 
-#include "Types.h"
 #include "DSDL_Types.h"
 
 #include "Service.hpp"
@@ -34,6 +33,16 @@
 
 #include "utility/LockGuard.h"
 #include "utility/RingBuffer.hpp"
+
+/**************************************************************************************
+ * TYPEDEF
+ **************************************************************************************/
+
+typedef std::function<CanardMicrosecond(void)> CyphalMicrosFunc;
+typedef std::function<bool(CanardFrame const &)> CyphalCanFrameTxFunc;
+
+template <size_t SIZE>
+struct alignas(O1HEAP_ALIGNMENT) CyphalHeap final : public std::array<uint8_t, SIZE> {};
 
 /**************************************************************************************
  * CLASS DECLARATION
