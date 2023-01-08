@@ -116,7 +116,7 @@ void Node::processRxQueue()
 
     if(result == 1)
     {
-      impl::CanardSubscription * sub_ptr = static_cast<impl::CanardSubscription *>(rx_subscription->user_reference);
+      impl::SubscriptionBase * sub_ptr = static_cast<impl::SubscriptionBase *>(rx_subscription->user_reference);
       sub_ptr->onTransferReceived(transfer);
 
       /* Free dynamically allocated memory after processing. */

@@ -14,7 +14,7 @@
 
 #include <memory>
 
-#include "CanardSubscription.h"
+#include "SubscriptionBase.h"
 
 #include "libcanard/canard.h"
 
@@ -35,10 +35,10 @@ namespace impl
  * CLASS DECLARATION
  **************************************************************************************/
 
-class ServiceBase : public CanardSubscription
+class ServiceBase : public SubscriptionBase
 {
 public:
-  ServiceBase() : CanardSubscription{CanardTransferKindRequest} { }
+  ServiceBase() : SubscriptionBase{CanardTransferKindRequest} { }
 };
 
 template<typename T_REQ, typename T_RSP, typename OnRequestCb>

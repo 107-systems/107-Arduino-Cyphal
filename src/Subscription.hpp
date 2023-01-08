@@ -14,7 +14,7 @@
 
 #include <memory>
 
-#include "CanardSubscription.h"
+#include "SubscriptionBase.h"
 
 #include "libcanard/canard.h"
 
@@ -35,18 +35,12 @@ namespace impl
  * CLASS DECLARATION
  **************************************************************************************/
 
-class SubscriptionBase : public CanardSubscription
-{
-public:
-  SubscriptionBase() : CanardSubscription{CanardTransferKindMessage} { }
-};
-
 template <typename T, typename OnReceiveCb>
 class Subscription : public SubscriptionBase
 {
 public:
   Subscription(Node & node_hdl, CanardPortID const port_id, OnReceiveCb const & on_receive_cb)
-  : SubscriptionBase{}
+  : SubscriptionBase{CanardTransferKindMessage}
   , _node_hdl{node_hdl}
   , _port_id{port_id}
   , _on_receive_cb{on_receive_cb}

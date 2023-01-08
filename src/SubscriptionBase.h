@@ -25,19 +25,19 @@ namespace impl
  * CLASS DECLARATION
  **************************************************************************************/
 
-class CanardSubscription
+class SubscriptionBase
 {
 public:
-  CanardSubscription(CanardTransferKind const transfer_kind)
+  SubscriptionBase(CanardTransferKind const transfer_kind)
   : _transfer_kind{transfer_kind}
   {
     _canard_rx_sub.user_reference = static_cast<void *>(this);
   }
-  virtual ~CanardSubscription() { }
-  CanardSubscription(CanardSubscription const &) = delete;
-  CanardSubscription(CanardSubscription &&) = delete;
-  CanardSubscription &operator=(CanardSubscription const &) = delete;
-  CanardSubscription &operator=(CanardSubscription &&) = delete;
+  virtual ~SubscriptionBase() { }
+  SubscriptionBase(SubscriptionBase const &) = delete;
+  SubscriptionBase(SubscriptionBase &&) = delete;
+  SubscriptionBase &operator=(SubscriptionBase const &) = delete;
+  SubscriptionBase &operator=(SubscriptionBase &&) = delete;
 
 
   virtual bool onTransferReceived(CanardRxTransfer const & transfer) = 0;
