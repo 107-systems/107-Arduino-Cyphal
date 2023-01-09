@@ -49,7 +49,8 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
                        nullptr);
 
 Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-Node node_hdl(node_heap.data(), node_heap.size(), micros);
+CircularBuffer<Node::TReceiveCircularBuffer>::Heap<Node::DEFAULT_RX_QUEUE_SIZE> node_rx_queue;
+Node node_hdl(node_heap.data(), node_heap.size(), node_rx_queue.data(), node_rx_queue.size(), micros);
 
 /**************************************************************************************
  * SETUP/LOOP
