@@ -9,83 +9,49 @@
 #define ARDUINO_CYPHAL_UTILITY_RINGBUFFER_H_
 
 /**************************************************************************************
- * NAMESPACE
+ * INCLUDE
  **************************************************************************************/
 
-namespace opencyphal
-{
+#include <cstdlib>
+
+#include <array>
 
 /**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
 
-template <class T>
-class RingBuffer
+template <typename T>
+class CircularBuffer
 {
 public:
-  RingBuffer(size_t const size)
-  : _buffer{new T[size]}
-  , _size{size}
-  , _head{0}
-  , _tail{0}
-  , _num_elems{0}
-  { }
+  template <size_t SIZE>
+  struct Heap final : public std::array<T, SIZE> {};
 
-  ~RingBuffer()
-  {
-    delete[] _buffer;
-    _size = 0;
-    _head = 0;
-    _tail = 0;
-    _num_elems = 0;
-  }
 
-  void enqueue(T const & val)
-  {
-    if (isFull()) return;
-    _buffer[_head] = val;
-    _head = nextIndex(_head);
-    _num_elems++;
-  }
+   CircularBuffer(T * heap_ptr, size_t const heap_size);
+  ~CircularBuffer();
 
-  T dequeue()
-  {
-    if (isEmpty()) return T{};
-    T const val = _buffer[_tail];
-    _tail = nextIndex(_tail);
-    _num_elems--;
-    return val;
-  }
 
-  size_t available() const
-  {
-    return _num_elems;
-  }
+  void enqueue(T const & val);
+  T dequeue();
 
-  bool isFull() const
-  {
-    return (_num_elems == _size);
-  }
 
-  bool isEmpty() const
-  {
-    return (_num_elems == 0);
-  }
+  size_t available() const { return _num_elems; }
+  bool isFull() const { return (_num_elems == _size); }
+  bool isEmpty() const { return (_num_elems == 0); }
+
 
 private:
   T * _buffer;
   size_t _size, _head, _tail, _num_elems;
 
-  size_t nextIndex(size_t const index)
-  {
-    return ((index + 1) % _size);
-  }
+  size_t nextIndex(size_t const index) { return ((index + 1) % _size); }
 };
 
 /**************************************************************************************
- * NAMESPACE
+ * TEMPLATE IMPLEMENTATION
  **************************************************************************************/
 
-} /* opencyphal */
+#include "CircularBuffer.ipp"
 
 #endif /* ARDUINO_CYPHAL_UTILITY_RINGBUFFER_H_ */

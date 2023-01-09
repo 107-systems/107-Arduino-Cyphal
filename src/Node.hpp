@@ -24,7 +24,7 @@
 #include "Service.hpp"
 #include "Publisher.hpp"
 #include "Subscription.hpp"
-#include "RingBuffer.hpp"
+#include "CircularBuffer.hpp"
 
 #include "libo1heap/o1heap.h"
 #include "libcanard/canard.h"
@@ -43,27 +43,29 @@ public:
   template <size_t SIZE>
   struct alignas(O1HEAP_ALIGNMENT) Heap final : public std::array<uint8_t, SIZE> {};
 
+  typedef std::tuple<uint32_t, size_t, std::array<uint8_t, 8>, CanardMicrosecond> TReceiveCircularBuffer;
 
   static size_t       constexpr DEFAULT_O1HEAP_SIZE   = 4096;
   static CanardNodeID constexpr DEFAULT_NODE_ID       = 42;
-  static size_t       constexpr DEFAULT_TX_QUEUE_SIZE = 64;
   static size_t       constexpr DEFAULT_RX_QUEUE_SIZE = 64;
+  static size_t       constexpr DEFAULT_TX_QUEUE_SIZE = 64;
   static size_t       constexpr DEFAULT_MTU_SIZE      = CANARD_MTU_CAN_CLASSIC;
 
 
   Node(uint8_t * heap_ptr,
        size_t const heap_size,
+       TReceiveCircularBuffer * rx_queue_heap_ptr,
+       size_t const rx_queue_heap_size,
        MicrosFunc const micros_func,
        CanardNodeID const node_id,
        size_t const tx_queue_capacity,
-       size_t const rx_queue_capacity,
        size_t const mtu_bytes);
 
-  Node(uint8_t * heap_ptr, size_t const heap_size, MicrosFunc const micros_func)
-  : Node(heap_ptr, heap_size, micros_func, DEFAULT_NODE_ID, DEFAULT_TX_QUEUE_SIZE, DEFAULT_RX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
+  Node(uint8_t * heap_ptr, size_t const heap_size, TReceiveCircularBuffer * rx_queue_heap_ptr, size_t const rx_queue_heap_size, MicrosFunc const micros_func)
+  : Node(heap_ptr, heap_size, rx_queue_heap_ptr, rx_queue_heap_size, micros_func, DEFAULT_NODE_ID, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
-  Node(uint8_t * heap_ptr, size_t const heap_size, MicrosFunc const micros_func, CanardNodeID const node_id)
-  : Node(heap_ptr, heap_size, micros_func, node_id, DEFAULT_TX_QUEUE_SIZE, DEFAULT_RX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
+  Node(uint8_t * heap_ptr, size_t const heap_size, TReceiveCircularBuffer * rx_queue_heap_ptr, size_t const rx_queue_heap_size, MicrosFunc const micros_func, CanardNodeID const node_id)
+  : Node(heap_ptr, heap_size, rx_queue_heap_ptr, rx_queue_heap_size, micros_func, node_id, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
 
   inline void setNodeId(CanardNodeID const node_id) { _canard_hdl.node_id = node_id; }
@@ -105,7 +107,7 @@ private:
   CanardInstance _canard_hdl;
   MicrosFunc const _micros_func;
   CanardTxQueue _canard_tx_queue;
-  opencyphal::RingBuffer<std::tuple<uint32_t, size_t, std::array<uint8_t, 8>, CanardMicrosecond>> _canard_rx_queue;
+  CircularBuffer<TReceiveCircularBuffer> _canard_rx_queue;
 
   static void * o1heap_allocate(CanardInstance * const ins, size_t const amount);
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
