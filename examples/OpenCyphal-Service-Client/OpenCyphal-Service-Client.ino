@@ -109,7 +109,7 @@ void loop()
 
 void onReceiveBufferFull(CanardFrame const & frame)
 {
-  node_hdl.onCanFrameReceived(frame, micros());
+  node_hdl.onCanFrameReceived(frame);
 }
 
 void onExecuteCommand_1_0_Response_Received(ExecuteCommand_1_0::Response<> const & rsp)

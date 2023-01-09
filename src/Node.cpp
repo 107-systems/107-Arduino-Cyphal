@@ -45,8 +45,9 @@ void Node::spinSome(CanFrameTxFunc const tx_func)
   processTxQueue(tx_func);
 }
 
-void Node::onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us)
+void Node::onCanFrameReceived(CanardFrame const & frame)
 {
+  CanardMicrosecond const rx_timestamp_us = _micros_func();
   uint32_t const extended_can_id = frame.extended_can_id;
   size_t   const payload_size    = frame.payload_size;
 

@@ -284,7 +284,7 @@ void loop()
 
 void mcp2515_onReceiveBufferFull(CanardFrame const & frame)
 {
-  node_hdl.onCanFrameReceived(frame, micros());
+  node_hdl.onCanFrameReceived(frame);
 }
 
 void publish_heartbeat(uint32_t const uptime, uavcan_node_Mode_1_0 const mode)

@@ -94,7 +94,7 @@ void loop()
 
 void onReceiveBufferFull(CanardFrame const & frame)
 {
-  node_hdl.onCanFrameReceived(frame, micros());
+  node_hdl.onCanFrameReceived(frame);
 }
 
 void onHeartbeat_1_0_Received(Heartbeat_1_0<> const & msg)

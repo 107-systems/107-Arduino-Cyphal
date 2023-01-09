@@ -147,7 +147,7 @@ void loop()
 
 void onReceiveBufferFull(CanardFrame const & frame)
 {
-  node_hdl.onCanFrameReceived(frame, micros());
+  node_hdl.onCanFrameReceived(frame);
 }
 
 void onBit_1_0_Received(Bit_1_0<BIT_PORT_ID> const & msg)

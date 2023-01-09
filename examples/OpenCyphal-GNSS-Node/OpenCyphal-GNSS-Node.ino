@@ -191,7 +191,7 @@ namespace MCP2515
 {
 
 void onReceive(CanardFrame const & frame) {
-  node_hdl.onCanFrameReceived(frame, micros());
+  node_hdl.onCanFrameReceived(frame);
 }
 
 } /* MCP2515 */

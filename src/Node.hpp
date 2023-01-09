@@ -98,7 +98,7 @@ public:
   /* Must be called from the application upon the
    * reception of a can frame.
    */
-  void onCanFrameReceived(CanardFrame const & frame, CanardMicrosecond const & rx_timestamp_us);
+  void onCanFrameReceived(CanardFrame const & frame);
 
 
   bool enqueue_transfer(CanardMicrosecond const tx_timeout_usec,
