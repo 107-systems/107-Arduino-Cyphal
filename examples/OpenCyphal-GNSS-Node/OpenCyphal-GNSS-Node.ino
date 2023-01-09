@@ -1,6 +1,6 @@
 /**
  * This software is distributed under the terms of the MIT License.
- * Copyright (c) 2020 LXRobotics.
+ * Copyright (c) 2020-2023 LXRobotics.
  * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
@@ -17,6 +17,7 @@
 
 #include <107-Arduino-Cyphal.h>
 #include <107-Arduino-MCP2515.h>
+#include <107-Arduino-CriticalSection.h>
 #include <ArduinoNmeaParser.h>
 #define DBG_ENABLE_ERROR
 #define DBG_ENABLE_WARNING
@@ -35,7 +36,7 @@
 
 typedef struct
 {
-  uavcan::node::Heartbeat_1_0<>::Mode mode;
+  uavcan_node_Mode_1_0 mode;
 } OpenCyphalNodeData;
 
 typedef struct
@@ -52,7 +53,7 @@ static int const MKRCAN_MCP2515_INT_PIN = 7;
 
 static OpenCyphalNodeData const OPEN_CYPHAL_NODE_INITIAL_DATA =
 {
-  uavcan::node::Heartbeat_1_0<>::Mode::INITIALIZATION,
+  uavcan_node_Mode_1_0_INITIALIZATION,
 };
 
 static OpenCyphalNodeConfiguration const OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION =
@@ -71,15 +72,15 @@ void onReceive(CanardFrame const &);
 
 namespace node
 {
-uavcan::node::Heartbeat_1_0<>::Mode handle_INITIALIZATION();
-uavcan::node::Heartbeat_1_0<>::Mode handle_OPERATIONAL();
-uavcan::node::Heartbeat_1_0<>::Mode handle_MAINTENANCE();
-uavcan::node::Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE();
+uint8_t handle_INITIALIZATION();
+uint8_t handle_OPERATIONAL();
+uint8_t handle_MAINTENANCE();
+uint8_t handle_SOFTWARE_UPDATE();
 }
 
 namespace heartbeat
 {
-void publish(Node &, uint32_t const, uavcan::node::Heartbeat_1_0<>::Mode const);
+void publish(uint32_t const, uavcan_node_Mode_1_0 const);
 }
 
 namespace gnss
@@ -99,8 +100,11 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
                        MCP2515::onReceive,
                        nullptr);
 
-CyphalHeap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-Node node_hdl(node_heap.data(), node_heap.size());
+Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
+CircularBuffer<Node::TReceiveCircularBuffer>::Heap<Node::DEFAULT_RX_QUEUE_SIZE> node_rx_queue;
+Node node_hdl(node_heap.data(), node_heap.size(), node_rx_queue.data(), node_rx_queue.size(), micros);
+
+Publisher<uavcan::node::Heartbeat_1_0<>> heartbeat_pub = node_hdl.create_publisher<uavcan::node::Heartbeat_1_0<>>(uavcan::node::Heartbeat_1_0<>::PORT_ID, 1*1000*1000UL /* = 1 sec in usecs. */);
 
 ArduinoNmeaParser nmea_parser(gnss::onRmcUpdate, gnss::onGgaUpdate);
 
@@ -146,7 +150,10 @@ void loop()
 {
   /* Process all pending OpenCyphal actions.
    */
-  node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+  {
+    CriticalSection crit_sec;
+    node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+  }
 
   /* Handle actions common to all states.
    */
@@ -156,21 +163,21 @@ void loop()
    */
   static unsigned long prev_heartbeat = 0;
   if ((now - prev_heartbeat) > node_config.heartbeat_period_ms) {
-    heartbeat::publish(node_hdl, now / 1000, node_data.mode);
+    heartbeat::publish(now / 1000, node_data.mode);
     prev_heartbeat = now;
   }
 
 
   /* Handle state transitions and state specific action.
    */
-  uavcan::node::Heartbeat_1_0<>::Mode next_mode = node_data.mode;
+  uavcan_node_Mode_1_0 next_mode = node_data.mode;
 
-  switch(node_data.mode)
+  switch(node_data.mode.value)
   {
-  case uavcan::node::Heartbeat_1_0<>::Mode::INITIALIZATION:  next_mode = node::handle_INITIALIZATION();  break;
-  case uavcan::node::Heartbeat_1_0<>::Mode::OPERATIONAL:     next_mode = node::handle_OPERATIONAL();     break;
-  case uavcan::node::Heartbeat_1_0<>::Mode::MAINTENANCE:     next_mode = node::handle_MAINTENANCE();     break;
-  case uavcan::node::Heartbeat_1_0<>::Mode::SOFTWARE_UPDATE: next_mode = node::handle_SOFTWARE_UPDATE(); break;
+  case uavcan_node_Mode_1_0_INITIALIZATION:  next_mode.value = node::handle_INITIALIZATION();  break;
+  case uavcan_node_Mode_1_0_OPERATIONAL:     next_mode.value = node::handle_OPERATIONAL();     break;
+  case uavcan_node_Mode_1_0_MAINTENANCE:     next_mode.value = node::handle_MAINTENANCE();     break;
+  case uavcan_node_Mode_1_0_SOFTWARE_UPDATE: next_mode.value = node::handle_SOFTWARE_UPDATE(); break;
   }
 
   node_data.mode = next_mode;
@@ -184,7 +191,7 @@ namespace MCP2515
 {
 
 void onReceive(CanardFrame const & frame) {
-  node_hdl.onCanFrameReceived(frame, micros());
+  node_hdl.onCanFrameReceived(frame);
 }
 
 } /* MCP2515 */
@@ -192,14 +199,14 @@ void onReceive(CanardFrame const & frame) {
 namespace node
 {
 
-uavcan::node::Heartbeat_1_0<>::Mode handle_INITIALIZATION()
+uint8_t handle_INITIALIZATION()
 {
   DBG_VERBOSE("INITIALIZATION");
 
-  return uavcan::node::Heartbeat_1_0<>::Mode::OPERATIONAL;
+  return uavcan_node_Mode_1_0_OPERATIONAL;
 }
 
-uavcan::node::Heartbeat_1_0<>::Mode handle_OPERATIONAL()
+uint8_t handle_OPERATIONAL()
 {
   DBG_VERBOSE("OPERATIONAL");
 
@@ -211,21 +218,21 @@ uavcan::node::Heartbeat_1_0<>::Mode handle_OPERATIONAL()
     nmea_parser.encode((char)Serial1.read());
   }
 
-  return uavcan::node::Heartbeat_1_0<>::Mode::OPERATIONAL;
+  return uavcan_node_Mode_1_0_OPERATIONAL;
 }
 
-uavcan::node::Heartbeat_1_0<>::Mode handle_MAINTENANCE()
+uint8_t handle_MAINTENANCE()
 {
   DBG_VERBOSE("MAINTENANCE");
 
-  return uavcan::node::Heartbeat_1_0<>::Mode::INITIALIZATION;
+  return uavcan_node_Mode_1_0_INITIALIZATION;
 }
 
-uavcan::node::Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE()
+uint8_t handle_SOFTWARE_UPDATE()
 {
   DBG_VERBOSE("SOFTWARE_UPDATE");
 
-  return uavcan::node::Heartbeat_1_0<>::Mode::INITIALIZATION;
+  return uavcan_node_Mode_1_0_INITIALIZATION;
 }
 
 } /* node */
@@ -233,16 +240,16 @@ uavcan::node::Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE()
 namespace heartbeat
 {
 
-void publish(Node & u, uint32_t const uptime, uavcan::node::Heartbeat_1_0<>::Mode const mode)
+void publish(uint32_t const uptime, uavcan_node_Mode_1_0 const mode)
 {
-  uavcan::node::Heartbeat_1_0<> hb;
+  uavcan::node::Heartbeat_1_0<> hb_msg;
 
-  hb.data.uptime = uptime;
-  hb = uavcan::node::Heartbeat_1_0<>::Health::NOMINAL;
-  hb = mode;
-  hb.data.vendor_specific_status_code = 0;
+  hb_msg.data.uptime = uptime;
+  hb_msg.data.health.value = uavcan_node_Health_1_0_NOMINAL;
+  hb_msg.data.mode.value = mode.value;
+  hb_msg.data.vendor_specific_status_code = 0;
 
-  u.publish(hb);
+  heartbeat_pub->publish(hb_msg);
 }
 
 } /* heartbeat */

@@ -1,46 +1,43 @@
 /**
  * This software is distributed under the terms of the MIT License.
- * Copyright (c) 2020 LXRobotics.
+ * Copyright (c) 2020-2023 LXRobotics.
  * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
-
-#ifndef ARDUINO_UAVCAN_UTILITY_COVERT_HPP_
-#define ARDUINO_UAVCAN_UTILITY_COVERT_HPP_
-
-/**************************************************************************************
- * INCLUDE
- **************************************************************************************/
-
-#include <type_traits>
 
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
 
-namespace arduino
-{
-namespace _107_
-{
-namespace opencyphal
-{
+namespace impl {
 
 /**************************************************************************************
- * FUNCTION DEFINITION
+ * CTOR/DTOR
  **************************************************************************************/
 
-template <typename Enumeration>
-constexpr auto to_integer(Enumeration const value) -> typename std::underlying_type<Enumeration>::type
+template<typename T, typename OnReceiveCb>
+Subscription<T, OnReceiveCb>::~Subscription()
 {
-  return static_cast<typename std::underlying_type<Enumeration>::type>(value);
+  _node_hdl.unsubscribe(_port_id, SubscriptionBase::canard_transfer_kind());
+}
+
+/**************************************************************************************
+ * PUBLIC MEMBER FUNCTIONS
+ **************************************************************************************/
+
+template<typename T, typename OnReceiveCb>
+bool Subscription<T, OnReceiveCb>::onTransferReceived(CanardRxTransfer const & transfer)
+{
+  T const msg = T::deserialize(transfer);
+
+  if (_on_receive_cb)
+    _on_receive_cb(msg);
+
+  return true;
 }
 
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
 
-} /* opencyphal */
-} /* _107_ */
-} /* arduino */
-
-#endif /* ARDUINO_UAVCAN_UTILITY_COVERT_HPP_ */
+} /* impl */

@@ -1,6 +1,6 @@
 /**
  * This software is distributed under the terms of the MIT License.
- * Copyright (c) 2020 LXRobotics.
+ * Copyright (c) 2020-2023 LXRobotics.
  * Author: Florin Berger
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
@@ -79,17 +79,6 @@ public:
     size_t inout_buffer_size_bytes = Heartbeat_0_1::MAX_PAYLOAD_SIZE;
     return (reg_udral_service_common_Heartbeat_0_1_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS) ? 0 : inout_buffer_size_bytes;
   }
-
-  void operator = (Health const health)
-  {
-    data.health.value = arduino::_107_::opencyphal::to_integer(health);
-  }
-
-  void operator = (Readiness const readiness)
-  {
-    data.readiness.value = arduino::_107_::opencyphal::to_integer(readiness);
-  }
-
 };
 
 /**************************************************************************************

@@ -1,6 +1,6 @@
 /**
  * This software is distributed under the terms of the MIT License.
- * Copyright (c) 2020 LXRobotics.
+ * Copyright (c) 2020-2023 LXRobotics.
  * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
@@ -22,7 +22,7 @@
  * CTOR/DTOR
  **************************************************************************************/
 
-RegisterList::RegisterList()
+RegisterList::RegisterList(Node & node_hdl)
 : _reg_last{"", Register::TypeTag::Empty, false, false}
 {
   _on_access_request_handler_map[Register::TypeTag::Empty] =
@@ -227,42 +227,45 @@ RegisterList::RegisterList()
     }
     return AccessResponse::create(*reg_ptr);
   };
+
+
+  _reg_list_srv = node_hdl.create_service_server<TListRequest, TListResponse>(
+    TListRequest::PORT_ID,
+    2*1000*1000UL,
+    [this](TListRequest const & req)
+    {
+      return onList_1_0_Request_Received(req);
+    });
+
+
+  _reg_access_srv = node_hdl.create_service_server<TAccessRequest, TAccessResponse>(
+    TAccessRequest::PORT_ID,
+    2*1000*1000UL,
+    [this](TAccessRequest const & req)
+    {
+      return onAccess_1_0_Request_Received(req);
+    });
 }
 
 /**************************************************************************************
- * PUBLIC MEMBER FUNCTIONS
- **************************************************************************************/
+* PRIVATE MEMBER FUNCTIONS
+**************************************************************************************/
 
-void RegisterList::subscribe(Node & node_hdl)
+RegisterList::TListResponse RegisterList::onList_1_0_Request_Received(TListRequest const & req)
 {
-  node_hdl.subscribe<uavcan::_register::List_1_0::Request<>>
-    ([this](CanardRxTransfer const & transfer, Node & node_hdl) { this->onList_1_0_Request_Received(transfer, node_hdl); });
-  node_hdl.subscribe<uavcan::_register::Access_1_0::Request<>>
-    ([this](CanardRxTransfer const & transfer, Node & node_hdl) { this->onAccess_1_0_Request_Received(transfer, node_hdl); });
-}
-
-/**************************************************************************************
- * PRIVATE MEMBER FUNCTIONS
- **************************************************************************************/
-
-void RegisterList::onList_1_0_Request_Received(CanardRxTransfer const & transfer, Node & node_hdl)
-{
-  uavcan::_register::List_1_0::Request<>  const req = uavcan::_register::List_1_0::Request<>::deserialize(transfer);
-  uavcan::_register::List_1_0::Response<> const rsp =
+  TListResponse const rsp =
     (req.data.index < _reg_list.size()) ? ListResponse::create(_reg_list[req.data.index]->name()) : ListResponse::create(_reg_last.name());
-  node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
+  return rsp;
 }
 
-void RegisterList::onAccess_1_0_Request_Received(CanardRxTransfer const & transfer, Node & node_hdl)
+RegisterList::TAccessResponse RegisterList::onAccess_1_0_Request_Received(TAccessRequest const & req)
 {
-  uavcan::_register::Access_1_0::Request<> const req = uavcan::_register::Access_1_0::Request<>::deserialize(transfer);
-
   /* Initialise with an empty response in case we
    * can't find a matching register.
    */
-  uavcan::_register::Access_1_0::Response<> rsp = []()
+  TAccessResponse rsp = []()
   {
-    uavcan::_register::Access_1_0::Response<> r;
+    TAccessResponse r;
 
     uavcan_register_Value_1_0_select_empty_(&r.data.value);
     r.data.timestamp.microsecond = 0;
@@ -293,11 +296,10 @@ void RegisterList::onAccess_1_0_Request_Received(CanardRxTransfer const & transf
     RegisterBase * reg_base_ptr = *iter;
     /* Determine the actual type of the register. */
     Register::TypeTag const type_tag = reg_base_ptr->type_tag();
-    /* Call the approbriate callback handler. */
+    /* Call the appropriate callback handler. */
     if (_on_access_request_handler_map.count(type_tag) > 0)
       rsp = _on_access_request_handler_map.at(type_tag)(req, reg_base_ptr);
   }
 
-  /* Send the actual response. */
-  node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
+  return rsp;
 }

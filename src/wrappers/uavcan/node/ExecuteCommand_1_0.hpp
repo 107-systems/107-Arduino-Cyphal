@@ -1,6 +1,6 @@
 /**
  * This software is distributed under the terms of the MIT License.
- * Copyright (c) 2020 LXRobotics.
+ * Copyright (c) 2020-2023 LXRobotics.
  * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
@@ -15,8 +15,6 @@
 #include <libcanard/canard.h>
 
 #include <types/uavcan/node/ExecuteCommand_1_0.h>
-
-#include <utility/convert.hpp>
 
 /**************************************************************************************
  * NAMESPACE
@@ -112,11 +110,6 @@ public:
   {
     size_t inout_buffer_size_bytes = Response::MAX_PAYLOAD_SIZE;
     return (uavcan_node_ExecuteCommand_Response_1_0_serialize_(&data, payload, &inout_buffer_size_bytes) < NUNAVUT_SUCCESS) ? 0 : inout_buffer_size_bytes;
-  }
-
-  void operator = (Status const status)
-  {
-    data.status = arduino::_107_::opencyphal::to_integer(status);
   }
 };
 

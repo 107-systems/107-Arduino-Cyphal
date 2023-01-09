@@ -1,6 +1,6 @@
 /**
  * This software is distributed under the terms of the MIT License.
- * Copyright (c) 2020 LXRobotics.
+ * Copyright (c) 2020-2023 LXRobotics.
  * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
@@ -13,6 +13,9 @@
  **************************************************************************************/
 
 #include "RegisterBase.h"
+
+#include <functional>
+
 #include "types/Access.h"
 #include "types/Persistent.h"
 

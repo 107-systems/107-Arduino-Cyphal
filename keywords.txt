@@ -7,7 +7,11 @@
 #######################################
 
 Node	KEYWORD1
-CyphalHeap	KEYWORD1
+Heap	KEYWORD1
+Publisher	KEYWORD1
+Subscription	KEYWORD1
+ServiceServer	KEYWORD1
+ServiceClient	KEYWORD1
 Request	KEYWORD1
 Response	KEYWORD1
 
@@ -15,17 +19,23 @@ Response	KEYWORD1
 # Methods and Functions (KEYWORD2)
 #######################################
 
-onCanFrameReceived	KEYWORD2
+setNodeId	KEYWORD2
+getNodeId	KEYWORD2
+create_publisher	KEYWORD2
+create_subscription	KEYWORD2
+create_service_server	KEYWORD2
+create_service_client	KEYWORD2
 spinSome	KEYWORD2
-subscribe	KEYWORD2
+onCanFrameReceived	KEYWORD2
 publish	KEYWORD2
-respond	KEYWORD2
 request	KEYWORD2
-deserialize	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
 
-PORT_ID	LITERAL1
-PAYLOAD_SIZE	LITERAL1
+DEFAULT_O1HEAP_SIZE	LITERAL1
+DEFAULT_NODE_ID	LITERAL1
+DEFAULT_RX_QUEUE_SIZE	LITERAL1
+DEFAULT_TX_QUEUE_SIZE	LITERAL1
+DEFAULT_MTU_SIZE	LITERAL1

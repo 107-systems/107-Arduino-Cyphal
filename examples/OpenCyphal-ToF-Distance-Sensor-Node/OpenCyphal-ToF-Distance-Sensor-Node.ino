@@ -1,6 +1,6 @@
 /**
  * This software is distributed under the terms of the MIT License.
- * Copyright (c) 2020 LXRobotics.
+ * Copyright (c) 2020-2023 LXRobotics.
  * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
@@ -20,6 +20,7 @@
 #include <107-Arduino-MCP2515.h>
 #include <107-Arduino-TMF8801.h>
 #include <107-Arduino-UniqueId.h>
+#include <107-Arduino-CriticalSection.h>
 #define DBG_ENABLE_ERROR
 #define DBG_ENABLE_WARNING
 #define DBG_ENABLE_INFO
@@ -44,7 +45,7 @@ using namespace uavcan::_register;
 
 typedef struct
 {
-  Heartbeat_1_0<>::Mode mode;
+  uavcan_node_Mode_1_0 mode;
 } OpenCyphalNodeData;
 
 #warning "Run 'TMF8801-FactoryCalib' once in order to obtain sensor calibration data for node configuration 'calib_data'"
@@ -64,13 +65,13 @@ typedef struct
 void mcp2515_onReceiveBufferFull(CanardFrame const &);
 void onGetInfo_1_0_Request_Received(CanardRxTransfer const &, Node &);
 
-void publish_heartbeat(Node &, uint32_t const, Heartbeat_1_0<>::Mode const);
+void publish_heartbeat(uint32_t const, uavcan_node_Mode_1_0 const mode);
 void publish_tofDistance(drone::unit::Length const l);
 
-Heartbeat_1_0<>::Mode handle_INITIALIZATION();
-Heartbeat_1_0<>::Mode handle_OPERATIONAL();
-Heartbeat_1_0<>::Mode handle_MAINTENANCE();
-Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE();
+uint8_t handle_INITIALIZATION();
+uint8_t handle_OPERATIONAL();
+uint8_t handle_MAINTENANCE();
+uint8_t handle_SOFTWARE_UPDATE();
 
 /**************************************************************************************
  * CONSTANTS
@@ -84,9 +85,11 @@ static SPISettings  const MCP2515x_SPI_SETTING{10000000, MSBFIRST, SPI_MODE0};
 static CanardNodeID const OPEN_CYPHAL_NODE_ID = 42;
 static CanardPortID const OPEN_CYPHAL_ID_DISTANCE_DATA = 1001U;
 
+typedef uavcan::primitive::scalar::Real32_1_0<OPEN_CYPHAL_ID_DISTANCE_DATA> DistanceMessageType;
+
 static OpenCyphalNodeData const OPEN_CYPHAL_NODE_INITIAL_DATA =
 {
-  Heartbeat_1_0<>::Mode::INITIALIZATION,
+  uavcan_node_Mode_1_0_INITIALIZATION,
 };
 static OpenCyphalNodeConfiguration const OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION =
 {
@@ -119,8 +122,12 @@ ArduinoMCP2515 mcp2515([]()
                        mcp2515_onReceiveBufferFull,
                        nullptr);
 
-CyphalHeap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-Node node_hdl(node_heap.data(), node_heap.size(), OPEN_CYPHAL_NODE_ID);
+Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
+CircularBuffer<Node::TReceiveCircularBuffer>::Heap<Node::DEFAULT_RX_QUEUE_SIZE> node_rx_queue;
+Node node_hdl(node_heap.data(), node_heap.size(), node_rx_queue.data(), node_rx_queue.size(), micros, OPEN_CYPHAL_NODE_ID);
+
+Publisher<Heartbeat_1_0<>> heartbeat_pub = node_hdl.create_publisher<Heartbeat_1_0<>>(Heartbeat_1_0<>::PORT_ID, 1*1000*1000UL /* = 1 sec in usecs. */);
+Publisher<DistanceMessageType> tof_pub = node_hdl.create_publisher<DistanceMessageType>(OPEN_CYPHAL_ID_DISTANCE_DATA, 1*1000*1000UL /* = 1 sec in usecs. */);
 
 OpenCyphalNodeData node_data = OPEN_CYPHAL_NODE_INITIAL_DATA;
 OpenCyphalNodeConfiguration node_config = OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION;
@@ -159,12 +166,13 @@ static RegisterNatural8  reg_rw_uavcan_node_id          ("uavcan.node.id",      
 static RegisterString    reg_ro_uavcan_node_description ("uavcan.node.description",  Register::Access::ReadWrite, Register::Persistent::No, "OpenCyphal-ToF-Distance-Sensor-Node");
 static RegisterNatural16 reg_ro_uavcan_pub_distance_id  ("uavcan.pub.distance.id",   Register::Access::ReadOnly,  Register::Persistent::No, OPEN_CYPHAL_ID_DISTANCE_DATA);
 static RegisterString    reg_ro_uavcan_pub_distance_type("uavcan.pub.distance.type", Register::Access::ReadOnly,  Register::Persistent::No, "uavcan.primitive.scalar.Real32.1.0");
-static RegisterList      reg_list;
+static RegisterList      reg_list(node_hdl);
 
 /* NODE INFO **************************************************************************/
 
 static NodeInfo node_info
 (
+  node_hdl,
   /* uavcan.node.Version.1.0 protocol_version */
   1, 0,
   /* uavcan.node.Version.1.0 hardware_version */
@@ -227,20 +235,20 @@ void setup()
 
   /* Register callbacks for node info and register api.
    */
-  node_info.subscribe(node_hdl);
-
   reg_list.add(reg_rw_uavcan_node_id);
   reg_list.add(reg_ro_uavcan_node_description);
   reg_list.add(reg_ro_uavcan_pub_distance_id);
   reg_list.add(reg_ro_uavcan_pub_distance_type);
-  reg_list.subscribe(node_hdl);
 }
 
 void loop()
 {
   /* Process all pending OpenCyphal actions.
    */
-  node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+  {
+    CriticalSection crit_sec;
+    node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+  }
 
   /* Handle actions common to all states.
    */
@@ -250,21 +258,21 @@ void loop()
    */
   static unsigned long prev_heartbeat = 0;
   if ((now - prev_heartbeat) > node_config.heartbeat_period_ms) {
-    publish_heartbeat(node_hdl, now / 1000, node_data.mode);
+    publish_heartbeat(now / 1000, node_data.mode);
     prev_heartbeat = now;
   }
 
 
   /* Handle state transitions and state specific action.
    */
-  Heartbeat_1_0<>::Mode next_mode = node_data.mode;
+  uavcan_node_Mode_1_0 next_mode = node_data.mode;
 
-  switch(node_data.mode)
+  switch(node_data.mode.value)
   {
-  case Heartbeat_1_0<>::Mode::INITIALIZATION:  next_mode = handle_INITIALIZATION();  break;
-  case Heartbeat_1_0<>::Mode::OPERATIONAL:     next_mode = handle_OPERATIONAL();     break;
-  case Heartbeat_1_0<>::Mode::MAINTENANCE:     next_mode = handle_MAINTENANCE();     break;
-  case Heartbeat_1_0<>::Mode::SOFTWARE_UPDATE: next_mode = handle_SOFTWARE_UPDATE(); break;
+    case uavcan_node_Mode_1_0_INITIALIZATION:  next_mode.value = handle_INITIALIZATION();  break;
+    case uavcan_node_Mode_1_0_OPERATIONAL:     next_mode.value = handle_OPERATIONAL();     break;
+    case uavcan_node_Mode_1_0_MAINTENANCE:     next_mode.value = handle_MAINTENANCE();     break;
+    case uavcan_node_Mode_1_0_SOFTWARE_UPDATE: next_mode.value = handle_SOFTWARE_UPDATE(); break;
   }
 
   node_data.mode = next_mode;
@@ -276,56 +284,55 @@ void loop()
 
 void mcp2515_onReceiveBufferFull(CanardFrame const & frame)
 {
-  node_hdl.onCanFrameReceived(frame, micros());
+  node_hdl.onCanFrameReceived(frame);
 }
 
-void publish_heartbeat(Node & u, uint32_t const uptime, Heartbeat_1_0<>::Mode const mode)
+void publish_heartbeat(uint32_t const uptime, uavcan_node_Mode_1_0 const mode)
 {
-  Heartbeat_1_0<> hb;
+  Heartbeat_1_0<> hb_msg;
 
-  hb.data.uptime = uptime;
-  hb = Heartbeat_1_0<>::Health::NOMINAL;
-  hb = mode;
-  hb.data.vendor_specific_status_code = 0;
+  hb_msg.data.uptime = uptime;
+  hb_msg.data.health.value = uavcan_node_Health_1_0_NOMINAL;
+  hb_msg.data.mode.value = mode.value;
+  hb_msg.data.vendor_specific_status_code = 0;
 
-  u.publish(hb);
+  heartbeat_pub->publish(hb_msg);
 }
 
 void publish_tofDistance(drone::unit::Length const l)
 {
   DBG_INFO("[%05lu] Distance = %.3f m", millis(), l.value());
 
-  typedef uavcan::primitive::scalar::Real32_1_0<OPEN_CYPHAL_ID_DISTANCE_DATA> DistanceMessageType;
   DistanceMessageType tof_distance_msg;
   tof_distance_msg.data.value = l.value();
 
-  node_hdl.publish(tof_distance_msg);
+  tof_pub->publish(tof_distance_msg);
 }
 
-Heartbeat_1_0<>::Mode handle_INITIALIZATION()
+uint8_t handle_INITIALIZATION()
 {
   DBG_VERBOSE("INITIALIZATION");
 
-  return Heartbeat_1_0<>::Mode::OPERATIONAL;
+  return uavcan_node_Mode_1_0_OPERATIONAL;
 }
 
-Heartbeat_1_0<>::Mode handle_OPERATIONAL()
+uint8_t handle_OPERATIONAL()
 {
   DBG_VERBOSE("OPERATIONAL");
 
-  return Heartbeat_1_0<>::Mode::OPERATIONAL;
+  return uavcan_node_Mode_1_0_OPERATIONAL;
 }
 
-Heartbeat_1_0<>::Mode handle_MAINTENANCE()
+uint8_t handle_MAINTENANCE()
 {
   DBG_VERBOSE("MAINTENANCE");
 
-  return Heartbeat_1_0<>::Mode::INITIALIZATION;
+  return uavcan_node_Mode_1_0_INITIALIZATION;
 }
 
-Heartbeat_1_0<>::Mode handle_SOFTWARE_UPDATE()
+uint8_t handle_SOFTWARE_UPDATE()
 {
   DBG_VERBOSE("SOFTWARE_UPDATE");
 
-  return Heartbeat_1_0<>::Mode::INITIALIZATION;
+  return uavcan_node_Mode_1_0_INITIALIZATION;
 }

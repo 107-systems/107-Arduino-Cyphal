@@ -15,6 +15,7 @@
 
 #include <107-Arduino-Cyphal.h>
 #include <107-Arduino-MCP2515.h>
+#include <107-Arduino-CriticalSection.h>
 
 /**************************************************************************************
  * NAMESPACE
@@ -34,7 +35,7 @@ static int const MKRCAN_MCP2515_INT_PIN = 7;
  **************************************************************************************/
 
 void onReceiveBufferFull(CanardFrame const &);
-void onExecuteCommand_1_0_Request_Received(CanardRxTransfer const &, Node &);
+ExecuteCommand_1_0::Response<> onExecuteCommand_1_0_Request_Received(ExecuteCommand_1_0::Request<> const &);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -47,8 +48,14 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
                        onReceiveBufferFull,
                        nullptr);
 
-CyphalHeap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-Node node_hdl(node_heap.data(), node_heap.size());
+Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
+CircularBuffer<Node::TReceiveCircularBuffer>::Heap<Node::DEFAULT_RX_QUEUE_SIZE> node_rx_queue;
+Node node_hdl(node_heap.data(), node_heap.size(), node_rx_queue.data(), node_rx_queue.size(), micros);
+
+ServiceServer execute_command_srv = node_hdl.create_service_server<ExecuteCommand_1_0::Request<>, ExecuteCommand_1_0::Response<>>(
+  ExecuteCommand_1_0::Request<>::PORT_ID,
+  2*1000*1000UL,
+  onExecuteCommand_1_0_Request_Received);
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -72,16 +79,16 @@ void setup()
   mcp2515.begin();
   mcp2515.setBitRate(CanBitRate::BR_250kBPS_16MHZ);
   mcp2515.setNormalMode();
-
-  /* Subscribe to incoming service requests */
-  node_hdl.subscribe<ExecuteCommand_1_0::Request<>>(onExecuteCommand_1_0_Request_Received);
 }
 
 void loop()
 {
   /* Process all pending OpenCyphal actions.
    */
-  node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+  {
+    CriticalSection crit_sec;
+    node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+  }
 }
 
 /**************************************************************************************
@@ -90,23 +97,17 @@ void loop()
 
 void onReceiveBufferFull(CanardFrame const & frame)
 {
-  node_hdl.onCanFrameReceived(frame, micros());
+  node_hdl.onCanFrameReceived(frame);
 }
 
-void onExecuteCommand_1_0_Request_Received(CanardRxTransfer const & transfer, Node & node_hdl)
+ExecuteCommand_1_0::Response<> onExecuteCommand_1_0_Request_Received(ExecuteCommand_1_0::Request<> const & req)
 {
-  ExecuteCommand_1_0::Request<> req = ExecuteCommand_1_0::Request<>::deserialize(transfer);
+  ExecuteCommand_1_0::Response<> rsp;
 
   if (req.data.command == 0xCAFE)
-  {
-    ExecuteCommand_1_0::Response<> rsp;
-    rsp = ExecuteCommand_1_0::Response<>::Status::SUCCESS;
-    node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
-  }
+    rsp.data.status = uavcan_node_ExecuteCommand_Response_1_0_STATUS_SUCCESS;
   else
-  {
-    ExecuteCommand_1_0::Response<> rsp;
-    rsp = ExecuteCommand_1_0::Response<>::Status::NOT_AUTHORIZED;
-    node_hdl.respond(rsp, transfer.metadata.remote_node_id, transfer.metadata.transfer_id);
-  }
+    rsp.data.status = uavcan_node_ExecuteCommand_Response_1_0_STATUS_NOT_AUTHORIZED;
+
+  return rsp;
 }

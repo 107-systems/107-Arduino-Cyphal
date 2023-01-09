@@ -29,43 +29,17 @@ jobs:
         - name: 107-Arduino-BoostUnits
         - name: 107-Arduino-NMEA-Parser
         - name: 107-Arduino-UniqueId
+        - name: 107-Arduino-CriticalSection
 
     strategy:
       fail-fast: false
 
       matrix:
         board:
-          - fqbn: arduino:samd:mkr1000
-            platforms: |
-              - name: arduino:samd
           - fqbn: arduino:samd:mkrzero
             platforms: |
               - name: arduino:samd
-          - fqbn: arduino:samd:mkrwifi1010
-            platforms: |
-              - name: arduino:samd
-          - fqbn: arduino:samd:mkrfox1200
-            platforms: |
-              - name: arduino:samd
-          - fqbn: arduino:samd:mkrwan1300
-            platforms: |
-              - name: arduino:samd
-          - fqbn: arduino:samd:mkrwan1310
-            platforms: |
-              - name: arduino:samd
-          - fqbn: arduino:samd:mkrgsm1400
-            platforms: |
-              - name: arduino:samd
-          - fqbn: arduino:samd:mkrnb1500
-            platforms: |
-              - name: arduino:samd
-          - fqbn: arduino:samd:mkrvidor4000
-            platforms: |
-              - name: arduino:samd
           - fqbn: arduino:mbed_portenta:envie_m7
-            platforms: |
-              - name: arduino:mbed_portenta
-          - fqbn: arduino:mbed_portenta:envie_m4
             platforms: |
               - name: arduino:mbed_portenta
           - fqbn: arduino:mbed_nano:nano33ble

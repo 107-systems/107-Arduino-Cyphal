@@ -1,5 +1,5 @@
 /*
- * This example shows periodic transmission of a OpenCyphal heartbeat message via CAN.
+ * This example shows reception of a OpenCyphal heartbeat message via CAN.
  *
  * Hardware:
  *   - Arduino MKR family board, e.g. MKR VIDOR 4000
@@ -14,6 +14,7 @@
 
 #include <107-Arduino-Cyphal.h>
 #include <107-Arduino-MCP2515.h>
+#include <107-Arduino-CriticalSection.h>
 
 /**************************************************************************************
  * NAMESPACE
@@ -29,6 +30,13 @@ static int const MKRCAN_MCP2515_CS_PIN  = 3;
 static int const MKRCAN_MCP2515_INT_PIN = 7;
 
 /**************************************************************************************
+ * FUNCTION DECLARATION
+ **************************************************************************************/
+
+void onReceiveBufferFull    (CanardFrame const &);
+void onHeartbeat_1_0_Received(Heartbeat_1_0<> const & msg);
+
+/**************************************************************************************
  * GLOBAL VARIABLES
  **************************************************************************************/
 
@@ -36,13 +44,15 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
                        []() { digitalWrite(MKRCAN_MCP2515_CS_PIN, HIGH); },
                        [](uint8_t const data) { return SPI.transfer(data); },
                        micros,
-                       nullptr,
+                       onReceiveBufferFull,
                        nullptr);
 
-CyphalHeap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-Node node_hdl(node_heap.data(), node_heap.size());
+Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
+CircularBuffer<Node::TReceiveCircularBuffer>::Heap<Node::DEFAULT_RX_QUEUE_SIZE> node_rx_queue;
+Node node_hdl(node_heap.data(), node_heap.size(), node_rx_queue.data(), node_rx_queue.size(), micros);
 
-Heartbeat_1_0<> hb;
+Subscription heartbeat_subscription =
+  node_hdl.create_subscription<Heartbeat_1_0<>>(Heartbeat_1_0<>::PORT_ID, CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC, onHeartbeat_1_0_Received);
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -66,29 +76,33 @@ void setup()
   mcp2515.begin();
   mcp2515.setBitRate(CanBitRate::BR_250kBPS_16MHZ);
   mcp2515.setNormalMode();
-
-  /* Configure initial heartbeat */
-  hb.data.uptime = 0;
-  hb = Heartbeat_1_0<>::Health::NOMINAL;
-  hb = Heartbeat_1_0<>::Mode::INITIALIZATION;
-  hb.data.vendor_specific_status_code = 0;
 }
 
 void loop()
 {
   /* Process all pending OpenCyphal actions.
    */
-  node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
-
-  /* Update the heartbeat object */
-  hb.data.uptime = millis() / 1000;
-  hb = Heartbeat_1_0<>::Mode::OPERATIONAL;
-
-  /* Publish the heartbeat once/second */
-  static unsigned long prev = 0;
-  unsigned long const now = millis();
-  if(now - prev > 1000) {
-    node_hdl.publish(hb);
-    prev = now;
+  {
+    CriticalSection crit_sec;
+    node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
   }
+}
+
+/**************************************************************************************
+ * FUNCTION DEFINITION
+ **************************************************************************************/
+
+void onReceiveBufferFull(CanardFrame const & frame)
+{
+  node_hdl.onCanFrameReceived(frame);
+}
+
+void onHeartbeat_1_0_Received(Heartbeat_1_0<> const & msg)
+{
+  char msg_buf[64];
+  snprintf(msg_buf, sizeof(msg_buf),
+           "Uptime = %d, Health = %d, Mode = %d, VSSC = %d",
+           msg.data.uptime, msg.data.health.value, msg.data.mode.value, msg.data.vendor_specific_status_code);
+
+  Serial.println(msg_buf);
 }
