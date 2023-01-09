@@ -21,9 +21,9 @@
 #include <memory>
 #include <functional>
 
-#include "Service.hpp"
 #include "Publisher.hpp"
 #include "Subscription.hpp"
+#include "ServiceServer.hpp"
 #include "CircularBuffer.hpp"
 
 #include "libo1heap/o1heap.h"
@@ -81,9 +81,9 @@ public:
                                    OnReceiveCb&& on_receive_cb);
 
   template <typename T_REQ, typename T_RSP, typename OnRequestCb>
-  Service create_service(CanardPortID const port_id,
-                         CanardMicrosecond const tx_timeout_usec,
-                         OnRequestCb&& on_request_cb);
+  ServiceServer create_service(CanardPortID const port_id,
+                               CanardMicrosecond const tx_timeout_usec,
+                               OnRequestCb&& on_request_cb);
 
   /* Must be called from the application to process
    * all received CAN frames.

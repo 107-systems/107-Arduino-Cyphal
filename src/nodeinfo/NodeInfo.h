@@ -37,7 +37,7 @@ public:
 
 
 private:
-  Service _node_info_srv;
+  ServiceServer _node_info_srv;
   uavcan_node_GetInfo_Response_1_0 _node_info;
 };
 

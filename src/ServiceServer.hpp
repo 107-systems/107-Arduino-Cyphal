@@ -35,23 +35,23 @@ namespace impl
  * CLASS DECLARATION
  **************************************************************************************/
 
-class ServiceBase : public SubscriptionBase
+class ServiceServerBase : public SubscriptionBase
 {
 public:
-  ServiceBase() : SubscriptionBase{CanardTransferKindRequest} { }
+  ServiceServerBase() : SubscriptionBase{CanardTransferKindRequest} { }
 };
 
 template<typename T_REQ, typename T_RSP, typename OnRequestCb>
-class Service : public ServiceBase
+class ServiceServer : public ServiceServerBase
 {
 public:
-  Service(Node & node_hdl, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, OnRequestCb on_request_cb)
+  ServiceServer(Node & node_hdl, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, OnRequestCb on_request_cb)
   : _node_hdl{node_hdl}
   , _port_id{port_id}
   , _tx_timeout_usec{tx_timeout_usec}
   , _on_request_cb{on_request_cb}
   { }
-  virtual ~Service();
+  virtual ~ServiceServer();
 
 
   virtual bool onTransferReceived(CanardRxTransfer const & transfer) override;
@@ -74,12 +74,12 @@ private:
  * TYPEDEF
  **************************************************************************************/
 
-using Service = std::shared_ptr<impl::ServiceBase>;
+using ServiceServer = std::shared_ptr<impl::ServiceServerBase>;
 
 /**************************************************************************************
  * TEMPLATE IMPLEMENTATION
  **************************************************************************************/
 
-#include "Service.ipp"
+#include "ServiceServer.ipp"
 
 #endif /* INC_107_ARDUINO_CYPHAL_SERVICE_HPP */

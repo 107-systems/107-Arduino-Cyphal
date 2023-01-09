@@ -16,7 +16,7 @@ namespace impl {
  **************************************************************************************/
 
 template<typename T_REQ, typename T_RSP, typename OnRequestCb>
-Service<T_REQ, T_RSP, OnRequestCb>::~Service()
+ServiceServer<T_REQ, T_RSP, OnRequestCb>::~ServiceServer()
 {
   _node_hdl.unsubscribe(_port_id, canard_transfer_kind());
 }
@@ -26,7 +26,7 @@ Service<T_REQ, T_RSP, OnRequestCb>::~Service()
  **************************************************************************************/
 
 template<typename T_REQ, typename T_RSP, typename OnRequestCb>
-bool Service<T_REQ, T_RSP, OnRequestCb>::onTransferReceived(CanardRxTransfer const & transfer)
+bool ServiceServer<T_REQ, T_RSP, OnRequestCb>::onTransferReceived(CanardRxTransfer const & transfer)
 {
   /* Deserialize the request message. */
   T_REQ const req = T_REQ::deserialize(transfer);

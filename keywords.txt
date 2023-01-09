@@ -10,7 +10,7 @@ Node	KEYWORD1
 Heap	KEYWORD1
 Publisher	KEYWORD1
 Subscription	KEYWORD1
-Service	KEYWORD1
+ServiceServer	KEYWORD1
 Request	KEYWORD1
 Response	KEYWORD1
 
