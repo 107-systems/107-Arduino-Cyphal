@@ -16,6 +16,7 @@
 #include "DSDL_Types.h"
 #include "Publisher.hpp"
 #include "Subscription.hpp"
+#include "ServiceClient.hpp"
 #include "ServiceServer.hpp"
 #include "nodeinfo/NodeInfo.h"
 #include "register/RegisterList.h"

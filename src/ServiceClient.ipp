@@ -15,8 +15,8 @@ namespace impl {
  * CTOR/DTOR
  **************************************************************************************/
 
-template<typename T_REQ, typename T_RSP, typename OnRequestCb>
-ServiceServer<T_REQ, T_RSP, OnRequestCb>::~ServiceServer()
+template<typename T_REQ, typename T_RSP, typename OnResponseCb>
+ServiceClient<T_REQ, T_RSP, OnResponseCb>::~ServiceClient()
 {
   _node_hdl.unsubscribe(_port_id, SubscriptionBase::canard_transfer_kind());
 }
@@ -25,34 +25,39 @@ ServiceServer<T_REQ, T_RSP, OnRequestCb>::~ServiceServer()
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-template<typename T_REQ, typename T_RSP, typename OnRequestCb>
-bool ServiceServer<T_REQ, T_RSP, OnRequestCb>::onTransferReceived(CanardRxTransfer const & transfer)
+template<typename T_REQ, typename T_RSP, typename OnResponseCb>
+bool ServiceClient<T_REQ, T_RSP, OnResponseCb>::request(CanardNodeID const remote_node_id, T_REQ const & req)
 {
-  /* Deserialize the request message. */
-  T_REQ const req = T_REQ::deserialize(transfer);
-
-  /* Invoke the service callback and obtain the desired response. */
-  T_RSP const rsp = _on_request_cb(req);
-
-  /* Serialize the response message. */
-  std::array<uint8_t, T_RSP::MAX_PAYLOAD_SIZE> payload_buf{};
-  size_t const payload_buf_size = rsp.serialize(payload_buf.data());
-
-  /* Enqueue the transfer. */
   CanardTransferMetadata const transfer_metadata =
-  {
-    .priority       = CanardPriorityNominal,
-    .transfer_kind  = CanardTransferKindResponse,
-    .port_id        = transfer.metadata.port_id,
-    .remote_node_id = transfer.metadata.remote_node_id,
-    .transfer_id    = transfer.metadata.transfer_id,
-  };
+    {
+      .priority       = CanardPriorityNominal,
+      .transfer_kind  = CanardTransferKindRequest,
+      .port_id        = _port_id,
+      .remote_node_id = remote_node_id,
+      .transfer_id    = _transfer_id++,
+    };
 
-  /* Serialize transfer into a series of CAN frames */
+  /* Serialize message into payload buffer. */
+  std::array<uint8_t, T_REQ::MAX_PAYLOAD_SIZE> payload_buf{};
+  size_t const payload_buf_size = req.serialize(payload_buf.data());
+
+  /* Serialize transfer into a series of CAN frames. */
   return _node_hdl.enqueue_transfer(_tx_timeout_usec,
                                     &transfer_metadata,
                                     payload_buf_size,
                                     payload_buf.data());
+}
+
+template<typename T_REQ, typename T_RSP, typename OnResponseCb>
+bool ServiceClient<T_REQ, T_RSP, OnResponseCb>::onTransferReceived(CanardRxTransfer const & transfer)
+{
+  /* Deserialize the response message. */
+  T_RSP const rsp = T_RSP::deserialize(transfer);
+
+  /* Invoke the user registered callback. */
+  _on_response_cb(rsp);
+
+  return true;
 }
 
 /**************************************************************************************

@@ -67,21 +67,26 @@ ServiceServer Node::create_service(CanardPortID const port_id,
   return srv;
 }
 
-/*
-template <typename T_REQ, typename T_RSP>
-bool Node::request(T_REQ const & req, CanardNodeID const remote_node_id, OnTransferReceivedFunc func)
+template <typename T_REQ, typename T_RSP, typename OnResponseCb>
+ServiceClient<T_REQ> Node::create_service_client(CanardPortID const port_id,
+                                                 CanardMicrosecond const tx_timeout_usec,
+                                                 OnResponseCb&& on_response_cb)
 {
-  static_assert(T_REQ::TRANSFER_KIND == CanardTransferKindRequest,  "Node::request<T_REQ, T_RSP> API - T_REQ != CanardTransferKindRequest");
-  static_assert(T_RSP::TRANSFER_KIND == CanardTransferKindResponse, "Node::request<T_REQ, T_RSP> API - T_RSP != CanardTransferKindResponse");
+  auto clt = std::make_shared<impl::ServiceClient<T_REQ, T_RSP, OnResponseCb>>(
+    *this,
+    port_id,
+    tx_timeout_usec,
+    std::forward<OnResponseCb>(on_response_cb)
+  );
 
-  std::array<uint8_t, T_REQ::MAX_PAYLOAD_SIZE> payload_buf;
-  payload_buf.fill(0);
-  size_t const payload_size = req.serialize(payload_buf.data());
-  CanardTransferID const transfer_id = getNextTransferId(T_REQ::PORT_ID);
+  int8_t const rc = canardRxSubscribe(&_canard_hdl,
+                                      CanardTransferKindResponse,
+                                      port_id,
+                                      T_RSP::MAX_PAYLOAD_SIZE,
+                                      CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC,
+                                      &(clt->canard_rx_subscription()));
+  if (rc < 0)
+    return nullptr;
 
-  if (!enqeueTransfer(remote_node_id, T_REQ::TRANSFER_KIND, T_REQ::PORT_ID, payload_size, payload_buf.data(), transfer_id))
-    return false;
-
-  return subscribe(T_RSP::TRANSFER_KIND, T_RSP::PORT_ID, T_RSP::MAX_PAYLOAD_SIZE, func);
+  return clt;
 }
-*/

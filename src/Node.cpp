@@ -117,23 +117,12 @@ void Node::processRxQueue()
 
     if(result == 1)
     {
+      /* Obtain the pointer to the subscribed object and in invoke its reception callback. */
       impl::SubscriptionBase * sub_ptr = static_cast<impl::SubscriptionBase *>(rx_subscription->user_reference);
       sub_ptr->onTransferReceived(transfer);
 
       /* Free dynamically allocated memory after processing. */
       _canard_hdl.memory_free(&_canard_hdl, transfer.payload);
-
-        /*
-        if (transfer.metadata.transfer_kind == CanardTransferKindResponse) {
-          if ((_tx_transfer_map.count(transfer.metadata.port_id) > 0) && (_tx_transfer_map[transfer.metadata.port_id] == transfer.metadata.transfer_id))
-          {
-            transfer_received_func(transfer, *this);
-            unsubscribe(CanardTransferKindResponse, transfer.metadata.port_id);
-          }
-        }
-        else
-          transfer_received_func(transfer, *this);
-          */
     }
   }
 }

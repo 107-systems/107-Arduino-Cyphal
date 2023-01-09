@@ -23,6 +23,7 @@
 
 #include "Publisher.hpp"
 #include "Subscription.hpp"
+#include "ServiceClient.hpp"
 #include "ServiceServer.hpp"
 #include "CircularBuffer.hpp"
 
@@ -84,6 +85,11 @@ public:
   ServiceServer create_service(CanardPortID const port_id,
                                CanardMicrosecond const tx_timeout_usec,
                                OnRequestCb&& on_request_cb);
+
+  template <typename T_REQ, typename T_RSP, typename OnResponseCb>
+  ServiceClient<T_REQ> create_service_client(CanardPortID const port_id,
+                                             CanardMicrosecond const tx_timeout_usec,
+                                             OnResponseCb&& on_response_cb);
 
   /* Must be called from the application to process
    * all received CAN frames.
