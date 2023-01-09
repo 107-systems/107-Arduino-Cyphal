@@ -44,9 +44,9 @@ Subscription Node::create_subscription(CanardPortID const port_id,
 }
 
 template <typename T_REQ, typename T_RSP, typename OnRequestCb>
-ServiceServer Node::create_service(CanardPortID const port_id,
-                             CanardMicrosecond const tx_timeout_usec,
-                             OnRequestCb&& on_request_cb)
+ServiceServer Node::create_service_server(CanardPortID const port_id,
+                                          CanardMicrosecond const tx_timeout_usec,
+                                          OnRequestCb&& on_request_cb)
 {
   auto srv = std::make_shared<impl::ServiceServer<T_REQ, T_RSP, OnRequestCb>>(
     *this,

@@ -82,9 +82,9 @@ public:
                                    OnReceiveCb&& on_receive_cb);
 
   template <typename T_REQ, typename T_RSP, typename OnRequestCb>
-  ServiceServer create_service(CanardPortID const port_id,
-                               CanardMicrosecond const tx_timeout_usec,
-                               OnRequestCb&& on_request_cb);
+  ServiceServer create_service_server(CanardPortID const port_id,
+                                      CanardMicrosecond const tx_timeout_usec,
+                                      OnRequestCb&& on_request_cb);
 
   template <typename T_REQ, typename T_RSP, typename OnResponseCb>
   ServiceClient<T_REQ> create_service_client(CanardPortID const port_id,
