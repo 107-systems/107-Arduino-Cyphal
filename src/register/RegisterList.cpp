@@ -229,7 +229,7 @@ RegisterList::RegisterList(Node & node_hdl)
   };
 
 
-  _reg_list_srv = node_hdl.create_service<TListRequest, TListResponse>(
+  _reg_list_srv = node_hdl.create_service_server<TListRequest, TListResponse>(
     TListRequest::PORT_ID,
     2*1000*1000UL,
     [this](TListRequest const & req)
@@ -238,7 +238,7 @@ RegisterList::RegisterList(Node & node_hdl)
     });
 
 
-  _reg_access_srv = node_hdl.create_service<TAccessRequest, TAccessResponse>(
+  _reg_access_srv = node_hdl.create_service_server<TAccessRequest, TAccessResponse>(
     TAccessRequest::PORT_ID,
     2*1000*1000UL,
     [this](TAccessRequest const & req)

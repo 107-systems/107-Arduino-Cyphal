@@ -43,12 +43,12 @@ private:
 
   typedef uavcan::_register::List_1_0::Request<>  TListRequest;
   typedef uavcan::_register::List_1_0::Response<> TListResponse;
-  Service _reg_list_srv;
+  ServiceServer _reg_list_srv;
   TListResponse onList_1_0_Request_Received(TListRequest const & req);
 
   typedef uavcan::_register::Access_1_0::Request<>  TAccessRequest;
   typedef uavcan::_register::Access_1_0::Response<> TAccessResponse;
-  Service _reg_access_srv;
+  ServiceServer _reg_access_srv;
   TAccessResponse onAccess_1_0_Request_Received(TAccessRequest const & req);
 };
 
