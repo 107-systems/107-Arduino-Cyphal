@@ -32,7 +32,7 @@ Node::Node(uint8_t * heap_ptr,
 {
   if (_mtu_bytes == CANARD_MTU_CAN_CLASSIC)
     _canard_rx_queue.reset(new CircularBufferCan(rx_queue_capacity));
-  else if (_mtu_bytes == CANARD_MTU_CAN_FD)
+  else
     _canard_rx_queue.reset(new CircularBufferCanFd(rx_queue_capacity));
 
   _canard_hdl.node_id = node_id;
@@ -112,35 +112,30 @@ void Node::processRxQueue()
 {
   while (!_canard_rx_queue->isEmpty())
   {
-    CanardFrame rx_frame;
-    CanardMicrosecond rx_timestamp_us;
-
     if (_mtu_bytes == CANARD_MTU_CAN_CLASSIC)
     {
-      auto [extended_can_id, payload_size, payload, rx_timestamp_us_tmp] =
+      const auto [extended_can_id, payload_size, payload, rx_timestamp_us] =
         static_cast<CircularBufferCan *>(_canard_rx_queue.get())->dequeue();
 
+      CanardFrame rx_frame;
       rx_frame.extended_can_id = extended_can_id;
       rx_frame.payload_size = payload_size;
       rx_frame.payload = reinterpret_cast<const void *>(payload.data());
 
-      rx_timestamp_us = rx_timestamp_us_tmp;
-    }
-    else if (_mtu_bytes == CANARD_MTU_CAN_FD)
-    {
-      auto [extended_can_id, payload_size, payload, rx_timestamp_us_tmp] =
-        static_cast<CircularBufferCanFd *>(_canard_rx_queue.get())->dequeue();
-
-      rx_frame.extended_can_id = extended_can_id;
-      rx_frame.payload_size = payload_size;
-      rx_frame.payload = reinterpret_cast<const void *>(payload.data());
-
-      rx_timestamp_us = rx_timestamp_us_tmp;
+      processRxFrame(&rx_frame, rx_timestamp_us);
     }
     else
-      break;
+    {
+      const auto [extended_can_id, payload_size, payload, rx_timestamp_us] =
+        static_cast<CircularBufferCanFd *>(_canard_rx_queue.get())->dequeue();
 
-    processRxFrame(&rx_frame, rx_timestamp_us);
+      CanardFrame rx_frame;
+      rx_frame.extended_can_id = extended_can_id;
+      rx_frame.payload_size = payload_size;
+      rx_frame.payload = reinterpret_cast<const void *>(payload.data());
+
+      processRxFrame(&rx_frame, rx_timestamp_us);
+    }
   }
 }
 
