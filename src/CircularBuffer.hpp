@@ -53,7 +53,7 @@ public:
 
 
 private:
-  T * _buffer;
+  std::unique_ptr<T> _buffer;
   size_t _size, _head, _tail, _num_elems;
 
   size_t nextIndex(size_t const index) { return ((index + 1) % _size); }
