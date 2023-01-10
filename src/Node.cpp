@@ -19,17 +19,17 @@
 
 Node::Node(uint8_t * heap_ptr,
            size_t const heap_size,
-           TReceiveCircularBuffer * rx_queue_heap_ptr,
-           size_t const rx_queue_heap_size,
            MicrosFunc const micros_func,
            CanardNodeID const node_id,
            size_t const tx_queue_capacity,
+           size_t const rx_queue_capacity,
            size_t const mtu_bytes)
 : _o1heap_ins{o1heapInit(heap_ptr, heap_size)}
 , _canard_hdl{canardInit(Node::o1heap_allocate, Node::o1heap_free)}
 , _micros_func{micros_func}
 , _canard_tx_queue{canardTxInit(tx_queue_capacity, mtu_bytes)}
-, _canard_rx_queue{rx_queue_heap_ptr, rx_queue_heap_size}
+, _canard_rx_queue{(_mtu_bytes == CANARD_MTU_CAN_CLASSIC) ? static_cast<CircularBufferBase *>(new CircularBufferCan(rx_queue_capacity)) : static_cast<CircularBufferBase *>(new CircularBufferCanFd(rx_queue_capacity))}
+, _mtu_bytes{mtu_bytes}
 {
   _canard_hdl.node_id = node_id;
   _canard_hdl.user_reference = static_cast<void *>(_o1heap_ins);
@@ -47,14 +47,22 @@ void Node::spinSome(CanFrameTxFunc const tx_func)
 
 void Node::onCanFrameReceived(CanardFrame const & frame)
 {
-  CanardMicrosecond const rx_timestamp_us = _micros_func();
+  size_t const payload_size = frame.payload_size;
   uint32_t const extended_can_id = frame.extended_can_id;
-  size_t   const payload_size    = frame.payload_size;
+  CanardMicrosecond const rx_timestamp_us = _micros_func();
 
-  std::array<uint8_t, 8> payload{};
-  memcpy(payload.data(), frame.payload, std::min(payload_size, payload.size()));
-
-  _canard_rx_queue.enqueue(std::make_tuple(extended_can_id, payload_size, payload, rx_timestamp_us));
+  if (_mtu_bytes == CANARD_MTU_CAN_CLASSIC)
+  {
+    std::array<uint8_t, CANARD_MTU_CAN_CLASSIC> payload{};
+    memcpy(payload.data(), frame.payload, std::min(payload_size, payload.size()));
+    static_cast<CircularBufferCan *>(_canard_rx_queue.get())->enqueue(std::make_tuple(extended_can_id, payload_size, payload, rx_timestamp_us));
+  }
+  else
+  {
+    std::array<uint8_t, CANARD_MTU_CAN_FD> payload{};
+    memcpy(payload.data(), frame.payload, std::min(payload_size, payload.size()));
+    static_cast<CircularBufferCanFd *>(_canard_rx_queue.get())->enqueue(std::make_tuple(extended_can_id, payload_size, payload, rx_timestamp_us));
+  }
 }
 
 bool Node::enqueue_transfer(CanardMicrosecond const tx_timeout_usec,
@@ -98,32 +106,21 @@ void Node::o1heap_free(CanardInstance * const ins, void * const pointer)
 
 void Node::processRxQueue()
 {
-  while (!_canard_rx_queue.isEmpty())
+  while (!_canard_rx_queue->isEmpty())
   {
-    auto [extended_can_id, payload_size, payload, rx_timestamp_us] = _canard_rx_queue.dequeue();
-
-    CanardFrame frame;
-    frame.extended_can_id = extended_can_id;
-    frame.payload_size = payload_size;
-    frame.payload = reinterpret_cast<const void *>(payload.data());
-
-    CanardRxTransfer transfer;
-    CanardRxSubscription * rx_subscription;
-    int8_t const result = canardRxAccept(&_canard_hdl,
-                                        rx_timestamp_us,
-                                        &frame,
-                                        0, /* redundant_transport_index */
-                                        &transfer,
-                                        &rx_subscription);
-
-    if(result == 1)
+    if (_mtu_bytes == CANARD_MTU_CAN_CLASSIC)
     {
-      /* Obtain the pointer to the subscribed object and in invoke its reception callback. */
-      impl::SubscriptionBase * sub_ptr = static_cast<impl::SubscriptionBase *>(rx_subscription->user_reference);
-      sub_ptr->onTransferReceived(transfer);
+      const auto [extended_can_id, payload_size, payload, rx_timestamp_us] =
+        static_cast<CircularBufferCan *>(_canard_rx_queue.get())->dequeue();
 
-      /* Free dynamically allocated memory after processing. */
-      _canard_hdl.memory_free(&_canard_hdl, transfer.payload);
+      processRxFrame(extended_can_id, payload_size, payload, rx_timestamp_us);
+    }
+    else
+    {
+      const auto [extended_can_id, payload_size, payload, rx_timestamp_us] =
+        static_cast<CircularBufferCanFd *>(_canard_rx_queue.get())->dequeue();
+
+      processRxFrame(extended_can_id, payload_size, payload, rx_timestamp_us);
     }
   }
 }

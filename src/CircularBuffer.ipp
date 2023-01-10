@@ -10,8 +10,8 @@
  **************************************************************************************/
 
 template <typename T>
-CircularBuffer<T>::CircularBuffer(T * heap_ptr, size_t const heap_size)
-: _buffer{heap_ptr}
+CircularBuffer<T>::CircularBuffer(size_t const heap_size)
+: _buffer{new T[heap_size]}
 , _size{heap_size}
 , _head{0}
 , _tail{0}
@@ -38,7 +38,7 @@ void CircularBuffer<T>::enqueue(T const & val)
 {
   if (isFull()) return;
 
-  _buffer[_head] = val;
+  _buffer.get()[_head] = val;
   _head = nextIndex(_head);
   _num_elems++;
 }
@@ -48,7 +48,7 @@ T CircularBuffer<T>::dequeue()
 {
   if (isEmpty()) return T{};
 
-  T const val = _buffer[_tail];
+  T const val = _buffer.get()[_tail];
   _tail = nextIndex(_tail);
   _num_elems--;
   return val;
