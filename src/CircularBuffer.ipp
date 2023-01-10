@@ -10,8 +10,8 @@
  **************************************************************************************/
 
 template <typename T>
-CircularBuffer<T>::CircularBuffer(T * heap_ptr, size_t const heap_size)
-: _buffer{heap_ptr}
+CircularBuffer<T>::CircularBuffer(size_t const heap_size)
+: _buffer{new T[heap_size]}
 , _size{heap_size}
 , _head{0}
 , _tail{0}
@@ -23,6 +23,7 @@ CircularBuffer<T>::CircularBuffer(T * heap_ptr, size_t const heap_size)
 template <typename T>
 CircularBuffer<T>::~CircularBuffer()
 {
+  delete[] _buffer;
   _size = 0;
   _head = 0;
   _tail = 0;

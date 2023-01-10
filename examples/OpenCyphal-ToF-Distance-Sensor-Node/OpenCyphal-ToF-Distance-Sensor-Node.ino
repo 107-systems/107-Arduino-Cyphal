@@ -123,8 +123,7 @@ ArduinoMCP2515 mcp2515([]()
                        nullptr);
 
 Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-CircularBuffer<Node::TReceiveCircularBuffer>::Heap<Node::DEFAULT_RX_QUEUE_SIZE> node_rx_queue;
-Node node_hdl(node_heap.data(), node_heap.size(), node_rx_queue.data(), node_rx_queue.size(), micros, OPEN_CYPHAL_NODE_ID);
+Node node_hdl(node_heap.data(), node_heap.size(), micros, OPEN_CYPHAL_NODE_ID);
 
 Publisher<Heartbeat_1_0<>> heartbeat_pub = node_hdl.create_publisher<Heartbeat_1_0<>>(Heartbeat_1_0<>::PORT_ID, 1*1000*1000UL /* = 1 sec in usecs. */);
 Publisher<DistanceMessageType> tof_pub = node_hdl.create_publisher<DistanceMessageType>(OPEN_CYPHAL_ID_DISTANCE_DATA, 1*1000*1000UL /* = 1 sec in usecs. */);

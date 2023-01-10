@@ -20,25 +20,36 @@
  * CLASS DECLARATION
  **************************************************************************************/
 
-template <typename T>
-class CircularBuffer
+class CircularBufferBase
 {
 public:
-  template <size_t SIZE>
-  struct Heap final : public std::array<T, SIZE> {};
+  CircularBufferBase() { }
+  virtual ~CircularBufferBase() { }
+  CircularBufferBase(CircularBufferBase const &) = delete;
+  CircularBufferBase(CircularBufferBase &&) = delete;
+  CircularBufferBase &operator=(CircularBufferBase const &) = delete;
+  CircularBufferBase &operator=(CircularBufferBase &&) = delete;
 
+  virtual size_t available() const = 0;
+  virtual bool isFull() const = 0;
+  virtual bool isEmpty() const = 0;
+};
 
-   CircularBuffer(T * heap_ptr, size_t const heap_size);
-  ~CircularBuffer();
+template <typename T>
+class CircularBuffer : public CircularBufferBase
+{
+public:
+  CircularBuffer(size_t const heap_size);
+  virtual ~CircularBuffer();
 
 
   void enqueue(T const & val);
   T dequeue();
 
 
-  size_t available() const { return _num_elems; }
-  bool isFull() const { return (_num_elems == _size); }
-  bool isEmpty() const { return (_num_elems == 0); }
+  size_t available() const override { return _num_elems; }
+  bool isFull() const override { return (_num_elems == _size); }
+  bool isEmpty() const override { return (_num_elems == 0); }
 
 
 private:
