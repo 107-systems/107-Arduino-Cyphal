@@ -90,3 +90,34 @@ ServiceClient<T_REQ> Node::create_service_client(CanardPortID const port_id,
 
   return clt;
 }
+
+template<size_t MTU_BYTES>
+void Node::processRxFrame(uint32_t const extended_can_id,
+                          size_t const payload_size,
+                          std::array<uint8_t, MTU_BYTES> const & payload,
+                          CanardMicrosecond const rx_timestamp_us)
+{
+  CanardFrame rx_frame;
+  rx_frame.extended_can_id = extended_can_id;
+  rx_frame.payload_size = payload_size;
+  rx_frame.payload = reinterpret_cast<const void *>(payload.data());
+
+  CanardRxTransfer rx_transfer;
+  CanardRxSubscription * rx_subscription;
+  int8_t const result = canardRxAccept(&_canard_hdl,
+                                       rx_timestamp_us,
+                                       &rx_frame,
+                                       0, /* redundant_transport_index */
+                                       &rx_transfer,
+                                       &rx_subscription);
+
+  if(result == 1)
+  {
+    /* Obtain the pointer to the subscribed object and in invoke its reception callback. */
+    impl::SubscriptionBase * sub_ptr = static_cast<impl::SubscriptionBase *>(rx_subscription->user_reference);
+    sub_ptr->onTransferReceived(rx_transfer);
+
+    /* Free dynamically allocated memory after processing. */
+    _canard_hdl.memory_free(&_canard_hdl, rx_transfer.payload);
+  }
+}

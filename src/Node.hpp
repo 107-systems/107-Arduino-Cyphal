@@ -124,8 +124,12 @@ private:
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
 
   void processRxQueue();
-  void processRxFrame(CanardFrame const * frame, CanardMicrosecond const rx_timestamp_us);
   void processTxQueue(CanFrameTxFunc const tx_func);
+  template<size_t MTU_BYTES>
+  void processRxFrame(uint32_t const extended_can_id,
+                      size_t const payload_size,
+                      std::array<uint8_t, MTU_BYTES> const & payload,
+                      CanardMicrosecond const rx_timestamp_us);
 };
 
 /**************************************************************************************

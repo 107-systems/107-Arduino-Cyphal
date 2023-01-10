@@ -113,47 +113,15 @@ void Node::processRxQueue()
       const auto [extended_can_id, payload_size, payload, rx_timestamp_us] =
         static_cast<CircularBufferCan *>(_canard_rx_queue.get())->dequeue();
 
-      CanardFrame rx_frame;
-      rx_frame.extended_can_id = extended_can_id;
-      rx_frame.payload_size = payload_size;
-      rx_frame.payload = reinterpret_cast<const void *>(payload.data());
-
-      processRxFrame(&rx_frame, rx_timestamp_us);
+      processRxFrame(extended_can_id, payload_size, payload, rx_timestamp_us);
     }
     else
     {
       const auto [extended_can_id, payload_size, payload, rx_timestamp_us] =
         static_cast<CircularBufferCanFd *>(_canard_rx_queue.get())->dequeue();
 
-      CanardFrame rx_frame;
-      rx_frame.extended_can_id = extended_can_id;
-      rx_frame.payload_size = payload_size;
-      rx_frame.payload = reinterpret_cast<const void *>(payload.data());
-
-      processRxFrame(&rx_frame, rx_timestamp_us);
+      processRxFrame(extended_can_id, payload_size, payload, rx_timestamp_us);
     }
-  }
-}
-
-void Node::processRxFrame(CanardFrame const * frame, CanardMicrosecond const rx_timestamp_us)
-{
-  CanardRxTransfer transfer;
-  CanardRxSubscription * rx_subscription;
-  int8_t const result = canardRxAccept(&_canard_hdl,
-                                       rx_timestamp_us,
-                                       frame,
-                                       0, /* redundant_transport_index */
-                                       &transfer,
-                                       &rx_subscription);
-
-  if(result == 1)
-  {
-    /* Obtain the pointer to the subscribed object and in invoke its reception callback. */
-    impl::SubscriptionBase * sub_ptr = static_cast<impl::SubscriptionBase *>(rx_subscription->user_reference);
-    sub_ptr->onTransferReceived(transfer);
-
-    /* Free dynamically allocated memory after processing. */
-    _canard_hdl.memory_free(&_canard_hdl, transfer.payload);
   }
 }
 
