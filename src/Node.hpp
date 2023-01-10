@@ -61,10 +61,10 @@ public:
        size_t const mtu_bytes);
 
   Node(uint8_t * heap_ptr, size_t const heap_size, MicrosFunc const micros_func)
-  : Node(heap_ptr, heap_size, micros_func, DEFAULT_NODE_ID, DEFAULT_TX_QUEUE_SIZE, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
+  : Node(heap_ptr, heap_size, micros_func, DEFAULT_NODE_ID, DEFAULT_TX_QUEUE_SIZE, DEFAULT_RX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
   Node(uint8_t * heap_ptr, size_t const heap_size, MicrosFunc const micros_func, CanardNodeID const node_id)
-  : Node(heap_ptr, heap_size, micros_func, node_id, DEFAULT_TX_QUEUE_SIZE, DEFAULT_TX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
+  : Node(heap_ptr, heap_size, micros_func, node_id, DEFAULT_TX_QUEUE_SIZE, DEFAULT_RX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
 
   inline void setNodeId(CanardNodeID const node_id) { _canard_hdl.node_id = node_id; }
