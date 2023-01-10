@@ -28,13 +28,9 @@ Node::Node(uint8_t * heap_ptr,
 , _canard_hdl{canardInit(Node::o1heap_allocate, Node::o1heap_free)}
 , _micros_func{micros_func}
 , _canard_tx_queue{canardTxInit(tx_queue_capacity, mtu_bytes)}
+, _canard_rx_queue{(_mtu_bytes == CANARD_MTU_CAN_CLASSIC) ? static_cast<CircularBufferBase *>(new CircularBufferCan(rx_queue_capacity)) : static_cast<CircularBufferBase *>(new CircularBufferCanFd(rx_queue_capacity))}
 , _mtu_bytes{mtu_bytes}
 {
-  if (_mtu_bytes == CANARD_MTU_CAN_CLASSIC)
-    _canard_rx_queue.reset(new CircularBufferCan(rx_queue_capacity));
-  else
-    _canard_rx_queue.reset(new CircularBufferCanFd(rx_queue_capacity));
-
   _canard_hdl.node_id = node_id;
   _canard_hdl.user_reference = static_cast<void *>(_o1heap_ins);
 }
