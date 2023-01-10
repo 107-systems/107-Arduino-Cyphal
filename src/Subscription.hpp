@@ -22,7 +22,7 @@
  * FORWARD DECLARATION
  **************************************************************************************/
 
-class Node;
+class NodeBase;
 
 /**************************************************************************************
  * NAMESPACE
@@ -39,7 +39,7 @@ template <typename T, typename OnReceiveCb>
 class Subscription : public SubscriptionBase
 {
 public:
-  Subscription(Node & node_hdl, CanardPortID const port_id, OnReceiveCb const & on_receive_cb)
+  Subscription(NodeBase & node_hdl, CanardPortID const port_id, OnReceiveCb const & on_receive_cb)
   : SubscriptionBase{CanardTransferKindMessage}
   , _node_hdl{node_hdl}
   , _port_id{port_id}
@@ -52,7 +52,7 @@ public:
 
 
 private:
-  Node & _node_hdl;
+  NodeBase & _node_hdl;
   CanardPortID const _port_id;
   OnReceiveCb _on_receive_cb;
 };

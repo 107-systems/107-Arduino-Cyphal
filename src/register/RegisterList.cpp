@@ -22,7 +22,7 @@
  * CTOR/DTOR
  **************************************************************************************/
 
-RegisterList::RegisterList(Node & node_hdl)
+RegisterList::RegisterList(NodeBase & node_hdl)
 : _reg_last{"", Register::TypeTag::Empty, false, false}
 {
   _on_access_request_handler_map[Register::TypeTag::Empty] =

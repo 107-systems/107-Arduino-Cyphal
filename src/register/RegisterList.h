@@ -27,7 +27,7 @@
 class RegisterList
 {
 public:
-  RegisterList(Node & node_hdl);
+  RegisterList(NodeBase & node_hdl);
 
 
   template <typename T> inline void add(RegisterDerived<T> & reg_ptr) {

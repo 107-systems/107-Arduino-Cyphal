@@ -18,7 +18,7 @@
  * FORWARD DECLARATION
  **************************************************************************************/
 
-class Node;
+class NodeBase;
 
 /**************************************************************************************
  * NAMESPACE
@@ -35,17 +35,20 @@ template <typename T>
 class Publisher
 {
 public:
-  Publisher(Node & node_hdl, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec)
+  Publisher(NodeBase & node_hdl, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec)
   : _node_hdl{node_hdl}
   , _port_id{port_id}
   , _tx_timeout_usec{tx_timeout_usec}
   , _transfer_id{0}
   { }
+  virtual ~Publisher() { }
 
-  bool publish(T const & msg);
+
+  virtual bool publish(T const & msg) override;
+
 
 private:
-  Node & _node_hdl;
+  NodeBase & _node_hdl;
   CanardPortID const _port_id;
   CanardMicrosecond const _tx_timeout_usec;
   CanardTransferID _transfer_id;

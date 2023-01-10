@@ -6,87 +6,152 @@
  */
 
 /**************************************************************************************
+ * INCLUDE
+ **************************************************************************************/
+
+#include <cstring>
+
+/**************************************************************************************
+ * CTOR/DTOR
+ **************************************************************************************/
+
+template <size_t MTU_BYTES>
+Node<MTU_BYTES>::Node(uint8_t * heap_ptr,
+                      size_t const heap_size,
+                      TReceiveCircularBuffer * rx_queue_heap_ptr,
+                      size_t const rx_queue_heap_size,
+                      MicrosFunc const micros_func,
+                      CanardNodeID const node_id,
+                      size_t const tx_queue_capacity)
+  : _o1heap_ins{o1heapInit(heap_ptr, heap_size)}
+  , _canard_hdl{canardInit(Node::o1heap_allocate, Node::o1heap_free)}
+  , _micros_func{micros_func}
+  , _canard_tx_queue{canardTxInit(tx_queue_capacity, MTU_BYTES)}
+  , _canard_rx_queue{rx_queue_heap_ptr, rx_queue_heap_size}
+{
+  _canard_hdl.node_id = node_id;
+  _canard_hdl.user_reference = static_cast<void *>(_o1heap_ins);
+}
+
+/**************************************************************************************
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-template <typename T>
-Publisher<T> Node::create_publisher(CanardPortID const port_id,
-                                    CanardMicrosecond const tx_timeout_usec)
+template <size_t MTU_BYTES>
+void Node<MTU_BYTES>::spinSome(CanFrameTxFunc const tx_func)
 {
-  return std::make_shared<impl::Publisher<T>>(
-    *this,
-    port_id,
-    tx_timeout_usec
-    );
+  processRxQueue();
+  processTxQueue(tx_func);
 }
 
-template <typename T, typename OnReceiveCb>
-Subscription Node::create_subscription(CanardPortID const port_id,
-                                       CanardMicrosecond const rx_timeout_usec,
-                                       OnReceiveCb&& on_receive_cb)
+template <size_t MTU_BYTES>
+void Node<MTU_BYTES>::onCanFrameReceived(CanardFrame const & frame)
 {
-  auto sub = std::make_shared<impl::Subscription<T, OnReceiveCb>>(
-    *this,
-    port_id,
-    std::forward<OnReceiveCb>(on_receive_cb)
-    );
+  CanardMicrosecond const rx_timestamp_us = _micros_func();
+  uint32_t const extended_can_id = frame.extended_can_id;
+  size_t   const payload_size    = frame.payload_size;
 
-  int8_t const rc = canardRxSubscribe(&_canard_hdl,
-                                      CanardTransferKindMessage,
-                                      port_id,
-                                      T::MAX_PAYLOAD_SIZE,
-                                      rx_timeout_usec,
-                                      &(sub->canard_rx_subscription()));
-  if (rc < 0)
-    return nullptr;
+  std::array<uint8_t, MTU_BYTES> payload{};
+  memcpy(payload.data(), frame.payload, std::min(payload_size, payload.size()));
 
-  return sub;
+  _canard_rx_queue.enqueue(std::make_tuple(extended_can_id, payload_size, payload, rx_timestamp_us));
 }
 
-template <typename T_REQ, typename T_RSP, typename OnRequestCb>
-ServiceServer Node::create_service_server(CanardPortID const port_id,
-                                          CanardMicrosecond const tx_timeout_usec,
-                                          OnRequestCb&& on_request_cb)
+template <size_t MTU_BYTES>
+bool Node<MTU_BYTES>::enqueue_transfer(CanardMicrosecond const tx_timeout_usec,
+                                       CanardTransferMetadata const * const transfer_metadata,
+                                       size_t const payload_buf_size,
+                                       uint8_t const * const payload_buf)
 {
-  auto srv = std::make_shared<impl::ServiceServer<T_REQ, T_RSP, OnRequestCb>>(
-    *this,
-    port_id,
-    tx_timeout_usec,
-    std::forward<OnRequestCb>(on_request_cb)
-    );
+  int32_t const rc = canardTxPush(&_canard_tx_queue,
+                                  &_canard_hdl,
+                                  _micros_func() + tx_timeout_usec,
+                                  transfer_metadata,
+                                  payload_buf_size,
+                                  payload_buf);
 
-  int8_t const rc = canardRxSubscribe(&_canard_hdl,
-                                      CanardTransferKindRequest,
-                                      port_id,
-                                      T_REQ::MAX_PAYLOAD_SIZE,
-                                      CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC,
-                                      &(srv->canard_rx_subscription()));
-  if (rc < 0)
-    return nullptr;
-
-  return srv;
+  bool const success = (rc >= 0);
+  return success;
 }
 
-template <typename T_REQ, typename T_RSP, typename OnResponseCb>
-ServiceClient<T_REQ> Node::create_service_client(CanardPortID const port_id,
-                                                 CanardMicrosecond const tx_timeout_usec,
-                                                 OnResponseCb&& on_response_cb)
+template <size_t MTU_BYTES>
+void Node<MTU_BYTES>::unsubscribe(CanardPortID const port_id, CanardTransferKind const transfer_kind)
 {
-  auto clt = std::make_shared<impl::ServiceClient<T_REQ, T_RSP, OnResponseCb>>(
-    *this,
-    port_id,
-    tx_timeout_usec,
-    std::forward<OnResponseCb>(on_response_cb)
-  );
+  canardRxUnsubscribe(&_canard_hdl,
+                      transfer_kind,
+                      port_id);
+}
 
-  int8_t const rc = canardRxSubscribe(&_canard_hdl,
-                                      CanardTransferKindResponse,
-                                      port_id,
-                                      T_RSP::MAX_PAYLOAD_SIZE,
-                                      CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC,
-                                      &(clt->canard_rx_subscription()));
-  if (rc < 0)
-    return nullptr;
+/**************************************************************************************
+ * PRIVATE MEMBER FUNCTIONS
+ **************************************************************************************/
 
-  return clt;
+template <size_t MTU_BYTES>
+void * Node<MTU_BYTES>::o1heap_allocate(CanardInstance * const ins, size_t const amount)
+{
+  O1HeapInstance * o1heap = reinterpret_cast<O1HeapInstance *>(ins->user_reference);
+  return o1heapAllocate(o1heap, amount);
+}
+
+template <size_t MTU_BYTES>
+void Node<MTU_BYTES>::o1heap_free(CanardInstance * const ins, void * const pointer)
+{
+  O1HeapInstance * o1heap = reinterpret_cast<O1HeapInstance *>(ins->user_reference);
+  o1heapFree(o1heap, pointer);
+}
+
+template <size_t MTU_BYTES>
+void Node<MTU_BYTES>::processRxQueue()
+{
+  while (!_canard_rx_queue.isEmpty())
+  {
+    auto [extended_can_id, payload_size, payload, rx_timestamp_us] = _canard_rx_queue.dequeue();
+
+    CanardFrame frame;
+    frame.extended_can_id = extended_can_id;
+    frame.payload_size = payload_size;
+    frame.payload = reinterpret_cast<const void *>(payload.data());
+
+    CanardRxTransfer transfer;
+    CanardRxSubscription * rx_subscription;
+    int8_t const result = canardRxAccept(&_canard_hdl,
+                                         rx_timestamp_us,
+                                         &frame,
+                                         0, /* redundant_transport_index */
+                                         &transfer,
+                                         &rx_subscription);
+
+    if(result == 1)
+    {
+      /* Obtain the pointer to the subscribed object and in invoke its reception callback. */
+      impl::SubscriptionBase * sub_ptr = static_cast<impl::SubscriptionBase *>(rx_subscription->user_reference);
+      sub_ptr->onTransferReceived(transfer);
+
+      /* Free dynamically allocated memory after processing. */
+      _canard_hdl.memory_free(&_canard_hdl, transfer.payload);
+    }
+  }
+}
+
+template <size_t MTU_BYTES>
+void Node<MTU_BYTES>::processTxQueue(CanFrameTxFunc const tx_func)
+{
+  for(CanardTxQueueItem * tx_queue_item = const_cast<CanardTxQueueItem *>(canardTxPeek(&_canard_tx_queue));
+      tx_queue_item != nullptr;
+      tx_queue_item = const_cast<CanardTxQueueItem *>(canardTxPeek(&_canard_tx_queue)))
+  {
+    /* Discard the frame if the transmit deadline has expired. */
+    if (tx_queue_item->tx_deadline_usec > _micros_func()) {
+      _canard_hdl.memory_free(&_canard_hdl, canardTxPop(&_canard_tx_queue, tx_queue_item));
+      continue;
+    }
+
+    /* Attempt to transmit the frame via CAN. */
+    if (tx_func(tx_queue_item->frame)) {
+      _canard_hdl.memory_free(&_canard_hdl, canardTxPop(&_canard_tx_queue, tx_queue_item));
+      continue;
+    }
+
+    return;
+  }
 }

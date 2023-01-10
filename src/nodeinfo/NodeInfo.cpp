@@ -15,7 +15,7 @@
  * CTOR/DTOR
  **************************************************************************************/
 
-NodeInfo::NodeInfo(Node & node_hdl,
+NodeInfo::NodeInfo(NodeBase & node_hdl,
                    uint8_t const protocol_major,
                    uint8_t const protocol_minor,
                    uint8_t const hardware_major,

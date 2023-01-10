@@ -22,7 +22,7 @@
  * FORWARD DECLARATION
  **************************************************************************************/
 
-class Node;
+class NodeBase;
 
 /**************************************************************************************
  * NAMESPACE
@@ -48,7 +48,7 @@ template<typename T_REQ, typename T_RSP, typename OnResponseCb>
 class ServiceClient : public ServiceClientBase<T_REQ>
 {
 public:
-  ServiceClient(Node & node_hdl, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, OnResponseCb on_response_cb)
+  ServiceClient(NodeBase & node_hdl, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, OnResponseCb on_response_cb)
   : _node_hdl{node_hdl}
   , _port_id{port_id}
   , _tx_timeout_usec{tx_timeout_usec}
@@ -63,7 +63,7 @@ public:
 
 
 private:
-  Node & _node_hdl;
+  NodeBase & _node_hdl;
   CanardPortID const _port_id;
   CanardMicrosecond const _tx_timeout_usec;
   OnResponseCb _on_response_cb;

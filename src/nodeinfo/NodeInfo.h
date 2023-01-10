@@ -24,7 +24,7 @@
 class NodeInfo
 {
 public:
-  NodeInfo(Node & node_hdl,
+  NodeInfo(NodeBase & node_hdl,
            uint8_t const protocol_major,
            uint8_t const protocol_minor,
            uint8_t const hardware_major,
