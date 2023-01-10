@@ -61,7 +61,7 @@ void Node::onCanFrameReceived(CanardFrame const & frame)
     memcpy(payload.data(), frame.payload, std::min(payload_size, payload.size()));
     static_cast<CircularBufferCan *>(_canard_rx_queue.get())->enqueue(std::make_tuple(extended_can_id, payload_size, payload, rx_timestamp_us));
   }
-  else if (_mtu_bytes == CANARD_MTU_CAN_FD)
+  else
   {
     std::array<uint8_t, CANARD_MTU_CAN_FD> payload{};
     memcpy(payload.data(), frame.payload, std::min(payload_size, payload.size()));
