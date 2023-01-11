@@ -298,7 +298,7 @@ RegisterList::TAccessResponse RegisterList::onAccess_1_0_Request_Received(TAcces
     Register::TypeTag const type_tag = reg_base_ptr->type_tag();
     /* Call the appropriate callback handler. */
     if (_on_access_request_handler_map.count(type_tag) > 0)
-      rsp = _on_access_request_handler_map.at(type_tag)(req, reg_base_ptr);
+      return _on_access_request_handler_map.at(type_tag)(req, reg_base_ptr);
   }
 
   return rsp;
