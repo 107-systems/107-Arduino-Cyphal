@@ -15,7 +15,7 @@ add_library(${PROJECT_NAME} STATIC
 )
 ##########################################################################
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
 endif()
 ##########################################################################
 target_include_directories(${PROJECT_NAME} PUBLIC src)
