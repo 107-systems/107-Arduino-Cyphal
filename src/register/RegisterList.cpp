@@ -26,7 +26,7 @@ RegisterList::RegisterList(Node & node_hdl)
 : _reg_last{"", Register::TypeTag::Empty, false, false}
 {
   _on_access_request_handler_map[Register::TypeTag::Empty] =
-  [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
+  [](uavcan::_register::Access_1_0::Request<> const &, RegisterBase *)
   {
     uavcan::_register::Access_1_0::Response<> r;
 
