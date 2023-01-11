@@ -11,6 +11,10 @@
 
 #include "NodeInfo.h"
 
+#undef max
+#undef min
+#include <algorithm>
+
 /**************************************************************************************
  * CTOR/DTOR
  **************************************************************************************/
@@ -39,7 +43,7 @@ NodeInfo::NodeInfo(Node & node_hdl,
 
   memcpy(_node_info.unique_id, unique_id.data(), sizeof(_node_info.unique_id));
 
-  _node_info.name.count = std::min(name.length(), uavcan_node_GetInfo_Response_1_0_name_ARRAY_CAPACITY_);
+  _node_info.name.count = std::min(static_cast<size_t>(name.length()), static_cast<size_t>(uavcan_node_GetInfo_Response_1_0_name_ARRAY_CAPACITY_));
   memcpy(_node_info.name.elements, name.c_str(), _node_info.name.count);
 
   typedef uavcan::node::GetInfo_1_0::Request<> TGetInfoRequest;

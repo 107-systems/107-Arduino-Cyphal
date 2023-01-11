@@ -11,6 +11,8 @@
 
 #include "RegisterBase.h"
 
+#undef max
+#undef min
 #include <algorithm>
 
 /**************************************************************************************
@@ -26,7 +28,7 @@ RegisterBase::RegisterBase(char const * name,
   [name]() -> uavcan_register_Name_1_0
   {
     uavcan_register_Name_1_0 n;
-    n.name.count = std::min(strlen(name), uavcan_register_Name_1_0_name_ARRAY_CAPACITY_);
+    n.name.count = std::min(static_cast<size_t>(strlen(name)), static_cast<size_t>(uavcan_register_Name_1_0_name_ARRAY_CAPACITY_));
     memcpy(n.name.elements, name, n.name.count);
     return n;
   } ()
