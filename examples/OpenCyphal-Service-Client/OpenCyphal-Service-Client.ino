@@ -35,7 +35,7 @@ static int const MKRCAN_MCP2515_INT_PIN = 7;
  **************************************************************************************/
 
 void onReceiveBufferFull(CanardFrame const &);
-void onExecuteCommand_1_0_Response_Received(ExecuteCommand_1_0::Response<> const & rsp);
+void onExecuteCommand_1_1_Response_Received(ExecuteCommand_1_1::Response<> const & rsp);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -51,10 +51,10 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
 Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
 Node node_hdl(node_heap.data(), node_heap.size(), micros);
 
-ServiceClient<ExecuteCommand_1_0::Request<>> srv_client = node_hdl.create_service_client<ExecuteCommand_1_0::Request<>, ExecuteCommand_1_0::Response<>>(
-  ExecuteCommand_1_0::Request<>::PORT_ID,
+ServiceClient<ExecuteCommand_1_1::Request<>> srv_client = node_hdl.create_service_client<ExecuteCommand_1_1::Request<>, ExecuteCommand_1_1::Response<>>(
+  ExecuteCommand_1_1::Request<>::PORT_ID,
   2*1000*1000UL,
-  onExecuteCommand_1_0_Response_Received);
+  onExecuteCommand_1_1_Response_Received);
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -81,9 +81,9 @@ void setup()
 
   /* Request some coffee. */
   char const cmd_param[] = "I want a double espresso with cream!";
-  ExecuteCommand_1_0::Request<> req;
+  ExecuteCommand_1_1::Request<> req;
   req.data.command = 0xCAFE;
-  req.data.parameter.count = std::min(strlen(cmd_param), (size_t)uavcan_node_ExecuteCommand_Request_1_0_parameter_ARRAY_CAPACITY_);
+  req.data.parameter.count = std::min(strlen(cmd_param), (size_t)uavcan_node_ExecuteCommand_Request_1_1_parameter_ARRAY_CAPACITY_);
   std::copy(cmd_param,
             cmd_param + req.data.parameter.count,
             req.data.parameter.elements);
@@ -111,9 +111,9 @@ void onReceiveBufferFull(CanardFrame const & frame)
   node_hdl.onCanFrameReceived(frame);
 }
 
-void onExecuteCommand_1_0_Response_Received(ExecuteCommand_1_0::Response<> const & rsp)
+void onExecuteCommand_1_1_Response_Received(ExecuteCommand_1_1::Response<> const & rsp)
 {
-  if (rsp.data.status == uavcan_node_ExecuteCommand_Response_1_0_STATUS_SUCCESS)
+  if (rsp.data.status == uavcan_node_ExecuteCommand_Response_1_1_STATUS_SUCCESS)
     Serial.println("Coffee successfully retrieved");
   else
     Serial.println("Error when retrieving coffee");
