@@ -28,6 +28,8 @@ ServiceClient<T_REQ, T_RSP, OnResponseCb>::~ServiceClient()
 template<typename T_REQ, typename T_RSP, typename OnResponseCb>
 bool ServiceClient<T_REQ, T_RSP, OnResponseCb>::request(CanardNodeID const remote_node_id, T_REQ const & req)
 {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
   CanardTransferMetadata const transfer_metadata =
     {
       .priority       = CanardPriorityNominal,
@@ -36,6 +38,7 @@ bool ServiceClient<T_REQ, T_RSP, OnResponseCb>::request(CanardNodeID const remot
       .remote_node_id = remote_node_id,
       .transfer_id    = _transfer_id++,
     };
+#pragma GCC diagnostic pop
 
   /* Serialize message into payload buffer. */
   std::array<uint8_t, T_REQ::MAX_PAYLOAD_SIZE> payload_buf{};

@@ -25,6 +25,8 @@ namespace impl
 template<typename T>
 bool Publisher<T>::publish(T const & msg)
 {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
   CanardTransferMetadata const transfer_metadata =
   {
     .priority       = CanardPriorityNominal,
@@ -33,6 +35,7 @@ bool Publisher<T>::publish(T const & msg)
     .remote_node_id = CANARD_NODE_ID_UNSET,
     .transfer_id    = _transfer_id++,
   };
+#pragma GCC diagnostic pop
 
   /* Serialize message into payload buffer. */
   std::array<uint8_t, T::MAX_PAYLOAD_SIZE> payload_buf{};
