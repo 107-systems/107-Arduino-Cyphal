@@ -260,21 +260,6 @@ RegisterList::TListResponse RegisterList::onList_1_0_Request_Received(TListReque
 
 RegisterList::TAccessResponse RegisterList::onAccess_1_0_Request_Received(TAccessRequest const & req)
 {
-  /* Initialise with an empty response in case we
-   * can't find a matching register.
-   */
-  TAccessResponse rsp = []()
-  {
-    TAccessResponse r;
-
-    uavcan_register_Value_1_0_select_empty_(&r.data.value);
-    r.data.timestamp.microsecond = 0;
-    r.data._mutable = false;
-    r.data.persistent = false;
-
-    return r;
-  } ();
-
   /* Find a register with the same register name within
    * the register list.
    */
@@ -301,5 +286,20 @@ RegisterList::TAccessResponse RegisterList::onAccess_1_0_Request_Received(TAcces
       return _on_access_request_handler_map.at(type_tag)(req, reg_base_ptr);
   }
 
-  return rsp;
+  /* Initialise with an empty response in case we
+   * can't find a matching register.
+   */
+  TAccessResponse const EMPTY_RESPONSE = []()
+  {
+    TAccessResponse r;
+
+    uavcan_register_Value_1_0_select_empty_(&r.data.value);
+    r.data.timestamp.microsecond = 0;
+    r.data._mutable = false;
+    r.data.persistent = false;
+
+    return r;
+  } ();
+
+  return EMPTY_RESPONSE;
 }
