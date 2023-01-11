@@ -30,8 +30,7 @@ bool Subscription<T, OnReceiveCb>::onTransferReceived(CanardRxTransfer const & t
 {
   T const msg = T::deserialize(transfer);
 
-  if (_on_receive_cb)
-    _on_receive_cb(msg);
+  _on_receive_cb(msg);
 
   return true;
 }
