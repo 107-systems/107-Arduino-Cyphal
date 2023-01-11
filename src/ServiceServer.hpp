@@ -12,17 +12,9 @@
  * INCLUDE
  **************************************************************************************/
 
-#include <memory>
+#include "ServiceServerBase.hpp"
 
-#include "SubscriptionBase.h"
-
-#include "libcanard/canard.h"
-
-/**************************************************************************************
- * FORWARD DECLARATION
- **************************************************************************************/
-
-class Node;
+#include "Node.hpp"
 
 /**************************************************************************************
  * NAMESPACE
@@ -34,12 +26,6 @@ namespace impl
 /**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
-
-class ServiceServerBase : public SubscriptionBase
-{
-public:
-  ServiceServerBase() : SubscriptionBase{CanardTransferKindRequest} { }
-};
 
 template<typename T_REQ, typename T_RSP, typename OnRequestCb>
 class ServiceServer : public ServiceServerBase
@@ -69,12 +55,6 @@ private:
  **************************************************************************************/
 
 } /* impl */
-
-/**************************************************************************************
- * TYPEDEF
- **************************************************************************************/
-
-using ServiceServer = std::shared_ptr<impl::ServiceServerBase>;
 
 /**************************************************************************************
  * TEMPLATE IMPLEMENTATION

@@ -5,16 +5,14 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef INC_107_ARDUINO_CYPHAL_CANARDSUBSCRIPTION_H
-#define INC_107_ARDUINO_CYPHAL_CANARDSUBSCRIPTION_H
+#ifndef INC_107_ARDUINO_CYPHAL_PUBLISHER_BASE_H
+#define INC_107_ARDUINO_CYPHAL_PUBLISHER_BASE_H
 
 /**************************************************************************************
  * INCLUDE
  **************************************************************************************/
 
 #include <memory>
-
-#include "libcanard/canard.h"
 
 /**************************************************************************************
  * NAMESPACE
@@ -27,31 +25,18 @@ namespace impl
  * CLASS DECLARATION
  **************************************************************************************/
 
-class SubscriptionBase
+template <typename T>
+class PublisherBase
 {
 public:
-  SubscriptionBase(CanardTransferKind const transfer_kind)
-  : _transfer_kind{transfer_kind}
-  {
-    _canard_rx_sub.user_reference = static_cast<void *>(this);
-  }
-  virtual ~SubscriptionBase() { }
-  SubscriptionBase(SubscriptionBase const &) = delete;
-  SubscriptionBase(SubscriptionBase &&) = delete;
-  SubscriptionBase &operator=(SubscriptionBase const &) = delete;
-  SubscriptionBase &operator=(SubscriptionBase &&) = delete;
+  PublisherBase() { }
+  virtual ~PublisherBase() { }
+  PublisherBase(PublisherBase const &) = delete;
+  PublisherBase(PublisherBase &&) = delete;
+  PublisherBase &operator=(PublisherBase const &) = delete;
+  PublisherBase &operator=(PublisherBase &&) = delete;
 
-
-  virtual bool onTransferReceived(CanardRxTransfer const & transfer) = 0;
-
-
-  [[nodiscard]] CanardTransferKind canard_transfer_kind() const { return _transfer_kind; }
-  [[nodiscard]] CanardRxSubscription &canard_rx_subscription() { return _canard_rx_sub; }
-
-
-private:
-  CanardTransferKind const _transfer_kind;
-  CanardRxSubscription _canard_rx_sub;
+  virtual bool publish(T const & msg) = 0;
 };
 
 /**************************************************************************************
@@ -64,7 +49,7 @@ private:
  * TYPEDEF
  **************************************************************************************/
 
-using Subscription = std::shared_ptr<impl::SubscriptionBase>;
+template <typename T>
+using Publisher = std::shared_ptr<impl::PublisherBase<T>>;
 
-
-#endif /* INC_107_ARDUINO_CYPHAL_CANARDSUBSCRIPTION_H */
+#endif /* INC_107_ARDUINO_CYPHAL_PUBLISHER_BASE_H */

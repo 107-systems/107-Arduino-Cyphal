@@ -21,10 +21,10 @@
 #include <memory>
 #include <functional>
 
-#include "Publisher.hpp"
-#include "Subscription.hpp"
-#include "ServiceClient.hpp"
-#include "ServiceServer.hpp"
+#include "PublisherBase.hpp"
+#include "SubscriptionBase.h"
+#include "ServiceClientBase.hpp"
+#include "ServiceServerBase.hpp"
 #include "CircularBuffer.hpp"
 
 #include "libo1heap/o1heap.h"
