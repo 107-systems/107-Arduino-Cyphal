@@ -52,7 +52,7 @@ NodeInfo::NodeInfo(Node & node_hdl,
   _node_info_srv = node_hdl.create_service_server<TGetInfoRequest, TGetInfoResponse>(
     TGetInfoRequest::PORT_ID,
     2*1000*1000UL,
-    [this](TGetInfoRequest const & req) -> TGetInfoResponse
+    [this](TGetInfoRequest const &) -> TGetInfoResponse
     {
       TGetInfoResponse rsp = TGetInfoResponse();
       memcpy(&rsp.data, &_node_info, sizeof(uavcan_node_GetInfo_Response_1_0));
