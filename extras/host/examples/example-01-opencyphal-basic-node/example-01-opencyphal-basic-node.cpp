@@ -12,6 +12,9 @@
 #include <cstdlib>
 
 #include <chrono>
+#include <thread>
+#include <atomic>
+#include <iostream>
 
 #include <SocketCAN.h>
 #include <107-Arduino-Cyphal.h>
@@ -87,6 +90,24 @@ int main(int argc, char ** argv)
 
   SocketCAN socket_can("can0", SocketCAN::Protocol::Classic);
 
+  std::atomic<bool> rx_thread_active{false};
+  std::thread rx_thread(
+    [&rx_thread_active, &node_hdl, &socket_can]()
+    {
+      rx_thread_active = true;
+      while (rx_thread_active)
+      {
+        CanardFrame rx_frame;
+        uint8_t payload_buffer[CANARD_MTU_CAN_CLASSIC] = {0};
+
+        int16_t const rc = socket_can.pop(&rx_frame, sizeof(payload_buffer), payload_buffer, CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC, nullptr);
+        if (rc < 0)
+          std::cerr << "socketcanPop failed with error " << strerror(abs(rc)) << std::endl;
+        else if (rc > 0)
+          node_hdl.onCanFrameReceived(rx_frame);
+      }
+    });
+
   /* MAIN LOOP **************************************************************************/
 
   auto prev_heartbeat = millis();
@@ -122,6 +143,9 @@ int main(int argc, char ** argv)
       counter_msg.data.value++;
     }
   }
+
+  rx_thread_active = false;
+  rx_thread.join();
 
   return EXIT_SUCCESS;
 }
