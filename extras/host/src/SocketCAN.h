@@ -1,14 +1,12 @@
 /**
  * This software is distributed under the terms of the MIT License.
- * Copyright (c) 2022 LXRobotics GmbH.
+ * Copyright (c) 2020-2023 LXRobotics.
  * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
- * Contributors: https://github.com/107-systems/libcyphal/graphs/contributors.
+ * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
 #ifndef CYPHAL_PHY_SOCKETCAN_H_
 #define CYPHAL_PHY_SOCKETCAN_H_
-
-#ifdef LIB_CYPHAL_CMAKE_BUILD
 
 /**************************************************************************************
  * INCLUDES
@@ -47,7 +45,5 @@ public:
 private:
   SocketCANFD _fd;
 };
-
-#endif /* LIB_CYPHAL_CMAKE_BUILD */
 
 #endif /* CYPHAL_PHY_SOCKETCAN_H_ */

@@ -2,8 +2,6 @@
 /// Copyright (c) 2020 UAVCAN Development Team.
 /// Authors: Pavel Kirienko <pavel.kirienko@zubax.com>, Tom De Rybel <tom.derybel@robocow.be>
 
-#ifdef LIB_CYPHAL_CMAKE_BUILD
-
 // This is needed to enable the necessary declarations in sys/
 #ifndef _GNU_SOURCE
 #    define _GNU_SOURCE
@@ -292,5 +290,3 @@ int16_t socketcanFilter(const SocketCANFD fd, const size_t num_configs, const So
 
     return (ret < 0) ? getNegatedErrno() : 0;
 }
-
-#endif /* LIB_CYPHAL_CMAKE_BUILD */

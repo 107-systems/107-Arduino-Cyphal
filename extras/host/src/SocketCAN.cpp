@@ -1,11 +1,9 @@
 /**
  * This software is distributed under the terms of the MIT License.
- * Copyright (c) 2022 LXRobotics GmbH.
+ * Copyright (c) 2020-2023 LXRobotics.
  * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
- * Contributors: https://github.com/107-systems/libcyphal/graphs/contributors.
+ * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
-
-#ifdef LIB_CYPHAL_CMAKE_BUILD
 
 /**************************************************************************************
  * INCLUDES
@@ -64,5 +62,3 @@ int16_t SocketCAN::pop(CanardFrame * const      out_frame,
 {
   return socketcanPop(_fd, out_frame, payload_buffer_size, payload_buffer, timeout_usec, loopback);
 }
-
-#endif /* LIB_CYPHAL_CMAKE_BUILD */
