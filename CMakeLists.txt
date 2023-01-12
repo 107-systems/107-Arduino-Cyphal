@@ -10,11 +10,12 @@ add_subdirectory(src/libo1heap)
 add_subdirectory(src/libsocketcan)
 ##########################################################################
 add_library(${PROJECT_NAME} STATIC
-  src/Node.cpp
+  src/host/SocketCAN.cpp
   src/nodeinfo/NodeInfo.cpp
   src/register/util/ListResponse.cpp
   src/register/RegisterBase.cpp
   src/register/RegisterList.cpp
+  src/Node.cpp
 )
 ##########################################################################
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
