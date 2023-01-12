@@ -11,6 +11,7 @@
 
 #include <cstdlib>
 
+#include <mutex>
 #include <chrono>
 #include <thread>
 #include <atomic>
@@ -46,6 +47,7 @@ int main(int argc, char ** argv)
 {
   Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
   Node node_hdl(node_heap.data(), node_heap.size(), micros);
+  std::mutex node_mtx;
 
   Publisher<uavcan::node::Heartbeat_1_0<>> heartbeat_pub = node_hdl.create_publisher<uavcan::node::Heartbeat_1_0<>>
     (uavcan::node::Heartbeat_1_0<>::PORT_ID, 1*1000*1000UL /* = 1 sec in usecs. */);
@@ -92,7 +94,7 @@ int main(int argc, char ** argv)
 
   std::atomic<bool> rx_thread_active{false};
   std::thread rx_thread(
-    [&rx_thread_active, &node_hdl, &socket_can]()
+    [&rx_thread_active, &node_hdl, &node_mtx, &socket_can]()
     {
       rx_thread_active = true;
       while (rx_thread_active)
@@ -103,8 +105,11 @@ int main(int argc, char ** argv)
         int16_t const rc = socket_can.pop(&rx_frame, sizeof(payload_buffer), payload_buffer, CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC, nullptr);
         if (rc < 0)
           std::cerr << "socketcanPop failed with error " << strerror(abs(rc)) << std::endl;
-        else if (rc > 0)
+        else if (rc > 0) {
+          std::lock_guard<std::mutex> lock(node_mtx);
           node_hdl.onCanFrameReceived(rx_frame);
+        }
+
       }
     });
 
@@ -118,7 +123,10 @@ int main(int argc, char ** argv)
 
   for (;;)
   {
-    node_hdl.spinSome([&socket_can] (CanardFrame const & frame) { return (socket_can.push(&frame, 1000*1000UL) > 0); });
+    {
+      std::lock_guard<std::mutex> lock(node_mtx);
+      node_hdl.spinSome([&socket_can] (CanardFrame const & frame) { return (socket_can.push(&frame, 1000*1000UL) > 0); });
+    }
 
     auto const now = millis();
 
