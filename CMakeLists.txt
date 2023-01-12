@@ -3,8 +3,11 @@ cmake_minimum_required(VERSION 3.15)
 ##########################################################################
 project("libcyphalcan++")
 ##########################################################################
+add_definitions(-DLIB_CYPHAL_CMAKE_BUILD)
+##########################################################################
 add_subdirectory(src/libcanard)
 add_subdirectory(src/libo1heap)
+add_subdirectory(src/libsocketcan)
 ##########################################################################
 add_library(${PROJECT_NAME} STATIC
   src/Node.cpp
@@ -20,5 +23,5 @@ endif()
 ##########################################################################
 target_include_directories(${PROJECT_NAME} PUBLIC src)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
-target_link_libraries(${PROJECT_NAME} canard o1head)
+target_link_libraries(${PROJECT_NAME} canard o1head socketcan)
 ##########################################################################
