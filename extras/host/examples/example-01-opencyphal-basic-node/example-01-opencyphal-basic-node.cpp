@@ -17,7 +17,6 @@
 #include <atomic>
 #include <iostream>
 
-#include <SocketCAN.h>
 #include <107-Arduino-Cyphal.h>
 
 /**************************************************************************************

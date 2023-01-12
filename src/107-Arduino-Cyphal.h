@@ -21,4 +21,8 @@
 #include "nodeinfo/NodeInfo.h"
 #include "register/RegisterList.h"
 
+#ifdef CMAKE_HOST_BUILD
+# include <SocketCAN.h>
+#endif
+
 #endif /* _107_ARDUINO_CYPHAL_H_ */
