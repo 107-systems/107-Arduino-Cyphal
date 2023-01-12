@@ -8,5 +8,5 @@ add_library(${LIBSOCKETCAN_TARGET} STATIC
 )
 ##########################################################################
 target_include_directories(${LIBSOCKETCAN_TARGET} PUBLIC .)
-target_include_directories(${LIBSOCKETCAN_TARGET} PRIVATE ../../../../src/libcanard)
+target_include_directories(${LIBSOCKETCAN_TARGET} PRIVATE ../../../src/libcanard)
 ##########################################################################
