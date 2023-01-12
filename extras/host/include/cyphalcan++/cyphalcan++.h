@@ -5,20 +5,14 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef _107_ARDUINO_CYPHAL_H_
-#define _107_ARDUINO_CYPHAL_H_
+#ifndef INC_107_ARDUINO_CYPHAL_CYPHALCAN_H
+#define INC_107_ARDUINO_CYPHAL_CYPHALCAN_H
 
 /**************************************************************************************
  * INCLUDE
  **************************************************************************************/
 
-#include "Node.hpp"
-#include "DSDL_Types.h"
-#include "Publisher.hpp"
-#include "Subscription.hpp"
-#include "ServiceClient.hpp"
-#include "ServiceServer.hpp"
-#include "nodeinfo/NodeInfo.h"
-#include "register/RegisterList.h"
+#include <SocketCAN.h>
+#include <107-Arduino-Cyphal.h>
 
-#endif /* _107_ARDUINO_CYPHAL_H_ */
+#endif /* INC_107_ARDUINO_CYPHAL_CYPHALCAN_H */
