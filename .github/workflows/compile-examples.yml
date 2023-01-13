@@ -79,6 +79,7 @@ jobs:
           platforms: ${{ matrix.board.platforms }}
           libraries: ${{ env.LIBRARIES }}
           enable-deltas-report: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
 
       - name: Save memory usage change report as artifact
