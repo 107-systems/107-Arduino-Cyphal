@@ -19,7 +19,7 @@ yakut compile https://github.com/OpenCyphal/public_regulated_data_types/archive/
 ```
 * Setup `yakut`
 ```bash
-./setup_yakut.sh
+. setup_yakut.sh
 ```
 * Start `yakut`
 ```bash
