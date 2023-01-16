@@ -39,7 +39,7 @@ public:
   { }
   virtual ~Publisher() { }
 
-  virtual bool publish(T const & msg) override;
+  bool publish(T const & msg) override;
 
 private:
   Node & _node_hdl;
