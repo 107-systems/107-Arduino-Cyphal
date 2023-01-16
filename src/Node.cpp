@@ -132,7 +132,7 @@ void Node::processTxQueue(CanFrameTxFunc const tx_func)
       tx_queue_item = const_cast<CanardTxQueueItem *>(canardTxPeek(&_canard_tx_queue)))
   {
     /* Discard the frame if the transmit deadline has expired. */
-    if (tx_queue_item->tx_deadline_usec > _micros_func()) {
+    if (_micros_func() > tx_queue_item->tx_deadline_usec) {
       _canard_hdl.memory_free(&_canard_hdl, canardTxPop(&_canard_tx_queue, tx_queue_item));
       continue;
     }
