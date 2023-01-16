@@ -169,10 +169,14 @@ int main(int argc, char ** argv)
 
 CanardMicrosecond micros()
 {
-  static auto const start = std::chrono::high_resolution_clock::now();
-  auto const now = std::chrono::high_resolution_clock::now();
-  auto const duration_since_app_start_us = std::chrono::duration_cast<std::chrono::microseconds>(now - start);
-  return duration_since_app_start_us.count();
+  ::timespec ts{};
+  if (0 != clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &ts))
+  {
+    std::cerr << "CLOCK_PROCESS_CPUTIME_ID" << std::endl;
+    std::abort();
+  }
+  auto const nsec = (ts.tv_sec * 1000*1000*1000UL) + ts.tv_nsec;
+  return static_cast<CanardMicrosecond>(nsec / 1000UL);
 }
 
 unsigned long millis()
