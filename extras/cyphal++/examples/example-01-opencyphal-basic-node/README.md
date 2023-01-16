@@ -5,6 +5,10 @@
 ```bash
 sudo ./setup_vcan.sh
 ```
+You can observe the frames on the virtual CAN bus using `candump`
+```bash
+candump vcan0
+```
 * Install `yakut`
 ```bash
 python3 -m pip install yakut
