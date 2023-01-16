@@ -135,7 +135,7 @@ int main(int argc, char ** argv)
 
       uavcan::node::Heartbeat_1_0<> msg;
 
-      msg.data.uptime = now;
+      msg.data.uptime = now / 1000;
       msg.data.health.value = uavcan_node_Health_1_0_NOMINAL;
       msg.data.mode.value = uavcan_node_Mode_1_0_OPERATIONAL;
       msg.data.vendor_specific_status_code = 0;
