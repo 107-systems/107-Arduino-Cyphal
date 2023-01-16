@@ -28,7 +28,7 @@ namespace impl
  **************************************************************************************/
 
 template<typename T_REQ, typename T_RSP, typename OnRequestCb>
-class ServiceServer : public ServiceServerBase
+class ServiceServer final : public ServiceServerBase
 {
 public:
   ServiceServer(Node & node_hdl, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, OnRequestCb on_request_cb)

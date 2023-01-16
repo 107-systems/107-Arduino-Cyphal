@@ -28,7 +28,7 @@ namespace impl
  **************************************************************************************/
 
 template<typename T_REQ, typename T_RSP, typename OnResponseCb>
-class ServiceClient : public ServiceClientBase<T_REQ>
+class ServiceClient final : public ServiceClientBase<T_REQ>
 {
 public:
   ServiceClient(Node & node_hdl, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, OnResponseCb on_response_cb)
