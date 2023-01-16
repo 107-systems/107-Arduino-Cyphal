@@ -5,12 +5,6 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-/*
- * Note: Before running this example make sure to set-up a virtual can interface
- * by executing
- *  sudo ./setup_vcan.sh
- */
-
 /**************************************************************************************
  * INCLUDES
  **************************************************************************************/
