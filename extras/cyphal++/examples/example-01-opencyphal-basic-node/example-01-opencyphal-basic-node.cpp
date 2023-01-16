@@ -5,6 +5,12 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
+/*
+ * Note: Before running this example make sure to set-up a virtual can interface
+ * by executing
+ *  sudo ./setup_vcan.sh
+ */
+
 /**************************************************************************************
  * INCLUDES
  **************************************************************************************/
@@ -89,7 +95,7 @@ int main(int argc, char ** argv)
     "107-systems.basic-cyphal-node"
   );
 
-  SocketCAN socket_can("can0", SocketCAN::Protocol::Classic);
+  SocketCAN socket_can("vcan0", SocketCAN::Protocol::Classic);
 
   std::atomic<bool> rx_thread_active{false};
   std::thread rx_thread(
