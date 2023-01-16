@@ -40,7 +40,7 @@ public:
   virtual ~Subscription();
 
 
-  virtual bool onTransferReceived(CanardRxTransfer const & transfer) override;
+  bool onTransferReceived(CanardRxTransfer const & transfer) override;
 
 
 private:
