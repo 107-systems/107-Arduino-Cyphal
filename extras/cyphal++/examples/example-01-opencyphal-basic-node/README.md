@@ -11,7 +11,7 @@ python3 -m pip install yakut
 ```
 * Compile OpenCyphal DSDL
 ```bash
-yakut compile https://github.com/OpenCyphal/public_regulated_data_types/archive/refs/heads/master.zip 
+yakut compile https://github.com/OpenCyphal/public_regulated_data_types/archive/refs/heads/master.zip
 ```
 * Setup `yakut`
 ```bash
@@ -19,7 +19,7 @@ yakut compile https://github.com/OpenCyphal/public_regulated_data_types/archive/
 ```
 * Start `yakut`
 ```bash
-yakut monitor 
+yakut monitor
 ```
 * Use `yakut`
 
