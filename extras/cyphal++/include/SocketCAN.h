@@ -43,7 +43,7 @@ public:
                bool * const             loopback);
 
 private:
-  SocketCANFD _fd;
+  const SocketCANFD _fd;
 };
 
 #endif /* CYPHAL_PHY_SOCKETCAN_H_ */
