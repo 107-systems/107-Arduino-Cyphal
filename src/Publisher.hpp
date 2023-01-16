@@ -28,7 +28,7 @@ namespace impl
  **************************************************************************************/
 
 template <typename T>
-class Publisher : public PublisherBase<T>
+class Publisher final : public PublisherBase<T>
 {
 public:
   Publisher(Node & node_hdl, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec)
