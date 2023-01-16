@@ -29,8 +29,13 @@ public:
     FD = true,
   };
 
-   SocketCAN(std::string const & iface_name, Protocol const protocol);
+  SocketCAN(std::string const & iface_name, Protocol const protocol);
   ~SocketCAN();
+
+  SocketCAN(SocketCAN const &) = delete;
+  SocketCAN(SocketCAN &&) = delete;
+  SocketCAN &operator=(SocketCAN const &) = delete;
+  SocketCAN &operator=(SocketCAN &&) = delete;
 
 
   int16_t filter(const size_t num_configs, const SocketCANFilterConfig * const configs);
