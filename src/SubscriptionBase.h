@@ -45,8 +45,11 @@ public:
   virtual bool onTransferReceived(CanardRxTransfer const & transfer) = 0;
 
 
-  [[nodiscard]] CanardTransferKind canard_transfer_kind() const { return _transfer_kind; }
   [[nodiscard]] CanardRxSubscription &canard_rx_subscription() { return _canard_rx_sub; }
+
+
+protected:
+  [[nodiscard]] CanardTransferKind canard_transfer_kind() const { return _transfer_kind; }
 
 
 private:
