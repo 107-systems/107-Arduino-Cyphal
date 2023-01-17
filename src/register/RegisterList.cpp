@@ -26,7 +26,7 @@ RegisterList::RegisterList(Node & node_hdl)
 : _reg_last{"", Register::TypeTag::Empty, false, false}
 {
   _on_access_request_handler_map[Register::TypeTag::Empty] =
-  [](uavcan::_register::Access_1_0::Request<> const & req, RegisterBase * reg_base_ptr)
+  [](uavcan::_register::Access_1_0::Request<> const &, RegisterBase *)
   {
     uavcan::_register::Access_1_0::Response<> r;
 
@@ -260,21 +260,6 @@ RegisterList::TListResponse RegisterList::onList_1_0_Request_Received(TListReque
 
 RegisterList::TAccessResponse RegisterList::onAccess_1_0_Request_Received(TAccessRequest const & req)
 {
-  /* Initialise with an empty response in case we
-   * can't find a matching register.
-   */
-  TAccessResponse rsp = []()
-  {
-    TAccessResponse r;
-
-    uavcan_register_Value_1_0_select_empty_(&r.data.value);
-    r.data.timestamp.microsecond = 0;
-    r.data._mutable = false;
-    r.data.persistent = false;
-
-    return r;
-  } ();
-
   /* Find a register with the same register name within
    * the register list.
    */
@@ -297,9 +282,10 @@ RegisterList::TAccessResponse RegisterList::onAccess_1_0_Request_Received(TAcces
     /* Determine the actual type of the register. */
     Register::TypeTag const type_tag = reg_base_ptr->type_tag();
     /* Call the appropriate callback handler. */
-    if (_on_access_request_handler_map.count(type_tag) > 0)
-      rsp = _on_access_request_handler_map.at(type_tag)(req, reg_base_ptr);
+    auto const citer = _on_access_request_handler_map.find(type_tag);
+    if (citer != std::end(_on_access_request_handler_map))
+      citer->second(req, reg_base_ptr);
   }
 
-  return rsp;
+  return {};
 }

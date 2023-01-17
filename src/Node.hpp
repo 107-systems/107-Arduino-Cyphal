@@ -16,16 +16,16 @@
 
 #undef max
 #undef min
-#include <tuple>
 #include <array>
 #include <memory>
 #include <functional>
 
-#include "Publisher.hpp"
-#include "Subscription.hpp"
-#include "ServiceClient.hpp"
-#include "ServiceServer.hpp"
+#include "PublisherBase.hpp"
+#include "SubscriptionBase.h"
 #include "CircularBuffer.hpp"
+#include "ServiceClientBase.hpp"
+#include "ServiceServerBase.hpp"
+#include "CanRxQueueItem.hpp"
 
 #include "libo1heap/o1heap.h"
 #include "libcanard/canard.h"
@@ -55,16 +55,17 @@ public:
   Node(uint8_t * heap_ptr,
        size_t const heap_size,
        MicrosFunc const micros_func,
+       CanFrameTxFunc const tx_func,
        CanardNodeID const node_id,
        size_t const tx_queue_capacity,
        size_t const rx_queue_capacity,
        size_t const mtu_bytes);
 
-  Node(uint8_t * heap_ptr, size_t const heap_size, MicrosFunc const micros_func)
-  : Node(heap_ptr, heap_size, micros_func, DEFAULT_NODE_ID, DEFAULT_TX_QUEUE_SIZE, DEFAULT_RX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
+  Node(uint8_t * heap_ptr, size_t const heap_size, MicrosFunc const micros_func, CanFrameTxFunc const tx_func)
+  : Node(heap_ptr, heap_size, micros_func, tx_func, DEFAULT_NODE_ID, DEFAULT_TX_QUEUE_SIZE, DEFAULT_RX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
-  Node(uint8_t * heap_ptr, size_t const heap_size, MicrosFunc const micros_func, CanardNodeID const node_id)
-  : Node(heap_ptr, heap_size, micros_func, node_id, DEFAULT_TX_QUEUE_SIZE, DEFAULT_RX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
+  Node(uint8_t * heap_ptr, size_t const heap_size, MicrosFunc const micros_func, CanFrameTxFunc const tx_func, CanardNodeID const node_id)
+  : Node(heap_ptr, heap_size, micros_func, tx_func, node_id, DEFAULT_TX_QUEUE_SIZE, DEFAULT_RX_QUEUE_SIZE, DEFAULT_MTU_SIZE) { }
 
 
   inline void setNodeId(CanardNodeID const node_id) { _canard_hdl.node_id = node_id; }
@@ -92,7 +93,7 @@ public:
   /* Must be called from the application to process
    * all received CAN frames.
    */
-  void spinSome(CanFrameTxFunc const tx_func);
+  void spinSome();
   /* Must be called from the application upon the
    * reception of a can frame.
    */
@@ -107,15 +108,13 @@ public:
 
 
 private:
-  typedef std::tuple<uint32_t, size_t, std::array<uint8_t, CANARD_MTU_CAN_CLASSIC>, CanardMicrosecond> TCircularBufferCan;
-  typedef std::tuple<uint32_t, size_t, std::array<uint8_t, CANARD_MTU_CAN_FD>,      CanardMicrosecond> TCircularBufferCanFd;
-
-  typedef CircularBuffer<TCircularBufferCan>   CircularBufferCan;
-  typedef CircularBuffer<TCircularBufferCanFd> CircularBufferCanFd;
+  typedef CircularBuffer<CanRxQueueItem<CANARD_MTU_CAN_CLASSIC>> CircularBufferCan;
+  typedef CircularBuffer<CanRxQueueItem<CANARD_MTU_CAN_FD>>      CircularBufferCanFd;
 
   O1HeapInstance * _o1heap_ins;
   CanardInstance _canard_hdl;
   MicrosFunc const _micros_func;
+  CanFrameTxFunc const _tx_func;
   CanardTxQueue _canard_tx_queue;
   std::shared_ptr<CircularBufferBase> _canard_rx_queue;
   size_t const _mtu_bytes;
@@ -124,12 +123,9 @@ private:
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
 
   void processRxQueue();
-  void processTxQueue(CanFrameTxFunc const tx_func);
+  void processTxQueue();
   template<size_t MTU_BYTES>
-  void processRxFrame(uint32_t const extended_can_id,
-                      size_t const payload_size,
-                      std::array<uint8_t, MTU_BYTES> const & payload,
-                      CanardMicrosecond const rx_timestamp_us);
+  void processRxFrame(CanRxQueueItem<MTU_BYTES> const * const rx_queue_item);
 };
 
 /**************************************************************************************

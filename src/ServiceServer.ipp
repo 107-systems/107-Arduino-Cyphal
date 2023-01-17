@@ -38,6 +38,8 @@ bool ServiceServer<T_REQ, T_RSP, OnRequestCb>::onTransferReceived(CanardRxTransf
   std::array<uint8_t, T_RSP::MAX_PAYLOAD_SIZE> payload_buf{};
   size_t const payload_buf_size = rsp.serialize(payload_buf.data());
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wpedantic"
   /* Enqueue the transfer. */
   CanardTransferMetadata const transfer_metadata =
   {
@@ -47,6 +49,7 @@ bool ServiceServer<T_REQ, T_RSP, OnRequestCb>::onTransferReceived(CanardRxTransf
     .remote_node_id = transfer.metadata.remote_node_id,
     .transfer_id    = transfer.metadata.transfer_id,
   };
+#pragma GCC diagnostic pop
 
   /* Serialize transfer into a series of CAN frames */
   return _node_hdl.enqueue_transfer(_tx_timeout_usec,

@@ -12,17 +12,9 @@
  * INCLUDE
  **************************************************************************************/
 
-#include <memory>
-
 #include "SubscriptionBase.h"
 
-#include "libcanard/canard.h"
-
-/**************************************************************************************
- * FORWARD DECLARATION
- **************************************************************************************/
-
-class Node;
+#include "Node.hpp"
 
 /**************************************************************************************
  * NAMESPACE
@@ -36,7 +28,7 @@ namespace impl
  **************************************************************************************/
 
 template <typename T, typename OnReceiveCb>
-class Subscription : public SubscriptionBase
+class Subscription final : public SubscriptionBase
 {
 public:
   Subscription(Node & node_hdl, CanardPortID const port_id, OnReceiveCb const & on_receive_cb)
@@ -48,7 +40,7 @@ public:
   virtual ~Subscription();
 
 
-  virtual bool onTransferReceived(CanardRxTransfer const & transfer) override;
+  bool onTransferReceived(CanardRxTransfer const & transfer) override;
 
 
 private:
@@ -62,12 +54,6 @@ private:
  **************************************************************************************/
 
 } /* impl */
-
-/**************************************************************************************
- * TYPEDEF
- **************************************************************************************/
-
-using Subscription = std::shared_ptr<impl::SubscriptionBase>;
 
 /**************************************************************************************
  * TEMPLATE IMPLEMENTATION

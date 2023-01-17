@@ -12,13 +12,9 @@
  * INCLUDE
  **************************************************************************************/
 
-#include "libcanard/canard.h"
+#include "PublisherBase.hpp"
 
-/**************************************************************************************
- * FORWARD DECLARATION
- **************************************************************************************/
-
-class Node;
+#include "Node.hpp"
 
 /**************************************************************************************
  * NAMESPACE
@@ -32,7 +28,7 @@ namespace impl
  **************************************************************************************/
 
 template <typename T>
-class Publisher
+class Publisher final : public PublisherBase<T>
 {
 public:
   Publisher(Node & node_hdl, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec)
@@ -41,8 +37,9 @@ public:
   , _tx_timeout_usec{tx_timeout_usec}
   , _transfer_id{0}
   { }
+  virtual ~Publisher() { }
 
-  bool publish(T const & msg);
+  bool publish(T const & msg) override;
 
 private:
   Node & _node_hdl;
@@ -56,13 +53,6 @@ private:
  **************************************************************************************/
 
 } /* impl */
-
-/**************************************************************************************
- * TYPEDEF
- **************************************************************************************/
-
-template <typename T>
-using Publisher = std::shared_ptr<impl::Publisher<T>>;
 
 /**************************************************************************************
  * TEMPLATE IMPLEMENTATION

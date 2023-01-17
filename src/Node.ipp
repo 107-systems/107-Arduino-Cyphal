@@ -6,6 +6,15 @@
  */
 
 /**************************************************************************************
+ * INCLUDE
+ **************************************************************************************/
+
+#include "Publisher.hpp"
+#include "Subscription.hpp"
+#include "ServiceClient.hpp"
+#include "ServiceServer.hpp"
+
+/**************************************************************************************
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
@@ -92,20 +101,17 @@ ServiceClient<T_REQ> Node::create_service_client(CanardPortID const port_id,
 }
 
 template<size_t MTU_BYTES>
-void Node::processRxFrame(uint32_t const extended_can_id,
-                          size_t const payload_size,
-                          std::array<uint8_t, MTU_BYTES> const & payload,
-                          CanardMicrosecond const rx_timestamp_us)
+void Node::processRxFrame(CanRxQueueItem<MTU_BYTES> const * const rx_queue_item)
 {
   CanardFrame rx_frame;
-  rx_frame.extended_can_id = extended_can_id;
-  rx_frame.payload_size = payload_size;
-  rx_frame.payload = reinterpret_cast<const void *>(payload.data());
+  rx_frame.extended_can_id = rx_queue_item->extended_can_id();
+  rx_frame.payload_size = rx_queue_item->payload_size();
+  rx_frame.payload = reinterpret_cast<const void *>(rx_queue_item->payload_buf().data());
 
   CanardRxTransfer rx_transfer;
   CanardRxSubscription * rx_subscription;
   int8_t const result = canardRxAccept(&_canard_hdl,
-                                       rx_timestamp_us,
+                                       rx_queue_item->rx_timestamp_usec(),
                                        &rx_frame,
                                        0, /* redundant_transport_index */
                                        &rx_transfer,

@@ -5,11 +5,16 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
+#ifndef INC_107_ARDUINO_CYPHAL_SERVICE_SERVER_BASE_HPP
+#define INC_107_ARDUINO_CYPHAL_SERVICE_SERVER_BASE_HPP
+
 /**************************************************************************************
  * INCLUDE
  **************************************************************************************/
 
-#include <array>
+#include <memory>
+
+#include "SubscriptionBase.h"
 
 /**************************************************************************************
  * NAMESPACE
@@ -19,37 +24,25 @@ namespace impl
 {
 
 /**************************************************************************************
- * PUBLIC MEMBER FUNCTIONS
+ * CLASS DECLARATION
  **************************************************************************************/
 
-template<typename T>
-bool Publisher<T>::publish(T const & msg)
+class ServiceServerBase : public SubscriptionBase
 {
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpedantic"
-  CanardTransferMetadata const transfer_metadata =
-  {
-    .priority       = CanardPriorityNominal,
-    .transfer_kind  = CanardTransferKindMessage,
-    .port_id        = _port_id,
-    .remote_node_id = CANARD_NODE_ID_UNSET,
-    .transfer_id    = _transfer_id++,
-  };
-#pragma GCC diagnostic pop
-
-  /* Serialize message into payload buffer. */
-  std::array<uint8_t, T::MAX_PAYLOAD_SIZE> payload_buf{};
-  size_t const payload_buf_size = msg.serialize(payload_buf.data());
-
-  /* Serialize transfer into a series of CAN frames */
-  return _node_hdl.enqueue_transfer(_tx_timeout_usec,
-                                    &transfer_metadata,
-                                    payload_buf_size,
-                                    payload_buf.data());
-}
+public:
+  ServiceServerBase() : SubscriptionBase{CanardTransferKindRequest} { }
+};
 
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
 
 } /* impl */
+
+/**************************************************************************************
+ * TYPEDEF
+ **************************************************************************************/
+
+using ServiceServer = std::shared_ptr<impl::ServiceServerBase>;
+
+#endif /* INC_107_ARDUINO_CYPHAL_SERVICE_SERVER_BASE_HPP */

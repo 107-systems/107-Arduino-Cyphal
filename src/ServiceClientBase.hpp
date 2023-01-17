@@ -5,11 +5,16 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
+#ifndef INC_107_ARDUINO_CYPHAL_SERVICE_CLIENT_BASE_HPP
+#define INC_107_ARDUINO_CYPHAL_SERVICE_CLIENT_BASE_HPP
+
 /**************************************************************************************
  * INCLUDE
  **************************************************************************************/
 
-#include <array>
+#include <memory>
+
+#include "SubscriptionBase.h"
 
 /**************************************************************************************
  * NAMESPACE
@@ -19,37 +24,29 @@ namespace impl
 {
 
 /**************************************************************************************
- * PUBLIC MEMBER FUNCTIONS
+ * CLASS DECLARATION
  **************************************************************************************/
 
-template<typename T>
-bool Publisher<T>::publish(T const & msg)
+template <typename T_REQ>
+class ServiceClientBase : public SubscriptionBase
 {
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wpedantic"
-  CanardTransferMetadata const transfer_metadata =
-  {
-    .priority       = CanardPriorityNominal,
-    .transfer_kind  = CanardTransferKindMessage,
-    .port_id        = _port_id,
-    .remote_node_id = CANARD_NODE_ID_UNSET,
-    .transfer_id    = _transfer_id++,
-  };
-#pragma GCC diagnostic pop
-
-  /* Serialize message into payload buffer. */
-  std::array<uint8_t, T::MAX_PAYLOAD_SIZE> payload_buf{};
-  size_t const payload_buf_size = msg.serialize(payload_buf.data());
-
-  /* Serialize transfer into a series of CAN frames */
-  return _node_hdl.enqueue_transfer(_tx_timeout_usec,
-                                    &transfer_metadata,
-                                    payload_buf_size,
-                                    payload_buf.data());
-}
+public:
+  ServiceClientBase() : SubscriptionBase{CanardTransferKindResponse} { }
+  virtual ~ServiceClientBase() { }
+  virtual bool request(CanardNodeID const remote_node_id, T_REQ const & req) = 0;
+};
 
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
 
 } /* impl */
+
+/**************************************************************************************
+ * TYPEDEF
+ **************************************************************************************/
+
+template <typename T_REQ>
+using ServiceClient = std::shared_ptr<impl::ServiceClientBase<T_REQ>>;
+
+#endif /* INC_107_ARDUINO_CYPHAL_SERVICE_CLIENT_BASE_HPP */

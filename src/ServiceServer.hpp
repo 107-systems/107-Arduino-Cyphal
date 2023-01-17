@@ -12,17 +12,9 @@
  * INCLUDE
  **************************************************************************************/
 
-#include <memory>
+#include "ServiceServerBase.hpp"
 
-#include "SubscriptionBase.h"
-
-#include "libcanard/canard.h"
-
-/**************************************************************************************
- * FORWARD DECLARATION
- **************************************************************************************/
-
-class Node;
+#include "Node.hpp"
 
 /**************************************************************************************
  * NAMESPACE
@@ -35,14 +27,8 @@ namespace impl
  * CLASS DECLARATION
  **************************************************************************************/
 
-class ServiceServerBase : public SubscriptionBase
-{
-public:
-  ServiceServerBase() : SubscriptionBase{CanardTransferKindRequest} { }
-};
-
 template<typename T_REQ, typename T_RSP, typename OnRequestCb>
-class ServiceServer : public ServiceServerBase
+class ServiceServer final : public ServiceServerBase
 {
 public:
   ServiceServer(Node & node_hdl, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, OnRequestCb on_request_cb)
@@ -54,7 +40,7 @@ public:
   virtual ~ServiceServer();
 
 
-  virtual bool onTransferReceived(CanardRxTransfer const & transfer) override;
+  bool onTransferReceived(CanardRxTransfer const & transfer) override;
 
 
 private:
@@ -69,12 +55,6 @@ private:
  **************************************************************************************/
 
 } /* impl */
-
-/**************************************************************************************
- * TYPEDEF
- **************************************************************************************/
-
-using ServiceServer = std::shared_ptr<impl::ServiceServerBase>;
 
 /**************************************************************************************
  * TEMPLATE IMPLEMENTATION

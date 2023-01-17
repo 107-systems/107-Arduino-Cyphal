@@ -14,6 +14,7 @@
 
 #include <107-Arduino-Cyphal.h>
 #include <107-Arduino-MCP2515.h>
+#include <107-Arduino-CriticalSection.h>
 
 /**************************************************************************************
  * NAMESPACE
@@ -40,7 +41,7 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
                        nullptr);
 
 Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-Node node_hdl(node_heap.data(), node_heap.size(), micros);
+Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
 
 Publisher<Heartbeat_1_0<>> heartbeat_pub = node_hdl.create_publisher<Heartbeat_1_0<>>(Heartbeat_1_0<>::PORT_ID, 1*1000*1000UL /* = 1 sec in usecs. */);
 
@@ -80,7 +81,10 @@ void loop()
 {
   /* Process all pending OpenCyphal actions.
    */
-  node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+  {
+    CriticalSection crit_sec;
+    node_hdl.spinSome();
+  }
 
   /* Update the heartbeat object */
   hb_msg.data.uptime = millis() / 1000;

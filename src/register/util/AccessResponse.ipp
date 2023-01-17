@@ -6,6 +6,14 @@
  */
 
 /**************************************************************************************
+ * INCLUDES
+ **************************************************************************************/
+
+#undef max
+#undef min
+#include <algorithm>
+
+/**************************************************************************************
  * FUNCTION DECLARATION
  **************************************************************************************/
 
@@ -35,7 +43,7 @@ uavcan::_register::Access_1_0::Response<> AccessResponse::create(RegisterDerived
 template<> inline uavcan_register_Value_1_0 toRegisterValue<std::string>(std::string const & val)
 {
   uavcan_register_Value_1_0 reg_val;
-  reg_val._string.value.count = std::min(val.length(), uavcan_register_Name_1_0_name_ARRAY_CAPACITY_);
+  reg_val._string.value.count = std::min(static_cast<size_t>(val.length()), static_cast<size_t>(uavcan_register_Name_1_0_name_ARRAY_CAPACITY_));
   memcpy(reg_val._string.value.elements, val.c_str(), reg_val._string.value.count);
   uavcan_register_Value_1_0_select_string_(&reg_val);
   return reg_val;

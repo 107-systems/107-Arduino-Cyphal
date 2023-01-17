@@ -12,6 +12,8 @@
  * INCLUDE
  **************************************************************************************/
 
+#include <memory>
+
 #include "libcanard/canard.h"
 
 /**************************************************************************************
@@ -43,8 +45,11 @@ public:
   virtual bool onTransferReceived(CanardRxTransfer const & transfer) = 0;
 
 
-  [[nodiscard]] CanardTransferKind canard_transfer_kind() const { return _transfer_kind; }
   [[nodiscard]] CanardRxSubscription &canard_rx_subscription() { return _canard_rx_sub; }
+
+
+protected:
+  [[nodiscard]] CanardTransferKind canard_transfer_kind() const { return _transfer_kind; }
 
 
 private:
@@ -57,5 +62,12 @@ private:
  **************************************************************************************/
 
 } /* impl */
+
+/**************************************************************************************
+ * TYPEDEF
+ **************************************************************************************/
+
+using Subscription = std::shared_ptr<impl::SubscriptionBase>;
+
 
 #endif /* INC_107_ARDUINO_CYPHAL_CANARDSUBSCRIPTION_H */

@@ -123,7 +123,7 @@ ArduinoMCP2515 mcp2515([]()
                        nullptr);
 
 Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-Node node_hdl(node_heap.data(), node_heap.size(), micros, OPEN_CYPHAL_NODE_ID);
+Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); }, OPEN_CYPHAL_NODE_ID);
 
 Publisher<Heartbeat_1_0<>> heartbeat_pub = node_hdl.create_publisher<Heartbeat_1_0<>>(Heartbeat_1_0<>::PORT_ID, 1*1000*1000UL /* = 1 sec in usecs. */);
 Publisher<DistanceMessageType> tof_pub = node_hdl.create_publisher<DistanceMessageType>(OPEN_CYPHAL_ID_DISTANCE_DATA, 1*1000*1000UL /* = 1 sec in usecs. */);
@@ -161,10 +161,10 @@ DEBUG_INSTANCE(120, Serial);
 
 /* REGISTER ***************************************************************************/
 
-static RegisterNatural8  reg_rw_uavcan_node_id          ("uavcan.node.id",           Register::Access::ReadWrite, Register::Persistent::No, OPEN_CYPHAL_NODE_ID, [&node_hdl](uint8_t const & val) { node_hdl.setNodeId(val); });
-static RegisterString    reg_ro_uavcan_node_description ("uavcan.node.description",  Register::Access::ReadWrite, Register::Persistent::No, "OpenCyphal-ToF-Distance-Sensor-Node");
-static RegisterNatural16 reg_ro_uavcan_pub_distance_id  ("uavcan.pub.distance.id",   Register::Access::ReadOnly,  Register::Persistent::No, OPEN_CYPHAL_ID_DISTANCE_DATA);
-static RegisterString    reg_ro_uavcan_pub_distance_type("uavcan.pub.distance.type", Register::Access::ReadOnly,  Register::Persistent::No, "uavcan.primitive.scalar.Real32.1.0");
+static RegisterNatural8  reg_rw_cyphal_node_id          ("cyphal.node.id",           Register::Access::ReadWrite, Register::Persistent::No, OPEN_CYPHAL_NODE_ID, [&node_hdl](uint8_t const & val) { node_hdl.setNodeId(val); });
+static RegisterString    reg_ro_cyphal_node_description ("cyphal.node.description",  Register::Access::ReadWrite, Register::Persistent::No, "OpenCyphal-ToF-Distance-Sensor-Node");
+static RegisterNatural16 reg_ro_cyphal_pub_distance_id  ("cyphal.pub.distance.id",   Register::Access::ReadOnly,  Register::Persistent::No, OPEN_CYPHAL_ID_DISTANCE_DATA);
+static RegisterString    reg_ro_cyphal_pub_distance_type("cyphal.pub.distance.type", Register::Access::ReadOnly,  Register::Persistent::No, "cyphal.primitive.scalar.Real32.1.0");
 static RegisterList      reg_list(node_hdl);
 
 /* NODE INFO **************************************************************************/
@@ -234,10 +234,10 @@ void setup()
 
   /* Register callbacks for node info and register api.
    */
-  reg_list.add(reg_rw_uavcan_node_id);
-  reg_list.add(reg_ro_uavcan_node_description);
-  reg_list.add(reg_ro_uavcan_pub_distance_id);
-  reg_list.add(reg_ro_uavcan_pub_distance_type);
+  reg_list.add(reg_rw_cyphal_node_id);
+  reg_list.add(reg_ro_cyphal_node_description);
+  reg_list.add(reg_ro_cyphal_pub_distance_id);
+  reg_list.add(reg_ro_cyphal_pub_distance_type);
 }
 
 void loop()
@@ -246,7 +246,7 @@ void loop()
    */
   {
     CriticalSection crit_sec;
-    node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+    node_hdl.spinSome();
   }
 
   /* Handle actions common to all states.

@@ -48,7 +48,7 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
                        nullptr);
 
 Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-Node node_hdl(node_heap.data(), node_heap.size(), micros);
+Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
 
 Subscription heartbeat_subscription =
   node_hdl.create_subscription<Heartbeat_1_0<>>(Heartbeat_1_0<>::PORT_ID, CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC, onHeartbeat_1_0_Received);
@@ -83,7 +83,7 @@ void loop()
    */
   {
     CriticalSection crit_sec;
-    node_hdl.spinSome([] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+    node_hdl.spinSome();
   }
 }
 
