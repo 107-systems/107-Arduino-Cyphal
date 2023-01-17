@@ -282,8 +282,9 @@ RegisterList::TAccessResponse RegisterList::onAccess_1_0_Request_Received(TAcces
     /* Determine the actual type of the register. */
     Register::TypeTag const type_tag = reg_base_ptr->type_tag();
     /* Call the appropriate callback handler. */
-    if (_on_access_request_handler_map.count(type_tag) > 0)
-      return _on_access_request_handler_map.at(type_tag)(req, reg_base_ptr);
+    auto const citer = _on_access_request_handler_map.find(type_tag);
+    if (citer != std::end(_on_access_request_handler_map))
+      citer->second(req, reg_base_ptr);
   }
 
   /* Initialise with an empty response in case we
