@@ -287,20 +287,5 @@ RegisterList::TAccessResponse RegisterList::onAccess_1_0_Request_Received(TAcces
       citer->second(req, reg_base_ptr);
   }
 
-  /* Initialise with an empty response in case we
-   * can't find a matching register.
-   */
-  TAccessResponse const EMPTY_RESPONSE = []()
-  {
-    TAccessResponse r;
-
-    uavcan_register_Value_1_0_select_empty_(&r.data.value);
-    r.data.timestamp.microsecond = 0;
-    r.data._mutable = false;
-    r.data.persistent = false;
-
-    return r;
-  } ();
-
-  return EMPTY_RESPONSE;
+  return {};
 }
