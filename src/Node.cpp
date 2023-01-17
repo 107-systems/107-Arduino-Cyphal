@@ -49,21 +49,15 @@ void Node::spinSome()
 
 void Node::onCanFrameReceived(CanardFrame const & frame)
 {
-  size_t const payload_size = frame.payload_size;
-  uint32_t const extended_can_id = frame.extended_can_id;
-  CanardMicrosecond const rx_timestamp_us = _micros_func();
-
   if (_mtu_bytes == CANARD_MTU_CAN_CLASSIC)
   {
-    std::array<uint8_t, CANARD_MTU_CAN_CLASSIC> payload{};
-    memcpy(payload.data(), frame.payload, std::min(payload_size, payload.size()));
-    static_cast<CircularBufferCan *>(_canard_rx_queue.get())->enqueue(std::make_tuple(extended_can_id, payload_size, payload, rx_timestamp_us));
+    CanRxQueueItem<CANARD_MTU_CAN_CLASSIC> const rx_queue_item(&frame, _micros_func());
+    static_cast<CircularBufferCan *>(_canard_rx_queue.get())->enqueue(rx_queue_item);
   }
   else
   {
-    std::array<uint8_t, CANARD_MTU_CAN_FD> payload{};
-    memcpy(payload.data(), frame.payload, std::min(payload_size, payload.size()));
-    static_cast<CircularBufferCanFd *>(_canard_rx_queue.get())->enqueue(std::make_tuple(extended_can_id, payload_size, payload, rx_timestamp_us));
+    CanRxQueueItem<CANARD_MTU_CAN_FD> const rx_queue_item(&frame, _micros_func());
+    static_cast<CircularBufferCanFd *>(_canard_rx_queue.get())->enqueue(rx_queue_item);
   }
 }
 
@@ -112,17 +106,17 @@ void Node::processRxQueue()
   {
     if (_mtu_bytes == CANARD_MTU_CAN_CLASSIC)
     {
-      const auto [extended_can_id, payload_size, payload, rx_timestamp_us] =
+      CanRxQueueItem<CANARD_MTU_CAN_CLASSIC> const rx_queue_item =
         static_cast<CircularBufferCan *>(_canard_rx_queue.get())->dequeue();
 
-      processRxFrame(extended_can_id, payload_size, payload, rx_timestamp_us);
+      processRxFrame(&rx_queue_item);
     }
     else
     {
-      const auto [extended_can_id, payload_size, payload, rx_timestamp_us] =
+      CanRxQueueItem<CANARD_MTU_CAN_FD> const rx_queue_item =
         static_cast<CircularBufferCanFd *>(_canard_rx_queue.get())->dequeue();
 
-      processRxFrame(extended_can_id, payload_size, payload, rx_timestamp_us);
+      processRxFrame(&rx_queue_item);
     }
   }
 }

@@ -16,16 +16,16 @@
 
 #undef max
 #undef min
-#include <tuple>
 #include <array>
 #include <memory>
 #include <functional>
 
 #include "PublisherBase.hpp"
 #include "SubscriptionBase.h"
+#include "CircularBuffer.hpp"
 #include "ServiceClientBase.hpp"
 #include "ServiceServerBase.hpp"
-#include "CircularBuffer.hpp"
+#include "CanRxQueueItem.hpp"
 
 #include "libo1heap/o1heap.h"
 #include "libcanard/canard.h"
@@ -108,11 +108,8 @@ public:
 
 
 private:
-  typedef std::tuple<uint32_t, size_t, std::array<uint8_t, CANARD_MTU_CAN_CLASSIC>, CanardMicrosecond> TCircularBufferCan;
-  typedef std::tuple<uint32_t, size_t, std::array<uint8_t, CANARD_MTU_CAN_FD>,      CanardMicrosecond> TCircularBufferCanFd;
-
-  typedef CircularBuffer<TCircularBufferCan>   CircularBufferCan;
-  typedef CircularBuffer<TCircularBufferCanFd> CircularBufferCanFd;
+  typedef CircularBuffer<CanRxQueueItem<CANARD_MTU_CAN_CLASSIC>> CircularBufferCan;
+  typedef CircularBuffer<CanRxQueueItem<CANARD_MTU_CAN_FD>>      CircularBufferCanFd;
 
   O1HeapInstance * _o1heap_ins;
   CanardInstance _canard_hdl;
@@ -128,10 +125,7 @@ private:
   void processRxQueue();
   void processTxQueue();
   template<size_t MTU_BYTES>
-  void processRxFrame(uint32_t const extended_can_id,
-                      size_t const payload_size,
-                      std::array<uint8_t, MTU_BYTES> const & payload,
-                      CanardMicrosecond const rx_timestamp_us);
+  void processRxFrame(CanRxQueueItem<MTU_BYTES> const * const rx_queue_item);
 };
 
 /**************************************************************************************
