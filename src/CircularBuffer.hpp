@@ -29,10 +29,6 @@ public:
   CircularBufferBase(CircularBufferBase &&) = delete;
   CircularBufferBase &operator=(CircularBufferBase const &) = delete;
   CircularBufferBase &operator=(CircularBufferBase &&) = delete;
-
-  virtual size_t available() const = 0;
-  virtual bool isFull() const = 0;
-  virtual bool isEmpty() const = 0;
 };
 
 template <typename T>
@@ -44,18 +40,17 @@ public:
 
 
   void enqueue(T const & val);
-  T dequeue();
+  T * peek();
+  void pop();
 
-
-  size_t available() const override { return _num_elems; }
-  bool isFull() const override { return (_num_elems == _size); }
-  bool isEmpty() const override { return (_num_elems == 0); }
 
 
 private:
   std::unique_ptr<T> _buffer;
   size_t _size, _head, _tail, _num_elems;
 
+  bool isFull() const { return (_num_elems == _size); }
+  bool isEmpty() const { return (_num_elems == 0); }
   size_t nextIndex(size_t const index) { return ((index + 1) % _size); }
 };
 

@@ -102,22 +102,21 @@ void Node::o1heap_free(CanardInstance * const ins, void * const pointer)
 
 void Node::processRxQueue()
 {
-  while (!_canard_rx_queue->isEmpty())
+  if (_mtu_bytes == CANARD_MTU_CAN_CLASSIC)
   {
-    if (_mtu_bytes == CANARD_MTU_CAN_CLASSIC)
-    {
-      CanRxQueueItem<CANARD_MTU_CAN_CLASSIC> const rx_queue_item =
-        static_cast<CircularBufferCan *>(_canard_rx_queue.get())->dequeue();
-
-      processRxFrame(&rx_queue_item);
-    }
-    else
-    {
-      CanRxQueueItem<CANARD_MTU_CAN_FD> const rx_queue_item =
-        static_cast<CircularBufferCanFd *>(_canard_rx_queue.get())->dequeue();
-
-      processRxFrame(&rx_queue_item);
-    }
+    CircularBufferCan * can_rx_queue_ptr = static_cast<CircularBufferCan *>(_canard_rx_queue.get());
+    CanRxQueueItem<CANARD_MTU_CAN_CLASSIC> const * rx_queue_item = can_rx_queue_ptr->peek();
+    if (!rx_queue_item) return;
+    processRxFrame(rx_queue_item);
+    can_rx_queue_ptr->pop();
+  }
+  else
+  {
+    CircularBufferCanFd * canfd_rx_queue_ptr = static_cast<CircularBufferCanFd *>(_canard_rx_queue.get());
+    CanRxQueueItem<CANARD_MTU_CAN_FD> const * rx_queue_item = canfd_rx_queue_ptr->peek();
+    if (!rx_queue_item) return;
+    processRxFrame(rx_queue_item);
+    canfd_rx_queue_ptr->pop();
   }
 }
 

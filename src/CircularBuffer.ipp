@@ -44,12 +44,19 @@ void CircularBuffer<T>::enqueue(T const & val)
 }
 
 template <typename T>
-T CircularBuffer<T>::dequeue()
+T * CircularBuffer<T>::peek()
 {
-  if (isEmpty()) return T{};
+  if (isEmpty()) return nullptr;
 
-  T const val = _buffer.get()[_tail];
+  T * val_ptr = &(_buffer.get()[_tail]);
+  return val_ptr;
+}
+
+template <typename T>
+void CircularBuffer<T>::pop()
+{
+  if (isEmpty()) return;
+
   _tail = nextIndex(_tail);
   _num_elems--;
-  return val;
 }
