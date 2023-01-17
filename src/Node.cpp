@@ -20,6 +20,7 @@
 Node::Node(uint8_t * heap_ptr,
            size_t const heap_size,
            MicrosFunc const micros_func,
+           CanFrameTxFunc const tx_func,
            CanardNodeID const node_id,
            size_t const tx_queue_capacity,
            size_t const rx_queue_capacity,
@@ -27,6 +28,7 @@ Node::Node(uint8_t * heap_ptr,
 : _o1heap_ins{o1heapInit(heap_ptr, heap_size)}
 , _canard_hdl{canardInit(Node::o1heap_allocate, Node::o1heap_free)}
 , _micros_func{micros_func}
+, _tx_func{tx_func}
 , _canard_tx_queue{canardTxInit(tx_queue_capacity, mtu_bytes)}
 , _canard_rx_queue{(_mtu_bytes == CANARD_MTU_CAN_CLASSIC) ? static_cast<CircularBufferBase *>(new CircularBufferCan(rx_queue_capacity)) : static_cast<CircularBufferBase *>(new CircularBufferCanFd(rx_queue_capacity))}
 , _mtu_bytes{mtu_bytes}
@@ -39,10 +41,10 @@ Node::Node(uint8_t * heap_ptr,
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-void Node::spinSome(CanFrameTxFunc const tx_func)
+void Node::spinSome()
 {
   processRxQueue();
-  processTxQueue(tx_func);
+  processTxQueue();
 }
 
 void Node::onCanFrameReceived(CanardFrame const & frame)
@@ -125,7 +127,7 @@ void Node::processRxQueue()
   }
 }
 
-void Node::processTxQueue(CanFrameTxFunc const tx_func)
+void Node::processTxQueue()
 {
   for(CanardTxQueueItem * tx_queue_item = const_cast<CanardTxQueueItem *>(canardTxPeek(&_canard_tx_queue));
       tx_queue_item != nullptr;
@@ -138,7 +140,7 @@ void Node::processTxQueue(CanFrameTxFunc const tx_func)
     }
 
     /* Attempt to transmit the frame via CAN. */
-    if (tx_func(tx_queue_item->frame)) {
+    if (_tx_func(tx_queue_item->frame)) {
       _canard_hdl.memory_free(&_canard_hdl, canardTxPop(&_canard_tx_queue, tx_queue_item));
       continue;
     }

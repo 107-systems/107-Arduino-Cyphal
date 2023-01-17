@@ -44,8 +44,10 @@ extern "C" unsigned long millis();
 
 int main(int argc, char ** argv)
 {
+  SocketCAN socket_can("vcan0", SocketCAN::Protocol::Classic);
+
   Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-  Node node_hdl(node_heap.data(), node_heap.size(), micros);
+  Node node_hdl(node_heap.data(), node_heap.size(), micros, [&socket_can] (CanardFrame const & frame) { return (socket_can.push(&frame, 1000*1000UL) > 0); });
   std::mutex node_mtx;
 
   Publisher<uavcan::node::Heartbeat_1_0<>> heartbeat_pub = node_hdl.create_publisher<uavcan::node::Heartbeat_1_0<>>
@@ -89,8 +91,6 @@ int main(int argc, char ** argv)
     "107-systems.basic-cyphal-node"
   );
 
-  SocketCAN socket_can("vcan0", SocketCAN::Protocol::Classic);
-
   std::atomic<bool> rx_thread_active{false};
   std::thread rx_thread(
     [&rx_thread_active, &node_hdl, &node_mtx, &socket_can]()
@@ -124,7 +124,7 @@ int main(int argc, char ** argv)
   {
     {
       std::lock_guard<std::mutex> lock(node_mtx);
-      node_hdl.spinSome([&socket_can] (CanardFrame const & frame) { return (socket_can.push(&frame, 1000*1000UL) > 0); });
+      node_hdl.spinSome();
     }
 
     auto const now = millis();
