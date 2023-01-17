@@ -30,7 +30,7 @@ Node::Node(uint8_t * heap_ptr,
 , _micros_func{micros_func}
 , _tx_func{tx_func}
 , _canard_tx_queue{canardTxInit(tx_queue_capacity, mtu_bytes)}
-, _canard_rx_queue{(_mtu_bytes == CANARD_MTU_CAN_CLASSIC) ? static_cast<CircularBufferBase *>(new CircularBufferCan(rx_queue_capacity)) : static_cast<CircularBufferBase *>(new CircularBufferCanFd(rx_queue_capacity))}
+, _canard_rx_queue{(mtu_bytes == CANARD_MTU_CAN_CLASSIC) ? static_cast<CircularBufferBase *>(new CircularBufferCan(rx_queue_capacity)) : static_cast<CircularBufferBase *>(new CircularBufferCanFd(rx_queue_capacity))}
 , _mtu_bytes{mtu_bytes}
 {
   _canard_hdl.node_id = node_id;
