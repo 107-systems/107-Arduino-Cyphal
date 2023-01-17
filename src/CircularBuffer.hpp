@@ -15,6 +15,7 @@
 #include <cstdlib>
 
 #include <array>
+#include <memory>
 
 /**************************************************************************************
  * CLASS DECLARATION
