@@ -3,7 +3,7 @@
 ================================================
 * Setup a virtual CAN interface (`vcan0`)
 ```bash
-sudo . setup_vcan.sh
+. setup_vcan.sh
 ```
 You can observe the frames on the virtual CAN bus using `candump`
 ```bash
