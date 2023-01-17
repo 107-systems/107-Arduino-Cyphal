@@ -161,10 +161,10 @@ DEBUG_INSTANCE(120, Serial);
 
 /* REGISTER ***************************************************************************/
 
-static RegisterNatural8  reg_rw_uavcan_node_id          ("uavcan.node.id",           Register::Access::ReadWrite, Register::Persistent::No, OPEN_CYPHAL_NODE_ID, [&node_hdl](uint8_t const & val) { node_hdl.setNodeId(val); });
-static RegisterString    reg_ro_uavcan_node_description ("uavcan.node.description",  Register::Access::ReadWrite, Register::Persistent::No, "OpenCyphal-ToF-Distance-Sensor-Node");
-static RegisterNatural16 reg_ro_uavcan_pub_distance_id  ("uavcan.pub.distance.id",   Register::Access::ReadOnly,  Register::Persistent::No, OPEN_CYPHAL_ID_DISTANCE_DATA);
-static RegisterString    reg_ro_uavcan_pub_distance_type("uavcan.pub.distance.type", Register::Access::ReadOnly,  Register::Persistent::No, "uavcan.primitive.scalar.Real32.1.0");
+static RegisterNatural8  reg_rw_cyphal_node_id          ("cyphal.node.id",           Register::Access::ReadWrite, Register::Persistent::No, OPEN_CYPHAL_NODE_ID, [&node_hdl](uint8_t const & val) { node_hdl.setNodeId(val); });
+static RegisterString    reg_ro_cyphal_node_description ("cyphal.node.description",  Register::Access::ReadWrite, Register::Persistent::No, "OpenCyphal-ToF-Distance-Sensor-Node");
+static RegisterNatural16 reg_ro_cyphal_pub_distance_id  ("cyphal.pub.distance.id",   Register::Access::ReadOnly,  Register::Persistent::No, OPEN_CYPHAL_ID_DISTANCE_DATA);
+static RegisterString    reg_ro_cyphal_pub_distance_type("cyphal.pub.distance.type", Register::Access::ReadOnly,  Register::Persistent::No, "cyphal.primitive.scalar.Real32.1.0");
 static RegisterList      reg_list(node_hdl);
 
 /* NODE INFO **************************************************************************/
@@ -234,10 +234,10 @@ void setup()
 
   /* Register callbacks for node info and register api.
    */
-  reg_list.add(reg_rw_uavcan_node_id);
-  reg_list.add(reg_ro_uavcan_node_description);
-  reg_list.add(reg_ro_uavcan_pub_distance_id);
-  reg_list.add(reg_ro_uavcan_pub_distance_type);
+  reg_list.add(reg_rw_cyphal_node_id);
+  reg_list.add(reg_ro_cyphal_node_description);
+  reg_list.add(reg_ro_cyphal_pub_distance_id);
+  reg_list.add(reg_ro_cyphal_pub_distance_type);
 }
 
 void loop()
