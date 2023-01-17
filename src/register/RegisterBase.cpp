@@ -11,6 +11,8 @@
 
 #include "RegisterBase.h"
 
+#include <cstring>
+
 #undef max
 #undef min
 #include <algorithm>
