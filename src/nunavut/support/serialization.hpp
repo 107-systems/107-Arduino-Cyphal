@@ -18,6 +18,9 @@
 #ifndef NUNAVUT_SUPPORT_SERIALIZATION_HPP_INCLUDED
 #define NUNAVUT_SUPPORT_SERIALIZATION_HPP_INCLUDED
 
+#define NUNAVUT_ASSERT(expr) assert(expr)
+
+
 static_assert(__cplusplus >= 201100L,
               "Unsupported language: ISO C11, C++11, or a newer version of either is required.");
 

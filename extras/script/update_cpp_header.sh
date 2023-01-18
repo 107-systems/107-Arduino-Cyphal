@@ -40,7 +40,7 @@ find . -type f -exec sed -i 's/<uavcan/<types\/uavcan/g' {} +
 
 echo "Fixing definition of NUNAVUT_ASSERT"
 cd $NUNAVUT_DIR/support
-sed -i -- 's/#define NUNAVUT_SUPPORT_SERIALIZATION_H_INCLUDED/#define NUNAVUT_SUPPORT_SERIALIZATION_H_INCLUDED\n\n#define NUNAVUT_ASSERT(expr) assert(expr)\n/g' serialization.h
+sed -i -- 's/#define NUNAVUT_SUPPORT_SERIALIZATION_HPP_INCLUDED/#define NUNAVUT_SUPPORT_SERIALIZATION_HPP_INCLUDED\n\n#define NUNAVUT_ASSERT(expr) assert(expr)\n/g' serialization.hpp
 
 
 echo "Auto-generate DSDL_Types.h.impl which contains a list of all generated files"
