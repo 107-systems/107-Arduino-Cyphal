@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/pnp/cluster/391.RequestVote.1.0.dsdl
-// Generated at:  2023-01-18 06:06:50.372679 UTC
+// Generated at:  2023-01-18 06:33:55.805883 UTC
 // Is deprecated: no
 // Fixed port-ID: 391
 // Full name:     uavcan.pnp.cluster.RequestVote

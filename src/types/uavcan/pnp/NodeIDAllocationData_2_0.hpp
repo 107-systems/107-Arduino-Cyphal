@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/pnp/8165.NodeIDAllocationData.2.0.dsdl
-// Generated at:  2023-01-18 06:06:50.344200 UTC
+// Generated at:  2023-01-18 06:33:55.777834 UTC
 // Is deprecated: no
 // Fixed port-ID: 8165
 // Full name:     uavcan.pnp.NodeIDAllocationData

@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/node/IOStatistics.0.1.dsdl
-// Generated at:  2023-01-18 06:06:50.284801 UTC
+// Generated at:  2023-01-18 06:33:55.922645 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.node.IOStatistics

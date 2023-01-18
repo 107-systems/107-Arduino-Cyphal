@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/si/sample/magnetic_field_strength/Scalar.1.0.dsdl
-// Generated at:  2023-01-18 06:06:50.500906 UTC
+// Generated at:  2023-01-18 06:33:55.627768 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.si.sample.magnetic_field_strength.Scalar

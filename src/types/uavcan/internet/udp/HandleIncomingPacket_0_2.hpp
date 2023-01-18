@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/internet/udp/500.HandleIncomingPacket.0.2.dsdl
-// Generated at:  2023-01-18 06:06:50.414278 UTC
+// Generated at:  2023-01-18 06:33:56.061987 UTC
 // Is deprecated: no
 // Fixed port-ID: 500
 // Full name:     uavcan.internet.udp.HandleIncomingPacket

@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/node/port/7510.List.0.1.dsdl
-// Generated at:  2023-01-18 06:06:50.311308 UTC
+// Generated at:  2023-01-18 06:33:55.937243 UTC
 // Is deprecated: no
 // Fixed port-ID: 7510
 // Full name:     uavcan.node.port.List

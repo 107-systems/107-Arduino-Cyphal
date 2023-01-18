@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/metatransport/can/RTR.0.1.dsdl
-// Generated at:  2023-01-18 06:06:50.737927 UTC
+// Generated at:  2023-01-18 06:33:56.132219 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.metatransport.can.RTR

@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/service/battery/Error.0.1.dsdl
-// Generated at:  2023-01-18 06:06:51.761508 UTC
+// Generated at:  2023-01-18 06:33:56.993096 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.service.battery.Error

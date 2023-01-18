@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/file/406.List.0.2.dsdl
-// Generated at:  2023-01-18 06:06:50.771444 UTC
+// Generated at:  2023-01-18 06:33:55.826543 UTC
 // Is deprecated: no
 // Fixed port-ID: 406
 // Full name:     uavcan.file.List

@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/primitive/scalar/Integer8.1.0.dsdl
-// Generated at:  2023-01-18 06:06:50.638832 UTC
+// Generated at:  2023-01-18 06:33:56.008124 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.primitive.scalar.Integer8

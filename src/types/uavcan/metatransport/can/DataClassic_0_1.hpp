@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/metatransport/can/DataClassic.0.1.dsdl
-// Generated at:  2023-01-18 06:06:50.706784 UTC
+// Generated at:  2023-01-18 06:33:56.101736 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.metatransport.can.DataClassic

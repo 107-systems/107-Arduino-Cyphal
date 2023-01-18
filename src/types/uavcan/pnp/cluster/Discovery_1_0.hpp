@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/pnp/cluster/8164.Discovery.1.0.dsdl
-// Generated at:  2023-01-18 06:06:50.364617 UTC
+// Generated at:  2023-01-18 06:33:55.798263 UTC
 // Is deprecated: no
 // Fixed port-ID: 8164
 // Full name:     uavcan.pnp.cluster.Discovery

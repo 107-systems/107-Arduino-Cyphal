@@ -49,5 +49,5 @@ touch DSDL_Types.h.impl
 truncate -s 0 DSDL_Types.h.impl
 for i in $(find ./types -type f -name "*.hpp" -printf "%P\n")
 do
-    echo $i >> DSDL_Types.h.impl
+    printf "#include \"%s\" \n" $i >> DSDL_Types.h.impl
 done

@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/node/port/ID.1.0.dsdl
-// Generated at:  2023-01-18 06:06:50.294316 UTC
+// Generated at:  2023-01-18 06:33:55.931817 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.node.port.ID
