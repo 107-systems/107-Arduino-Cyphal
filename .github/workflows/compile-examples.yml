@@ -36,9 +36,6 @@ jobs:
 
       matrix:
         board:
-          - fqbn: arduino:samd:mkrzero
-            platforms: |
-              - name: arduino:samd
           - fqbn: arduino:mbed_portenta:envie_m7
             platforms: |
               - name: arduino:mbed_portenta
@@ -51,18 +48,10 @@ jobs:
           - fqbn: arduino:mbed_edge:edge_control
             platforms: |
               - name: arduino:mbed_edge
-          - fqbn: esp32:esp32:esp32
-            platforms: |
-              - name: esp32:esp32
-                source-url: https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
           - fqbn: rp2040:rp2040:rpipico
             platforms: |
               - name: rp2040:rp2040
                 source-url: https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
-          - fqbn: adafruit:samd:adafruit_feather_m4_can
-            platforms: |
-              - name: adafruit:samd
-                source-url:  https://adafruit.github.io/arduino-board-index/package_adafruit_index.json
 
     steps:
       - name: Checkout
