@@ -28,8 +28,9 @@ RegisterBase::RegisterBase(std::string const & name,
   [name]() -> uavcan::_register::Name_1_0
   {
     uavcan::_register::Name_1_0 n;
-    size_t const bytes_to_copy = std::min(name.length(), n.name.max_size);
-    std::copy_n(name.begin(), bytes_to_copy, n.begin());
+    std::copy_n(name.begin(),
+                std::min(name.length(), n.name.capacity()),
+                n.name.begin());
     return n;
   } ()
 }

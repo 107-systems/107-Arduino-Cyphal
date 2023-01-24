@@ -35,7 +35,7 @@ static int const MKRCAN_MCP2515_INT_PIN = 7;
  **************************************************************************************/
 
 void onReceiveBufferFull(CanardFrame const &);
-ExecuteCommand_1_1::Response<> onExecuteCommand_1_1_Request_Received(ExecuteCommand_1_1::Request<> const &);
+ExecuteCommand::Response_1_1 onExecuteCommand_1_1_Request_Received(ExecuteCommand::Request_1_1 const &);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -51,8 +51,8 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
 Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
 Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
 
-ServiceServer execute_command_srv = node_hdl.create_service_server<ExecuteCommand_1_1::Request<>, ExecuteCommand_1_1::Response<>>(
-  ExecuteCommand_1_1::Request<>::PORT_ID,
+ServiceServer execute_command_srv = node_hdl.create_service_server<ExecuteCommand::Request_1_1, ExecuteCommand::Response_1_1>(
+  ExecuteCommand::Request_1_1::FixedPortId,
   2*1000*1000UL,
   onExecuteCommand_1_1_Request_Received);
 
@@ -99,14 +99,14 @@ void onReceiveBufferFull(CanardFrame const & frame)
   node_hdl.onCanFrameReceived(frame);
 }
 
-ExecuteCommand_1_1::Response<> onExecuteCommand_1_1_Request_Received(ExecuteCommand_1_1::Request<> const & req)
+ExecuteCommand::Response_1_1 onExecuteCommand_1_1_Request_Received(ExecuteCommand::Request_1_1 const & req)
 {
-  ExecuteCommand_1_1::Response<> rsp;
+  ExecuteCommand::Response_1_1 rsp;
 
-  if (req.data.command == 0xCAFE)
-    rsp.data.status = uavcan_node_ExecuteCommand_Response_1_1_STATUS_SUCCESS;
+  if (req.command == 0xCAFE)
+    rsp.status = ExecuteCommand::Response_1_1::STATUS_SUCCESS;
   else
-    rsp.data.status = uavcan_node_ExecuteCommand_Response_1_1_STATUS_NOT_AUTHORIZED;
+    rsp.status = ExecuteCommand::Response_1_1::STATUS_NOT_AUTHORIZED;
 
   return rsp;
 }

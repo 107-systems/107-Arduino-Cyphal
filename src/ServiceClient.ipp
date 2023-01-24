@@ -6,6 +6,16 @@
  */
 
 /**************************************************************************************
+ * INCLUDE
+ **************************************************************************************/
+
+#include <array>
+
+#undef max
+#undef min
+#include <nunavut/support/serialization.hpp>
+
+/**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
 
@@ -41,21 +51,26 @@ bool ServiceClient<T_REQ, T_RSP, OnResponseCb>::request(CanardNodeID const remot
 #pragma GCC diagnostic pop
 
   /* Serialize message into payload buffer. */
-  std::array<uint8_t, T_REQ::MAX_PAYLOAD_SIZE> payload_buf{};
-  size_t const payload_buf_size = req.serialize(payload_buf.data());
+  std::array<uint8_t, T_REQ::SERIALIZATION_BUFFER_SIZE_BYTES> req_buf{};
+  nunavut::support::bitspan req_buf_bitspan{req_buf};
+  auto const rc = req.serialize(req_buf_bitspan);
+  if (!rc) return false;
 
   /* Serialize transfer into a series of CAN frames. */
   return _node_hdl.enqueue_transfer(_tx_timeout_usec,
                                     &transfer_metadata,
-                                    payload_buf_size,
-                                    payload_buf.data());
+                                    req_buf_bitspan.size() / 8,
+                                    req_buf_bitspan.aligned_ptr());
 }
 
 template<typename T_REQ, typename T_RSP, typename OnResponseCb>
 bool ServiceClient<T_REQ, T_RSP, OnResponseCb>::onTransferReceived(CanardRxTransfer const & transfer)
 {
   /* Deserialize the response message. */
-  T_RSP const rsp = T_RSP::deserialize(transfer);
+  T_RSP rsp{};
+  nunavut::support::const_bitspan rsp_bitspan(static_cast<uint8_t *>(transfer.payload), transfer.payload_size);
+  auto const rc = rsp.deserialize(rsp_bitspan);
+  if (!rc) return false;
 
   /* Invoke the user registered callback. */
   _on_response_cb(rsp);
