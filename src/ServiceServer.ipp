@@ -6,6 +6,12 @@
  */
 
 /**************************************************************************************
+ * INCLUDE
+ **************************************************************************************/
+
+#include <nunavut/support/serialization.hpp>
+
+/**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
 
@@ -29,14 +35,19 @@ template<typename T_REQ, typename T_RSP, typename OnRequestCb>
 bool ServiceServer<T_REQ, T_RSP, OnRequestCb>::onTransferReceived(CanardRxTransfer const & transfer)
 {
   /* Deserialize the request message. */
-  T_REQ const req = T_REQ::deserialize(transfer);
+  T_REQ req{};
+  nunavut::support::const_bitspan req_buf_bitspan(static_cast<uint8_t *>(transfer.payload), transfer.payload_size);
+  auto const req_rc = req.deserialize(req_buf_bitspan);
+  if (!req_rc) return false;
 
   /* Invoke the service callback and obtain the desired response. */
   T_RSP const rsp = _on_request_cb(req);
 
   /* Serialize the response message. */
-  std::array<uint8_t, T_RSP::MAX_PAYLOAD_SIZE> payload_buf{};
-  size_t const payload_buf_size = rsp.serialize(payload_buf.data());
+  std::array<uint8_t, T_RSP::SERIALIZATION_BUFFER_SIZE_BYTES> rsp_buf{};
+  nunavut::support::bitspan rsp_buf_bitspan{rsp_buf};
+  auto const rsp_rc = rsp.serialize(rsp_buf_bitspan);
+  if (!rsp_rc) return false;
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wpedantic"
@@ -54,8 +65,8 @@ bool ServiceServer<T_REQ, T_RSP, OnRequestCb>::onTransferReceived(CanardRxTransf
   /* Serialize transfer into a series of CAN frames */
   return _node_hdl.enqueue_transfer(_tx_timeout_usec,
                                     &transfer_metadata,
-                                    payload_buf_size,
-                                    payload_buf.data());
+                                    rsp_buf_bitspan.size() / 8,
+                                    rsp_buf_bitspan.aligned_ptr());
 }
 
 /**************************************************************************************

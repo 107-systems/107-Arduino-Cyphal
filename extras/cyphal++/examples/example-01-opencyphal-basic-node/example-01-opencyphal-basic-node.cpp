@@ -29,7 +29,7 @@ static CanardPortID const COUNTER_PORT_ID = 1001U;
  * TYPEDEF
  **************************************************************************************/
 
-typedef uavcan::primitive::scalar::Integer8_1_0<COUNTER_PORT_ID> CounterMsg;
+typedef uavcan::primitive::scalar::Integer8_1_0 CounterMsg;
 
 /**************************************************************************************
  * FUNCTION DECLARATION
@@ -50,8 +50,8 @@ int main(int argc, char ** argv)
   Node node_hdl(node_heap.data(), node_heap.size(), micros, [&socket_can] (CanardFrame const & frame) { return (socket_can.push(&frame, 1000*1000UL) > 0); });
   std::mutex node_mtx;
 
-  Publisher<uavcan::node::Heartbeat_1_0<>> heartbeat_pub = node_hdl.create_publisher<uavcan::node::Heartbeat_1_0<>>
-    (uavcan::node::Heartbeat_1_0<>::PORT_ID, 1*1000*1000UL /* = 1 sec in usecs. */);
+  Publisher<uavcan::node::Heartbeat_1_0> heartbeat_pub = node_hdl.create_publisher<uavcan::node::Heartbeat_1_0>
+    (uavcan::node::Heartbeat_1_0::FixedPortId, 1*1000*1000UL /* = 1 sec in usecs. */);
 
   Publisher<CounterMsg> counter_pub = node_hdl.create_publisher<CounterMsg>
     (COUNTER_PORT_ID, 1*1000*1000UL /* = 1 sec in usecs. */);
@@ -60,17 +60,17 @@ int main(int argc, char ** argv)
 
   uint16_t temperature_update_period_ms = 5*1000;
 
-  RegisterNatural8  reg_rw_node_id                         ("cyphal.node.id",                          Register::Access::ReadWrite, Register::Persistent::No, node_hdl.getNodeId(), [&node_hdl](uint8_t const & val) { node_hdl.setNodeId(val); });
-  RegisterString    reg_ro_node_description                ("cyphal.node.description",                 Register::Access::ReadWrite, Register::Persistent::No, "basic-cyphal-node");
-  RegisterNatural16 reg_ro_pub_temperature_id              ("cyphal.pub.temperature.id",               Register::Access::ReadOnly,  Register::Persistent::No, COUNTER_PORT_ID);
-  RegisterString    reg_ro_pub_temperature_type            ("cyphal.pub.temperature.type",             Register::Access::ReadOnly,  Register::Persistent::No, "uavcan.primitive.scalar.Integer8.1.0");
-  RegisterNatural16 reg_rw_pub_temperature_update_period_ms("cyphal.pub.temperature.update_period_ms", Register::Access::ReadWrite, Register::Persistent::No, temperature_update_period_ms, nullptr, nullptr , [](uint16_t const & val) { return std::min(val, static_cast<uint16_t>(10*1000UL)); });
-  RegisterList      reg_list(node_hdl);
+//  RegisterNatural8  reg_rw_node_id                         ("cyphal.node.id",                          Register::Access::ReadWrite, Register::Persistent::No, node_hdl.getNodeId(), [&node_hdl](uint8_t const & val) { node_hdl.setNodeId(val); });
+//  RegisterString    reg_ro_node_description                ("cyphal.node.description",                 Register::Access::ReadWrite, Register::Persistent::No, "basic-cyphal-node");
+//  RegisterNatural16 reg_ro_pub_temperature_id              ("cyphal.pub.temperature.id",               Register::Access::ReadOnly,  Register::Persistent::No, COUNTER_PORT_ID);
+//  RegisterString    reg_ro_pub_temperature_type            ("cyphal.pub.temperature.type",             Register::Access::ReadOnly,  Register::Persistent::No, "uavcan.primitive.scalar.Integer8.1.0");
+//  RegisterNatural16 reg_rw_pub_temperature_update_period_ms("cyphal.pub.temperature.update_period_ms", Register::Access::ReadWrite, Register::Persistent::No, temperature_update_period_ms, nullptr, nullptr , [](uint16_t const & val) { return std::min(val, static_cast<uint16_t>(10*1000UL)); });
+//  RegisterList      reg_list(node_hdl);
 
-  reg_list.add(reg_rw_node_id);
-  reg_list.add(reg_ro_node_description);
-  reg_list.add(reg_ro_pub_temperature_id);
-  reg_list.add(reg_ro_pub_temperature_type);
+//  reg_list.add(reg_rw_node_id);
+//  reg_list.add(reg_ro_node_description);
+//  reg_list.add(reg_ro_pub_temperature_id);
+//  reg_list.add(reg_ro_pub_temperature_type);
 
   /* NODE INFO **************************************************************************/
 
@@ -118,7 +118,7 @@ int main(int argc, char ** argv)
   auto prev_counter = millis();
 
   CounterMsg counter_msg;
-  counter_msg.data.value = 0;
+  counter_msg.value = 0;
 
   for (;;)
   {
@@ -133,12 +133,12 @@ int main(int argc, char ** argv)
     {
       prev_heartbeat = now;
 
-      uavcan::node::Heartbeat_1_0<> msg;
+      uavcan::node::Heartbeat_1_0 msg;
 
-      msg.data.uptime = now / 1000;
-      msg.data.health.value = uavcan_node_Health_1_0_NOMINAL;
-      msg.data.mode.value = uavcan_node_Mode_1_0_OPERATIONAL;
-      msg.data.vendor_specific_status_code = 0;
+      msg.uptime = now / 1000;
+      msg.health.value = uavcan::node::Health_1_0::NOMINAL;
+      msg.mode.value = uavcan::node::Mode_1_0::OPERATIONAL;
+      msg.vendor_specific_status_code = 0;
 
       heartbeat_pub->publish(msg);
     }
@@ -147,7 +147,7 @@ int main(int argc, char ** argv)
     {
       prev_counter = now;
       counter_pub->publish(counter_msg);
-      counter_msg.data.value++;
+      counter_msg.value++;
     }
   }
 

@@ -25,7 +25,7 @@ public:
   AccessRequest(AccessRequest const & other) = delete;
 
   template <typename T>
-  static T toRegisterValue(uavcan_register_Value_1_0 const & val);
+  static T toValue(uavcan::_register::Value_1_0 const & val);
 };
 
 /**************************************************************************************

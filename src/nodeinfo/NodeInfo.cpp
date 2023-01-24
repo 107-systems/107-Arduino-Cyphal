@@ -30,32 +30,31 @@ NodeInfo::NodeInfo(Node & node_hdl,
                    std::array<uint8_t, 16> const & unique_id,
                    std::string const & name)
 {
-  _node_info.protocol_version.major = protocol_major;
-  _node_info.protocol_version.minor = protocol_minor;
+  _node_info_rsp.protocol_version.major = protocol_major;
+  _node_info_rsp.protocol_version.minor = protocol_minor;
 
-  _node_info.hardware_version.major = hardware_major;
-  _node_info.hardware_version.minor = hardware_minor;
+  _node_info_rsp.hardware_version.major = hardware_major;
+  _node_info_rsp.hardware_version.minor = hardware_minor;
 
-  _node_info.software_version.major = software_major;
-  _node_info.software_version.minor = software_minor;
+  _node_info_rsp.software_version.major = software_major;
+  _node_info_rsp.software_version.minor = software_minor;
 
-  _node_info.software_vcs_revision_id = software_vcs_revision_id;
+  _node_info_rsp.software_vcs_revision_id = software_vcs_revision_id;
 
-  memcpy(_node_info.unique_id, unique_id.data(), sizeof(_node_info.unique_id));
+  _node_info_rsp.unique_id = unique_id;
 
-  _node_info.name.count = std::min(static_cast<size_t>(name.length()), static_cast<size_t>(uavcan_node_GetInfo_Response_1_0_name_ARRAY_CAPACITY_));
-  memcpy(_node_info.name.elements, name.c_str(), _node_info.name.count);
+  std::copy_n(name.begin(),
+              std::min(name.length(), _node_info_rsp.name.capacity()),
+              _node_info_rsp.name.begin());
 
-  typedef uavcan::node::GetInfo_1_0::Request<> TGetInfoRequest;
-  typedef uavcan::node::GetInfo_1_0::Response<> TGetInfoResponse;
+  typedef uavcan::node::GetInfo::Request_1_0 TGetInfoRequest;
+  typedef uavcan::node::GetInfo::Response_1_0 TGetInfoResponse;
 
   _node_info_srv = node_hdl.create_service_server<TGetInfoRequest, TGetInfoResponse>(
-    TGetInfoRequest::PORT_ID,
+    TGetInfoRequest::FixedPortId,
     2*1000*1000UL,
     [this](TGetInfoRequest const &) -> TGetInfoResponse
     {
-      TGetInfoResponse rsp = TGetInfoResponse();
-      memcpy(&rsp.data, &_node_info, sizeof(uavcan_node_GetInfo_Response_1_0));
-      return rsp;
+      return _node_info_rsp;
     });
 }

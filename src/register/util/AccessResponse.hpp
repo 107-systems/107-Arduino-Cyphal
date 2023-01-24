@@ -25,7 +25,7 @@ public:
   AccessResponse(AccessResponse const & other) = delete;
 
   template <typename T>
-  static uavcan::_register::Access_1_0::Response<> create(RegisterDerived<T> const & reg);
+  static uavcan::_register::Access::Response_1_0 create(RegisterDerived<T> const & reg);
 };
 
 /**************************************************************************************

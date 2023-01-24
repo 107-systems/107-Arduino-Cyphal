@@ -32,7 +32,7 @@ public:
   typedef std::function<T(T const &)> ValueLimiterFunc;
 
 
-  RegisterDerived(char const * name,
+  RegisterDerived(std::string const & name,
                   Register::Access const access,
                   Register::Persistent const is_persistent,
                   T const & initial_val,
@@ -40,14 +40,14 @@ public:
                   OnReadRequestFunc on_read_request_func,
                   ValueLimiterFunc value_limiter_func);
 
-  RegisterDerived(char const * name,
+  RegisterDerived(std::string const & name,
                   Register::Access const access,
                   Register::Persistent const is_persistent,
                   T const & initial_val)
   : RegisterDerived<T>(name, access, is_persistent, initial_val, nullptr, nullptr, nullptr)
   { }
 
-  RegisterDerived(char const * name,
+  RegisterDerived(std::string const & name,
                   Register::Access const access,
                   Register::Persistent const is_persistent,
                   T const & initial_val,

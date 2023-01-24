@@ -38,16 +38,16 @@ public:
 private:
   std::vector<RegisterBase *> _reg_list;
   RegisterBase const _reg_last;
-  typedef std::function<uavcan::_register::Access_1_0::Response<>(uavcan::_register::Access_1_0::Request<> const &, RegisterBase *)> OnAccessRequestHandlerFunc;
+  typedef std::function<uavcan::_register::Access::Response_1_0(uavcan::_register::Access::Request_1_0 const &, RegisterBase *)> OnAccessRequestHandlerFunc;
   std::map<Register::TypeTag, OnAccessRequestHandlerFunc> _on_access_request_handler_map;
 
-  typedef uavcan::_register::List_1_0::Request<>  TListRequest;
-  typedef uavcan::_register::List_1_0::Response<> TListResponse;
+  typedef uavcan::_register::List::Request_1_0  TListRequest;
+  typedef uavcan::_register::List::Response_1_0 TListResponse;
   ServiceServer _reg_list_srv;
   TListResponse onList_1_0_Request_Received(TListRequest const & req);
 
-  typedef uavcan::_register::Access_1_0::Request<>  TAccessRequest;
-  typedef uavcan::_register::Access_1_0::Response<> TAccessResponse;
+  typedef uavcan::_register::Access::Request_1_0  TAccessRequest;
+  typedef uavcan::_register::Access::Response_1_0 TAccessResponse;
   ServiceServer _reg_access_srv;
   TAccessResponse onAccess_1_0_Request_Received(TAccessRequest const & req);
 };

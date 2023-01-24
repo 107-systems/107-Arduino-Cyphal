@@ -12,6 +12,8 @@
  * INCLUDES
  **************************************************************************************/
 
+#include <string>
+
 #include "../DSDL_Types.h"
 #include "types/TypeTag.hpp"
 
@@ -22,17 +24,17 @@
 class RegisterBase
 {
 public:
-  RegisterBase(char const * name,
+  RegisterBase(std::string const & name,
                Register::TypeTag const type_tag,
                bool const is_mutable,
                bool const is_persistent);
 
 
-  inline uavcan_register_Name_1_0 const & name() const { return _name; }
+  inline uavcan::_register::Name_1_0 const & name() const { return _name; }
   inline Register::TypeTag type_tag() const { return _type_tag; }
   inline bool isMutable() const { return _is_mutable; }
   inline bool isPersistent() const { return _is_persistent; }
-  inline uavcan_time_SynchronizedTimestamp_1_0 timestamp() const { return _timestamp; }
+  inline uavcan::time::SynchronizedTimestamp_1_0 timestamp() const { return _timestamp; }
 
 
 protected:
@@ -40,11 +42,11 @@ protected:
 
 
 private:
-  uavcan_register_Name_1_0 _name;
+  uavcan::_register::Name_1_0 _name;
   Register::TypeTag const _type_tag;
   bool const _is_mutable;
   bool const _is_persistent;
-  uavcan_time_SynchronizedTimestamp_1_0 _timestamp;
+  uavcan::time::SynchronizedTimestamp_1_0 _timestamp;
 };
 
 #endif /* REGISTER_BASE_H_ */

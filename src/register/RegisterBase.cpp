@@ -11,8 +11,6 @@
 
 #include "RegisterBase.h"
 
-#include <cstring>
-
 #undef max
 #undef min
 #include <algorithm>
@@ -21,17 +19,17 @@
  * CTOR/DTOR
  **************************************************************************************/
 
-RegisterBase::RegisterBase(char const * name,
+RegisterBase::RegisterBase(std::string const & name,
                            Register::TypeTag const type_tag,
                            bool const is_mutable,
                            bool const is_persistent)
 : _name
 {
-  [name]() -> uavcan_register_Name_1_0
+  [name]() -> uavcan::_register::Name_1_0
   {
-    uavcan_register_Name_1_0 n;
-    n.name.count = std::min(static_cast<size_t>(strlen(name)), static_cast<size_t>(uavcan_register_Name_1_0_name_ARRAY_CAPACITY_));
-    memcpy(n.name.elements, name, n.name.count);
+    uavcan::_register::Name_1_0 n;
+    size_t const bytes_to_copy = std::min(name.length(), n.name.max_size);
+    std::copy_n(name.begin(), bytes_to_copy, n.begin());
     return n;
   } ()
 }
@@ -40,9 +38,9 @@ RegisterBase::RegisterBase(char const * name,
 , _is_persistent{is_persistent}
 , _timestamp
 {
-  []() -> uavcan_time_SynchronizedTimestamp_1_0
+  []() -> uavcan::time::SynchronizedTimestamp_1_0
   {
-    uavcan_time_SynchronizedTimestamp_1_0 ts;
+    uavcan::time::SynchronizedTimestamp_1_0 ts;
     ts.microsecond = 0;
     return ts;
   } ()

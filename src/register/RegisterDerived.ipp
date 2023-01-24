@@ -16,7 +16,7 @@ extern "C" unsigned long micros(void);
  **************************************************************************************/
 
 template <typename T>
-RegisterDerived<T>::RegisterDerived(char const * name,
+RegisterDerived<T>::RegisterDerived(std::string const & name,
                                     Register::Access const access,
                                     Register::Persistent const is_persistent,
                                     T const & initial_val,

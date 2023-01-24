@@ -12,6 +12,9 @@
  * INCLUDE
  **************************************************************************************/
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wtype-limits"
 #include "DSDL_Types.h.impl"
+#pragma GCC diagnostic pop
 
 #endif /* ARDUINO_UAVCAN_WRAPPERS_H_ */

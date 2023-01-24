@@ -38,7 +38,7 @@ public:
 
 private:
   ServiceServer _node_info_srv;
-  uavcan_node_GetInfo_Response_1_0 _node_info;
+  uavcan::node::GetInfo::Response_1_0 _node_info_rsp;
 };
 
 #endif /* ARDUINO_OPENCYPHAL_NODE_INFO_H_ */
