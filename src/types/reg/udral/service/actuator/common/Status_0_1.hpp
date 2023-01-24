@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/service/actuator/common/Status.0.1.dsdl
-// Generated at:  2023-01-18 06:33:56.963495 UTC
+// Generated at:  2023-01-24 05:52:12.201867 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.service.actuator.common.Status
@@ -43,9 +43,9 @@
 #ifndef REG_UDRAL_SERVICE_ACTUATOR_COMMON_STATUS_0_1_HPP_INCLUDED
 #define REG_UDRAL_SERVICE_ACTUATOR_COMMON_STATUS_0_1_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "reg/udral/service/actuator/common/FaultFlags_0_1.hpp"
-#include "uavcan/si/unit/temperature/Scalar_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <types/reg/udral/service/actuator/common/FaultFlags_0_1.hpp>
+#include <types/uavcan/si/unit/temperature/Scalar_1_0.hpp>
 #include <cstdint>
 
 namespace reg

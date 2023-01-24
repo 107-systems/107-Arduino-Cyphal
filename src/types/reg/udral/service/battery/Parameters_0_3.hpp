@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/service/battery/Parameters.0.3.dsdl
-// Generated at:  2023-01-18 06:33:56.997458 UTC
+// Generated at:  2023-01-24 05:52:12.156595 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.service.battery.Parameters
@@ -43,13 +43,13 @@
 #ifndef REG_UDRAL_SERVICE_BATTERY_PARAMETERS_0_3_HPP_INCLUDED
 #define REG_UDRAL_SERVICE_BATTERY_PARAMETERS_0_3_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "nunavut/support/variable_length_array.hpp"
-#include "reg/udral/service/battery/Technology_0_1.hpp"
-#include "uavcan/si/unit/electric_charge/Scalar_1_0.hpp"
-#include "uavcan/si/unit/electric_current/Scalar_1_0.hpp"
-#include "uavcan/si/unit/mass/Scalar_1_0.hpp"
-#include "uavcan/si/unit/voltage/Scalar_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <nunavut/support/variable_length_array.hpp>
+#include <types/reg/udral/service/battery/Technology_0_1.hpp>
+#include <types/uavcan/si/unit/electric_charge/Scalar_1_0.hpp>
+#include <types/uavcan/si/unit/electric_current/Scalar_1_0.hpp>
+#include <types/uavcan/si/unit/mass/Scalar_1_0.hpp>
+#include <types/uavcan/si/unit/voltage/Scalar_1_0.hpp>
 #include <array>
 #include <cstdint>
 
@@ -196,7 +196,7 @@ struct Parameters_0_3 final
     /// to
     /// the cell's internal resistance.
     ///
-    std::array<types/uavcan::si::unit::voltage::Scalar_1_0,2> design_cell_voltage_min_max;
+    std::array<uavcan::si::unit::voltage::Scalar_1_0,2> design_cell_voltage_min_max;
     ///
     /// Recommended continuous discharge current of the battery.
     ///

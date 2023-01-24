@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/node/port/SubjectIDList.0.1.dsdl
-// Generated at:  2023-01-18 06:33:55.951058 UTC
+// Generated at:  2023-01-24 05:52:11.000909 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.node.port.SubjectIDList
@@ -43,10 +43,10 @@
 #ifndef UAVCAN_NODE_PORT_SUBJECT_ID_LIST_0_1_HPP_INCLUDED
 #define UAVCAN_NODE_PORT_SUBJECT_ID_LIST_0_1_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "nunavut/support/variable_length_array.hpp"
-#include "uavcan/node/port/SubjectID_1_0.hpp"
-#include "uavcan/primitive/Empty_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <nunavut/support/variable_length_array.hpp>
+#include <types/uavcan/node/port/SubjectID_1_0.hpp>
+#include <types/uavcan/primitive/Empty_1_0.hpp>
 #include <array>
 #include <cstdint>
 
@@ -169,7 +169,7 @@ struct SubjectIDList_0_1 final
             ///
             /// A list of identifiers that can be used instead of the mask if most of the identifiers are unused.
             ///
-            std::aligned_storage<sizeof(nunavut::support::VariableLengthArray<types/uavcan::node::port::SubjectID_1_0, 255>), alignof(nunavut::support::VariableLengthArray<types/uavcan::node::port::SubjectID_1_0, 255>)>::type sparse_list;
+            std::aligned_storage<sizeof(nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>), alignof(nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>)>::type sparse_list;
             ///
             /// A special case indicating that all identifiers are in use.
             ///
@@ -200,7 +200,7 @@ struct SubjectIDList_0_1 final
             else if(rhs.tag_ == 1)
             {
                 do_copy<1>(
-                    *reinterpret_cast<std::add_pointer<const nunavut::support::VariableLengthArray<types/uavcan::node::port::SubjectID_1_0, 255>>::type>(&rhs.internal_union_value_.sparse_list)
+                    *reinterpret_cast<std::add_pointer<const nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>::type>(&rhs.internal_union_value_.sparse_list)
                 );
             }
             else if(rhs.tag_ == 2)
@@ -227,16 +227,16 @@ struct SubjectIDList_0_1 final
             else if(rhs.tag_ == 1)
             {
                 do_emplace<1>(
-                    std::forward<nunavut::support::VariableLengthArray<types/uavcan::node::port::SubjectID_1_0, 255>>(
-                        *reinterpret_cast<std::add_pointer<nunavut::support::VariableLengthArray<types/uavcan::node::port::SubjectID_1_0, 255>>::type>(&rhs.internal_union_value_.sparse_list)
+                    std::forward<nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>(
+                        *reinterpret_cast<std::add_pointer<nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>::type>(&rhs.internal_union_value_.sparse_list)
                     )
                 );
             }
             else if(rhs.tag_ == 2)
             {
                 do_emplace<2>(
-                    std::forward<types/uavcan::primitive::Empty_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::Empty_1_0>::type>(&rhs.internal_union_value_.total)
+                    std::forward<uavcan::primitive::Empty_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::Empty_1_0>::type>(&rhs.internal_union_value_.total)
                     )
                 );
             }
@@ -254,7 +254,7 @@ struct SubjectIDList_0_1 final
             else if(rhs.tag_ == 1)
             {
                 do_copy<1>(
-                    *reinterpret_cast<std::add_pointer<const nunavut::support::VariableLengthArray<types/uavcan::node::port::SubjectID_1_0, 255>>::type>(&rhs.internal_union_value_.sparse_list)
+                    *reinterpret_cast<std::add_pointer<const nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>::type>(&rhs.internal_union_value_.sparse_list)
                 );
             }
             else if(rhs.tag_ == 2)
@@ -281,16 +281,16 @@ struct SubjectIDList_0_1 final
             else if(rhs.tag_ == 1)
             {
                 do_emplace<1>(
-                    std::forward<nunavut::support::VariableLengthArray<types/uavcan::node::port::SubjectID_1_0, 255>>(
-                        *reinterpret_cast<std::add_pointer<nunavut::support::VariableLengthArray<types/uavcan::node::port::SubjectID_1_0, 255>>::type>(&rhs.internal_union_value_.sparse_list)
+                    std::forward<nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>(
+                        *reinterpret_cast<std::add_pointer<nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>::type>(&rhs.internal_union_value_.sparse_list)
                     )
                 );
             }
             else if(rhs.tag_ == 2)
             {
                 do_emplace<2>(
-                    std::forward<types/uavcan::primitive::Empty_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::Empty_1_0>::type>(&rhs.internal_union_value_.total)
+                    std::forward<uavcan::primitive::Empty_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::Empty_1_0>::type>(&rhs.internal_union_value_.total)
                     )
                 );
             }
@@ -325,7 +325,7 @@ struct SubjectIDList_0_1 final
         };
         template<class...Types> struct alternative<1U, Types...>
         {
-            using type = nunavut::support::VariableLengthArray<types/uavcan::node::port::SubjectID_1_0, 255>;
+            using type = nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>;
             static constexpr auto pointer = &VariantType::internal_union_t::sparse_list;
         };
         template<class...Types> struct alternative<2U, Types...>
@@ -385,11 +385,11 @@ struct SubjectIDList_0_1 final
             }
             else if (tag_ == 1)
             {
-                reinterpret_cast<nunavut::support::VariableLengthArray<types/uavcan::node::port::SubjectID_1_0, 255>*>(std::addressof(internal_union_value_.sparse_list))->~VariableLengthArray<types/uavcan::node::port::SubjectID_1_0, 255>();
+                reinterpret_cast<nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>*>(std::addressof(internal_union_value_.sparse_list))->~VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>();
             }
             else if (tag_ == 2)
             {
-                reinterpret_cast<types/uavcan::primitive::Empty_1_0*>(std::addressof(internal_union_value_.total))->~Empty_1_0();
+                reinterpret_cast<uavcan::primitive::Empty_1_0*>(std::addressof(internal_union_value_.total))->~Empty_1_0();
             }
         }
 
@@ -427,25 +427,25 @@ struct SubjectIDList_0_1 final
         return VariantType::IndexOf::sparse_list == union_value.index();
     }
 
-    typename std::add_pointer<nunavut::support::VariableLengthArray<types/uavcan::node::port::SubjectID_1_0, 255>>::type get_sparse_list_if(){
+    typename std::add_pointer<nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>::type get_sparse_list_if(){
         return VariantType::get_if<VariantType::IndexOf::sparse_list>(&union_value);
     }
 
-    typename std::add_pointer<const nunavut::support::VariableLengthArray<types/uavcan::node::port::SubjectID_1_0, 255>>::type get_sparse_list_if() const{
+    typename std::add_pointer<const nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>::type get_sparse_list_if() const{
         return VariantType::get_if<VariantType::IndexOf::sparse_list>(&union_value);
     }
 
-    typename std::add_lvalue_reference<nunavut::support::VariableLengthArray<types/uavcan::node::port::SubjectID_1_0, 255>>::type get_sparse_list(){
+    typename std::add_lvalue_reference<nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>::type get_sparse_list(){
         NUNAVUT_ASSERT(is_sparse_list());
         return *VariantType::get_if<VariantType::IndexOf::sparse_list>(&union_value);
     }
 
-    typename std::add_lvalue_reference<const nunavut::support::VariableLengthArray<types/uavcan::node::port::SubjectID_1_0, 255>>::type get_sparse_list() const{
+    typename std::add_lvalue_reference<const nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>::type get_sparse_list() const{
         NUNAVUT_ASSERT(is_sparse_list());
         return *VariantType::get_if<VariantType::IndexOf::sparse_list>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<nunavut::support::VariableLengthArray<types/uavcan::node::port::SubjectID_1_0, 255>>::type
+    template<class... Args> typename std::add_lvalue_reference<nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>::type
     set_sparse_list(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::sparse_list>(v...);
     }
@@ -453,7 +453,7 @@ struct SubjectIDList_0_1 final
         return VariantType::IndexOf::total == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::primitive::Empty_1_0>::type get_total_if(){
+    typename std::add_pointer<uavcan::primitive::Empty_1_0>::type get_total_if(){
         return VariantType::get_if<VariantType::IndexOf::total>(&union_value);
     }
 
@@ -461,7 +461,7 @@ struct SubjectIDList_0_1 final
         return VariantType::get_if<VariantType::IndexOf::total>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::primitive::Empty_1_0>::type get_total(){
+    typename std::add_lvalue_reference<uavcan::primitive::Empty_1_0>::type get_total(){
         NUNAVUT_ASSERT(is_total());
         return *VariantType::get_if<VariantType::IndexOf::total>(&union_value);
     }
@@ -471,7 +471,7 @@ struct SubjectIDList_0_1 final
         return *VariantType::get_if<VariantType::IndexOf::total>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::primitive::Empty_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::primitive::Empty_1_0>::type
     set_total(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::total>(v...);
     }

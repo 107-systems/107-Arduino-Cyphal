@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/physics/kinematics/translation/Linear.0.1.dsdl
-// Generated at:  2023-01-18 06:33:57.105822 UTC
+// Generated at:  2023-01-24 05:52:12.334085 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.physics.kinematics.translation.Linear
@@ -43,10 +43,10 @@
 #ifndef REG_UDRAL_PHYSICS_KINEMATICS_TRANSLATION_LINEAR_0_1_HPP_INCLUDED
 #define REG_UDRAL_PHYSICS_KINEMATICS_TRANSLATION_LINEAR_0_1_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "uavcan/si/unit/acceleration/Scalar_1_0.hpp"
-#include "uavcan/si/unit/length/Scalar_1_0.hpp"
-#include "uavcan/si/unit/velocity/Scalar_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <types/uavcan/si/unit/acceleration/Scalar_1_0.hpp>
+#include <types/uavcan/si/unit/length/Scalar_1_0.hpp>
+#include <types/uavcan/si/unit/velocity/Scalar_1_0.hpp>
 
 namespace reg
 {

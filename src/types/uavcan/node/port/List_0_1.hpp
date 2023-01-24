@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/node/port/7510.List.0.1.dsdl
-// Generated at:  2023-01-18 06:33:55.937243 UTC
+// Generated at:  2023-01-24 05:52:10.988249 UTC
 // Is deprecated: no
 // Fixed port-ID: 7510
 // Full name:     uavcan.node.port.List
@@ -43,9 +43,9 @@
 #ifndef UAVCAN_NODE_PORT_LIST_0_1_HPP_INCLUDED
 #define UAVCAN_NODE_PORT_LIST_0_1_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "uavcan/node/port/ServiceIDList_0_1.hpp"
-#include "uavcan/node/port/SubjectIDList_0_1.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <types/uavcan/node/port/ServiceIDList_0_1.hpp>
+#include <types/uavcan/node/port/SubjectIDList_0_1.hpp>
 #include <cstdint>
 
 namespace uavcan

@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/diagnostic/8184.Record.1.0.dsdl
-// Generated at:  2023-01-18 06:33:55.962579 UTC
+// Generated at:  2023-01-24 05:52:11.442194 UTC
 // Is deprecated: yes
 // Fixed port-ID: 8184
 // Full name:     uavcan.diagnostic.Record
@@ -51,10 +51,10 @@
 #ifndef UAVCAN_DIAGNOSTIC_RECORD_1_0_HPP_INCLUDED
 #define UAVCAN_DIAGNOSTIC_RECORD_1_0_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "nunavut/support/variable_length_array.hpp"
-#include "uavcan/diagnostic/Severity_1_0.hpp"
-#include "uavcan/time/SynchronizedTimestamp_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <nunavut/support/variable_length_array.hpp>
+#include <types/uavcan/diagnostic/Severity_1_0.hpp>
+#include <types/uavcan/time/SynchronizedTimestamp_1_0.hpp>
 #include <cstdint>
 
 namespace uavcan

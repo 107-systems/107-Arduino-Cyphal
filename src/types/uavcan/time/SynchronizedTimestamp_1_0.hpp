@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/time/SynchronizedTimestamp.1.0.dsdl
-// Generated at:  2023-01-18 06:33:55.981801 UTC
+// Generated at:  2023-01-24 05:52:10.918586 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.time.SynchronizedTimestamp
@@ -43,7 +43,7 @@
 #ifndef UAVCAN_TIME_SYNCHRONIZED_TIMESTAMP_1_0_HPP_INCLUDED
 #define UAVCAN_TIME_SYNCHRONIZED_TIMESTAMP_1_0_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
+#include <nunavut/support/serialization.hpp>
 #include <cstdint>
 
 namespace uavcan

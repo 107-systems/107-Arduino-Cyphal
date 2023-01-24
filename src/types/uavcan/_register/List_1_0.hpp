@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/register/385.List.1.0.dsdl
-// Generated at:  2023-01-18 06:33:55.739366 UTC
+// Generated at:  2023-01-24 05:52:11.323123 UTC
 // Is deprecated: no
 // Fixed port-ID: 385
 // Full name:     uavcan.register.List
@@ -43,8 +43,8 @@
 #ifndef UAVCAN_REGISTER_LIST_1_0_HPP_INCLUDED
 #define UAVCAN_REGISTER_LIST_1_0_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "uavcan/_register/Name_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <types/uavcan/_register/Name_1_0.hpp>
 #include <cstdint>
 
 namespace uavcan

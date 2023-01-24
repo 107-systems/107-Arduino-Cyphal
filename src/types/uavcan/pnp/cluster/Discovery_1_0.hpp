@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/pnp/cluster/8164.Discovery.1.0.dsdl
-// Generated at:  2023-01-18 06:33:55.798263 UTC
+// Generated at:  2023-01-24 05:52:11.425846 UTC
 // Is deprecated: no
 // Fixed port-ID: 8164
 // Full name:     uavcan.pnp.cluster.Discovery
@@ -43,9 +43,9 @@
 #ifndef UAVCAN_PNP_CLUSTER_DISCOVERY_1_0_HPP_INCLUDED
 #define UAVCAN_PNP_CLUSTER_DISCOVERY_1_0_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "nunavut/support/variable_length_array.hpp"
-#include "uavcan/node/ID_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <nunavut/support/variable_length_array.hpp>
+#include <types/uavcan/node/ID_1_0.hpp>
 #include <cstdint>
 
 namespace uavcan
@@ -175,7 +175,7 @@ struct Discovery_1_0 final
     /// Node-IDs of the allocators that are known to the publishing allocator, including the publishing allocator
     /// itself.
     ///
-    nunavut::support::VariableLengthArray<types/uavcan::node::ID_1_0, 5> known_nodes;
+    nunavut::support::VariableLengthArray<uavcan::node::ID_1_0, 5> known_nodes;
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

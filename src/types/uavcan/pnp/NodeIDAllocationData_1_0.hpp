@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/pnp/8166.NodeIDAllocationData.1.0.dsdl
-// Generated at:  2023-01-18 06:33:55.785520 UTC
+// Generated at:  2023-01-24 05:52:11.413609 UTC
 // Is deprecated: no
 // Fixed port-ID: 8166
 // Full name:     uavcan.pnp.NodeIDAllocationData
@@ -43,9 +43,9 @@
 #ifndef UAVCAN_PNP_NODE_ID_ALLOCATION_DATA_1_0_HPP_INCLUDED
 #define UAVCAN_PNP_NODE_ID_ALLOCATION_DATA_1_0_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "nunavut/support/variable_length_array.hpp"
-#include "uavcan/node/ID_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <nunavut/support/variable_length_array.hpp>
+#include <types/uavcan/node/ID_1_0.hpp>
 #include <cstdint>
 
 namespace uavcan
@@ -194,7 +194,7 @@ struct NodeIDAllocationData_1_0 final
     /// Shall be empty in request messages.
     /// Shall be populated in response messages.
     ///
-    nunavut::support::VariableLengthArray<types/uavcan::node::ID_1_0, 1> allocated_node_id;
+    nunavut::support::VariableLengthArray<uavcan::node::ID_1_0, 1> allocated_node_id;
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

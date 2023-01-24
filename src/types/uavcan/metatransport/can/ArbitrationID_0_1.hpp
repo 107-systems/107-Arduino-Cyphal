@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/metatransport/can/ArbitrationID.0.1.dsdl
-// Generated at:  2023-01-18 06:33:56.093883 UTC
+// Generated at:  2023-01-24 05:52:11.369183 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.metatransport.can.ArbitrationID
@@ -43,9 +43,9 @@
 #ifndef UAVCAN_METATRANSPORT_CAN_ARBITRATION_ID_0_1_HPP_INCLUDED
 #define UAVCAN_METATRANSPORT_CAN_ARBITRATION_ID_0_1_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "uavcan/metatransport/can/BaseArbitrationID_0_1.hpp"
-#include "uavcan/metatransport/can/ExtendedArbitrationID_0_1.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <types/uavcan/metatransport/can/BaseArbitrationID_0_1.hpp>
+#include <types/uavcan/metatransport/can/ExtendedArbitrationID_0_1.hpp>
 #include <cstdint>
 
 namespace uavcan
@@ -194,16 +194,16 @@ struct ArbitrationID_0_1 final
             if(rhs.tag_ == 0)
             {
                 do_emplace<0>(
-                    std::forward<types/uavcan::metatransport::can::BaseArbitrationID_0_1>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::metatransport::can::BaseArbitrationID_0_1>::type>(&rhs.internal_union_value_.base)
+                    std::forward<uavcan::metatransport::can::BaseArbitrationID_0_1>(
+                        *reinterpret_cast<std::add_pointer<uavcan::metatransport::can::BaseArbitrationID_0_1>::type>(&rhs.internal_union_value_.base)
                     )
                 );
             }
             else if(rhs.tag_ == 1)
             {
                 do_emplace<1>(
-                    std::forward<types/uavcan::metatransport::can::ExtendedArbitrationID_0_1>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::metatransport::can::ExtendedArbitrationID_0_1>::type>(&rhs.internal_union_value_.extended)
+                    std::forward<uavcan::metatransport::can::ExtendedArbitrationID_0_1>(
+                        *reinterpret_cast<std::add_pointer<uavcan::metatransport::can::ExtendedArbitrationID_0_1>::type>(&rhs.internal_union_value_.extended)
                     )
                 );
             }
@@ -234,16 +234,16 @@ struct ArbitrationID_0_1 final
             if(rhs.tag_ == 0)
             {
                 do_emplace<0>(
-                    std::forward<types/uavcan::metatransport::can::BaseArbitrationID_0_1>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::metatransport::can::BaseArbitrationID_0_1>::type>(&rhs.internal_union_value_.base)
+                    std::forward<uavcan::metatransport::can::BaseArbitrationID_0_1>(
+                        *reinterpret_cast<std::add_pointer<uavcan::metatransport::can::BaseArbitrationID_0_1>::type>(&rhs.internal_union_value_.base)
                     )
                 );
             }
             else if(rhs.tag_ == 1)
             {
                 do_emplace<1>(
-                    std::forward<types/uavcan::metatransport::can::ExtendedArbitrationID_0_1>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::metatransport::can::ExtendedArbitrationID_0_1>::type>(&rhs.internal_union_value_.extended)
+                    std::forward<uavcan::metatransport::can::ExtendedArbitrationID_0_1>(
+                        *reinterpret_cast<std::add_pointer<uavcan::metatransport::can::ExtendedArbitrationID_0_1>::type>(&rhs.internal_union_value_.extended)
                     )
                 );
             }
@@ -328,11 +328,11 @@ struct ArbitrationID_0_1 final
         {
             if (tag_ == 0)
             {
-                reinterpret_cast<types/uavcan::metatransport::can::BaseArbitrationID_0_1*>(std::addressof(internal_union_value_.base))->~BaseArbitrationID_0_1();
+                reinterpret_cast<uavcan::metatransport::can::BaseArbitrationID_0_1*>(std::addressof(internal_union_value_.base))->~BaseArbitrationID_0_1();
             }
             else if (tag_ == 1)
             {
-                reinterpret_cast<types/uavcan::metatransport::can::ExtendedArbitrationID_0_1*>(std::addressof(internal_union_value_.extended))->~ExtendedArbitrationID_0_1();
+                reinterpret_cast<uavcan::metatransport::can::ExtendedArbitrationID_0_1*>(std::addressof(internal_union_value_.extended))->~ExtendedArbitrationID_0_1();
             }
         }
 
@@ -344,7 +344,7 @@ struct ArbitrationID_0_1 final
         return VariantType::IndexOf::base == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::metatransport::can::BaseArbitrationID_0_1>::type get_base_if(){
+    typename std::add_pointer<uavcan::metatransport::can::BaseArbitrationID_0_1>::type get_base_if(){
         return VariantType::get_if<VariantType::IndexOf::base>(&union_value);
     }
 
@@ -352,7 +352,7 @@ struct ArbitrationID_0_1 final
         return VariantType::get_if<VariantType::IndexOf::base>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::metatransport::can::BaseArbitrationID_0_1>::type get_base(){
+    typename std::add_lvalue_reference<uavcan::metatransport::can::BaseArbitrationID_0_1>::type get_base(){
         NUNAVUT_ASSERT(is_base());
         return *VariantType::get_if<VariantType::IndexOf::base>(&union_value);
     }
@@ -362,7 +362,7 @@ struct ArbitrationID_0_1 final
         return *VariantType::get_if<VariantType::IndexOf::base>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::metatransport::can::BaseArbitrationID_0_1>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::metatransport::can::BaseArbitrationID_0_1>::type
     set_base(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::base>(v...);
     }
@@ -370,7 +370,7 @@ struct ArbitrationID_0_1 final
         return VariantType::IndexOf::extended == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::metatransport::can::ExtendedArbitrationID_0_1>::type get_extended_if(){
+    typename std::add_pointer<uavcan::metatransport::can::ExtendedArbitrationID_0_1>::type get_extended_if(){
         return VariantType::get_if<VariantType::IndexOf::extended>(&union_value);
     }
 
@@ -378,7 +378,7 @@ struct ArbitrationID_0_1 final
         return VariantType::get_if<VariantType::IndexOf::extended>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::metatransport::can::ExtendedArbitrationID_0_1>::type get_extended(){
+    typename std::add_lvalue_reference<uavcan::metatransport::can::ExtendedArbitrationID_0_1>::type get_extended(){
         NUNAVUT_ASSERT(is_extended());
         return *VariantType::get_if<VariantType::IndexOf::extended>(&union_value);
     }
@@ -388,7 +388,7 @@ struct ArbitrationID_0_1 final
         return *VariantType::get_if<VariantType::IndexOf::extended>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::metatransport::can::ExtendedArbitrationID_0_1>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::metatransport::can::ExtendedArbitrationID_0_1>::type
     set_extended(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::extended>(v...);
     }

@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/node/IOStatistics.0.1.dsdl
-// Generated at:  2023-01-18 06:33:55.922645 UTC
+// Generated at:  2023-01-24 05:52:10.963711 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.node.IOStatistics
@@ -43,7 +43,7 @@
 #ifndef UAVCAN_NODE_IO_STATISTICS_0_1_HPP_INCLUDED
 #define UAVCAN_NODE_IO_STATISTICS_0_1_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
+#include <nunavut/support/serialization.hpp>
 #include <cstdint>
 
 namespace uavcan

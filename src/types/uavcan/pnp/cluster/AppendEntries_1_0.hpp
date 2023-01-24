@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/pnp/cluster/390.AppendEntries.1.0.dsdl
-// Generated at:  2023-01-18 06:33:55.790053 UTC
+// Generated at:  2023-01-24 05:52:11.417938 UTC
 // Is deprecated: no
 // Fixed port-ID: 390
 // Full name:     uavcan.pnp.cluster.AppendEntries
@@ -43,9 +43,9 @@
 #ifndef UAVCAN_PNP_CLUSTER_APPEND_ENTRIES_1_0_HPP_INCLUDED
 #define UAVCAN_PNP_CLUSTER_APPEND_ENTRIES_1_0_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "nunavut/support/variable_length_array.hpp"
-#include "uavcan/pnp/cluster/Entry_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <nunavut/support/variable_length_array.hpp>
+#include <types/uavcan/pnp/cluster/Entry_1_0.hpp>
 #include <cstdint>
 
 namespace uavcan
@@ -238,7 +238,7 @@ struct Request_1_0 final
     ///   128 nodes * 2 trips * 0.5 seconds = 128 seconds.
     /// This is the amount of time it will take for a new Follower to reconstruct a full replica of the distributed log.
     ///
-    nunavut::support::VariableLengthArray<types/uavcan::pnp::cluster::Entry_1_0, 1> entries;
+    nunavut::support::VariableLengthArray<uavcan::pnp::cluster::Entry_1_0, 1> entries;
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

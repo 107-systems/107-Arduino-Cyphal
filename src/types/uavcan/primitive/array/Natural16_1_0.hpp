@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/primitive/array/Natural16.1.0.dsdl
-// Generated at:  2023-01-18 06:33:56.041646 UTC
+// Generated at:  2023-01-24 05:52:11.054969 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.primitive.array.Natural16
@@ -43,8 +43,8 @@
 #ifndef UAVCAN_PRIMITIVE_ARRAY_NATURAL16_1_0_HPP_INCLUDED
 #define UAVCAN_PRIMITIVE_ARRAY_NATURAL16_1_0_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "nunavut/support/variable_length_array.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <nunavut/support/variable_length_array.hpp>
 #include <cstdint>
 
 namespace uavcan

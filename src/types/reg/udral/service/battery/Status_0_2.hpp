@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/service/battery/Status.0.2.dsdl
-// Generated at:  2023-01-18 06:33:57.010476 UTC
+// Generated at:  2023-01-24 05:52:12.170289 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.service.battery.Status
@@ -43,12 +43,12 @@
 #ifndef REG_UDRAL_SERVICE_BATTERY_STATUS_0_2_HPP_INCLUDED
 #define REG_UDRAL_SERVICE_BATTERY_STATUS_0_2_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "nunavut/support/variable_length_array.hpp"
-#include "reg/udral/service/battery/Error_0_1.hpp"
-#include "reg/udral/service/common/Heartbeat_0_1.hpp"
-#include "uavcan/si/unit/electric_charge/Scalar_1_0.hpp"
-#include "uavcan/si/unit/temperature/Scalar_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <nunavut/support/variable_length_array.hpp>
+#include <types/reg/udral/service/battery/Error_0_1.hpp>
+#include <types/reg/udral/service/common/Heartbeat_0_1.hpp>
+#include <types/uavcan/si/unit/electric_charge/Scalar_1_0.hpp>
+#include <types/uavcan/si/unit/temperature/Scalar_1_0.hpp>
 #include <array>
 #include <cstdint>
 
@@ -186,7 +186,7 @@ struct Status_0_2 final
     /// the reported array value would be {258.15, 360.5} K.
     /// If there is only one temperature sensor, both elements shall be of the same value.
     ///
-    std::array<types/uavcan::si::unit::temperature::Scalar_1_0,2> temperature_min_max;
+    std::array<uavcan::si::unit::temperature::Scalar_1_0,2> temperature_min_max;
     ///
     /// The estimated electric charge currently stored in the battery. This is intended for charging and maintenance
     /// only.

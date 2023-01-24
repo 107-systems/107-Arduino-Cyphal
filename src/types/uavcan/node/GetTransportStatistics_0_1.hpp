@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/node/434.GetTransportStatistics.0.1.dsdl
-// Generated at:  2023-01-18 06:33:55.907494 UTC
+// Generated at:  2023-01-24 05:52:10.949299 UTC
 // Is deprecated: no
 // Fixed port-ID: 434
 // Full name:     uavcan.node.GetTransportStatistics
@@ -43,9 +43,9 @@
 #ifndef UAVCAN_NODE_GET_TRANSPORT_STATISTICS_0_1_HPP_INCLUDED
 #define UAVCAN_NODE_GET_TRANSPORT_STATISTICS_0_1_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "nunavut/support/variable_length_array.hpp"
-#include "uavcan/node/IOStatistics_0_1.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <nunavut/support/variable_length_array.hpp>
+#include <types/uavcan/node/IOStatistics_0_1.hpp>
 #include <cstdint>
 
 namespace uavcan
@@ -226,7 +226,7 @@ struct Response_0_1 final
     /// the one at the index zero would apply to the first interface, the other to the second interface.
     /// The methods of counting are implementation-defined.
     ///
-    nunavut::support::VariableLengthArray<types/uavcan::node::IOStatistics_0_1, 3> network_interface_statistics;
+    nunavut::support::VariableLengthArray<uavcan::node::IOStatistics_0_1, 3> network_interface_statistics;
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

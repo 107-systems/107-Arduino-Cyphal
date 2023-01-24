@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/si/sample/velocity/Vector3.1.0.dsdl
-// Generated at:  2023-01-18 06:33:55.606339 UTC
+// Generated at:  2023-01-24 05:52:11.192148 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.si.sample.velocity.Vector3
@@ -43,8 +43,8 @@
 #ifndef UAVCAN_SI_SAMPLE_VELOCITY_VECTOR3_1_0_HPP_INCLUDED
 #define UAVCAN_SI_SAMPLE_VELOCITY_VECTOR3_1_0_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "uavcan/time/SynchronizedTimestamp_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <types/uavcan/time/SynchronizedTimestamp_1_0.hpp>
 #include <array>
 
 namespace uavcan

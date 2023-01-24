@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/register/384.Access.1.0.dsdl
-// Generated at:  2023-01-18 06:33:55.728270 UTC
+// Generated at:  2023-01-24 05:52:11.312964 UTC
 // Is deprecated: no
 // Fixed port-ID: 384
 // Full name:     uavcan.register.Access
@@ -43,10 +43,10 @@
 #ifndef UAVCAN_REGISTER_ACCESS_1_0_HPP_INCLUDED
 #define UAVCAN_REGISTER_ACCESS_1_0_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "uavcan/_register/Name_1_0.hpp"
-#include "uavcan/_register/Value_1_0.hpp"
-#include "uavcan/time/SynchronizedTimestamp_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <types/uavcan/_register/Name_1_0.hpp>
+#include <types/uavcan/_register/Value_1_0.hpp>
+#include <types/uavcan/time/SynchronizedTimestamp_1_0.hpp>
 
 namespace uavcan
 {
@@ -228,7 +228,7 @@ namespace Access
 /// The names are defined by the vendor of the node. The user/integrator is expected to understand their meaning and
 /// relation to the functional capabilities of the node by reading the technical documentation provided by the vendor.
 /// A port whose port-ID register is unset (invalid value) remains inactive (unused); the corresponding function may
-/// be disabled. For example, a register named "uavcan.pub.measurement.id" defines the subject-ID of a measurement
+/// be disabled. For example, a register named <types/uavcan.pub.measurement.id" defines the subject-ID of a measurement
 /// published by this node; if the register contains an invalid value (above the maximum valid subject-ID),
 /// said measurement is not published.
 /// The same name is used in other similar registers defined below. Network introspection and autoconfiguration tools
@@ -241,7 +241,7 @@ namespace Access
 /// Publication/subscription/client/server full data type name and dot-separated version numbers, respectively.
 /// These registers are set by the vendor once and typically they are to remain unchanged (hence "immutable").
 /// The "PORT_NAME" defines the human-friendly name of the port as specified above.
-/// For example, a register named "uavcan.pub.measurement.type" may contain "uavcan.si.sample.angle.Quaternion.1.0".
+/// For example, a register named <types/uavcan.pub.measurement.type" may contain <types/uavcan.si.sample.angle.Quaternion.1.0".
 /// ---------------------------------------------------------------------------------------------------------------------
 ///   uavcan.diagnostic.*
 /// Prefix reserved for future use.

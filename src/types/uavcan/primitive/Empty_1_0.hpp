@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/primitive/Empty.1.0.dsdl
-// Generated at:  2023-01-18 06:33:55.991131 UTC
+// Generated at:  2023-01-24 05:52:11.007313 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.primitive.Empty
@@ -43,7 +43,7 @@
 #ifndef UAVCAN_PRIMITIVE_EMPTY_1_0_HPP_INCLUDED
 #define UAVCAN_PRIMITIVE_EMPTY_1_0_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
+#include <nunavut/support/serialization.hpp>
 
 namespace uavcan
 {

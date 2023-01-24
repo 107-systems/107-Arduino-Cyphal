@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/metatransport/serial/Fragment.0.2.dsdl
-// Generated at:  2023-01-18 06:33:56.087212 UTC
+// Generated at:  2023-01-24 05:52:11.362683 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.metatransport.serial.Fragment
@@ -43,8 +43,8 @@
 #ifndef UAVCAN_METATRANSPORT_SERIAL_FRAGMENT_0_2_HPP_INCLUDED
 #define UAVCAN_METATRANSPORT_SERIAL_FRAGMENT_0_2_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "nunavut/support/variable_length_array.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <nunavut/support/variable_length_array.hpp>
 #include <cstdint>
 
 namespace uavcan

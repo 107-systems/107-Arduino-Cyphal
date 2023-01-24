@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/physics/electricity/Power.0.1.dsdl
-// Generated at:  2023-01-18 06:33:57.037744 UTC
+// Generated at:  2023-01-24 05:52:12.365912 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.physics.electricity.Power
@@ -43,9 +43,9 @@
 #ifndef REG_UDRAL_PHYSICS_ELECTRICITY_POWER_0_1_HPP_INCLUDED
 #define REG_UDRAL_PHYSICS_ELECTRICITY_POWER_0_1_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "uavcan/si/unit/electric_current/Scalar_1_0.hpp"
-#include "uavcan/si/unit/voltage/Scalar_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <types/uavcan/si/unit/electric_current/Scalar_1_0.hpp>
+#include <types/uavcan/si/unit/voltage/Scalar_1_0.hpp>
 
 namespace reg
 {

@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/physics/kinematics/translation/Velocity3Var.0.1.dsdl
-// Generated at:  2023-01-18 06:33:57.123412 UTC
+// Generated at:  2023-01-24 05:52:12.350657 UTC
 // Is deprecated: yes
 // Fixed port-ID: None
 // Full name:     reg.udral.physics.kinematics.translation.Velocity3Var
@@ -51,8 +51,8 @@
 #ifndef REG_UDRAL_PHYSICS_KINEMATICS_TRANSLATION_VELOCITY3VAR_0_1_HPP_INCLUDED
 #define REG_UDRAL_PHYSICS_KINEMATICS_TRANSLATION_VELOCITY3VAR_0_1_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "uavcan/si/sample/velocity/Vector3_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <types/uavcan/si/sample/velocity/Vector3_1_0.hpp>
 #include <array>
 
 namespace reg

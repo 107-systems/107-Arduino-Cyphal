@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/physics/time/TAI64VarTs.0.1.dsdl
-// Generated at:  2023-01-18 06:33:57.034504 UTC
+// Generated at:  2023-01-24 05:52:12.249167 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.physics.time.TAI64VarTs
@@ -43,9 +43,9 @@
 #ifndef REG_UDRAL_PHYSICS_TIME_TAI64VAR_TS_0_1_HPP_INCLUDED
 #define REG_UDRAL_PHYSICS_TIME_TAI64VAR_TS_0_1_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "reg/udral/physics/time/TAI64Var_0_1.hpp"
-#include "uavcan/time/SynchronizedTimestamp_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <types/reg/udral/physics/time/TAI64Var_0_1.hpp>
+#include <types/uavcan/time/SynchronizedTimestamp_1_0.hpp>
 
 namespace reg
 {

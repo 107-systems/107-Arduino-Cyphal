@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/metatransport/can/Frame.0.2.dsdl
-// Generated at:  2023-01-18 06:33:56.114181 UTC
+// Generated at:  2023-01-24 05:52:11.387515 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.metatransport.can.Frame
@@ -43,11 +43,11 @@
 #ifndef UAVCAN_METATRANSPORT_CAN_FRAME_0_2_HPP_INCLUDED
 #define UAVCAN_METATRANSPORT_CAN_FRAME_0_2_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "uavcan/metatransport/can/DataClassic_0_1.hpp"
-#include "uavcan/metatransport/can/DataFD_0_1.hpp"
-#include "uavcan/metatransport/can/Error_0_1.hpp"
-#include "uavcan/metatransport/can/RTR_0_1.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <types/uavcan/metatransport/can/DataClassic_0_1.hpp>
+#include <types/uavcan/metatransport/can/DataFD_0_1.hpp>
+#include <types/uavcan/metatransport/can/Error_0_1.hpp>
+#include <types/uavcan/metatransport/can/RTR_0_1.hpp>
 #include <cstdint>
 
 namespace uavcan
@@ -220,32 +220,32 @@ struct Frame_0_2 final
             if(rhs.tag_ == 0)
             {
                 do_emplace<0>(
-                    std::forward<types/uavcan::metatransport::can::Error_0_1>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::metatransport::can::Error_0_1>::type>(&rhs.internal_union_value_._error)
+                    std::forward<uavcan::metatransport::can::Error_0_1>(
+                        *reinterpret_cast<std::add_pointer<uavcan::metatransport::can::Error_0_1>::type>(&rhs.internal_union_value_._error)
                     )
                 );
             }
             else if(rhs.tag_ == 1)
             {
                 do_emplace<1>(
-                    std::forward<types/uavcan::metatransport::can::DataFD_0_1>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::metatransport::can::DataFD_0_1>::type>(&rhs.internal_union_value_.data_fd)
+                    std::forward<uavcan::metatransport::can::DataFD_0_1>(
+                        *reinterpret_cast<std::add_pointer<uavcan::metatransport::can::DataFD_0_1>::type>(&rhs.internal_union_value_.data_fd)
                     )
                 );
             }
             else if(rhs.tag_ == 2)
             {
                 do_emplace<2>(
-                    std::forward<types/uavcan::metatransport::can::DataClassic_0_1>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::metatransport::can::DataClassic_0_1>::type>(&rhs.internal_union_value_.data_classic)
+                    std::forward<uavcan::metatransport::can::DataClassic_0_1>(
+                        *reinterpret_cast<std::add_pointer<uavcan::metatransport::can::DataClassic_0_1>::type>(&rhs.internal_union_value_.data_classic)
                     )
                 );
             }
             else if(rhs.tag_ == 3)
             {
                 do_emplace<3>(
-                    std::forward<types/uavcan::metatransport::can::RTR_0_1>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::metatransport::can::RTR_0_1>::type>(&rhs.internal_union_value_.remote_transmission_request)
+                    std::forward<uavcan::metatransport::can::RTR_0_1>(
+                        *reinterpret_cast<std::add_pointer<uavcan::metatransport::can::RTR_0_1>::type>(&rhs.internal_union_value_.remote_transmission_request)
                     )
                 );
             }
@@ -288,32 +288,32 @@ struct Frame_0_2 final
             if(rhs.tag_ == 0)
             {
                 do_emplace<0>(
-                    std::forward<types/uavcan::metatransport::can::Error_0_1>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::metatransport::can::Error_0_1>::type>(&rhs.internal_union_value_._error)
+                    std::forward<uavcan::metatransport::can::Error_0_1>(
+                        *reinterpret_cast<std::add_pointer<uavcan::metatransport::can::Error_0_1>::type>(&rhs.internal_union_value_._error)
                     )
                 );
             }
             else if(rhs.tag_ == 1)
             {
                 do_emplace<1>(
-                    std::forward<types/uavcan::metatransport::can::DataFD_0_1>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::metatransport::can::DataFD_0_1>::type>(&rhs.internal_union_value_.data_fd)
+                    std::forward<uavcan::metatransport::can::DataFD_0_1>(
+                        *reinterpret_cast<std::add_pointer<uavcan::metatransport::can::DataFD_0_1>::type>(&rhs.internal_union_value_.data_fd)
                     )
                 );
             }
             else if(rhs.tag_ == 2)
             {
                 do_emplace<2>(
-                    std::forward<types/uavcan::metatransport::can::DataClassic_0_1>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::metatransport::can::DataClassic_0_1>::type>(&rhs.internal_union_value_.data_classic)
+                    std::forward<uavcan::metatransport::can::DataClassic_0_1>(
+                        *reinterpret_cast<std::add_pointer<uavcan::metatransport::can::DataClassic_0_1>::type>(&rhs.internal_union_value_.data_classic)
                     )
                 );
             }
             else if(rhs.tag_ == 3)
             {
                 do_emplace<3>(
-                    std::forward<types/uavcan::metatransport::can::RTR_0_1>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::metatransport::can::RTR_0_1>::type>(&rhs.internal_union_value_.remote_transmission_request)
+                    std::forward<uavcan::metatransport::can::RTR_0_1>(
+                        *reinterpret_cast<std::add_pointer<uavcan::metatransport::can::RTR_0_1>::type>(&rhs.internal_union_value_.remote_transmission_request)
                     )
                 );
             }
@@ -410,19 +410,19 @@ struct Frame_0_2 final
         {
             if (tag_ == 0)
             {
-                reinterpret_cast<types/uavcan::metatransport::can::Error_0_1*>(std::addressof(internal_union_value_._error))->~Error_0_1();
+                reinterpret_cast<uavcan::metatransport::can::Error_0_1*>(std::addressof(internal_union_value_._error))->~Error_0_1();
             }
             else if (tag_ == 1)
             {
-                reinterpret_cast<types/uavcan::metatransport::can::DataFD_0_1*>(std::addressof(internal_union_value_.data_fd))->~DataFD_0_1();
+                reinterpret_cast<uavcan::metatransport::can::DataFD_0_1*>(std::addressof(internal_union_value_.data_fd))->~DataFD_0_1();
             }
             else if (tag_ == 2)
             {
-                reinterpret_cast<types/uavcan::metatransport::can::DataClassic_0_1*>(std::addressof(internal_union_value_.data_classic))->~DataClassic_0_1();
+                reinterpret_cast<uavcan::metatransport::can::DataClassic_0_1*>(std::addressof(internal_union_value_.data_classic))->~DataClassic_0_1();
             }
             else if (tag_ == 3)
             {
-                reinterpret_cast<types/uavcan::metatransport::can::RTR_0_1*>(std::addressof(internal_union_value_.remote_transmission_request))->~RTR_0_1();
+                reinterpret_cast<uavcan::metatransport::can::RTR_0_1*>(std::addressof(internal_union_value_.remote_transmission_request))->~RTR_0_1();
             }
         }
 
@@ -434,7 +434,7 @@ struct Frame_0_2 final
         return VariantType::IndexOf::_error == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::metatransport::can::Error_0_1>::type get__error_if(){
+    typename std::add_pointer<uavcan::metatransport::can::Error_0_1>::type get__error_if(){
         return VariantType::get_if<VariantType::IndexOf::_error>(&union_value);
     }
 
@@ -442,7 +442,7 @@ struct Frame_0_2 final
         return VariantType::get_if<VariantType::IndexOf::_error>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::metatransport::can::Error_0_1>::type get__error(){
+    typename std::add_lvalue_reference<uavcan::metatransport::can::Error_0_1>::type get__error(){
         NUNAVUT_ASSERT(is__error());
         return *VariantType::get_if<VariantType::IndexOf::_error>(&union_value);
     }
@@ -452,7 +452,7 @@ struct Frame_0_2 final
         return *VariantType::get_if<VariantType::IndexOf::_error>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::metatransport::can::Error_0_1>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::metatransport::can::Error_0_1>::type
     set__error(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::_error>(v...);
     }
@@ -460,7 +460,7 @@ struct Frame_0_2 final
         return VariantType::IndexOf::data_fd == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::metatransport::can::DataFD_0_1>::type get_data_fd_if(){
+    typename std::add_pointer<uavcan::metatransport::can::DataFD_0_1>::type get_data_fd_if(){
         return VariantType::get_if<VariantType::IndexOf::data_fd>(&union_value);
     }
 
@@ -468,7 +468,7 @@ struct Frame_0_2 final
         return VariantType::get_if<VariantType::IndexOf::data_fd>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::metatransport::can::DataFD_0_1>::type get_data_fd(){
+    typename std::add_lvalue_reference<uavcan::metatransport::can::DataFD_0_1>::type get_data_fd(){
         NUNAVUT_ASSERT(is_data_fd());
         return *VariantType::get_if<VariantType::IndexOf::data_fd>(&union_value);
     }
@@ -478,7 +478,7 @@ struct Frame_0_2 final
         return *VariantType::get_if<VariantType::IndexOf::data_fd>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::metatransport::can::DataFD_0_1>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::metatransport::can::DataFD_0_1>::type
     set_data_fd(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::data_fd>(v...);
     }
@@ -486,7 +486,7 @@ struct Frame_0_2 final
         return VariantType::IndexOf::data_classic == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::metatransport::can::DataClassic_0_1>::type get_data_classic_if(){
+    typename std::add_pointer<uavcan::metatransport::can::DataClassic_0_1>::type get_data_classic_if(){
         return VariantType::get_if<VariantType::IndexOf::data_classic>(&union_value);
     }
 
@@ -494,7 +494,7 @@ struct Frame_0_2 final
         return VariantType::get_if<VariantType::IndexOf::data_classic>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::metatransport::can::DataClassic_0_1>::type get_data_classic(){
+    typename std::add_lvalue_reference<uavcan::metatransport::can::DataClassic_0_1>::type get_data_classic(){
         NUNAVUT_ASSERT(is_data_classic());
         return *VariantType::get_if<VariantType::IndexOf::data_classic>(&union_value);
     }
@@ -504,7 +504,7 @@ struct Frame_0_2 final
         return *VariantType::get_if<VariantType::IndexOf::data_classic>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::metatransport::can::DataClassic_0_1>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::metatransport::can::DataClassic_0_1>::type
     set_data_classic(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::data_classic>(v...);
     }
@@ -512,7 +512,7 @@ struct Frame_0_2 final
         return VariantType::IndexOf::remote_transmission_request == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::metatransport::can::RTR_0_1>::type get_remote_transmission_request_if(){
+    typename std::add_pointer<uavcan::metatransport::can::RTR_0_1>::type get_remote_transmission_request_if(){
         return VariantType::get_if<VariantType::IndexOf::remote_transmission_request>(&union_value);
     }
 
@@ -520,7 +520,7 @@ struct Frame_0_2 final
         return VariantType::get_if<VariantType::IndexOf::remote_transmission_request>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::metatransport::can::RTR_0_1>::type get_remote_transmission_request(){
+    typename std::add_lvalue_reference<uavcan::metatransport::can::RTR_0_1>::type get_remote_transmission_request(){
         NUNAVUT_ASSERT(is_remote_transmission_request());
         return *VariantType::get_if<VariantType::IndexOf::remote_transmission_request>(&union_value);
     }
@@ -530,7 +530,7 @@ struct Frame_0_2 final
         return *VariantType::get_if<VariantType::IndexOf::remote_transmission_request>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::metatransport::can::RTR_0_1>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::metatransport::can::RTR_0_1>::type
     set_remote_transmission_request(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::remote_transmission_request>(v...);
     }

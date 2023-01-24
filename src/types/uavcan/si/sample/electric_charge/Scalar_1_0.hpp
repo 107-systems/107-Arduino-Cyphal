@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/si/sample/electric_charge/Scalar.1.0.dsdl
-// Generated at:  2023-01-18 06:33:55.597398 UTC
+// Generated at:  2023-01-24 05:52:11.247026 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.si.sample.electric_charge.Scalar
@@ -43,8 +43,8 @@
 #ifndef UAVCAN_SI_SAMPLE_ELECTRIC_CHARGE_SCALAR_1_0_HPP_INCLUDED
 #define UAVCAN_SI_SAMPLE_ELECTRIC_CHARGE_SCALAR_1_0_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "uavcan/time/SynchronizedTimestamp_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <types/uavcan/time/SynchronizedTimestamp_1_0.hpp>
 
 namespace uavcan
 {

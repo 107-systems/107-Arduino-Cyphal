@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/time/7168.Synchronization.1.0.dsdl
-// Generated at:  2023-01-18 06:33:55.976379 UTC
+// Generated at:  2023-01-24 05:52:10.913532 UTC
 // Is deprecated: no
 // Fixed port-ID: 7168
 // Full name:     uavcan.time.Synchronization
@@ -43,7 +43,7 @@
 #ifndef UAVCAN_TIME_SYNCHRONIZATION_1_0_HPP_INCLUDED
 #define UAVCAN_TIME_SYNCHRONIZATION_1_0_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
+#include <nunavut/support/serialization.hpp>
 #include <cstdint>
 
 namespace uavcan

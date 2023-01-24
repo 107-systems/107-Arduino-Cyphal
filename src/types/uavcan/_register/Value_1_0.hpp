@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/register/Value.1.0.dsdl
-// Generated at:  2023-01-18 06:33:55.746712 UTC
+// Generated at:  2023-01-24 05:52:11.329430 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.register.Value
@@ -43,22 +43,22 @@
 #ifndef UAVCAN_REGISTER_VALUE_1_0_HPP_INCLUDED
 #define UAVCAN_REGISTER_VALUE_1_0_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "uavcan/primitive/Empty_1_0.hpp"
-#include "uavcan/primitive/String_1_0.hpp"
-#include "uavcan/primitive/Unstructured_1_0.hpp"
-#include "uavcan/primitive/array/Bit_1_0.hpp"
-#include "uavcan/primitive/array/Integer16_1_0.hpp"
-#include "uavcan/primitive/array/Integer32_1_0.hpp"
-#include "uavcan/primitive/array/Integer64_1_0.hpp"
-#include "uavcan/primitive/array/Integer8_1_0.hpp"
-#include "uavcan/primitive/array/Natural16_1_0.hpp"
-#include "uavcan/primitive/array/Natural32_1_0.hpp"
-#include "uavcan/primitive/array/Natural64_1_0.hpp"
-#include "uavcan/primitive/array/Natural8_1_0.hpp"
-#include "uavcan/primitive/array/Real16_1_0.hpp"
-#include "uavcan/primitive/array/Real32_1_0.hpp"
-#include "uavcan/primitive/array/Real64_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <types/uavcan/primitive/Empty_1_0.hpp>
+#include <types/uavcan/primitive/String_1_0.hpp>
+#include <types/uavcan/primitive/Unstructured_1_0.hpp>
+#include <types/uavcan/primitive/array/Bit_1_0.hpp>
+#include <types/uavcan/primitive/array/Integer16_1_0.hpp>
+#include <types/uavcan/primitive/array/Integer32_1_0.hpp>
+#include <types/uavcan/primitive/array/Integer64_1_0.hpp>
+#include <types/uavcan/primitive/array/Integer8_1_0.hpp>
+#include <types/uavcan/primitive/array/Natural16_1_0.hpp>
+#include <types/uavcan/primitive/array/Natural32_1_0.hpp>
+#include <types/uavcan/primitive/array/Natural64_1_0.hpp>
+#include <types/uavcan/primitive/array/Natural8_1_0.hpp>
+#include <types/uavcan/primitive/array/Real16_1_0.hpp>
+#include <types/uavcan/primitive/array/Real32_1_0.hpp>
+#include <types/uavcan/primitive/array/Real64_1_0.hpp>
 #include <cstdint>
 
 namespace uavcan
@@ -340,120 +340,120 @@ struct Value_1_0 final
             if(rhs.tag_ == 0)
             {
                 do_emplace<0>(
-                    std::forward<types/uavcan::primitive::Empty_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::Empty_1_0>::type>(&rhs.internal_union_value_.empty)
+                    std::forward<uavcan::primitive::Empty_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::Empty_1_0>::type>(&rhs.internal_union_value_.empty)
                     )
                 );
             }
             else if(rhs.tag_ == 1)
             {
                 do_emplace<1>(
-                    std::forward<types/uavcan::primitive::String_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::String_1_0>::type>(&rhs.internal_union_value_.string)
+                    std::forward<uavcan::primitive::String_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::String_1_0>::type>(&rhs.internal_union_value_.string)
                     )
                 );
             }
             else if(rhs.tag_ == 2)
             {
                 do_emplace<2>(
-                    std::forward<types/uavcan::primitive::Unstructured_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::Unstructured_1_0>::type>(&rhs.internal_union_value_.unstructured)
+                    std::forward<uavcan::primitive::Unstructured_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::Unstructured_1_0>::type>(&rhs.internal_union_value_.unstructured)
                     )
                 );
             }
             else if(rhs.tag_ == 3)
             {
                 do_emplace<3>(
-                    std::forward<types/uavcan::primitive::array::Bit_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Bit_1_0>::type>(&rhs.internal_union_value_.bit)
+                    std::forward<uavcan::primitive::array::Bit_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Bit_1_0>::type>(&rhs.internal_union_value_.bit)
                     )
                 );
             }
             else if(rhs.tag_ == 4)
             {
                 do_emplace<4>(
-                    std::forward<types/uavcan::primitive::array::Integer64_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Integer64_1_0>::type>(&rhs.internal_union_value_.integer64)
+                    std::forward<uavcan::primitive::array::Integer64_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Integer64_1_0>::type>(&rhs.internal_union_value_.integer64)
                     )
                 );
             }
             else if(rhs.tag_ == 5)
             {
                 do_emplace<5>(
-                    std::forward<types/uavcan::primitive::array::Integer32_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Integer32_1_0>::type>(&rhs.internal_union_value_.integer32)
+                    std::forward<uavcan::primitive::array::Integer32_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Integer32_1_0>::type>(&rhs.internal_union_value_.integer32)
                     )
                 );
             }
             else if(rhs.tag_ == 6)
             {
                 do_emplace<6>(
-                    std::forward<types/uavcan::primitive::array::Integer16_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Integer16_1_0>::type>(&rhs.internal_union_value_.integer16)
+                    std::forward<uavcan::primitive::array::Integer16_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Integer16_1_0>::type>(&rhs.internal_union_value_.integer16)
                     )
                 );
             }
             else if(rhs.tag_ == 7)
             {
                 do_emplace<7>(
-                    std::forward<types/uavcan::primitive::array::Integer8_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Integer8_1_0>::type>(&rhs.internal_union_value_.integer8)
+                    std::forward<uavcan::primitive::array::Integer8_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Integer8_1_0>::type>(&rhs.internal_union_value_.integer8)
                     )
                 );
             }
             else if(rhs.tag_ == 8)
             {
                 do_emplace<8>(
-                    std::forward<types/uavcan::primitive::array::Natural64_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Natural64_1_0>::type>(&rhs.internal_union_value_.natural64)
+                    std::forward<uavcan::primitive::array::Natural64_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Natural64_1_0>::type>(&rhs.internal_union_value_.natural64)
                     )
                 );
             }
             else if(rhs.tag_ == 9)
             {
                 do_emplace<9>(
-                    std::forward<types/uavcan::primitive::array::Natural32_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Natural32_1_0>::type>(&rhs.internal_union_value_.natural32)
+                    std::forward<uavcan::primitive::array::Natural32_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Natural32_1_0>::type>(&rhs.internal_union_value_.natural32)
                     )
                 );
             }
             else if(rhs.tag_ == 10)
             {
                 do_emplace<10>(
-                    std::forward<types/uavcan::primitive::array::Natural16_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Natural16_1_0>::type>(&rhs.internal_union_value_.natural16)
+                    std::forward<uavcan::primitive::array::Natural16_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Natural16_1_0>::type>(&rhs.internal_union_value_.natural16)
                     )
                 );
             }
             else if(rhs.tag_ == 11)
             {
                 do_emplace<11>(
-                    std::forward<types/uavcan::primitive::array::Natural8_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Natural8_1_0>::type>(&rhs.internal_union_value_.natural8)
+                    std::forward<uavcan::primitive::array::Natural8_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Natural8_1_0>::type>(&rhs.internal_union_value_.natural8)
                     )
                 );
             }
             else if(rhs.tag_ == 12)
             {
                 do_emplace<12>(
-                    std::forward<types/uavcan::primitive::array::Real64_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Real64_1_0>::type>(&rhs.internal_union_value_.real64)
+                    std::forward<uavcan::primitive::array::Real64_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Real64_1_0>::type>(&rhs.internal_union_value_.real64)
                     )
                 );
             }
             else if(rhs.tag_ == 13)
             {
                 do_emplace<13>(
-                    std::forward<types/uavcan::primitive::array::Real32_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Real32_1_0>::type>(&rhs.internal_union_value_.real32)
+                    std::forward<uavcan::primitive::array::Real32_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Real32_1_0>::type>(&rhs.internal_union_value_.real32)
                     )
                 );
             }
             else if(rhs.tag_ == 14)
             {
                 do_emplace<14>(
-                    std::forward<types/uavcan::primitive::array::Real16_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Real16_1_0>::type>(&rhs.internal_union_value_.real16)
+                    std::forward<uavcan::primitive::array::Real16_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Real16_1_0>::type>(&rhs.internal_union_value_.real16)
                     )
                 );
             }
@@ -562,120 +562,120 @@ struct Value_1_0 final
             if(rhs.tag_ == 0)
             {
                 do_emplace<0>(
-                    std::forward<types/uavcan::primitive::Empty_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::Empty_1_0>::type>(&rhs.internal_union_value_.empty)
+                    std::forward<uavcan::primitive::Empty_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::Empty_1_0>::type>(&rhs.internal_union_value_.empty)
                     )
                 );
             }
             else if(rhs.tag_ == 1)
             {
                 do_emplace<1>(
-                    std::forward<types/uavcan::primitive::String_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::String_1_0>::type>(&rhs.internal_union_value_.string)
+                    std::forward<uavcan::primitive::String_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::String_1_0>::type>(&rhs.internal_union_value_.string)
                     )
                 );
             }
             else if(rhs.tag_ == 2)
             {
                 do_emplace<2>(
-                    std::forward<types/uavcan::primitive::Unstructured_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::Unstructured_1_0>::type>(&rhs.internal_union_value_.unstructured)
+                    std::forward<uavcan::primitive::Unstructured_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::Unstructured_1_0>::type>(&rhs.internal_union_value_.unstructured)
                     )
                 );
             }
             else if(rhs.tag_ == 3)
             {
                 do_emplace<3>(
-                    std::forward<types/uavcan::primitive::array::Bit_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Bit_1_0>::type>(&rhs.internal_union_value_.bit)
+                    std::forward<uavcan::primitive::array::Bit_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Bit_1_0>::type>(&rhs.internal_union_value_.bit)
                     )
                 );
             }
             else if(rhs.tag_ == 4)
             {
                 do_emplace<4>(
-                    std::forward<types/uavcan::primitive::array::Integer64_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Integer64_1_0>::type>(&rhs.internal_union_value_.integer64)
+                    std::forward<uavcan::primitive::array::Integer64_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Integer64_1_0>::type>(&rhs.internal_union_value_.integer64)
                     )
                 );
             }
             else if(rhs.tag_ == 5)
             {
                 do_emplace<5>(
-                    std::forward<types/uavcan::primitive::array::Integer32_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Integer32_1_0>::type>(&rhs.internal_union_value_.integer32)
+                    std::forward<uavcan::primitive::array::Integer32_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Integer32_1_0>::type>(&rhs.internal_union_value_.integer32)
                     )
                 );
             }
             else if(rhs.tag_ == 6)
             {
                 do_emplace<6>(
-                    std::forward<types/uavcan::primitive::array::Integer16_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Integer16_1_0>::type>(&rhs.internal_union_value_.integer16)
+                    std::forward<uavcan::primitive::array::Integer16_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Integer16_1_0>::type>(&rhs.internal_union_value_.integer16)
                     )
                 );
             }
             else if(rhs.tag_ == 7)
             {
                 do_emplace<7>(
-                    std::forward<types/uavcan::primitive::array::Integer8_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Integer8_1_0>::type>(&rhs.internal_union_value_.integer8)
+                    std::forward<uavcan::primitive::array::Integer8_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Integer8_1_0>::type>(&rhs.internal_union_value_.integer8)
                     )
                 );
             }
             else if(rhs.tag_ == 8)
             {
                 do_emplace<8>(
-                    std::forward<types/uavcan::primitive::array::Natural64_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Natural64_1_0>::type>(&rhs.internal_union_value_.natural64)
+                    std::forward<uavcan::primitive::array::Natural64_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Natural64_1_0>::type>(&rhs.internal_union_value_.natural64)
                     )
                 );
             }
             else if(rhs.tag_ == 9)
             {
                 do_emplace<9>(
-                    std::forward<types/uavcan::primitive::array::Natural32_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Natural32_1_0>::type>(&rhs.internal_union_value_.natural32)
+                    std::forward<uavcan::primitive::array::Natural32_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Natural32_1_0>::type>(&rhs.internal_union_value_.natural32)
                     )
                 );
             }
             else if(rhs.tag_ == 10)
             {
                 do_emplace<10>(
-                    std::forward<types/uavcan::primitive::array::Natural16_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Natural16_1_0>::type>(&rhs.internal_union_value_.natural16)
+                    std::forward<uavcan::primitive::array::Natural16_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Natural16_1_0>::type>(&rhs.internal_union_value_.natural16)
                     )
                 );
             }
             else if(rhs.tag_ == 11)
             {
                 do_emplace<11>(
-                    std::forward<types/uavcan::primitive::array::Natural8_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Natural8_1_0>::type>(&rhs.internal_union_value_.natural8)
+                    std::forward<uavcan::primitive::array::Natural8_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Natural8_1_0>::type>(&rhs.internal_union_value_.natural8)
                     )
                 );
             }
             else if(rhs.tag_ == 12)
             {
                 do_emplace<12>(
-                    std::forward<types/uavcan::primitive::array::Real64_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Real64_1_0>::type>(&rhs.internal_union_value_.real64)
+                    std::forward<uavcan::primitive::array::Real64_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Real64_1_0>::type>(&rhs.internal_union_value_.real64)
                     )
                 );
             }
             else if(rhs.tag_ == 13)
             {
                 do_emplace<13>(
-                    std::forward<types/uavcan::primitive::array::Real32_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Real32_1_0>::type>(&rhs.internal_union_value_.real32)
+                    std::forward<uavcan::primitive::array::Real32_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Real32_1_0>::type>(&rhs.internal_union_value_.real32)
                     )
                 );
             }
             else if(rhs.tag_ == 14)
             {
                 do_emplace<14>(
-                    std::forward<types/uavcan::primitive::array::Real16_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::primitive::array::Real16_1_0>::type>(&rhs.internal_union_value_.real16)
+                    std::forward<uavcan::primitive::array::Real16_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::primitive::array::Real16_1_0>::type>(&rhs.internal_union_value_.real16)
                     )
                 );
             }
@@ -838,63 +838,63 @@ struct Value_1_0 final
         {
             if (tag_ == 0)
             {
-                reinterpret_cast<types/uavcan::primitive::Empty_1_0*>(std::addressof(internal_union_value_.empty))->~Empty_1_0();
+                reinterpret_cast<uavcan::primitive::Empty_1_0*>(std::addressof(internal_union_value_.empty))->~Empty_1_0();
             }
             else if (tag_ == 1)
             {
-                reinterpret_cast<types/uavcan::primitive::String_1_0*>(std::addressof(internal_union_value_.string))->~String_1_0();
+                reinterpret_cast<uavcan::primitive::String_1_0*>(std::addressof(internal_union_value_.string))->~String_1_0();
             }
             else if (tag_ == 2)
             {
-                reinterpret_cast<types/uavcan::primitive::Unstructured_1_0*>(std::addressof(internal_union_value_.unstructured))->~Unstructured_1_0();
+                reinterpret_cast<uavcan::primitive::Unstructured_1_0*>(std::addressof(internal_union_value_.unstructured))->~Unstructured_1_0();
             }
             else if (tag_ == 3)
             {
-                reinterpret_cast<types/uavcan::primitive::array::Bit_1_0*>(std::addressof(internal_union_value_.bit))->~Bit_1_0();
+                reinterpret_cast<uavcan::primitive::array::Bit_1_0*>(std::addressof(internal_union_value_.bit))->~Bit_1_0();
             }
             else if (tag_ == 4)
             {
-                reinterpret_cast<types/uavcan::primitive::array::Integer64_1_0*>(std::addressof(internal_union_value_.integer64))->~Integer64_1_0();
+                reinterpret_cast<uavcan::primitive::array::Integer64_1_0*>(std::addressof(internal_union_value_.integer64))->~Integer64_1_0();
             }
             else if (tag_ == 5)
             {
-                reinterpret_cast<types/uavcan::primitive::array::Integer32_1_0*>(std::addressof(internal_union_value_.integer32))->~Integer32_1_0();
+                reinterpret_cast<uavcan::primitive::array::Integer32_1_0*>(std::addressof(internal_union_value_.integer32))->~Integer32_1_0();
             }
             else if (tag_ == 6)
             {
-                reinterpret_cast<types/uavcan::primitive::array::Integer16_1_0*>(std::addressof(internal_union_value_.integer16))->~Integer16_1_0();
+                reinterpret_cast<uavcan::primitive::array::Integer16_1_0*>(std::addressof(internal_union_value_.integer16))->~Integer16_1_0();
             }
             else if (tag_ == 7)
             {
-                reinterpret_cast<types/uavcan::primitive::array::Integer8_1_0*>(std::addressof(internal_union_value_.integer8))->~Integer8_1_0();
+                reinterpret_cast<uavcan::primitive::array::Integer8_1_0*>(std::addressof(internal_union_value_.integer8))->~Integer8_1_0();
             }
             else if (tag_ == 8)
             {
-                reinterpret_cast<types/uavcan::primitive::array::Natural64_1_0*>(std::addressof(internal_union_value_.natural64))->~Natural64_1_0();
+                reinterpret_cast<uavcan::primitive::array::Natural64_1_0*>(std::addressof(internal_union_value_.natural64))->~Natural64_1_0();
             }
             else if (tag_ == 9)
             {
-                reinterpret_cast<types/uavcan::primitive::array::Natural32_1_0*>(std::addressof(internal_union_value_.natural32))->~Natural32_1_0();
+                reinterpret_cast<uavcan::primitive::array::Natural32_1_0*>(std::addressof(internal_union_value_.natural32))->~Natural32_1_0();
             }
             else if (tag_ == 10)
             {
-                reinterpret_cast<types/uavcan::primitive::array::Natural16_1_0*>(std::addressof(internal_union_value_.natural16))->~Natural16_1_0();
+                reinterpret_cast<uavcan::primitive::array::Natural16_1_0*>(std::addressof(internal_union_value_.natural16))->~Natural16_1_0();
             }
             else if (tag_ == 11)
             {
-                reinterpret_cast<types/uavcan::primitive::array::Natural8_1_0*>(std::addressof(internal_union_value_.natural8))->~Natural8_1_0();
+                reinterpret_cast<uavcan::primitive::array::Natural8_1_0*>(std::addressof(internal_union_value_.natural8))->~Natural8_1_0();
             }
             else if (tag_ == 12)
             {
-                reinterpret_cast<types/uavcan::primitive::array::Real64_1_0*>(std::addressof(internal_union_value_.real64))->~Real64_1_0();
+                reinterpret_cast<uavcan::primitive::array::Real64_1_0*>(std::addressof(internal_union_value_.real64))->~Real64_1_0();
             }
             else if (tag_ == 13)
             {
-                reinterpret_cast<types/uavcan::primitive::array::Real32_1_0*>(std::addressof(internal_union_value_.real32))->~Real32_1_0();
+                reinterpret_cast<uavcan::primitive::array::Real32_1_0*>(std::addressof(internal_union_value_.real32))->~Real32_1_0();
             }
             else if (tag_ == 14)
             {
-                reinterpret_cast<types/uavcan::primitive::array::Real16_1_0*>(std::addressof(internal_union_value_.real16))->~Real16_1_0();
+                reinterpret_cast<uavcan::primitive::array::Real16_1_0*>(std::addressof(internal_union_value_.real16))->~Real16_1_0();
             }
         }
 
@@ -906,7 +906,7 @@ struct Value_1_0 final
         return VariantType::IndexOf::empty == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::primitive::Empty_1_0>::type get_empty_if(){
+    typename std::add_pointer<uavcan::primitive::Empty_1_0>::type get_empty_if(){
         return VariantType::get_if<VariantType::IndexOf::empty>(&union_value);
     }
 
@@ -914,7 +914,7 @@ struct Value_1_0 final
         return VariantType::get_if<VariantType::IndexOf::empty>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::primitive::Empty_1_0>::type get_empty(){
+    typename std::add_lvalue_reference<uavcan::primitive::Empty_1_0>::type get_empty(){
         NUNAVUT_ASSERT(is_empty());
         return *VariantType::get_if<VariantType::IndexOf::empty>(&union_value);
     }
@@ -924,7 +924,7 @@ struct Value_1_0 final
         return *VariantType::get_if<VariantType::IndexOf::empty>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::primitive::Empty_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::primitive::Empty_1_0>::type
     set_empty(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::empty>(v...);
     }
@@ -932,7 +932,7 @@ struct Value_1_0 final
         return VariantType::IndexOf::string == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::primitive::String_1_0>::type get_string_if(){
+    typename std::add_pointer<uavcan::primitive::String_1_0>::type get_string_if(){
         return VariantType::get_if<VariantType::IndexOf::string>(&union_value);
     }
 
@@ -940,7 +940,7 @@ struct Value_1_0 final
         return VariantType::get_if<VariantType::IndexOf::string>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::primitive::String_1_0>::type get_string(){
+    typename std::add_lvalue_reference<uavcan::primitive::String_1_0>::type get_string(){
         NUNAVUT_ASSERT(is_string());
         return *VariantType::get_if<VariantType::IndexOf::string>(&union_value);
     }
@@ -950,7 +950,7 @@ struct Value_1_0 final
         return *VariantType::get_if<VariantType::IndexOf::string>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::primitive::String_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::primitive::String_1_0>::type
     set_string(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::string>(v...);
     }
@@ -958,7 +958,7 @@ struct Value_1_0 final
         return VariantType::IndexOf::unstructured == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::primitive::Unstructured_1_0>::type get_unstructured_if(){
+    typename std::add_pointer<uavcan::primitive::Unstructured_1_0>::type get_unstructured_if(){
         return VariantType::get_if<VariantType::IndexOf::unstructured>(&union_value);
     }
 
@@ -966,7 +966,7 @@ struct Value_1_0 final
         return VariantType::get_if<VariantType::IndexOf::unstructured>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::primitive::Unstructured_1_0>::type get_unstructured(){
+    typename std::add_lvalue_reference<uavcan::primitive::Unstructured_1_0>::type get_unstructured(){
         NUNAVUT_ASSERT(is_unstructured());
         return *VariantType::get_if<VariantType::IndexOf::unstructured>(&union_value);
     }
@@ -976,7 +976,7 @@ struct Value_1_0 final
         return *VariantType::get_if<VariantType::IndexOf::unstructured>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::primitive::Unstructured_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::primitive::Unstructured_1_0>::type
     set_unstructured(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::unstructured>(v...);
     }
@@ -984,7 +984,7 @@ struct Value_1_0 final
         return VariantType::IndexOf::bit == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::primitive::array::Bit_1_0>::type get_bit_if(){
+    typename std::add_pointer<uavcan::primitive::array::Bit_1_0>::type get_bit_if(){
         return VariantType::get_if<VariantType::IndexOf::bit>(&union_value);
     }
 
@@ -992,7 +992,7 @@ struct Value_1_0 final
         return VariantType::get_if<VariantType::IndexOf::bit>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::primitive::array::Bit_1_0>::type get_bit(){
+    typename std::add_lvalue_reference<uavcan::primitive::array::Bit_1_0>::type get_bit(){
         NUNAVUT_ASSERT(is_bit());
         return *VariantType::get_if<VariantType::IndexOf::bit>(&union_value);
     }
@@ -1002,7 +1002,7 @@ struct Value_1_0 final
         return *VariantType::get_if<VariantType::IndexOf::bit>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::primitive::array::Bit_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::primitive::array::Bit_1_0>::type
     set_bit(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::bit>(v...);
     }
@@ -1010,7 +1010,7 @@ struct Value_1_0 final
         return VariantType::IndexOf::integer64 == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::primitive::array::Integer64_1_0>::type get_integer64_if(){
+    typename std::add_pointer<uavcan::primitive::array::Integer64_1_0>::type get_integer64_if(){
         return VariantType::get_if<VariantType::IndexOf::integer64>(&union_value);
     }
 
@@ -1018,7 +1018,7 @@ struct Value_1_0 final
         return VariantType::get_if<VariantType::IndexOf::integer64>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::primitive::array::Integer64_1_0>::type get_integer64(){
+    typename std::add_lvalue_reference<uavcan::primitive::array::Integer64_1_0>::type get_integer64(){
         NUNAVUT_ASSERT(is_integer64());
         return *VariantType::get_if<VariantType::IndexOf::integer64>(&union_value);
     }
@@ -1028,7 +1028,7 @@ struct Value_1_0 final
         return *VariantType::get_if<VariantType::IndexOf::integer64>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::primitive::array::Integer64_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::primitive::array::Integer64_1_0>::type
     set_integer64(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::integer64>(v...);
     }
@@ -1036,7 +1036,7 @@ struct Value_1_0 final
         return VariantType::IndexOf::integer32 == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::primitive::array::Integer32_1_0>::type get_integer32_if(){
+    typename std::add_pointer<uavcan::primitive::array::Integer32_1_0>::type get_integer32_if(){
         return VariantType::get_if<VariantType::IndexOf::integer32>(&union_value);
     }
 
@@ -1044,7 +1044,7 @@ struct Value_1_0 final
         return VariantType::get_if<VariantType::IndexOf::integer32>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::primitive::array::Integer32_1_0>::type get_integer32(){
+    typename std::add_lvalue_reference<uavcan::primitive::array::Integer32_1_0>::type get_integer32(){
         NUNAVUT_ASSERT(is_integer32());
         return *VariantType::get_if<VariantType::IndexOf::integer32>(&union_value);
     }
@@ -1054,7 +1054,7 @@ struct Value_1_0 final
         return *VariantType::get_if<VariantType::IndexOf::integer32>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::primitive::array::Integer32_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::primitive::array::Integer32_1_0>::type
     set_integer32(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::integer32>(v...);
     }
@@ -1062,7 +1062,7 @@ struct Value_1_0 final
         return VariantType::IndexOf::integer16 == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::primitive::array::Integer16_1_0>::type get_integer16_if(){
+    typename std::add_pointer<uavcan::primitive::array::Integer16_1_0>::type get_integer16_if(){
         return VariantType::get_if<VariantType::IndexOf::integer16>(&union_value);
     }
 
@@ -1070,7 +1070,7 @@ struct Value_1_0 final
         return VariantType::get_if<VariantType::IndexOf::integer16>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::primitive::array::Integer16_1_0>::type get_integer16(){
+    typename std::add_lvalue_reference<uavcan::primitive::array::Integer16_1_0>::type get_integer16(){
         NUNAVUT_ASSERT(is_integer16());
         return *VariantType::get_if<VariantType::IndexOf::integer16>(&union_value);
     }
@@ -1080,7 +1080,7 @@ struct Value_1_0 final
         return *VariantType::get_if<VariantType::IndexOf::integer16>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::primitive::array::Integer16_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::primitive::array::Integer16_1_0>::type
     set_integer16(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::integer16>(v...);
     }
@@ -1088,7 +1088,7 @@ struct Value_1_0 final
         return VariantType::IndexOf::integer8 == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::primitive::array::Integer8_1_0>::type get_integer8_if(){
+    typename std::add_pointer<uavcan::primitive::array::Integer8_1_0>::type get_integer8_if(){
         return VariantType::get_if<VariantType::IndexOf::integer8>(&union_value);
     }
 
@@ -1096,7 +1096,7 @@ struct Value_1_0 final
         return VariantType::get_if<VariantType::IndexOf::integer8>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::primitive::array::Integer8_1_0>::type get_integer8(){
+    typename std::add_lvalue_reference<uavcan::primitive::array::Integer8_1_0>::type get_integer8(){
         NUNAVUT_ASSERT(is_integer8());
         return *VariantType::get_if<VariantType::IndexOf::integer8>(&union_value);
     }
@@ -1106,7 +1106,7 @@ struct Value_1_0 final
         return *VariantType::get_if<VariantType::IndexOf::integer8>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::primitive::array::Integer8_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::primitive::array::Integer8_1_0>::type
     set_integer8(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::integer8>(v...);
     }
@@ -1114,7 +1114,7 @@ struct Value_1_0 final
         return VariantType::IndexOf::natural64 == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::primitive::array::Natural64_1_0>::type get_natural64_if(){
+    typename std::add_pointer<uavcan::primitive::array::Natural64_1_0>::type get_natural64_if(){
         return VariantType::get_if<VariantType::IndexOf::natural64>(&union_value);
     }
 
@@ -1122,7 +1122,7 @@ struct Value_1_0 final
         return VariantType::get_if<VariantType::IndexOf::natural64>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::primitive::array::Natural64_1_0>::type get_natural64(){
+    typename std::add_lvalue_reference<uavcan::primitive::array::Natural64_1_0>::type get_natural64(){
         NUNAVUT_ASSERT(is_natural64());
         return *VariantType::get_if<VariantType::IndexOf::natural64>(&union_value);
     }
@@ -1132,7 +1132,7 @@ struct Value_1_0 final
         return *VariantType::get_if<VariantType::IndexOf::natural64>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::primitive::array::Natural64_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::primitive::array::Natural64_1_0>::type
     set_natural64(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::natural64>(v...);
     }
@@ -1140,7 +1140,7 @@ struct Value_1_0 final
         return VariantType::IndexOf::natural32 == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::primitive::array::Natural32_1_0>::type get_natural32_if(){
+    typename std::add_pointer<uavcan::primitive::array::Natural32_1_0>::type get_natural32_if(){
         return VariantType::get_if<VariantType::IndexOf::natural32>(&union_value);
     }
 
@@ -1148,7 +1148,7 @@ struct Value_1_0 final
         return VariantType::get_if<VariantType::IndexOf::natural32>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::primitive::array::Natural32_1_0>::type get_natural32(){
+    typename std::add_lvalue_reference<uavcan::primitive::array::Natural32_1_0>::type get_natural32(){
         NUNAVUT_ASSERT(is_natural32());
         return *VariantType::get_if<VariantType::IndexOf::natural32>(&union_value);
     }
@@ -1158,7 +1158,7 @@ struct Value_1_0 final
         return *VariantType::get_if<VariantType::IndexOf::natural32>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::primitive::array::Natural32_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::primitive::array::Natural32_1_0>::type
     set_natural32(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::natural32>(v...);
     }
@@ -1166,7 +1166,7 @@ struct Value_1_0 final
         return VariantType::IndexOf::natural16 == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::primitive::array::Natural16_1_0>::type get_natural16_if(){
+    typename std::add_pointer<uavcan::primitive::array::Natural16_1_0>::type get_natural16_if(){
         return VariantType::get_if<VariantType::IndexOf::natural16>(&union_value);
     }
 
@@ -1174,7 +1174,7 @@ struct Value_1_0 final
         return VariantType::get_if<VariantType::IndexOf::natural16>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::primitive::array::Natural16_1_0>::type get_natural16(){
+    typename std::add_lvalue_reference<uavcan::primitive::array::Natural16_1_0>::type get_natural16(){
         NUNAVUT_ASSERT(is_natural16());
         return *VariantType::get_if<VariantType::IndexOf::natural16>(&union_value);
     }
@@ -1184,7 +1184,7 @@ struct Value_1_0 final
         return *VariantType::get_if<VariantType::IndexOf::natural16>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::primitive::array::Natural16_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::primitive::array::Natural16_1_0>::type
     set_natural16(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::natural16>(v...);
     }
@@ -1192,7 +1192,7 @@ struct Value_1_0 final
         return VariantType::IndexOf::natural8 == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::primitive::array::Natural8_1_0>::type get_natural8_if(){
+    typename std::add_pointer<uavcan::primitive::array::Natural8_1_0>::type get_natural8_if(){
         return VariantType::get_if<VariantType::IndexOf::natural8>(&union_value);
     }
 
@@ -1200,7 +1200,7 @@ struct Value_1_0 final
         return VariantType::get_if<VariantType::IndexOf::natural8>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::primitive::array::Natural8_1_0>::type get_natural8(){
+    typename std::add_lvalue_reference<uavcan::primitive::array::Natural8_1_0>::type get_natural8(){
         NUNAVUT_ASSERT(is_natural8());
         return *VariantType::get_if<VariantType::IndexOf::natural8>(&union_value);
     }
@@ -1210,7 +1210,7 @@ struct Value_1_0 final
         return *VariantType::get_if<VariantType::IndexOf::natural8>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::primitive::array::Natural8_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::primitive::array::Natural8_1_0>::type
     set_natural8(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::natural8>(v...);
     }
@@ -1218,7 +1218,7 @@ struct Value_1_0 final
         return VariantType::IndexOf::real64 == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::primitive::array::Real64_1_0>::type get_real64_if(){
+    typename std::add_pointer<uavcan::primitive::array::Real64_1_0>::type get_real64_if(){
         return VariantType::get_if<VariantType::IndexOf::real64>(&union_value);
     }
 
@@ -1226,7 +1226,7 @@ struct Value_1_0 final
         return VariantType::get_if<VariantType::IndexOf::real64>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::primitive::array::Real64_1_0>::type get_real64(){
+    typename std::add_lvalue_reference<uavcan::primitive::array::Real64_1_0>::type get_real64(){
         NUNAVUT_ASSERT(is_real64());
         return *VariantType::get_if<VariantType::IndexOf::real64>(&union_value);
     }
@@ -1236,7 +1236,7 @@ struct Value_1_0 final
         return *VariantType::get_if<VariantType::IndexOf::real64>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::primitive::array::Real64_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::primitive::array::Real64_1_0>::type
     set_real64(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::real64>(v...);
     }
@@ -1244,7 +1244,7 @@ struct Value_1_0 final
         return VariantType::IndexOf::real32 == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::primitive::array::Real32_1_0>::type get_real32_if(){
+    typename std::add_pointer<uavcan::primitive::array::Real32_1_0>::type get_real32_if(){
         return VariantType::get_if<VariantType::IndexOf::real32>(&union_value);
     }
 
@@ -1252,7 +1252,7 @@ struct Value_1_0 final
         return VariantType::get_if<VariantType::IndexOf::real32>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::primitive::array::Real32_1_0>::type get_real32(){
+    typename std::add_lvalue_reference<uavcan::primitive::array::Real32_1_0>::type get_real32(){
         NUNAVUT_ASSERT(is_real32());
         return *VariantType::get_if<VariantType::IndexOf::real32>(&union_value);
     }
@@ -1262,7 +1262,7 @@ struct Value_1_0 final
         return *VariantType::get_if<VariantType::IndexOf::real32>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::primitive::array::Real32_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::primitive::array::Real32_1_0>::type
     set_real32(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::real32>(v...);
     }
@@ -1270,7 +1270,7 @@ struct Value_1_0 final
         return VariantType::IndexOf::real16 == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::primitive::array::Real16_1_0>::type get_real16_if(){
+    typename std::add_pointer<uavcan::primitive::array::Real16_1_0>::type get_real16_if(){
         return VariantType::get_if<VariantType::IndexOf::real16>(&union_value);
     }
 
@@ -1278,7 +1278,7 @@ struct Value_1_0 final
         return VariantType::get_if<VariantType::IndexOf::real16>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::primitive::array::Real16_1_0>::type get_real16(){
+    typename std::add_lvalue_reference<uavcan::primitive::array::Real16_1_0>::type get_real16(){
         NUNAVUT_ASSERT(is_real16());
         return *VariantType::get_if<VariantType::IndexOf::real16>(&union_value);
     }
@@ -1288,7 +1288,7 @@ struct Value_1_0 final
         return *VariantType::get_if<VariantType::IndexOf::real16>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::primitive::array::Real16_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::primitive::array::Real16_1_0>::type
     set_real16(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::real16>(v...);
     }

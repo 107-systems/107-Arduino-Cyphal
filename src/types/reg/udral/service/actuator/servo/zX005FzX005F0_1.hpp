@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/service/actuator/servo/_.0.1.dsdl
-// Generated at:  2023-01-18 06:33:56.943898 UTC
+// Generated at:  2023-01-24 05:52:12.184716 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.service.actuator.servo._
@@ -43,7 +43,7 @@
 #ifndef REG_UDRAL_SERVICE_ACTUATOR_SERVO___0_1_HPP_INCLUDED
 #define REG_UDRAL_SERVICE_ACTUATOR_SERVO___0_1_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
+#include <nunavut/support/serialization.hpp>
 
 namespace reg
 {
@@ -176,7 +176,7 @@ static_assert( nunavut::support::options::enable_allocator_support == 0,
 /// Some applications may require synchronous independent control of multiple servos in a group, similar to ESC.
 /// To address this, a compliant servo should support another operating mode where the controlled quantity
 /// (position, velocity, force, etc.) is selected statically along with the motion profile (using the register API),
-/// and the servo subscribes to the setpoint subject of type "reg.udral.service.actuator.common.sp.*".
+/// and the servo subscribes to the setpoint subject of type <types/reg.udral.service.actuator.common.sp.*".
 /// Having its index in the group configured statically, the servo fetches the setpoint from the appropriate
 /// index in the setpoint array.
 /// The resulting topology closely resembles that of the ESC service:

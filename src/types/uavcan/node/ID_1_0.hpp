@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/node/ID.1.0.dsdl
-// Generated at:  2023-01-18 06:33:55.920330 UTC
+// Generated at:  2023-01-24 05:52:10.961430 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.node.ID
@@ -43,7 +43,7 @@
 #ifndef UAVCAN_NODE_ID_1_0_HPP_INCLUDED
 #define UAVCAN_NODE_ID_1_0_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
+#include <nunavut/support/serialization.hpp>
 #include <cstdint>
 
 namespace uavcan

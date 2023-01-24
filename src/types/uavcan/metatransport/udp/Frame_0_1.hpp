@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/metatransport/udp/Frame.0.1.dsdl
-// Generated at:  2023-01-18 06:33:56.146151 UTC
+// Generated at:  2023-01-24 05:52:11.350785 UTC
 // Is deprecated: yes
 // Fixed port-ID: None
 // Full name:     uavcan.metatransport.udp.Frame
@@ -51,10 +51,10 @@
 #ifndef UAVCAN_METATRANSPORT_UDP_FRAME_0_1_HPP_INCLUDED
 #define UAVCAN_METATRANSPORT_UDP_FRAME_0_1_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "nunavut/support/variable_length_array.hpp"
-#include "uavcan/metatransport/udp/Endpoint_0_1.hpp"
-#include "uavcan/time/SynchronizedTimestamp_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <nunavut/support/variable_length_array.hpp>
+#include <types/uavcan/metatransport/udp/Endpoint_0_1.hpp>
+#include <types/uavcan/time/SynchronizedTimestamp_1_0.hpp>
 #include <cstdint>
 
 namespace uavcan

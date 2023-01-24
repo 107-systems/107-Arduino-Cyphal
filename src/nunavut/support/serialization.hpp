@@ -18,6 +18,8 @@
 #ifndef NUNAVUT_SUPPORT_SERIALIZATION_HPP_INCLUDED
 #define NUNAVUT_SUPPORT_SERIALIZATION_HPP_INCLUDED
 
+#include <cassert>
+
 #define NUNAVUT_ASSERT(expr) assert(expr)
 
 

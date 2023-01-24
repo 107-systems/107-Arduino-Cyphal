@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/si/unit/angle/Scalar.1.0.dsdl
-// Generated at:  2023-01-18 06:33:55.667244 UTC
+// Generated at:  2023-01-24 05:52:11.132334 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.si.unit.angle.Scalar
@@ -43,7 +43,7 @@
 #ifndef UAVCAN_SI_UNIT_ANGLE_SCALAR_1_0_HPP_INCLUDED
 #define UAVCAN_SI_UNIT_ANGLE_SCALAR_1_0_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
+#include <nunavut/support/serialization.hpp>
 
 namespace uavcan
 {

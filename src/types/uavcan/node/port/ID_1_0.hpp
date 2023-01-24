@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/node/port/ID.1.0.dsdl
-// Generated at:  2023-01-18 06:33:55.931817 UTC
+// Generated at:  2023-01-24 05:52:10.972650 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.node.port.ID
@@ -43,9 +43,9 @@
 #ifndef UAVCAN_NODE_PORT_ID_1_0_HPP_INCLUDED
 #define UAVCAN_NODE_PORT_ID_1_0_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "uavcan/node/port/ServiceID_1_0.hpp"
-#include "uavcan/node/port/SubjectID_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <types/uavcan/node/port/ServiceID_1_0.hpp>
+#include <types/uavcan/node/port/SubjectID_1_0.hpp>
 #include <cstdint>
 
 namespace uavcan
@@ -195,16 +195,16 @@ struct ID_1_0 final
             if(rhs.tag_ == 0)
             {
                 do_emplace<0>(
-                    std::forward<types/uavcan::node::port::SubjectID_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::node::port::SubjectID_1_0>::type>(&rhs.internal_union_value_.subject_id)
+                    std::forward<uavcan::node::port::SubjectID_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::node::port::SubjectID_1_0>::type>(&rhs.internal_union_value_.subject_id)
                     )
                 );
             }
             else if(rhs.tag_ == 1)
             {
                 do_emplace<1>(
-                    std::forward<types/uavcan::node::port::ServiceID_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::node::port::ServiceID_1_0>::type>(&rhs.internal_union_value_.service_id)
+                    std::forward<uavcan::node::port::ServiceID_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::node::port::ServiceID_1_0>::type>(&rhs.internal_union_value_.service_id)
                     )
                 );
             }
@@ -235,16 +235,16 @@ struct ID_1_0 final
             if(rhs.tag_ == 0)
             {
                 do_emplace<0>(
-                    std::forward<types/uavcan::node::port::SubjectID_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::node::port::SubjectID_1_0>::type>(&rhs.internal_union_value_.subject_id)
+                    std::forward<uavcan::node::port::SubjectID_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::node::port::SubjectID_1_0>::type>(&rhs.internal_union_value_.subject_id)
                     )
                 );
             }
             else if(rhs.tag_ == 1)
             {
                 do_emplace<1>(
-                    std::forward<types/uavcan::node::port::ServiceID_1_0>(
-                        *reinterpret_cast<std::add_pointer<types/uavcan::node::port::ServiceID_1_0>::type>(&rhs.internal_union_value_.service_id)
+                    std::forward<uavcan::node::port::ServiceID_1_0>(
+                        *reinterpret_cast<std::add_pointer<uavcan::node::port::ServiceID_1_0>::type>(&rhs.internal_union_value_.service_id)
                     )
                 );
             }
@@ -329,11 +329,11 @@ struct ID_1_0 final
         {
             if (tag_ == 0)
             {
-                reinterpret_cast<types/uavcan::node::port::SubjectID_1_0*>(std::addressof(internal_union_value_.subject_id))->~SubjectID_1_0();
+                reinterpret_cast<uavcan::node::port::SubjectID_1_0*>(std::addressof(internal_union_value_.subject_id))->~SubjectID_1_0();
             }
             else if (tag_ == 1)
             {
-                reinterpret_cast<types/uavcan::node::port::ServiceID_1_0*>(std::addressof(internal_union_value_.service_id))->~ServiceID_1_0();
+                reinterpret_cast<uavcan::node::port::ServiceID_1_0*>(std::addressof(internal_union_value_.service_id))->~ServiceID_1_0();
             }
         }
 
@@ -345,7 +345,7 @@ struct ID_1_0 final
         return VariantType::IndexOf::subject_id == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::node::port::SubjectID_1_0>::type get_subject_id_if(){
+    typename std::add_pointer<uavcan::node::port::SubjectID_1_0>::type get_subject_id_if(){
         return VariantType::get_if<VariantType::IndexOf::subject_id>(&union_value);
     }
 
@@ -353,7 +353,7 @@ struct ID_1_0 final
         return VariantType::get_if<VariantType::IndexOf::subject_id>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::node::port::SubjectID_1_0>::type get_subject_id(){
+    typename std::add_lvalue_reference<uavcan::node::port::SubjectID_1_0>::type get_subject_id(){
         NUNAVUT_ASSERT(is_subject_id());
         return *VariantType::get_if<VariantType::IndexOf::subject_id>(&union_value);
     }
@@ -363,7 +363,7 @@ struct ID_1_0 final
         return *VariantType::get_if<VariantType::IndexOf::subject_id>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::node::port::SubjectID_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::node::port::SubjectID_1_0>::type
     set_subject_id(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::subject_id>(v...);
     }
@@ -371,7 +371,7 @@ struct ID_1_0 final
         return VariantType::IndexOf::service_id == union_value.index();
     }
 
-    typename std::add_pointer<types/uavcan::node::port::ServiceID_1_0>::type get_service_id_if(){
+    typename std::add_pointer<uavcan::node::port::ServiceID_1_0>::type get_service_id_if(){
         return VariantType::get_if<VariantType::IndexOf::service_id>(&union_value);
     }
 
@@ -379,7 +379,7 @@ struct ID_1_0 final
         return VariantType::get_if<VariantType::IndexOf::service_id>(&union_value);
     }
 
-    typename std::add_lvalue_reference<types/uavcan::node::port::ServiceID_1_0>::type get_service_id(){
+    typename std::add_lvalue_reference<uavcan::node::port::ServiceID_1_0>::type get_service_id(){
         NUNAVUT_ASSERT(is_service_id());
         return *VariantType::get_if<VariantType::IndexOf::service_id>(&union_value);
     }
@@ -389,7 +389,7 @@ struct ID_1_0 final
         return *VariantType::get_if<VariantType::IndexOf::service_id>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<types/uavcan::node::port::ServiceID_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<uavcan::node::port::ServiceID_1_0>::type
     set_service_id(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::service_id>(v...);
     }

@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/service/actuator/common/sp/Vector2.0.1.dsdl
-// Generated at:  2023-01-18 06:33:56.973654 UTC
+// Generated at:  2023-01-24 05:52:12.210601 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.service.actuator.common.sp.Vector2
@@ -43,7 +43,7 @@
 #ifndef REG_UDRAL_SERVICE_ACTUATOR_COMMON_SP_VECTOR2_0_1_HPP_INCLUDED
 #define REG_UDRAL_SERVICE_ACTUATOR_COMMON_SP_VECTOR2_0_1_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
+#include <nunavut/support/serialization.hpp>
 #include <array>
 
 namespace reg

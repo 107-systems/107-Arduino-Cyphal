@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/file/Path.2.0.dsdl
-// Generated at:  2023-01-18 06:33:55.856740 UTC
+// Generated at:  2023-01-24 05:52:11.286236 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.file.Path
@@ -43,8 +43,8 @@
 #ifndef UAVCAN_FILE_PATH_2_0_HPP_INCLUDED
 #define UAVCAN_FILE_PATH_2_0_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "nunavut/support/variable_length_array.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <nunavut/support/variable_length_array.hpp>
 #include <cstdint>
 
 namespace uavcan

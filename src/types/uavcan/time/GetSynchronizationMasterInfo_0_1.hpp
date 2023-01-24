@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/time/510.GetSynchronizationMasterInfo.0.1.dsdl
-// Generated at:  2023-01-18 06:33:55.970750 UTC
+// Generated at:  2023-01-24 05:52:10.908581 UTC
 // Is deprecated: no
 // Fixed port-ID: 510
 // Full name:     uavcan.time.GetSynchronizationMasterInfo
@@ -43,9 +43,9 @@
 #ifndef UAVCAN_TIME_GET_SYNCHRONIZATION_MASTER_INFO_0_1_HPP_INCLUDED
 #define UAVCAN_TIME_GET_SYNCHRONIZATION_MASTER_INFO_0_1_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "uavcan/time/TAIInfo_0_1.hpp"
-#include "uavcan/time/TimeSystem_0_1.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <types/uavcan/time/TAIInfo_0_1.hpp>
+#include <types/uavcan/time/TimeSystem_0_1.hpp>
 
 namespace uavcan
 {

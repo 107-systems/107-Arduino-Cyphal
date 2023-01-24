@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-1.9.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.dsdl
-// Generated at:  2023-01-18 06:33:55.899062 UTC
+// Generated at:  2023-01-24 05:52:10.941029 UTC
 // Is deprecated: no
 // Fixed port-ID: 430
 // Full name:     uavcan.node.GetInfo
@@ -43,9 +43,9 @@
 #ifndef UAVCAN_NODE_GET_INFO_1_0_HPP_INCLUDED
 #define UAVCAN_NODE_GET_INFO_1_0_HPP_INCLUDED
 
-#include "nunavut/support/serialization.hpp"
-#include "nunavut/support/variable_length_array.hpp"
-#include "uavcan/node/Version_1_0.hpp"
+#include <nunavut/support/serialization.hpp>
+#include <nunavut/support/variable_length_array.hpp>
+#include <types/uavcan/node/Version_1_0.hpp>
 #include <array>
 #include <cstdint>
 
