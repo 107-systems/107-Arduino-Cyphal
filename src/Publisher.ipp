@@ -11,6 +11,8 @@
 
 #include <array>
 
+#undef max
+#undef min
 #include <nunavut/support/serialization.hpp>
 
 /**************************************************************************************
