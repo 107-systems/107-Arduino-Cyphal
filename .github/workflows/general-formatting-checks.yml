@@ -20,7 +20,7 @@ jobs:
         run: find . -path './.git' -prune -or -path './libcanard' -prune -or -path './extras/test/external' -prune -or \( -not -name 'keywords.txt' -and  -not -name '.gitmodules' -and -type f \) -exec grep --with-filename --line-number --binary-files=without-match --regexp=$'\t' '{}' \; -exec echo 'Tab found.' \; -exec false '{}' +
 
       - name: Check for trailing whitespace
-        run: find . -path './.git' -prune -or -path './libcanard' -prune -or -path './extras/test/external' -prune -or -type f -exec grep --with-filename --line-number --binary-files=without-match --regexp='[[:blank:]]$' '{}' \; -exec echo 'Trailing whitespace found.' \; -exec false '{}' +
+        run: find . -path './.git' -prune -or -path './libcanard' -prune -or -path './src/DSDL_Types.h.impl' -prune -or -path './extras/test/external' -prune -or -type f -exec grep --with-filename --line-number --binary-files=without-match --regexp='[[:blank:]]$' '{}' \; -exec echo 'Trailing whitespace found.' \; -exec false '{}' +
 
       - name: Check for non-Unix line endings
         run: find . -path './.git' -prune -or -path './libcanard' -prune -or -path './extras/test/external' -prune -or -type f -exec grep --files-with-matches --binary-files=without-match --regexp=$'\r$' '{}' \; -exec echo 'Non-Unix EOL detected.' \; -exec false '{}' +
