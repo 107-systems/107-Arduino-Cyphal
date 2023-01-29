@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/file/405.GetInfo.0.2.dsdl
-// Generated at:  2023-01-24 05:52:11.253042 UTC
+// Generated at:  2023-01-29 16:46:55.794903 UTC
 // Is deprecated: no
 // Fixed port-ID: 405
 // Full name:     uavcan.file.GetInfo
@@ -277,28 +277,28 @@ struct Response_0_2 final
     ///
     /// File size in bytes. Should be set to zero for directories.
     ///
-    std::uint64_t size;
+    std::uint64_t size{};
     ///
     /// The UNIX Epoch time when the entry was last modified. Zero if unknown.
     ///
-    std::uint64_t unix_timestamp_of_last_modification;
+    std::uint64_t unix_timestamp_of_last_modification{};
     ///
     /// True if file, false if directory.
     ///
-    bool is_file_not_directory;
+    bool is_file_not_directory{};
     ///
     /// This is a link to another entry; the above flag indicates the type of the target.
     ///
-    bool is_link;
+    bool is_link{};
     ///
     /// The item can be read by the caller (applies to files and directories).
     ///
-    bool is_readable;
+    bool is_readable{};
     ///
     /// The item can be written by the caller (applies to files and directories).
     /// If such entry does not exist, all flags should be cleared/ignored.
     ///
-    bool is_writeable;
+    bool is_writeable{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

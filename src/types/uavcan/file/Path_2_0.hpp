@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/file/Path.2.0.dsdl
-// Generated at:  2023-01-24 05:52:11.286236 UTC
+// Generated at:  2023-01-29 16:46:55.829458 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.file.Path
@@ -161,7 +161,7 @@ struct Path_2_0 final
     // | FIELDS
     // +----------------------------------------------------------------------+
 
-    nunavut::support::VariableLengthArray<std::uint8_t, 255> path;
+    nunavut::support::VariableLengthArray<std::uint8_t, 255> path{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/service/battery/Status.0.2.dsdl
-// Generated at:  2023-01-24 05:52:12.170289 UTC
+// Generated at:  2023-01-29 16:46:56.812621 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.service.battery.Status
@@ -186,7 +186,7 @@ struct Status_0_2 final
     /// the reported array value would be {258.15, 360.5} K.
     /// If there is only one temperature sensor, both elements shall be of the same value.
     ///
-    std::array<uavcan::si::unit::temperature::Scalar_1_0,2> temperature_min_max;
+    std::array<uavcan::si::unit::temperature::Scalar_1_0,2> temperature_min_max{};
     ///
     /// The estimated electric charge currently stored in the battery. This is intended for charging and maintenance
     /// only.
@@ -202,7 +202,7 @@ struct Status_0_2 final
     /// [volt]
     /// The voltages of individual cells in the battery pack.
     ///
-    nunavut::support::VariableLengthArray<float, 255> cell_voltages;
+    nunavut::support::VariableLengthArray<float, 255> cell_voltages{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

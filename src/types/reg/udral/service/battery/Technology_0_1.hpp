@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/service/battery/Technology.0.1.dsdl
-// Generated at:  2023-01-24 05:52:12.176857 UTC
+// Generated at:  2023-01-29 16:46:56.818998 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.service.battery.Technology
@@ -248,13 +248,13 @@ struct Technology_0_1 final
     ///
     /// Electrostatic double-layer capacitor
     ///
-    static constexpr std::uint8_t _eDLC = 200U;
+    static constexpr std::uint8_t EDLC = 200U;
 
     // +----------------------------------------------------------------------+
     // | FIELDS
     // +----------------------------------------------------------------------+
 
-    std::uint8_t value;
+    std::uint8_t value{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

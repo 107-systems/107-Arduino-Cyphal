@@ -24,6 +24,6 @@ ENV LC_ALL de_DE.UTF-8
 RUN apt-get install -y bash
 RUN apt-get install -y git
 RUN apt-get install -y python3-pip
-RUN pip3 install nunavut
+RUN pip3 install -U nunavut
 
 CMD ["/bin/bash", "-c", "cd /107-Arduino-Cyphal; ./extras/script/update_cpp_header.sh; exit"]

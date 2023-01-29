@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/service/battery/Parameters.0.3.dsdl
-// Generated at:  2023-01-24 05:52:12.156595 UTC
+// Generated at:  2023-01-29 16:46:56.799524 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.service.battery.Parameters
@@ -174,7 +174,7 @@ struct Parameters_0_3 final
     /// Note that these are mere recommendations. The only hard requirement for this field is to be statistically
     /// unique.
     ///
-    std::uint64_t unique_id;
+    std::uint64_t unique_id{};
     ///
     /// The total mass of the battery, including the packaging, electronics, cabling, and all auxiliary items, if any.
     /// May be used for predicting the kinematic parameters of the vehicle.
@@ -196,7 +196,7 @@ struct Parameters_0_3 final
     /// to
     /// the cell's internal resistance.
     ///
-    std::array<uavcan::si::unit::voltage::Scalar_1_0,2> design_cell_voltage_min_max;
+    std::array<uavcan::si::unit::voltage::Scalar_1_0,2> design_cell_voltage_min_max{};
     ///
     /// Recommended continuous discharge current of the battery.
     ///
@@ -226,16 +226,16 @@ struct Parameters_0_3 final
     /// The number of charge-discharge cycles. Zero if the battery is new. May increase at runtime.
     /// What constitutes a charge-discharge cycle is implementation-defined.
     ///
-    std::uint16_t cycle_count;
+    std::uint16_t cycle_count{};
     ///
     /// The number of cells connected in series. This value should match the array of cell voltages reported via Status.
     ///
-    std::uint8_t series_cell_count;
+    std::uint8_t series_cell_count{};
     ///
     /// [percent]
     /// The SoH of the battery, or best guess thereof; ranges from 0 (unusable) to 100 (new).
     ///
-    std::uint8_t state_of_health_pct;
+    std::uint8_t state_of_health_pct{};
     ///
     /// The battery technology information may be leveraged by the charger to choose the appropriate charging strategy.
     ///
@@ -248,12 +248,12 @@ struct Parameters_0_3 final
     ///
     /// The approximate UNIX Epoch time when the battery was manufactured, zero if unknown.
     ///
-    std::uint64_t unix_manufacture_time;
+    std::uint64_t unix_manufacture_time{};
     ///
     /// An arbitrary human-readable textual description of this battery. Empty if unknown/unused.
     /// Batteries that support SBS are recommended to report the manufacturer name and the device name here.
     ///
-    nunavut::support::VariableLengthArray<std::uint8_t, 64> name;
+    nunavut::support::VariableLengthArray<std::uint8_t, 64> name{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

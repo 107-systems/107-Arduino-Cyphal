@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/physics/kinematics/geodetic/Point.0.1.dsdl
-// Generated at:  2023-01-24 05:52:12.303290 UTC
+// Generated at:  2023-01-29 16:46:56.692725 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.physics.kinematics.geodetic.Point
@@ -156,11 +156,11 @@ struct Point_0_1 final
     ///
     /// [radian]
     ///
-    double latitude;
+    double latitude{};
     ///
     /// [radian]
     ///
-    double longitude;
+    double longitude{};
     ///
     /// Distance between the local mean sea level (MSL) and the focal point of the antenna. Positive altitude above the
     /// MSL.

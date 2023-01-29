@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/node/IOStatistics.0.1.dsdl
-// Generated at:  2023-01-24 05:52:10.963711 UTC
+// Generated at:  2023-01-29 16:46:55.666151 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.node.IOStatistics
@@ -151,17 +151,17 @@ struct IOStatistics_0_1 final
     ///
     /// The number of successfully emitted entities.
     ///
-    std::uint64_t num_emitted;
+    std::uint64_t num_emitted{};
     ///
     /// The number of successfully received entities.
     ///
-    std::uint64_t num_received;
+    std::uint64_t num_received{};
     ///
     /// How many errors have occurred.
     /// The exact definition of "error" and how they are counted are implementation-defined,
     /// unless specifically defined otherwise.
     ///
-    std::uint64_t num_errored;
+    std::uint64_t num_errored{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/physics/kinematics/geodetic/PointVar.0.1.dsdl
-// Generated at:  2023-01-24 05:52:12.315606 UTC
+// Generated at:  2023-01-29 16:46:56.706158 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.physics.kinematics.geodetic.PointVar
@@ -158,7 +158,7 @@ struct PointVar_0_1 final
     /// The position covariance is defined relative to a tangential plane through the specified latitude/longitude.
     /// Element ordering: latitude, longitude, altitude. It is chosen to match the axis ordering of the NED frame.
     ///
-    std::array<float,6> covariance_urt;
+    std::array<float,6> covariance_urt{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

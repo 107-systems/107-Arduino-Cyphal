@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/time/7168.Synchronization.1.0.dsdl
-// Generated at:  2023-01-24 05:52:10.913532 UTC
+// Generated at:  2023-01-29 16:46:55.438834 UTC
 // Is deprecated: no
 // Fixed port-ID: 7168
 // Full name:     uavcan.time.Synchronization
@@ -303,7 +303,7 @@ struct Synchronization_1_0 final
     /// If this message is published for the first time, or if the previous transmission was more than
     /// one second ago, this field shall be zero.
     ///
-    std::uint64_t previous_transmission_timestamp_microsecond;
+    std::uint64_t previous_transmission_timestamp_microsecond{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

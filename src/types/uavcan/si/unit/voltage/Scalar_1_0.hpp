@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/si/unit/voltage/Scalar.1.0.dsdl
-// Generated at:  2023-01-24 05:52:11.154287 UTC
+// Generated at:  2023-01-29 16:46:55.510611 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.si.unit.voltage.Scalar
@@ -147,7 +147,7 @@ struct Scalar_1_0 final
     // | FIELDS
     // +----------------------------------------------------------------------+
 
-    float volt;
+    float volt{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

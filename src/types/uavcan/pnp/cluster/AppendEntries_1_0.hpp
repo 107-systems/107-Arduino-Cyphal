@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/pnp/cluster/390.AppendEntries.1.0.dsdl
-// Generated at:  2023-01-24 05:52:11.417938 UTC
+// Generated at:  2023-01-29 16:46:55.363895 UTC
 // Is deprecated: no
 // Fixed port-ID: 390
 // Full name:     uavcan.pnp.cluster.AppendEntries
@@ -222,15 +222,15 @@ struct Request_1_0 final
     // | FIELDS
     // +----------------------------------------------------------------------+
 
-    std::uint32_t term;
+    std::uint32_t term{};
 
-    std::uint32_t prev_log_term;
+    std::uint32_t prev_log_term{};
 
-    std::uint16_t prev_log_index;
+    std::uint16_t prev_log_index{};
     ///
     /// Refer to the Raft paper for explanation.
     ///
-    std::uint16_t leader_commit;
+    std::uint16_t leader_commit{};
     ///
     /// Worst case replication time per Follower can be computed as:
     ///   worst replication time = (node-ID capacity) * (2 trips of next_index) * (request interval per Follower)
@@ -238,7 +238,7 @@ struct Request_1_0 final
     ///   128 nodes * 2 trips * 0.5 seconds = 128 seconds.
     /// This is the amount of time it will take for a new Follower to reconstruct a full replica of the distributed log.
     ///
-    nunavut::support::VariableLengthArray<uavcan::pnp::cluster::Entry_1_0, 1> entries;
+    nunavut::support::VariableLengthArray<uavcan::pnp::cluster::Entry_1_0, 1> entries{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const
@@ -455,11 +455,11 @@ struct Response_1_0 final
     // | FIELDS
     // +----------------------------------------------------------------------+
 
-    std::uint32_t term;
+    std::uint32_t term{};
     ///
     /// Refer to the Raft paper for explanation.
     ///
-    bool success;
+    bool success{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

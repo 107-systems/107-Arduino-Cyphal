@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/metatransport/ethernet/Frame.0.1.dsdl
-// Generated at:  2023-01-24 05:52:11.358434 UTC
+// Generated at:  2023-01-29 16:46:55.328755 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.metatransport.ethernet.Frame
@@ -152,15 +152,15 @@ struct Frame_0_1 final
     // | FIELDS
     // +----------------------------------------------------------------------+
 
-    std::array<std::uint8_t,6> destination;
+    std::array<std::uint8_t,6> destination{};
 
-    std::array<std::uint8_t,6> source;
+    std::array<std::uint8_t,6> source{};
 
     uavcan::metatransport::ethernet::EtherType_0_1 ethertype;
     ///
     /// Supports conventional jumbo frames (up to 9 KiB).
     ///
-    nunavut::support::VariableLengthArray<std::uint8_t, 9216> payload;
+    nunavut::support::VariableLengthArray<std::uint8_t, 9216> payload{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

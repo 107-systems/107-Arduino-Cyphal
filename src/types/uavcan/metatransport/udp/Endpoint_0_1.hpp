@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/metatransport/udp/Endpoint.0.1.dsdl
-// Generated at:  2023-01-24 05:52:11.346858 UTC
+// Generated at:  2023-01-29 16:46:55.333563 UTC
 // Is deprecated: yes
 // Fixed port-ID: None
 // Full name:     uavcan.metatransport.udp.Endpoint
@@ -161,15 +161,15 @@ struct Endpoint_0_1 final
     /// IPv6 addresses are represented as-is.
     /// IPv4 addresses are represented using IPv4-mapped IPv6 addresses.
     ///
-    std::array<std::uint8_t,16> ip_address;
+    std::array<std::uint8_t,16> ip_address{};
     ///
     /// MAC address of the host in the network byte order (big endian).
     ///
-    std::array<std::uint8_t,6> mac_address;
+    std::array<std::uint8_t,6> mac_address{};
     ///
     /// The UDP port number.
     ///
-    std::uint16_t port;
+    std::uint16_t port{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

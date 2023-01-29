@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/internet/udp/8174.OutgoingPacket.0.1.dsdl
-// Generated at:  2023-01-24 05:52:10.901540 UTC
+// Generated at:  2023-01-29 16:46:55.716691 UTC
 // Is deprecated: yes
 // Fixed port-ID: 8174
 // Full name:     uavcan.internet.udp.OutgoingPacket
@@ -241,11 +241,11 @@ struct OutgoingPacket_0_1 final
     /// numbers. This value can be set to zero safely if the sending node does not have multiple contexts to
     /// distinguish between.
     ///
-    std::uint16_t session_id;
+    std::uint16_t session_id{};
     ///
     /// UDP destination port number.
     ///
-    std::uint16_t destination_port;
+    std::uint16_t destination_port{};
     ///
     /// Domain name or IP address where the payload should be forwarded to.
     /// Note that broadcast addresses are allowed here, for example, 255.255.255.255.
@@ -263,23 +263,23 @@ struct OutgoingPacket_0_1 final
     ///   "2001:db8:85a3::8a2e:370:7334"                  - IPv6 address, same as above, short form (preferred)
     ///   "ABCD:ABCD:ABCD:ABCD:ABCD:ABCD:192.168.158.190" - IPv4-mapped IPv6, full form (length limit, 45 characters)
     ///
-    nunavut::support::VariableLengthArray<std::uint8_t, 45> destination_address;
+    nunavut::support::VariableLengthArray<std::uint8_t, 45> destination_address{};
     ///
     /// Expect data back (i.e., instruct the modem to use the NAT table).
     ///
-    bool use_masquerading;
+    bool use_masquerading{};
     ///
     /// Use Datagram Transport Layer Security. Drop the packet if DTLS is not supported.
     /// Option flags.
     ///
-    bool use_dtls;
+    bool use_dtls{};
     ///
     /// Effective payload. This data will be forwarded to the remote host verbatim.
     /// UDP packets that contain more than 508 bytes of payload may be dropped by some types of
     /// communication equipment. Refer to RFC 791 and 2460 for an in-depth review.
     /// Cyphal further limits the maximum packet size to reduce the memory and traffic burden on the nodes.
     ///
-    nunavut::support::VariableLengthArray<std::uint8_t, 260> payload;
+    nunavut::support::VariableLengthArray<std::uint8_t, 260> payload{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.1.dsdl
-// Generated at:  2023-01-24 05:52:10.927411 UTC
+// Generated at:  2023-01-29 16:46:55.629086 UTC
 // Is deprecated: no
 // Fixed port-ID: 435
 // Full name:     uavcan.node.ExecuteCommand
@@ -221,13 +221,13 @@ struct Request_1_1 final
     /// Vendors can define arbitrary, vendor-specific commands in the bottom part of the range (starting from zero).
     /// Vendor-specific commands shall not use identifiers above 32767.
     ///
-    std::uint16_t command;
+    std::uint16_t command{};
     ///
     /// A string parameter supplied to the command. The format and interpretation is command-specific.
     /// The standard commands do not use this field (ignore it), excepting the following:
     ///   - COMMAND_BEGIN_SOFTWARE_UPDATE
     ///
-    nunavut::support::VariableLengthArray<std::uint8_t, 255> parameter;
+    nunavut::support::VariableLengthArray<std::uint8_t, 255> parameter{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const
@@ -404,7 +404,7 @@ struct Response_1_1 final
     ///
     /// The result of the request.
     ///
-    std::uint8_t status;
+    std::uint8_t status{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

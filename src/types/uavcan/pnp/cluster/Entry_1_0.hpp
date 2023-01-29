@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/pnp/cluster/Entry.1.0.dsdl
-// Generated at:  2023-01-24 05:52:11.429984 UTC
+// Generated at:  2023-01-29 16:46:55.376656 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.pnp.cluster.Entry
@@ -153,11 +153,11 @@ struct Entry_1_0 final
     ///
     /// Refer to the Raft paper for explanation.
     ///
-    std::uint32_t term;
+    std::uint32_t term{};
     ///
     /// Unique-ID of this allocation; zero if unknown.
     ///
-    std::array<std::uint8_t,16> unique_id;
+    std::array<std::uint8_t,16> unique_id{};
     ///
     /// Node-ID of this allocation.
     ///

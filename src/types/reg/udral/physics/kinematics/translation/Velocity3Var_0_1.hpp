@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/physics/kinematics/translation/Velocity3Var.0.1.dsdl
-// Generated at:  2023-01-24 05:52:12.350657 UTC
+// Generated at:  2023-01-29 16:46:56.689400 UTC
 // Is deprecated: yes
 // Fixed port-ID: None
 // Full name:     reg.udral.physics.kinematics.translation.Velocity3Var
@@ -166,7 +166,7 @@ struct Velocity3Var_0_1 final
     ///
     /// [(meter/second)^2] Upper-right triangle of the covariance matrix.
     ///
-    std::array<float,6> covariance_urt;
+    std::array<float,6> covariance_urt{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

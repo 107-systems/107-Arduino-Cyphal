@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/time/510.GetSynchronizationMasterInfo.0.1.dsdl
-// Generated at:  2023-01-24 05:52:10.908581 UTC
+// Generated at:  2023-01-29 16:46:55.433826 UTC
 // Is deprecated: no
 // Fixed port-ID: 510
 // Full name:     uavcan.time.GetSynchronizationMasterInfo
@@ -219,7 +219,7 @@ struct Response_0_1 final
     /// growth would be dependent on the quality of the time keeping hardware available locally (bad hardware yields
     /// faster growth). Once the signal is regained, this value would drop back to nominal.
     ///
-    float error_variance;
+    float error_variance{};
     ///
     /// Time system currently in use by the master.
     /// Cannot be changed while the network is operating.

@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/node/7509.Heartbeat.1.0.dsdl
-// Generated at:  2023-01-24 05:52:10.956937 UTC
+// Generated at:  2023-01-29 16:46:55.659061 UTC
 // Is deprecated: no
 // Fixed port-ID: 7509
 // Full name:     uavcan.node.Heartbeat
@@ -174,7 +174,7 @@ struct Heartbeat_1_0 final
     /// upon which time it should stay at 0xFFFFFFFF until the node is restarted.
     /// Other nodes may detect that a remote node has restarted when this value leaps backwards.
     ///
-    std::uint32_t uptime;
+    std::uint32_t uptime{};
     ///
     /// The abstract health status of this node.
     ///
@@ -188,7 +188,7 @@ struct Heartbeat_1_0 final
     ///
     /// Optional, vendor-specific node status code, e.g. a fault code or a status bitmask.
     ///
-    std::uint8_t vendor_specific_status_code;
+    std::uint8_t vendor_specific_status_code{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/pnp/8166.NodeIDAllocationData.1.0.dsdl
-// Generated at:  2023-01-24 05:52:11.413609 UTC
+// Generated at:  2023-01-29 16:46:55.356838 UTC
 // Is deprecated: no
 // Fixed port-ID: 8166
 // Full name:     uavcan.pnp.NodeIDAllocationData
@@ -189,12 +189,12 @@ struct NodeIDAllocationData_1_0 final
     ///
     /// An arbitrary 48-bit hash of the unique-ID of the local node.
     ///
-    std::uint64_t unique_id_hash;
+    std::uint64_t unique_id_hash{};
     ///
     /// Shall be empty in request messages.
     /// Shall be populated in response messages.
     ///
-    nunavut::support::VariableLengthArray<uavcan::node::ID_1_0, 1> allocated_node_id;
+    nunavut::support::VariableLengthArray<uavcan::node::ID_1_0, 1> allocated_node_id{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

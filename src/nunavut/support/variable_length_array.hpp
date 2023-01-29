@@ -1,7 +1,7 @@
 //
 // Copyright 2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // Copyright (C) 2014 Pavel Kirienko <pavel.kirienko@gmail.com>
-// Copyright (C) 2021  UAVCAN Development Team  <uavcan.org>
+// Copyright (C) 2021  OpenCyphal Development Team  <opencyphal.org>
 // This software is distributed under the terms of the MIT License.
 //
 
@@ -18,6 +18,10 @@
 #if __cpp_exceptions
 #    include <stdexcept>
 #endif
+
+static_assert(
+    __cplusplus >= 201402L,
+    "Unsupported language: ISO C14, C++14, or a newer version of either is required to use the built-in VLA type");
 
 namespace nunavut
 {
@@ -48,7 +52,7 @@ public:
 };
 
 ///
-/// Minimal, generic container for storing UAVCAN variable-length arrays. One property that is unique
+/// Minimal, generic container for storing Cyphal variable-length arrays. One property that is unique
 /// for variable-length arrays is that they have a maximum bound which this implementation enforces.
 /// This allows use of an allocator that is backed by statically allocated memory.
 ///
@@ -456,6 +460,8 @@ public:
         const std::size_t no_shrink_capacity = (clamped_capacity > size_) ? clamped_capacity : size_;
 
         T* new_data = nullptr;
+
+#if __cpp_exceptions
         try
         {
             new_data = alloc_.allocate(no_shrink_capacity);
@@ -465,6 +471,9 @@ public:
             // null by this class.
             (void) e;
         }
+#else
+        new_data = alloc_.allocate(no_shrink_capacity);
+#endif
 
         if (new_data != nullptr)
         {
@@ -690,7 +699,6 @@ private:
         {
             return true;
         }
-
     }
 
     template <typename U>

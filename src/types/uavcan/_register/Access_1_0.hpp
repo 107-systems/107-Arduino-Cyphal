@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/register/384.Access.1.0.dsdl
-// Generated at:  2023-01-24 05:52:11.312964 UTC
+// Generated at:  2023-01-29 16:46:55.384717 UTC
 // Is deprecated: no
 // Fixed port-ID: 384
 // Full name:     uavcan.register.Access
@@ -472,7 +472,7 @@ struct Response_1_0 final
     /// Mutable means that the register can be written using this service.
     /// Immutable registers cannot be written, but that doesn't imply that their values are constant (unchanging).
     ///
-    bool _mutable;
+    bool _mutable{};
     ///
     /// Persistence means that the register retains its value permanently across power cycles or any other changes
     /// in the state of the server, until it is explicitly overwritten (either via Cyphal, any other interface,
@@ -488,7 +488,7 @@ struct Response_1_0 final
     ///   - Registers that contain factory-programmed values such as calibration coefficients that can't
     ///     be changed are typically immutable but persistent.
     ///
-    bool persistent;
+    bool persistent{};
     ///
     /// The value of the register when it was read (beware of race conditions).
     /// Registers never change their type and dimensionality while the node is running.

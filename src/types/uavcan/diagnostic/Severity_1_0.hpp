@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/diagnostic/Severity.1.0.dsdl
-// Generated at:  2023-01-24 05:52:11.445905 UTC
+// Generated at:  2023-01-29 16:46:55.430101 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.diagnostic.Severity
@@ -174,7 +174,7 @@ struct Severity_1_0 final
     /// Messages reporting problems and error conditions.
     /// Messages of this severity and higher should be enabled by default.
     ///
-    static constexpr std::uint8_t _eRROR = 5U;
+    static constexpr std::uint8_t ERROR = 5U;
     ///
     /// Messages reporting serious problems and critical conditions.
     /// Messages of this severity and higher should be always enabled.
@@ -196,7 +196,7 @@ struct Severity_1_0 final
     /// the minimal severity for emitted messages; messages of the selected and higher severity levels will
     /// be published, and messages of lower severity will be suppressed (discarded).
     ///
-    std::uint8_t value;
+    std::uint8_t value{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

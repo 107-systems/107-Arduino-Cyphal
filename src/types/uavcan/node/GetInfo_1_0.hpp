@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.dsdl
-// Generated at:  2023-01-24 05:52:10.941029 UTC
+// Generated at:  2023-01-29 16:46:55.642989 UTC
 // Is deprecated: no
 // Fixed port-ID: 430
 // Full name:     uavcan.node.GetInfo
@@ -229,7 +229,7 @@ struct Response_1_0 final
     /// software revision.
     /// Set to zero if not used.
     ///
-    std::uint64_t software_vcs_revision_id;
+    std::uint64_t software_vcs_revision_id{};
     ///
     /// The unique-ID (UID) is a 128-bit long sequence that is likely to be globally unique per node.
     /// The vendor shall ensure that the probability of a collision with any other node UID globally is negligibly low.
@@ -237,14 +237,14 @@ struct Response_1_0 final
     /// All zeros is not a valid UID.
     /// If the node is equipped with a Cyphal-capable bootloader, the bootloader shall use the same UID.
     ///
-    std::array<std::uint8_t,16> unique_id;
+    std::array<std::uint8_t,16> unique_id{};
     ///
     /// Human-readable non-empty ASCII node name. An empty name is not permitted.
     /// The name shall not be changed while the node is running.
     /// Allowed characters are: a-z (lowercase ASCII letters) 0-9 (decimal digits) . (dot) - (dash) _ (underscore).
     /// Node name is a reversed Internet domain name (like Java packages), e.g. "com.manufacturer.project.product".
     ///
-    nunavut::support::VariableLengthArray<std::uint8_t, 50> name;
+    nunavut::support::VariableLengthArray<std::uint8_t, 50> name{};
     ///
     /// The value of an arbitrary hash function applied to the software image. Not to be changed while the node is
     /// running.
@@ -261,13 +261,13 @@ struct Response_1_0 final
     ///     In order to circumvent this issue, while computing or checking the CRC, its value stored
     ///     within the image should be zeroed out.
     ///
-    nunavut::support::VariableLengthArray<std::uint64_t, 1> software_image_crc;
+    nunavut::support::VariableLengthArray<std::uint64_t, 1> software_image_crc{};
     ///
     /// The certificate of authenticity (COA) of the node, 222 bytes max, optional. This field can be used for
     /// reporting digital signatures (e.g., RSA-1776, or ECDSA if a higher degree of cryptographic strength is desired).
     /// Leave empty if not used. Not to be changed while the node is running.
     ///
-    nunavut::support::VariableLengthArray<std::uint8_t, 222> certificate_of_authenticity;
+    nunavut::support::VariableLengthArray<std::uint8_t, 222> certificate_of_authenticity{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const

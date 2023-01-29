@@ -1,13 +1,13 @@
 //
-// This is an AUTO-GENERATED UAVCAN DSDL data type implementation. Curious? See https://opencyphal.org.
+// This is an AUTO-GENERATED Cyphal DSDL data type implementation. Curious? See https://opencyphal.org.
 // You shouldn't attempt to edit this file.
 //
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-1.9.0 (serialization was enabled)
+// Generator:     nunavut-2.0.0 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/internet/udp/500.HandleIncomingPacket.0.1.dsdl
-// Generated at:  2023-01-24 05:52:10.887967 UTC
+// Generated at:  2023-01-29 16:46:55.704549 UTC
 // Is deprecated: yes
 // Fixed port-ID: 500
 // Full name:     uavcan.internet.udp.HandleIncomingPacket
@@ -189,7 +189,7 @@ struct Request_0_1 final
     /// packet using the message type OutgoingPacket. This value will be used by the local node to match the response
     /// with its local context.
     ///
-    std::uint16_t session_id;
+    std::uint16_t session_id{};
     ///
     /// Effective payload. This data will be forwarded from the remote host verbatim.
     /// UDP packets that contain more than 508 bytes of payload may be dropped by some types of
@@ -197,7 +197,7 @@ struct Request_0_1 final
     /// Cyphal further limits the maximum packet size to reduce the memory and traffic burden on the nodes.
     /// Datagrams that exceed the capacity of this field should be discarded by the modem node.
     ///
-    nunavut::support::VariableLengthArray<std::uint8_t, 309> payload;
+    nunavut::support::VariableLengthArray<std::uint8_t, 309> payload{};
 
     nunavut::support::SerializeResult
     serialize(nunavut::support::bitspan out_buffer) const
