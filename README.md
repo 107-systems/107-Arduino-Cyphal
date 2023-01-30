@@ -20,7 +20,7 @@ This library works for
 * [arduino-pico](https://github.com/earlephilhower/arduino-pico): [`Raspberry Pi Pico`](https://www.raspberrypi.org/products/raspberry-pi-pico), `Adafruit Feather RP2040`, ... :heavy_check_mark:
 * **Host** (x86/x64/...): Using the CMake build system this library can be cross-compiled to a static C++ library and linked against any C++ executable. This is possible because the code itself is pure C/C++ without and dependencies to the Arduino framework.
 ```bash
-* git clone https://github.com/107-systems/libdynamixelplusplus && cd libdynamixelplusplus
+* git clone https://github.com/107-systems/107-Arduino-Cyphal && cd 107-Arduino-Cyphal
   mkdir build && cd build
   cmake .. && make
 ```
@@ -29,17 +29,15 @@ or
 cmake -DBUILD_EXAMPLES=ON .. && make
 ```
 
-### Reference-Implementation OpenCyphal on Arduino
-* [OpenCyphal-GNSS-Node](examples/OpenCyphal-GNSS-Node): A OpenCyphal node with a GNSS sensor providing location data.
-* [OpenCyphal-ToF-Distance-Sensor-Node](examples/OpenCyphal-ToF-Distance-Sensor-Node): Demo firmware for OpenCyphal ToF Distance Sensor Node utilizing 107-Arduino-Cyphal.
-* [SimLE-tenso-can](https://github.com/not7cd/simle-tenso-can/): Firmware with multiple features for tensometer node on ESP32 utilizing its native CAN controller.
-* [SimLE-sensor-bridge](https://github.com/not7cd/simle-sensor-bridge): CAN to I2C bridge for case specific communication with older PixHawk versions.
+### Reference-Implementations
+* [OpenCyphal-GNSS-Node](examples/OpenCyphal-GNSS-Node): A Cyphal node with a GNSS sensor providing location data.
+* [OpenCyphal-ToF-Distance-Sensor-Node](examples/OpenCyphal-ToF-Distance-Sensor-Node): A Cyphal node providing distance data measured with a TMF8801 ToF distance sensor.
+* [OpenCyphalPicoBase-firmware](https://github.com/107-systems/OpenCyphalPicoBase-firmware): Firmware for the [OpenCyphalPicoBase](https://github.com/generationmake/OpenCyphalPicoBase) board.
+* [l3xz-aux-ctrl-firmware](https://github.com/107-systems/l3xz-aux-ctrl-firmware): Firmware for the [L3X-Z](https://github.com/107-systems/l3xz) auxiliary controller ([OpenCyphalPicoBase](https://github.com/generationmake/OpenCyphalPicoBase)).
+* [l3xz-leg-ctrl-firmware](https://github.com/107-systems/l3xz-leg-ctrl-firmware): Firmware for the [L3X-Z](https://github.com/107-systems/l3xz) leg controller ([l3xz-leg-ctrl-hardware](https://github.com/107-systems/l3xz-leg-ctrl-hardware)).
+* [l3xz-radiation-sensor-firmware](https://github.com/107-systems/l3xz-radiation-sensor-firmware): Firmware for the [L3X-Z](https://github.com/107-systems/l3xz) radiation sensor ([OpenCyphalPicoBase](https://github.com/generationmake/OpenCyphalPicoBase)).
 
 ### Example
-**Note**: Please be advised that the [examples](examples) shipped with this library are to be considered minimal examples to get you started working with [OpenCyphal](https://opencyphal.org/).
-They are known to violate section **2.1.2.2 Regulation** of the OpenCyphal Specification due to their reliance on hard-coded port identifiers.
-A compliant implementation would instead provide configurable port-IDs and support the Register Interface (section **5.3 Application-layer functions**).
-Fully compliant examples that implement reconfigurable port-IDs are shipped separately; e.g., [OpenCyphal-GNSS-Node](examples/OpenCyphal-GNSS-Node).
 ```C++
 #include <107-Arduino-Cyphal.h>
 /* ... */
@@ -63,84 +61,3 @@ void loop() {
   }
 }
 ```
-
-### Contribution
-#### How to add missing wrappers
-##### Docker automatization
-The generation of C header files from OpenCyphal's [public_regulated_data_types](https://github.com/OpenCyphal/public_regulated_data_types) (step 1-3 in the instructions below) can also be executed by invoking a Docker container. It can be built and executed with the following commands:
-
-Install Docker via `snap` or follow the official [instructions](https://docs.docker.com/engine/install/ubuntu/):
-```bash
-sudo snap install docker
-```
-**Note**: You may need to add your user to the `docker` group:
-```bash
-sudo usermod -a -G docker $USER
-```
-Generating the C header files using a Docker container:
-```bash
-cd extras/script
-./build_docker.sh
-./docker_codegen.sh
-```
-
-##### Step 1) Generate C header files from DSDL
-**Option A) Use [nunavut/nnvg](https://github.com/OpenCyphal/nunavut)**
-* Install **nunavut**: `pip install nunavut` (you will need a functional [Python installation](https://docs.python.org/3/using/index.html))
-* Get some DSDL
-```bash
-git clone https://github.com/OpenCyphal/public_regulated_data_types
-```
-* Generate C header files from DSDL
-```bash
-nnvg --target-language c \
-     --pp-max-emptylines=1  \
-     --pp-trim-trailing-whitespace \
-     --target-endianness=any \
-     --enable-serialization-asserts \
-     --outdir public_regulated_data_types/uavcan-header \
-     public_regulated_data_types/uavcan
-
-nnvg --target-language c \
-     --pp-max-emptylines=1  \
-     --pp-trim-trailing-whitespace \
-     --target-endianness=any \
-     --enable-serialization-asserts \
-     --lookup public_regulated_data_types/uavcan \
-     --outdir public_regulated_data_types/reg-header \
-     public_regulated_data_types/reg
-```
-**Option B) Use [nunaweb](http://nunaweb.uavcan.org/)**
-##### Step 2) Copy generated C header files to [`src/types`](https://github.com/107-systems/107-Arduino-Cyphal/tree/master/src/types)
-```bash
-types/reg/drone/physics/electricity/
-├── Power_0_1.h
-├── PowerTs_0_1.h
-├── Source_0_1.h
-└── SourceTs_0_1.h
-```
-##### Step 3) Fix include path in generated C header files by prefixing it with `<types/`
-```diff
--#include <uavcan/file/Path_1_0.h>
-+#include <types/uavcan/file/Path_1_0.h>
-...
--#include <reg/drone/physics/electricity/Power_0_1.h>
-+#include <types/reg/drone/physics/electricity/Power_0_1.h>
-```
-##### Step 4) Manually implement wrapper classes in [`src/wrappers`](https://github.com/107-systems/107-Arduino-Cyphal/tree/master/src/wrappers)
-```bash
-wrappers/reg/drone/physics/electricity/
-├── Power_0_1.hpp
-├── PowerTs_0_1.hpp
-├── Source_0_1.hpp
-└── SourceTs_0_1.hpp
-```
-##### Step 5) Add the wrapper classes to [`src/NodeTypes.h`](https://github.com/107-systems/107-Arduino-Cyphal/blob/master/src/NodeTypes.h)
-```diff
-+#include "wrappers/reg/drone/physics/electricity/Power_0_1.hpp"
-+#include "wrappers/reg/drone/physics/electricity/PowerTs_0_1.hpp"
-+#include "wrappers/reg/drone/physics/electricity/Source_0_1.hpp"
-+#include "wrappers/reg/drone/physics/electricity/SourceTs_0_1.hpp"
-```
-##### Step 6) [Create PR](https://github.com/107-systems/107-Arduino-Cyphal/pulls) to mainline your changes
-Note: Only OpenCyphal types listed in [public_regulated_data_types:master](https://github.com/OpenCyphal/public_regulated_data_types) will be accepted into this repository.
