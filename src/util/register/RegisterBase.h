@@ -12,8 +12,8 @@
  * INCLUDES
  **************************************************************************************/
 
-#include "../DSDL_Types.h"
-#include "../util/vla/vla.h"
+#include "../../DSDL_Types.h"
+#include "../vla/vla.h"
 
 #include <functional>
 

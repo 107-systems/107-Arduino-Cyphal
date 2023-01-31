@@ -19,7 +19,7 @@
 #include "ServiceClient.hpp"
 #include "ServiceServer.hpp"
 #include "util/nodeinfo/NodeInfo.h"
-#include "register/RegisterList.h"
+#include "util/register/RegisterList.h"
 #include "util/vla/vla.h"
 
 #endif /* _107_ARDUINO_CYPHAL_H_ */
