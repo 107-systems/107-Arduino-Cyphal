@@ -14,8 +14,8 @@
 
 #include <string>
 
-#include "../Node.hpp"
-#include "../DSDL_Types.h"
+#include "../../Node.hpp"
+#include "../../DSDL_Types.h"
 
 /**************************************************************************************
  * CLASS DECLARATION

@@ -12,7 +12,7 @@ add_subdirectory(src/libo1heap)
 add_subdirectory(extras/cyphal++/libsocketcan)
 ##########################################################################
 add_library(${PROJECT_NAME} STATIC
-  src/nodeinfo/NodeInfo.cpp
+  src/util/nodeinfo/NodeInfo.cpp
   src/register/RegisterList.cpp
   src/util/vla/vla.cpp
   src/Node.cpp
