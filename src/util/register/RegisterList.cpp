@@ -19,7 +19,6 @@
  **************************************************************************************/
 
 RegisterList::RegisterList(Node & node_hdl)
-: _reg_last{"", Access::ReadOnly, Persistent::No}
 {
   _reg_list_srv = node_hdl.create_service_server<TListRequest, TListResponse>(
     TListRequest::FixedPortId,
@@ -42,9 +41,16 @@ RegisterList::RegisterList(Node & node_hdl)
 * PRIVATE MEMBER FUNCTIONS
 **************************************************************************************/
 
-RegisterList::TListResponse RegisterList::onList_1_0_Request_Received(TListRequest const & /* req */)
+RegisterList::TListResponse RegisterList::onList_1_0_Request_Received(TListRequest const & req)
 {
-  return {};
+  TListResponse rsp{};
+
+  if (req.index < _reg_list.size())
+    std::copy(_reg_list[req.index]->name().name.cbegin(),
+              _reg_list[req.index]->name().name.cend(),
+              std::back_inserter(rsp.name.name));
+
+  return rsp;
 }
 
 RegisterList::TAccessResponse RegisterList::onAccess_1_0_Request_Received(TAccessRequest const & /* req */)

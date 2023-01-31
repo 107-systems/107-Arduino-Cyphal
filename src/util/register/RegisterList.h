@@ -37,7 +37,6 @@ public:
 
 private:
   std::vector<impl::RegisterBase *> _reg_list;
-  impl::RegisterBase const _reg_last;
 
   typedef uavcan::_register::List::Request_1_0  TListRequest;
   typedef uavcan::_register::List::Response_1_0 TListResponse;
