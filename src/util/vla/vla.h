@@ -5,26 +5,38 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef REGISTER_PERSISTENT_H_
-#define REGISTER_PERSISTENT_H_
+#ifndef INC_107_ARDUINO_CYPHAL_VLA_H
+#define INC_107_ARDUINO_CYPHAL_VLA_H
+
+/**************************************************************************************
+ * INCLUDES
+ **************************************************************************************/
+
+#include <string>
+
+#include "../../DSDL_Types.h"
 
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
 
-namespace Register
+namespace vla
 {
 
 /**************************************************************************************
- * TYPEDEF
+ * FUNCTION DECLARATIONS
  **************************************************************************************/
 
-enum class Persistent { Yes, No };
+uavcan::primitive::String_1_0 to_String_1_0(std::string const & str);
+uavcan::primitive::String_1_0 to_String_1_0(char const * c_str);
+
+uavcan::_register::Name_1_0 to_Name_1_0(std::string const & str);
+uavcan::_register::Name_1_0 to_Name_1_0(char const * c_str);
 
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
 
-} /* Register */
+} /* vla */
 
-#endif /* REGISTER_PERSISTENT_H_ */
+#endif /* INC_107_ARDUINO_CYPHAL_VLA_H */

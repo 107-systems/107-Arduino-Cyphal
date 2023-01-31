@@ -13,8 +13,8 @@ add_subdirectory(extras/cyphal++/libsocketcan)
 ##########################################################################
 add_library(${PROJECT_NAME} STATIC
   src/nodeinfo/NodeInfo.cpp
-#        src/register/RegisterBase.cpp
-#  src/register/RegisterList.cpp
+  src/register/RegisterList.cpp
+  src/util/vla/vla.cpp
   src/Node.cpp
 )
 ##########################################################################

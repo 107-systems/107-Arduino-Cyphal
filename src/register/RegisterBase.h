@@ -12,10 +12,24 @@
  * INCLUDES
  **************************************************************************************/
 
-#include <string>
-
 #include "../DSDL_Types.h"
-#include "types/TypeTag.hpp"
+#include "../util/vla/vla.h"
+
+#include <functional>
+
+/**************************************************************************************
+ * TYPEDEF
+ **************************************************************************************/
+
+enum class Access { ReadWrite, ReadOnly };
+enum class Persistent { Yes, No };
+
+/**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+namespace impl
+{
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -24,29 +38,46 @@
 class RegisterBase
 {
 public:
-  RegisterBase(std::string const & name,
-               Register::TypeTag const type_tag,
-               bool const is_mutable,
-               bool const is_persistent);
+  typedef std::function<uint64_t(void)> MicrosFunc;
+
+  RegisterBase(std::string const &name,
+               Access const access,
+               Persistent const is_persistent)
+  : _name{vla::to_Name_1_0(name)}
+  , _timestamp{}
+  , _is_mutable{access == Access::ReadWrite}
+  , _is_persistent{is_persistent == Persistent::Yes}
+  { }
 
 
-  inline uavcan::_register::Name_1_0 const & name() const { return _name; }
-  inline Register::TypeTag type_tag() const { return _type_tag; }
-  inline bool isMutable() const { return _is_mutable; }
-  inline bool isPersistent() const { return _is_persistent; }
-  inline uavcan::time::SynchronizedTimestamp_1_0 timestamp() const { return _timestamp; }
+  inline uavcan::_register::Name_1_0 const &name() const
+  { return _name; }
+
+  uavcan::time::SynchronizedTimestamp_1_0 const &timestamp() const
+  { return _timestamp; }
+
+  inline bool isMutable() const
+  { return _is_mutable; }
+
+  inline bool isPersistent() const
+  { return _is_persistent; }
 
 
 protected:
-  inline void setTimestamp(uint64_t const microsecond) { _timestamp.microsecond = microsecond; }
-
+  void setTimestamp(uavcan::time::SynchronizedTimestamp_1_0 const & timestamp)
+  { _timestamp = timestamp; }
 
 private:
   uavcan::_register::Name_1_0 _name;
-  Register::TypeTag const _type_tag;
+  uavcan::time::SynchronizedTimestamp_1_0 _timestamp;
   bool const _is_mutable;
   bool const _is_persistent;
-  uavcan::time::SynchronizedTimestamp_1_0 _timestamp;
 };
+
+/**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+} /* impl */
 
 #endif /* REGISTER_BASE_H_ */

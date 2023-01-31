@@ -15,7 +15,7 @@
 #include <map>
 #include <vector>
 
-#include "RegisterDerived.hpp"
+#include "Register.hpp"
 
 #include "../Node.hpp"
 #include "../DSDL_Types.h"
@@ -30,16 +30,14 @@ public:
   RegisterList(Node & node_hdl);
 
 
-  template <typename T> inline void add(RegisterDerived<T> & reg_ptr) {
-    _reg_list.push_back(reinterpret_cast<RegisterBase *>(&reg_ptr));
+  template <typename T> inline void add(impl::Register<T> & reg_ptr) {
+    _reg_list.push_back(static_cast<impl::RegisterBase *>(&reg_ptr));
   }
 
 
 private:
-  std::vector<RegisterBase *> _reg_list;
-  RegisterBase const _reg_last;
-  typedef std::function<uavcan::_register::Access::Response_1_0(uavcan::_register::Access::Request_1_0 const &, RegisterBase *)> OnAccessRequestHandlerFunc;
-  std::map<Register::TypeTag, OnAccessRequestHandlerFunc> _on_access_request_handler_map;
+  std::vector<impl::RegisterBase *> _reg_list;
+  impl::RegisterBase const _reg_last;
 
   typedef uavcan::_register::List::Request_1_0  TListRequest;
   typedef uavcan::_register::List::Response_1_0 TListResponse;
