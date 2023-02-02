@@ -66,6 +66,14 @@ jobs:
           enable-deltas-report: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
           sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
+          sketch-paths:
+            - examples/OpenCyphal-Blink
+            - examples/OpenCyphal-Heartbeat-Publisher
+            - examples/OpenCyphal-Heartbeat-Subscriber
+            - examples/OpenCyphal-Service-Client
+            - examples/OpenCyphal-Service-Server
+            - examples/OpenCyphal-GNSS-Node
+            - examples/OpenCyphal-ToF-Distance-Sensor-Node
 
       - name: Save memory usage change report as artifact
         if: github.event_name == 'pull_request'
