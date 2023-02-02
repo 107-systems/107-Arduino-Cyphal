@@ -47,7 +47,7 @@ Subscription Node::create_subscription(CanardPortID const port_id,
   int8_t const rc = canardRxSubscribe(&_canard_hdl,
                                       CanardTransferKindMessage,
                                       port_id,
-                                      T::MAX_PAYLOAD_SIZE,
+                                      T::EXTENT_BYTES,
                                       rx_timeout_usec,
                                       &(sub->canard_rx_subscription()));
   if (rc < 0)
