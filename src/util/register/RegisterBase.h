@@ -21,8 +21,12 @@
  * TYPEDEF
  **************************************************************************************/
 
-enum class Access { ReadWrite, ReadOnly };
-enum class Persistent { Yes, No };
+namespace Register
+{
+  enum class Mutable { Yes, No };
+  enum class Persistent { Yes, No };
+  typedef std::function<uint64_t(void)> MicrosFunc;
+}
 
 /**************************************************************************************
  * NAMESPACE
@@ -38,16 +42,10 @@ namespace impl
 class RegisterBase
 {
 public:
-  typedef std::function<uint64_t(void)> MicrosFunc;
-
   RegisterBase(std::string const &name,
-               Access const access,
-               Persistent const is_persistent,
-               MicrosFunc const micros)
+               Register::MicrosFunc const micros)
   : _name{vla::to_Name_1_0(name)}
   , _timestamp{}
-  , _is_mutable{access == Access::ReadWrite}
-  , _is_persistent{is_persistent == Persistent::Yes}
   , _micros{micros}
   { }
 
@@ -58,12 +56,6 @@ public:
   uavcan::time::SynchronizedTimestamp_1_0 const &timestamp() const
   { return _timestamp; }
 
-  inline bool isMutable() const
-  { return _is_mutable; }
-
-  inline bool isPersistent() const
-  { return _is_persistent; }
-
 
 protected:
   void updateTimestamp()
@@ -72,9 +64,7 @@ protected:
 private:
   uavcan::_register::Name_1_0 _name;
   uavcan::time::SynchronizedTimestamp_1_0 _timestamp;
-  bool const _is_mutable;
-  bool const _is_persistent;
-  MicrosFunc const _micros;
+  Register::MicrosFunc const _micros;
 };
 
 /**************************************************************************************

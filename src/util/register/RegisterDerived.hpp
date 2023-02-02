@@ -25,16 +25,18 @@ namespace impl
  * CLASS DECLARATION
  **************************************************************************************/
 
-template<typename T>
-class Register : public RegisterBase
+template<typename T, Register::Mutable IsMutable, Register::Persistent IsPersistent>
+class RegisterDerived : public RegisterBase
 {
 public:
-  Register(std::string const &name,
-           Access const access,
-           Persistent const is_persistent,
-           T const & val,
-           RegisterBase::MicrosFunc const micros)
-  : RegisterBase{name, access, is_persistent, micros}
+  static bool constexpr is_mutable    = (IsMutable == Register::Mutable::Yes);
+  static bool constexpr is_persistent = (IsPersistent == Register::Persistent::Yes);
+
+
+  RegisterDerived(std::string const &name,
+                  T const & val,
+                  Register::MicrosFunc const micros)
+  : RegisterBase{name, micros}
   , _val{val}
   { }
 

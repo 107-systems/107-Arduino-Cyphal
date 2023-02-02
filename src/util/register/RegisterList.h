@@ -15,7 +15,7 @@
 #include <vector>
 #include <functional>
 
-#include "Register.hpp"
+#include "RegisterDerived.hpp"
 
 #include "../../Node.hpp"
 #include "../../DSDL_Types.h"
@@ -27,7 +27,7 @@
 class RegisterList
 {
 public:
-  RegisterList(Node & node_hdl, impl::RegisterBase::MicrosFunc const micros)
+  RegisterList(Node & node_hdl, Register::MicrosFunc const micros)
   : _micros{micros}
   {
     _reg_list_srv = node_hdl.create_service_server<TListRequest, TListResponse>(
@@ -47,14 +47,11 @@ public:
       });
   }
 
-  template <typename T>
-  std::shared_ptr<impl::Register<T>> create(std::string const &name,
-                                            Access const access,
-                                            Persistent const is_persistent,
-                                            T const & val);
+  template <typename T, Register::Mutable IsMutable, Register::Persistent IsPersistent>
+  std::shared_ptr<impl::RegisterDerived<T, IsMutable, IsPersistent>> create(std::string const &name, T const & val);
 
 private:
-  impl::RegisterBase::MicrosFunc const _micros;
+  Register::MicrosFunc const _micros;
   std::vector<std::shared_ptr<impl::RegisterBase>> _reg_list;
 
   typedef uavcan::_register::List::Request_1_0  TListRequest;
@@ -79,6 +76,7 @@ private:
 
   TAccessResponse onAccess_1_0_Request_Received(TAccessRequest const & req)
   {
+    /* TODO */
     return {};
   }
 };

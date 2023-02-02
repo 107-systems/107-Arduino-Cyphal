@@ -60,11 +60,31 @@ int main(int argc, char ** argv)
   /* REGISTER ***************************************************************************/
 
   RegisterList reg_list(node_hdl, micros);
-  auto reg_rw_node_id                          = reg_list.create("cyphal.node.id",                          Access::ReadWrite, Persistent::No, uavcan::primitive::array::Natural8_1_0{{node_hdl.getNodeId()}});
-  auto reg_ro_node_description                 = reg_list.create("cyphal.node.description",                 Access::ReadWrite, Persistent::No, vla::to_String_1_0("basic-cyphal-node"));
-  auto reg_ro_pub_temperature_id               = reg_list.create("cyphal.pub.temperature.id",               Access::ReadOnly,  Persistent::No, uavcan::primitive::array::Natural16_1_0{{DEFAULT_COUNTER_PORT_ID}});
-  auto reg_ro_pub_temperature_type             = reg_list.create("cyphal.pub.temperature.type",             Access::ReadOnly,  Persistent::No, vla::to_String_1_0("uavcan.primitive.scalar.Integer8.1.0"));
-  auto reg_rw_pub_temperature_update_period_ms = reg_list.create("cyphal.pub.temperature.update_period_ms", Access::ReadWrite, Persistent::No, uavcan::primitive::array::Natural16_1_0{{DEFAULT_TEMPERATURE_UPDATE_PERIOD_ms}});
+  auto reg_rw_node_id = reg_list.create<
+    uavcan::primitive::array::Natural8_1_0,
+    Register::Mutable::Yes,
+    Register::Persistent::No>
+    ("cyphal.node.id", uavcan::primitive::array::Natural8_1_0{{node_hdl.getNodeId()}});
+  auto reg_ro_node_description = reg_list.create<
+    uavcan::primitive::String_1_0,
+    Register::Mutable::No,
+    Register::Persistent::No>
+    ("cyphal.node.description", vla::to_String_1_0("basic-cyphal-node"));
+  auto reg_rw_pub_temperature_id = reg_list.create<
+    uavcan::primitive::array::Natural16_1_0,
+    Register::Mutable::Yes,
+    Register::Persistent::No>
+    ("cyphal.pub.temperature.id", uavcan::primitive::array::Natural16_1_0{{DEFAULT_COUNTER_PORT_ID}});
+  auto reg_ro_pub_temperature_type = reg_list.create<
+    uavcan::primitive::String_1_0,
+    Register::Mutable::No,
+    Register::Persistent::No>
+    ("cyphal.pub.temperature.type", vla::to_String_1_0("uavcan.primitive.scalar.Integer8.1.0"));
+  auto reg_rw_pub_temperature_update_period_ms = reg_list.create<
+    uavcan::primitive::array::Natural16_1_0,
+    Register::Mutable::Yes,
+    Register::Persistent::No>
+    ("cyphal.pub.temperature.update_period_ms", uavcan::primitive::array::Natural16_1_0{{DEFAULT_TEMPERATURE_UPDATE_PERIOD_ms}});
 
   /* NODE INFO **************************************************************************/
 
