@@ -12,7 +12,6 @@
  * INCLUDE
  **************************************************************************************/
 
-#include <SocketCAN.h>
-#include <107-Arduino-Cyphal.h>
+#include "107-Arduino-Cyphal.h"
 
 #endif /* INC_107_ARDUINO_CYPHAL_CYPHALCAN_H */

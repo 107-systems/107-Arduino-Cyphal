@@ -9,7 +9,6 @@ option(BUILD_EXAMPLES "Build all examples provided with this library" OFF)
 ##########################################################################
 add_subdirectory(src/libcanard)
 add_subdirectory(src/libo1heap)
-add_subdirectory(extras/cyphal++/libsocketcan)
 ##########################################################################
 add_library(${PROJECT_NAME} STATIC
   src/util/nodeinfo/NodeInfo.cpp
@@ -23,7 +22,7 @@ endif()
 ##########################################################################
 target_include_directories(${PROJECT_NAME} PUBLIC src extras/cyphal++/include)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
-target_link_libraries(${PROJECT_NAME} canard o1heap socketcan)
+target_link_libraries(${PROJECT_NAME} canard o1heap)
 ##########################################################################
 if(BUILD_EXAMPLES)
   add_subdirectory(extras/cyphal++/examples/example-01-opencyphal-basic-node)

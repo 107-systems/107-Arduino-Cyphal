@@ -14,7 +14,7 @@
 
 #include <string>
 
-#include <socketcan.h>
+#include "socketcan.h"
 
 /**************************************************************************************
  * CLASS DECLARATION
