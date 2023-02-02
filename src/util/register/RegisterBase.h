@@ -42,11 +42,13 @@ public:
 
   RegisterBase(std::string const &name,
                Access const access,
-               Persistent const is_persistent)
+               Persistent const is_persistent,
+               MicrosFunc const micros)
   : _name{vla::to_Name_1_0(name)}
   , _timestamp{}
   , _is_mutable{access == Access::ReadWrite}
   , _is_persistent{is_persistent == Persistent::Yes}
+  , _micros{micros}
   { }
 
 
@@ -64,14 +66,15 @@ public:
 
 
 protected:
-  void setTimestamp(uavcan::time::SynchronizedTimestamp_1_0 const & timestamp)
-  { _timestamp = timestamp; }
+  void updateTimestamp()
+  { _timestamp.microsecond = _micros(); }
 
 private:
   uavcan::_register::Name_1_0 _name;
   uavcan::time::SynchronizedTimestamp_1_0 _timestamp;
   bool const _is_mutable;
   bool const _is_persistent;
+  MicrosFunc const _micros;
 };
 
 /**************************************************************************************
