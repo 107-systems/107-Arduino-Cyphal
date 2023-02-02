@@ -25,6 +25,6 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_11)
 target_link_libraries(${PROJECT_NAME} canard o1heap)
 ##########################################################################
 if(BUILD_EXAMPLES)
-  add_subdirectory(extras/cyphal++/examples/example-01-opencyphal-basic-node)
+  add_subdirectory(examples/example-01-opencyphal-basic-node)
 endif()
 ##########################################################################
