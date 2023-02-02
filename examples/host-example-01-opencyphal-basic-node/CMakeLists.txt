@@ -1,10 +1,10 @@
 ##########################################################################
 cmake_minimum_required(VERSION 3.15)
 ##########################################################################
-set(EXAMPLE_01_TARGET example-01-basic-cyphal-node)
+set(EXAMPLE_01_TARGET host-example-01-basic-cyphal-node)
 ##########################################################################
 add_executable(${EXAMPLE_01_TARGET}
-        example-01-opencyphal-basic-node.cpp
+        host-example-01-opencyphal-basic-node.cpp
         socketcan.c
         SocketCAN.cpp
 )
