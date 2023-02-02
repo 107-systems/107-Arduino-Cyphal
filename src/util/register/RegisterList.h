@@ -29,14 +29,19 @@ class RegisterList
 public:
   RegisterList(Node & node_hdl);
 
-
-  template <typename T> inline void add(impl::Register<T> & reg_ptr) {
-    _reg_list.push_back(static_cast<impl::RegisterBase *>(&reg_ptr));
+  template <typename T>
+  std::shared_ptr<impl::Register<T>> create(std::string const &name,
+                                            Access const access,
+                                            Persistent const is_persistent,
+                                            T const & initial_val)
+  {
+    auto reg = std::make_shared<impl::Register<T>>(name, access, is_persistent, initial_val);
+    _reg_list.push_back(reg);
+    return reg;
   }
 
-
 private:
-  std::vector<impl::RegisterBase *> _reg_list;
+  std::vector<std::shared_ptr<impl::RegisterBase>> _reg_list;
 
   typedef uavcan::_register::List::Request_1_0  TListRequest;
   typedef uavcan::_register::List::Response_1_0 TListResponse;
