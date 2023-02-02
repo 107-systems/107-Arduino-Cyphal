@@ -82,8 +82,8 @@ static int          const TMF8801_INT_PIN        = 6;
 static int          const MKRCAN_MCP2515_INT_PIN = 7;
 static SPISettings  const MCP2515x_SPI_SETTING{10000000, MSBFIRST, SPI_MODE0};
 
-static CanardNodeID const OPEN_CYPHAL_NODE_ID = 42;
-static CanardPortID const OPEN_CYPHAL_ID_DISTANCE_DATA = 1001U;
+static CanardNodeID const DEFAULT_OPEN_CYPHAL_NODE_ID = 42;
+static CanardPortID const DEFAULT_OPEN_CYPHAL_ID_DISTANCE_DATA = 1001U;
 
 typedef uavcan::primitive::scalar::Real32_1_0 DistanceMessageType;
 
@@ -163,11 +163,27 @@ DEBUG_INSTANCE(120, Serial);
 
 /* REGISTER ***************************************************************************/
 
-static RegisterNatural8  reg_rw_cyphal_node_id          ("cyphal.node.id",           Register::Access::ReadWrite, Register::Persistent::No, OPEN_CYPHAL_NODE_ID, [&node_hdl](uint8_t const & val) { node_hdl.setNodeId(val); });
-static RegisterString    reg_ro_cyphal_node_description ("cyphal.node.description",  Register::Access::ReadWrite, Register::Persistent::No, "OpenCyphal-ToF-Distance-Sensor-Node");
-static RegisterNatural16 reg_ro_cyphal_pub_distance_id  ("cyphal.pub.distance.id",   Register::Access::ReadOnly,  Register::Persistent::No, OPEN_CYPHAL_ID_DISTANCE_DATA);
-static RegisterString    reg_ro_cyphal_pub_distance_type("cyphal.pub.distance.type", Register::Access::ReadOnly,  Register::Persistent::No, "cyphal.primitive.scalar.Real32.1.0");
-static RegisterList      reg_list(node_hdl);
+RegisterList reg_list(node_hdl, micros);
+auto reg_rw_cyphal_node_id = reg_list.create<
+  uavcan::primitive::array::Natural8_1_0,
+  Register::Mutable::Yes,
+  Register::Persistent::No>
+  ("cyphal.node.id", uavcan::primitive::array::Natural8_1_0{{DEFAULT_OPEN_CYPHAL_NODE_ID}});
+auto reg_ro_cyphal_node_description = reg_list.create<
+  uavcan::primitive::String_1_0,
+  Register::Mutable::No,
+  Register::Persistent::No>
+  ("cyphal.node.description", vla::to_String_1_0("OpenCyphal-ToF-Distance-Sensor-Node"));
+auto reg_rw_cyphal_pub_distance_id = reg_list.create<
+  uavcan::primitive::array::Natural16_1_0,
+  Register::Mutable::Yes,
+  Register::Persistent::No>
+  ("cyphal.pub.distance.id", uavcan::primitive::array::Natural16_1_0{{DEFAULT_OPEN_CYPHAL_ID_DISTANCE_DATA}});
+auto reg_ro_cyphal_pub_distance_type = reg_list.create<
+  uavcan::primitive::String_1_0,
+  Register::Mutable::No,
+  Register::Persistent::No>
+  ("cyphal.pub.distance.type", vla::to_String_1_0("cyphal.primitive.scalar.Real32.1.0"));
 
 /* NODE INFO **************************************************************************/
 
@@ -233,13 +249,6 @@ void setup()
     DBG_ERROR("ArduinoTMF8801::begin(...) failed, error code %d", (int)tmf8801.error());
     for(;;) { }
   }
-
-  /* Register callbacks for node info and register api.
-   */
-  reg_list.add(reg_rw_cyphal_node_id);
-  reg_list.add(reg_ro_cyphal_node_description);
-  reg_list.add(reg_ro_cyphal_pub_distance_id);
-  reg_list.add(reg_ro_cyphal_pub_distance_type);
 }
 
 void loop()
