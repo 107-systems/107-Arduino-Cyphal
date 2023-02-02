@@ -57,10 +57,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install ESP32 platform dependencies
-        if: startsWith(matrix.board.fqbn, 'esp32:esp32')
-        run: pip3 install pyserial
-
       - name: Compile examples
         uses: arduino/compile-sketches@main
         with:
