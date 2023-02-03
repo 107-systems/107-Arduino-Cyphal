@@ -10,6 +10,7 @@
  **************************************************************************************/
 
 #include <cstdlib>
+#include <unistd.h> /* close */
 
 #include <mutex>
 #include <chrono>
@@ -19,7 +20,7 @@
 
 #include <cyphal++/cyphal++.h>
 
-#include "SocketCAN.h"
+#include "socketcan.h"
 
 /**************************************************************************************
  * CONSTANT
@@ -47,10 +48,14 @@ extern "C" unsigned long millis();
 
 int main(int argc, char ** argv)
 {
-  SocketCAN socket_can("vcan0", SocketCAN::Protocol::Classic);
+  int const socket_can_fd = socketcanOpen("vcan0", false);
+  if (socket_can_fd < 0) {
+    std::cerr << "Error opening CAN interface 'vcan0'" << std::endl;
+    return EXIT_FAILURE;
+  }
 
   Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-  Node node_hdl(node_heap.data(), node_heap.size(), micros, [&socket_can] (CanardFrame const & frame) { return (socket_can.push(&frame, 1000*1000UL) > 0); });
+  Node node_hdl(node_heap.data(), node_heap.size(), micros, [socket_can_fd] (CanardFrame const & frame) { return (socketcanPush(socket_can_fd, &frame, 1000*1000UL) > 0); });
   std::mutex node_mtx;
 
   Publisher<uavcan::node::Heartbeat_1_0> heartbeat_pub = node_hdl.create_publisher<uavcan::node::Heartbeat_1_0>
@@ -109,7 +114,7 @@ int main(int argc, char ** argv)
 
   std::atomic<bool> rx_thread_active{false};
   std::thread rx_thread(
-    [&rx_thread_active, &node_hdl, &node_mtx, &socket_can]()
+    [&rx_thread_active, &node_hdl, &node_mtx, socket_can_fd]()
     {
       rx_thread_active = true;
       while (rx_thread_active)
@@ -117,7 +122,7 @@ int main(int argc, char ** argv)
         CanardFrame rx_frame;
         uint8_t payload_buffer[CANARD_MTU_CAN_CLASSIC] = {0};
 
-        int16_t const rc = socket_can.pop(&rx_frame, sizeof(payload_buffer), payload_buffer, CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC, nullptr);
+        int16_t const rc = socketcanPop(socket_can_fd, &rx_frame, sizeof(payload_buffer), payload_buffer, CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC, nullptr);
         if (rc < 0)
           std::cerr << "socketcanPop failed with error " << strerror(abs(rc)) << std::endl;
         else if (rc > 0) {
@@ -169,6 +174,8 @@ int main(int argc, char ** argv)
 
   rx_thread_active = false;
   rx_thread.join();
+
+  close(socket_can_fd);
 
   return EXIT_SUCCESS;
 }
