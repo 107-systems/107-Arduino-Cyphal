@@ -36,7 +36,7 @@
 
 typedef struct
 {
-  uavcan_node_Mode_1_0 mode;
+  uavcan::node::Mode_1_0 mode;
 } OpenCyphalNodeData;
 
 typedef struct
@@ -53,7 +53,7 @@ static int const MKRCAN_MCP2515_INT_PIN = 7;
 
 static OpenCyphalNodeData const OPEN_CYPHAL_NODE_INITIAL_DATA =
 {
-  uavcan_node_Mode_1_0_INITIALIZATION,
+  uavcan::node::Mode_1_0::INITIALIZATION,
 };
 
 static OpenCyphalNodeConfiguration const OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION =
@@ -80,7 +80,7 @@ uint8_t handle_SOFTWARE_UPDATE();
 
 namespace heartbeat
 {
-void publish(uint32_t const, uavcan_node_Mode_1_0 const);
+void publish(uint32_t const, uavcan::node::Mode_1_0 const);
 }
 
 namespace gnss
@@ -103,7 +103,8 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
 Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
 Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
 
-Publisher<uavcan::node::Heartbeat_1_0<>> heartbeat_pub = node_hdl.create_publisher<uavcan::node::Heartbeat_1_0<>>(uavcan::node::Heartbeat_1_0<>::PORT_ID, 1*1000*1000UL /* = 1 sec in usecs. */);
+Publisher<uavcan::node::Heartbeat_1_0> heartbeat_pub = node_hdl.create_publisher<uavcan::node::Heartbeat_1_0>
+  (uavcan::node::Heartbeat_1_0::FixedPortId, 1*1000*1000UL /* = 1 sec in usecs. */);
 
 ArduinoNmeaParser nmea_parser(gnss::onRmcUpdate, gnss::onGgaUpdate);
 
@@ -169,14 +170,14 @@ void loop()
 
   /* Handle state transitions and state specific action.
    */
-  uavcan_node_Mode_1_0 next_mode = node_data.mode;
+  uavcan::node::Mode_1_0 next_mode = node_data.mode;
 
   switch(node_data.mode.value)
   {
-  case uavcan_node_Mode_1_0_INITIALIZATION:  next_mode.value = node::handle_INITIALIZATION();  break;
-  case uavcan_node_Mode_1_0_OPERATIONAL:     next_mode.value = node::handle_OPERATIONAL();     break;
-  case uavcan_node_Mode_1_0_MAINTENANCE:     next_mode.value = node::handle_MAINTENANCE();     break;
-  case uavcan_node_Mode_1_0_SOFTWARE_UPDATE: next_mode.value = node::handle_SOFTWARE_UPDATE(); break;
+    case uavcan::node::Mode_1_0::INITIALIZATION:  next_mode.value = node::handle_INITIALIZATION();  break;
+    case uavcan::node::Mode_1_0::OPERATIONAL:     next_mode.value = node::handle_OPERATIONAL();     break;
+    case uavcan::node::Mode_1_0::MAINTENANCE:     next_mode.value = node::handle_MAINTENANCE();     break;
+    case uavcan::node::Mode_1_0::SOFTWARE_UPDATE: next_mode.value = node::handle_SOFTWARE_UPDATE(); break;
   }
 
   node_data.mode = next_mode;
@@ -202,7 +203,7 @@ uint8_t handle_INITIALIZATION()
 {
   DBG_VERBOSE("INITIALIZATION");
 
-  return uavcan_node_Mode_1_0_OPERATIONAL;
+  return uavcan::node::Mode_1_0::OPERATIONAL;
 }
 
 uint8_t handle_OPERATIONAL()
@@ -217,21 +218,21 @@ uint8_t handle_OPERATIONAL()
     nmea_parser.encode((char)Serial1.read());
   }
 
-  return uavcan_node_Mode_1_0_OPERATIONAL;
+  return uavcan::node::Mode_1_0::OPERATIONAL;
 }
 
 uint8_t handle_MAINTENANCE()
 {
   DBG_VERBOSE("MAINTENANCE");
 
-  return uavcan_node_Mode_1_0_INITIALIZATION;
+  return uavcan::node::Mode_1_0::INITIALIZATION;
 }
 
 uint8_t handle_SOFTWARE_UPDATE()
 {
   DBG_VERBOSE("SOFTWARE_UPDATE");
 
-  return uavcan_node_Mode_1_0_INITIALIZATION;
+  return uavcan::node::Mode_1_0::INITIALIZATION;
 }
 
 } /* node */
@@ -239,16 +240,16 @@ uint8_t handle_SOFTWARE_UPDATE()
 namespace heartbeat
 {
 
-void publish(uint32_t const uptime, uavcan_node_Mode_1_0 const mode)
+void publish(uint32_t const uptime, uavcan::node::Mode_1_0 const mode)
 {
-  uavcan::node::Heartbeat_1_0<> hb_msg;
+  uavcan::node::Heartbeat_1_0 msg;
 
-  hb_msg.data.uptime = uptime;
-  hb_msg.data.health.value = uavcan_node_Health_1_0_NOMINAL;
-  hb_msg.data.mode.value = mode.value;
-  hb_msg.data.vendor_specific_status_code = 0;
+  msg.uptime = uptime;
+  msg.health.value = uavcan::node::Health_1_0::NOMINAL;
+  msg.mode.value = uavcan::node::Mode_1_0::OPERATIONAL;
+  msg.vendor_specific_status_code = 0;
 
-  heartbeat_pub->publish(hb_msg);
+  heartbeat_pub->publish(msg);
 }
 
 } /* heartbeat */

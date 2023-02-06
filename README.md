@@ -1,6 +1,7 @@
+<a href="https://107-systems.org/"><img align="right" src="https://raw.githubusercontent.com/107-systems/.github/main/logo/107-systems.png" width="15%"></a>
+:floppy_disk: `107-Arduino-Cyphal`
+==================================
 <a href="https://opencyphal.org/"><img align="right" src="https://raw.githubusercontent.com/107-systems/.github/main/logo/opencyphal.svg" width="25%"></a>
-`107-Arduino-Cyphal`
-====================
 [![Arduino Library Badge](https://www.ardu-badge.com/badge/107-Arduino-Cyphal.svg?)](https://www.ardu-badge.com/107-Arduino-Cyphal)
 [![Compile Examples](https://github.com/107-systems/107-Arduino-Cyphal/workflows/Compile%20Examples/badge.svg)](https://github.com/107-systems/107-Arduino-Cyphal/actions?workflow=Compile+Examples)
 [![Smoke test status](https://github.com/107-systems/107-Arduino-Cyphal/actions/workflows/smoke-test.yml/badge.svg)](https://github.com/107-systems/107-Arduino-Cyphal/actions/workflows/smoke-test.yml)
@@ -12,18 +13,16 @@
 This Arduino library implements the [OpenCyphal](https://opencyphal.org/) ([v1.0-beta](https://opencyphal.org/specification/Cyphal_Specification.pdf)) utilizing [libcanard](https://github.com/OpenCyphal/libcanard).
 
 <p align="center">
-  <a href="https://github.com/107-systems/viper"><img src="https://github.com/107-systems/.github/raw/main/logo/viper.jpg" width="40%"></a>
+  <a href="https://github.com/107-systems/l3xz"><img src="https://raw.githubusercontent.com/107-systems/.github/main/logo/l3xz-logo-memento-mori-github.png" width="30%"></a>
+  <a href="https://github.com/107-systems/viper"><img src="https://github.com/107-systems/.github/raw/main/logo/viper.jpg" width="30%"></a>
 </p>
 
 This library works for
-* [ArduinoCore-samd](https://github.com/arduino/ArduinoCore-samd): [`Arduino Zero`](https://store.arduino.cc/arduino-zero), [`MKR 1000`](https://store.arduino.cc/arduino-mkr1000-wifi), [`MKR WiFi 1010`](https://store.arduino.cc/arduino-mkr-wifi-1010), [`Nano 33 IoT`](https://store.arduino.cc/arduino-nano-33-iot), [`MKR GSM 1400`](https://store.arduino.cc/arduino-mkr-gsm-1400-1415), [`MKR NB 1500`](https://store.arduino.cc/arduino-mkr-nb-1500-1413), [`MKR WAN 1300/1310`](https://store.arduino.cc/mkr-wan-1310) :heavy_check_mark:
 * [ArduinoCore-mbed](https://github.com/arduino/ArduinoCore-mbed): [`Portenta H7`](https://store.arduino.cc/portenta-h7), [`Nano 33 BLE`](https://store.arduino.cc/arduino-nano-33-ble), [`Nano RP2040 Connect`](https://store.arduino.cc/nano-rp2040-connect), [`Edge Control`](https://store.arduino.cc/edge-control) :heavy_check_mark:
-* [arduino-esp32](https://github.com/espressif/arduino-esp32): `ESP32 Dev Module`, `ESP32 Wrover Module`, ... :heavy_check_mark:
 * [arduino-pico](https://github.com/earlephilhower/arduino-pico): [`Raspberry Pi Pico`](https://www.raspberrypi.org/products/raspberry-pi-pico), `Adafruit Feather RP2040`, ... :heavy_check_mark:
-* [adafruit/ArduinoCore-samd](https://github.com/adafruit/ArduinoCore-samd): [`Adafruit Feather M4 CAN Express`](https://www.adafruit.com/product/4759), ... :heavy_check_mark:
 * **Host** (x86/x64/...): Using the CMake build system this library can be cross-compiled to a static C++ library and linked against any C++ executable. This is possible because the code itself is pure C/C++ without and dependencies to the Arduino framework.
 ```bash
-* git clone https://github.com/107-systems/libdynamixelplusplus && cd libdynamixelplusplus
+* git clone https://github.com/107-systems/107-Arduino-Cyphal && cd 107-Arduino-Cyphal
   mkdir build && cd build
   cmake .. && make
 ```
@@ -32,118 +31,120 @@ or
 cmake -DBUILD_EXAMPLES=ON .. && make
 ```
 
-### Reference-Implementation OpenCyphal on Arduino
-* [OpenCyphal-GNSS-Node](examples/OpenCyphal-GNSS-Node): A OpenCyphal node with a GNSS sensor providing location data.
-* [OpenCyphal-ToF-Distance-Sensor-Node](examples/OpenCyphal-ToF-Distance-Sensor-Node): Demo firmware for OpenCyphal ToF Distance Sensor Node utilizing 107-Arduino-Cyphal.
-* [SimLE-tenso-can](https://github.com/not7cd/simle-tenso-can/): Firmware with multiple features for tensometer node on ESP32 utilizing its native CAN controller.
-* [SimLE-sensor-bridge](https://github.com/not7cd/simle-sensor-bridge): CAN to I2C bridge for case specific communication with older PixHawk versions.
+### Reference-Implementations
+* [OpenCyphal-GNSS-Node](examples/OpenCyphal-GNSS-Node): A Cyphal node with a GNSS sensor providing location data.
+* [OpenCyphal-ToF-Distance-Sensor-Node](examples/OpenCyphal-ToF-Distance-Sensor-Node): A Cyphal node providing distance data measured with a TMF8801 ToF distance sensor.
+* [OpenCyphalPicoBase-firmware](https://github.com/107-systems/OpenCyphalPicoBase-firmware): Firmware for the [OpenCyphalPicoBase](https://github.com/generationmake/OpenCyphalPicoBase) board.
+* [l3xz-aux-ctrl-firmware](https://github.com/107-systems/l3xz-aux-ctrl-firmware): Firmware for the [L3X-Z](https://github.com/107-systems/l3xz) auxiliary controller ([OpenCyphalPicoBase](https://github.com/generationmake/OpenCyphalPicoBase)).
+* [l3xz-leg-ctrl-firmware](https://github.com/107-systems/l3xz-leg-ctrl-firmware): Firmware for the [L3X-Z](https://github.com/107-systems/l3xz) leg controller ([l3xz-leg-ctrl-hardware](https://github.com/107-systems/l3xz-leg-ctrl-hardware)).
+* [l3xz-radiation-sensor-firmware](https://github.com/107-systems/l3xz-radiation-sensor-firmware): Firmware for the [L3X-Z](https://github.com/107-systems/l3xz) radiation sensor ([OpenCyphalPicoBase](https://github.com/generationmake/OpenCyphalPicoBase)).
 
-### Example
-**Note**: Please be advised that the [examples](examples) shipped with this library are to be considered minimal examples to get you started working with [OpenCyphal](https://opencyphal.org/).
-They are known to violate section **2.1.2.2 Regulation** of the OpenCyphal Specification due to their reliance on hard-coded port identifiers.
-A compliant implementation would instead provide configurable port-IDs and support the Register Interface (section **5.3 Application-layer functions**).
-Fully compliant examples that implement reconfigurable port-IDs are shipped separately; e.g., [OpenCyphal-GNSS-Node](examples/OpenCyphal-GNSS-Node).
+### Examples
+#### Publisher
 ```C++
 #include <107-Arduino-Cyphal.h>
 /* ... */
-Node node_hdl([](CanardFrame const & frame) { /* ... */ });
-Heartbeat_1_0 hb;
+Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
+Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { /* ... */ });
+
+Publisher<Heartbeat_1_0> heartbeat_pub = node_hdl.create_publisher<Heartbeat_1_0>
+  (Heartbeat_1_0::FixedPortId, 1*1000*1000UL /* = 1 sec in usecs. */);
 /* ... */
 void loop() {
   /* Process all pending OpenCyphal actions. */
   node_hdl.spinSome();
+  /* ... */
+  uavcan::node::Heartbeat_1_0 msg;
 
-  /* Update the heartbeat object */
-  hb.uptime(millis() / 1000);
-  hb.mode = Heartbeat_1_0::Mode::OPERATIONAL;
+  msg.uptime = now / 1000;
+  msg.health.value = uavcan::node::Health_1_0::NOMINAL;
+  msg.mode.value = uavcan::node::Mode_1_0::OPERATIONAL;
+  msg.vendor_specific_status_code = 0;
 
-  /* Publish the heartbeat once/second */
-  static unsigned long prev = 0;
-  unsigned long const now = millis();
-  if(now - prev > 1000) {
-    node_hdl.publish(hb);
-    prev = now;
-  }
+  heartbeat_pub->publish(msg);
+  /* ... */
 }
 ```
 
-### Contribution
-#### How to add missing wrappers
-##### Docker automatization
-The generation of C header files from OpenCyphal's [public_regulated_data_types](https://github.com/OpenCyphal/public_regulated_data_types) (step 1-3 in the instructions below) can also be executed by invoking a Docker container. It can be built and executed with the following commands:
+#### Subscriber
+```C++
+#include <107-Arduino-Cyphal.h>
+/* ... */
+Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
+Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { /* ... */ });
 
-Install Docker via `snap` or follow the official [instructions](https://docs.docker.com/engine/install/ubuntu/):
-```bash
-sudo snap install docker
-```
-**Note**: You may need to add your user to the `docker` group:
-```bash
-sudo usermod -a -G docker $USER
-```
-Generating the C header files using a Docker container:
-```bash
-cd extras/script
-./build_docker.sh
-./docker_codegen.sh
+Subscription heartbeat_subscription = node_hdl.create_subscription<Heartbeat_1_0>
+  (Heartbeat_1_0::FixedPortId, CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC, onHeartbeat_1_0_Received);
+/* ... */
+void loop() {
+  /* Process all pending OpenCyphal actions. */
+  node_hdl.spinSome();
+}
+/* ... */
+void onHeartbeat_1_0_Received(Heartbeat_1_0 const & msg)
+{
+  char msg_buf[64];
+  snprintf(msg_buf, sizeof(msg_buf),
+           "Uptime = %d, Health = %d, Mode = %d, VSSC = %d",
+           msg.uptime, msg.health.value, msg.mode.value, msg.vendor_specific_status_code);
+  Serial.println(msg_buf);
+}
 ```
 
-##### Step 1) Generate C header files from DSDL
-**Option A) Use [nunavut/nnvg](https://github.com/OpenCyphal/nunavut)**
-* Install **nunavut**: `pip install nunavut` (you will need a functional [Python installation](https://docs.python.org/3/using/index.html))
-* Get some DSDL
-```bash
-git clone https://github.com/OpenCyphal/public_regulated_data_types
-```
-* Generate C header files from DSDL
-```bash
-nnvg --target-language c \
-     --pp-max-emptylines=1  \
-     --pp-trim-trailing-whitespace \
-     --target-endianness=any \
-     --enable-serialization-asserts \
-     --outdir public_regulated_data_types/uavcan-header \
-     public_regulated_data_types/uavcan
+#### Service Server
+```C++
+#include <107-Arduino-Cyphal.h>
+/* ... */
+Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
+Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { /* ... */ });
 
-nnvg --target-language c \
-     --pp-max-emptylines=1  \
-     --pp-trim-trailing-whitespace \
-     --target-endianness=any \
-     --enable-serialization-asserts \
-     --lookup public_regulated_data_types/uavcan \
-     --outdir public_regulated_data_types/reg-header \
-     public_regulated_data_types/reg
+ServiceServer execute_command_srv = node_hdl.create_service_server<ExecuteCommand::Request_1_1, ExecuteCommand::Response_1_1>(
+  ExecuteCommand::Request_1_1::FixedPortId,
+  2*1000*1000UL,
+  onExecuteCommand_1_1_Request_Received);
+/* ... */
+void loop() {
+  /* Process all pending OpenCyphal actions. */
+  node_hdl.spinSome();
+}
+/* ... */
+ExecuteCommand::Response_1_1 onExecuteCommand_1_1_Request_Received(ExecuteCommand::Request_1_1 const & req)
+{
+  ExecuteCommand::Response_1_1 rsp;
+  rsp.status = ExecuteCommand::Response_1_1::STATUS_SUCCESS;
+  return rsp;
+}
 ```
-**Option B) Use [nunaweb](http://nunaweb.uavcan.org/)**
-##### Step 2) Copy generated C header files to [`src/types`](https://github.com/107-systems/107-Arduino-Cyphal/tree/master/src/types)
-```bash
-types/reg/drone/physics/electricity/
-├── Power_0_1.h
-├── PowerTs_0_1.h
-├── Source_0_1.h
-└── SourceTs_0_1.h
+
+#### Service Client
+```C++
+#include <107-Arduino-Cyphal.h>
+/* ... */
+Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
+Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { /* ... */ });
+
+ServiceClient<ExecuteCommand::Request_1_1> srv_client = node_hdl.create_service_client<ExecuteCommand::Request_1_1, ExecuteCommand::Response_1_1>(
+  ExecuteCommand::Request_1_1::FixedPortId,
+  2*1000*1000UL,
+  onExecuteCommand_1_1_Response_Received);
+/* ... */
+void setup() {
+  ExecuteCommand::Request_1_1 req;
+  req.command = 0xCAFE;
+
+  if (!srv_client->request(27 /* remote node id */, req))
+    Serial.println("Service request failed.");
+}
+void loop() {
+  /* Process all pending OpenCyphal actions. */
+  node_hdl.spinSome();
+}
+/* ... */
+void onExecuteCommand_1_1_Response_Received(ExecuteCommand::Response_1_1 const & rsp)
+{
+  if (rsp.status == ExecuteCommand::Response_1_1::STATUS_SUCCESS)
+    Serial.println("Response: Success");
+  else
+    Serial.println("Response: Error");
+}
 ```
-##### Step 3) Fix include path in generated C header files by prefixing it with `<types/`
-```diff
--#include <uavcan/file/Path_1_0.h>
-+#include <types/uavcan/file/Path_1_0.h>
-...
--#include <reg/drone/physics/electricity/Power_0_1.h>
-+#include <types/reg/drone/physics/electricity/Power_0_1.h>
-```
-##### Step 4) Manually implement wrapper classes in [`src/wrappers`](https://github.com/107-systems/107-Arduino-Cyphal/tree/master/src/wrappers)
-```bash
-wrappers/reg/drone/physics/electricity/
-├── Power_0_1.hpp
-├── PowerTs_0_1.hpp
-├── Source_0_1.hpp
-└── SourceTs_0_1.hpp
-```
-##### Step 5) Add the wrapper classes to [`src/NodeTypes.h`](https://github.com/107-systems/107-Arduino-Cyphal/blob/master/src/NodeTypes.h)
-```diff
-+#include "wrappers/reg/drone/physics/electricity/Power_0_1.hpp"
-+#include "wrappers/reg/drone/physics/electricity/PowerTs_0_1.hpp"
-+#include "wrappers/reg/drone/physics/electricity/Source_0_1.hpp"
-+#include "wrappers/reg/drone/physics/electricity/SourceTs_0_1.hpp"
-```
-##### Step 6) [Create PR](https://github.com/107-systems/107-Arduino-Cyphal/pulls) to mainline your changes
-Note: Only OpenCyphal types listed in [public_regulated_data_types:master](https://github.com/OpenCyphal/public_regulated_data_types) will be accepted into this repository.

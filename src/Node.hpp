@@ -45,7 +45,7 @@ public:
   struct alignas(O1HEAP_ALIGNMENT) Heap final : public std::array<uint8_t, SIZE> {};
 
 
-  static size_t       constexpr DEFAULT_O1HEAP_SIZE   = 4096;
+  static size_t       constexpr DEFAULT_O1HEAP_SIZE   = 16384UL;
   static CanardNodeID constexpr DEFAULT_NODE_ID       = 42;
   static size_t       constexpr DEFAULT_RX_QUEUE_SIZE = 64;
   static size_t       constexpr DEFAULT_TX_QUEUE_SIZE = 64;

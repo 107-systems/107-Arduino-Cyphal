@@ -41,16 +41,12 @@ static int const MKRCAN_MCP2515_CS_PIN  = 3;
 static int const MKRCAN_MCP2515_INT_PIN = 7;
 static CanardPortID const BIT_PORT_ID   = 1620U;
 
-#if defined(ESP32)
-static int const LED_BUILTIN = 2;
-#endif
-
 /**************************************************************************************
  * FUNCTION DECLARATION
  **************************************************************************************/
 
 void onReceiveBufferFull(CanardFrame const &);
-void onBit_1_0_Received (Bit_1_0<BIT_PORT_ID> const & msg);
+void onBit_1_0_Received (Bit_1_0 const & msg);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -66,12 +62,10 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
 Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
 Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
 
-Publisher<Heartbeat_1_0<>> heartbeat_pub = node_hdl.create_publisher<Heartbeat_1_0<>>(
-  Heartbeat_1_0<>::PORT_ID, 1*1000*1000UL /* = 1 sec in usecs. */);
-auto heartbeat_subscription = node_hdl.create_subscription<Bit_1_0<BIT_PORT_ID>>(
-  Bit_1_0<BIT_PORT_ID>::PORT_ID, CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC, onBit_1_0_Received);
-
-Heartbeat_1_0<> hb_msg;
+Publisher<Heartbeat_1_0> heartbeat_pub = node_hdl.create_publisher<Heartbeat_1_0>
+  (Heartbeat_1_0::FixedPortId, 1*1000*1000UL /* = 1 sec in usecs. */);
+Subscription bit_subscription = node_hdl.create_subscription<Bit_1_0>
+  (BIT_PORT_ID, CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC, onBit_1_0_Received);
 
 /**************************************************************************************
  * SETUP/LOOP
@@ -110,12 +104,6 @@ void setup()
   mcp2515.begin();
   mcp2515.setBitRate(CanBitRate::BR_250kBPS_16MHZ);
   mcp2515.setNormalMode();
-
-  /* Configure initial heartbeat */
-  hb_msg.data.uptime = 0;
-  hb_msg.data.health.value = uavcan_node_Health_1_0_NOMINAL;
-  hb_msg.data.mode.value = uavcan_node_Mode_1_0_INITIALIZATION;
-  hb_msg.data.vendor_specific_status_code = 0;
 }
 
 void loop()
@@ -127,16 +115,22 @@ void loop()
     node_hdl.spinSome();
   }
 
-  /* Update the heartbeat object */
-  hb_msg.data.uptime = millis() / 1000;
-  hb_msg.data.mode.value = uavcan_node_Mode_1_0_OPERATIONAL;
-
-  /* Publish the heartbeat once/second */
   static unsigned long prev = 0;
   unsigned long const now = millis();
-  if(now - prev > 1000) {
-    heartbeat_pub->publish(hb_msg);
+
+  /* Publish the heartbeat once/second */
+  if(now - prev > 1000)
+  {
     prev = now;
+
+    uavcan::node::Heartbeat_1_0 msg;
+
+    msg.uptime = now / 1000;
+    msg.health.value = uavcan::node::Health_1_0::NOMINAL;
+    msg.mode.value = uavcan::node::Mode_1_0::OPERATIONAL;
+    msg.vendor_specific_status_code = 0;
+
+    heartbeat_pub->publish(msg);
   }
 }
 
@@ -149,9 +143,9 @@ void onReceiveBufferFull(CanardFrame const & frame)
   node_hdl.onCanFrameReceived(frame);
 }
 
-void onBit_1_0_Received(Bit_1_0<BIT_PORT_ID> const & msg)
+void onBit_1_0_Received(Bit_1_0 const & msg)
 {
-  if(msg.data.value)
+  if(msg.value)
   {
 #if defined(ARDUINO_EDGE_CONTROL)
     Expander.digitalWrite(EXP_LED1, LOW);

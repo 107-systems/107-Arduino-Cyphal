@@ -6,6 +6,14 @@
  */
 
 /**************************************************************************************
+ * INCLUDE
+ **************************************************************************************/
+
+#undef max
+#undef min
+#include <nunavut/support/serialization.hpp>
+
+/**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
 
@@ -28,7 +36,10 @@ Subscription<T, OnReceiveCb>::~Subscription()
 template<typename T, typename OnReceiveCb>
 bool Subscription<T, OnReceiveCb>::onTransferReceived(CanardRxTransfer const & transfer)
 {
-  T const msg = T::deserialize(transfer);
+  T msg{};
+  nunavut::support::const_bitspan msg_bitspan(static_cast<uint8_t *>(transfer.payload), transfer.payload_size);
+  auto const rc = msg.deserialize(msg_bitspan);
+  if (!rc) return false;
 
   _on_receive_cb(msg);
 

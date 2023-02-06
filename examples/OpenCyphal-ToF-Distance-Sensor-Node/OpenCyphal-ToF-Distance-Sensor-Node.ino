@@ -45,7 +45,7 @@ using namespace uavcan::_register;
 
 typedef struct
 {
-  uavcan_node_Mode_1_0 mode;
+  uavcan::node::Mode_1_0 mode;
 } OpenCyphalNodeData;
 
 #warning "Run 'TMF8801-FactoryCalib' once in order to obtain sensor calibration data for node configuration 'calib_data'"
@@ -65,7 +65,7 @@ typedef struct
 void mcp2515_onReceiveBufferFull(CanardFrame const &);
 void onGetInfo_1_0_Request_Received(CanardRxTransfer const &, Node &);
 
-void publish_heartbeat(uint32_t const, uavcan_node_Mode_1_0 const mode);
+void publish_heartbeat(uint32_t const, uavcan::node::Mode_1_0 const mode);
 void publish_tofDistance(drone::unit::Length const l);
 
 uint8_t handle_INITIALIZATION();
@@ -82,14 +82,14 @@ static int          const TMF8801_INT_PIN        = 6;
 static int          const MKRCAN_MCP2515_INT_PIN = 7;
 static SPISettings  const MCP2515x_SPI_SETTING{10000000, MSBFIRST, SPI_MODE0};
 
-static CanardNodeID const OPEN_CYPHAL_NODE_ID = 42;
-static CanardPortID const OPEN_CYPHAL_ID_DISTANCE_DATA = 1001U;
+static CanardNodeID const DEFAULT_OPEN_CYPHAL_NODE_ID = 42;
+static CanardPortID const DEFAULT_OPEN_CYPHAL_ID_DISTANCE_DATA = 1001U;
 
-typedef uavcan::primitive::scalar::Real32_1_0<OPEN_CYPHAL_ID_DISTANCE_DATA> DistanceMessageType;
+typedef uavcan::primitive::scalar::Real32_1_0 DistanceMessageType;
 
 static OpenCyphalNodeData const OPEN_CYPHAL_NODE_INITIAL_DATA =
 {
-  uavcan_node_Mode_1_0_INITIALIZATION,
+  uavcan::node::Mode_1_0::INITIALIZATION,
 };
 static OpenCyphalNodeConfiguration const OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION =
 {
@@ -123,10 +123,12 @@ ArduinoMCP2515 mcp2515([]()
                        nullptr);
 
 Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); }, OPEN_CYPHAL_NODE_ID);
+Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); }, DEFAULT_OPEN_CYPHAL_ID_DISTANCE_DATA);
 
-Publisher<Heartbeat_1_0<>> heartbeat_pub = node_hdl.create_publisher<Heartbeat_1_0<>>(Heartbeat_1_0<>::PORT_ID, 1*1000*1000UL /* = 1 sec in usecs. */);
-Publisher<DistanceMessageType> tof_pub = node_hdl.create_publisher<DistanceMessageType>(OPEN_CYPHAL_ID_DISTANCE_DATA, 1*1000*1000UL /* = 1 sec in usecs. */);
+Publisher<Heartbeat_1_0> heartbeat_pub = node_hdl.create_publisher<Heartbeat_1_0>
+  (Heartbeat_1_0::FixedPortId, 1*1000*1000UL /* = 1 sec in usecs. */);
+Publisher<DistanceMessageType> tof_pub = node_hdl.create_publisher<DistanceMessageType>
+  (DEFAULT_OPEN_CYPHAL_ID_DISTANCE_DATA, 1*1000*1000UL /* = 1 sec in usecs. */);
 
 OpenCyphalNodeData node_data = OPEN_CYPHAL_NODE_INITIAL_DATA;
 OpenCyphalNodeConfiguration node_config = OPEN_CYPHAL_NODE_INITIAL_CONFIGURATION;
@@ -161,11 +163,27 @@ DEBUG_INSTANCE(120, Serial);
 
 /* REGISTER ***************************************************************************/
 
-static RegisterNatural8  reg_rw_cyphal_node_id          ("cyphal.node.id",           Register::Access::ReadWrite, Register::Persistent::No, OPEN_CYPHAL_NODE_ID, [&node_hdl](uint8_t const & val) { node_hdl.setNodeId(val); });
-static RegisterString    reg_ro_cyphal_node_description ("cyphal.node.description",  Register::Access::ReadWrite, Register::Persistent::No, "OpenCyphal-ToF-Distance-Sensor-Node");
-static RegisterNatural16 reg_ro_cyphal_pub_distance_id  ("cyphal.pub.distance.id",   Register::Access::ReadOnly,  Register::Persistent::No, OPEN_CYPHAL_ID_DISTANCE_DATA);
-static RegisterString    reg_ro_cyphal_pub_distance_type("cyphal.pub.distance.type", Register::Access::ReadOnly,  Register::Persistent::No, "cyphal.primitive.scalar.Real32.1.0");
-static RegisterList      reg_list(node_hdl);
+RegisterList reg_list(node_hdl, micros);
+auto reg_rw_cyphal_node_id = reg_list.create<
+  uavcan::primitive::array::Natural8_1_0,
+  Register::Mutable::Yes,
+  Register::Persistent::No>
+  ("cyphal.node.id", uavcan::primitive::array::Natural8_1_0{{DEFAULT_OPEN_CYPHAL_NODE_ID}});
+auto reg_ro_cyphal_node_description = reg_list.create<
+  uavcan::primitive::String_1_0,
+  Register::Mutable::No,
+  Register::Persistent::No>
+  ("cyphal.node.description", vla::to_String_1_0("OpenCyphal-ToF-Distance-Sensor-Node"));
+auto reg_rw_cyphal_pub_distance_id = reg_list.create<
+  uavcan::primitive::array::Natural16_1_0,
+  Register::Mutable::Yes,
+  Register::Persistent::No>
+  ("cyphal.pub.distance.id", uavcan::primitive::array::Natural16_1_0{{DEFAULT_OPEN_CYPHAL_ID_DISTANCE_DATA}});
+auto reg_ro_cyphal_pub_distance_type = reg_list.create<
+  uavcan::primitive::String_1_0,
+  Register::Mutable::No,
+  Register::Persistent::No>
+  ("cyphal.pub.distance.type", vla::to_String_1_0("cyphal.primitive.scalar.Real32.1.0"));
 
 /* NODE INFO **************************************************************************/
 
@@ -231,13 +249,6 @@ void setup()
     DBG_ERROR("ArduinoTMF8801::begin(...) failed, error code %d", (int)tmf8801.error());
     for(;;) { }
   }
-
-  /* Register callbacks for node info and register api.
-   */
-  reg_list.add(reg_rw_cyphal_node_id);
-  reg_list.add(reg_ro_cyphal_node_description);
-  reg_list.add(reg_ro_cyphal_pub_distance_id);
-  reg_list.add(reg_ro_cyphal_pub_distance_type);
 }
 
 void loop()
@@ -264,14 +275,14 @@ void loop()
 
   /* Handle state transitions and state specific action.
    */
-  uavcan_node_Mode_1_0 next_mode = node_data.mode;
+  uavcan::node::Mode_1_0 next_mode = node_data.mode;
 
   switch(node_data.mode.value)
   {
-    case uavcan_node_Mode_1_0_INITIALIZATION:  next_mode.value = handle_INITIALIZATION();  break;
-    case uavcan_node_Mode_1_0_OPERATIONAL:     next_mode.value = handle_OPERATIONAL();     break;
-    case uavcan_node_Mode_1_0_MAINTENANCE:     next_mode.value = handle_MAINTENANCE();     break;
-    case uavcan_node_Mode_1_0_SOFTWARE_UPDATE: next_mode.value = handle_SOFTWARE_UPDATE(); break;
+    case uavcan::node::Mode_1_0::INITIALIZATION:  next_mode.value = handle_INITIALIZATION();  break;
+    case uavcan::node::Mode_1_0::OPERATIONAL:     next_mode.value = handle_OPERATIONAL();     break;
+    case uavcan::node::Mode_1_0::MAINTENANCE:     next_mode.value = handle_MAINTENANCE();     break;
+    case uavcan::node::Mode_1_0::SOFTWARE_UPDATE: next_mode.value = handle_SOFTWARE_UPDATE(); break;
   }
 
   node_data.mode = next_mode;
@@ -286,16 +297,16 @@ void mcp2515_onReceiveBufferFull(CanardFrame const & frame)
   node_hdl.onCanFrameReceived(frame);
 }
 
-void publish_heartbeat(uint32_t const uptime, uavcan_node_Mode_1_0 const mode)
+void publish_heartbeat(uint32_t const uptime, uavcan::node::Mode_1_0 const mode)
 {
-  Heartbeat_1_0<> hb_msg;
+  Heartbeat_1_0 msg;
 
-  hb_msg.data.uptime = uptime;
-  hb_msg.data.health.value = uavcan_node_Health_1_0_NOMINAL;
-  hb_msg.data.mode.value = mode.value;
-  hb_msg.data.vendor_specific_status_code = 0;
+  msg.uptime = uptime;
+  msg.health.value = uavcan::node::Health_1_0::NOMINAL;
+  msg.mode = mode;
+  msg.vendor_specific_status_code = 0;
 
-  heartbeat_pub->publish(hb_msg);
+  heartbeat_pub->publish(msg);
 }
 
 void publish_tofDistance(drone::unit::Length const l)
@@ -303,7 +314,7 @@ void publish_tofDistance(drone::unit::Length const l)
   DBG_INFO("[%05lu] Distance = %.3f m", millis(), l.value());
 
   DistanceMessageType tof_distance_msg;
-  tof_distance_msg.data.value = l.value();
+  tof_distance_msg.value = l.value();
 
   tof_pub->publish(tof_distance_msg);
 }
@@ -312,26 +323,26 @@ uint8_t handle_INITIALIZATION()
 {
   DBG_VERBOSE("INITIALIZATION");
 
-  return uavcan_node_Mode_1_0_OPERATIONAL;
+  return uavcan::node::Mode_1_0::OPERATIONAL;
 }
 
 uint8_t handle_OPERATIONAL()
 {
   DBG_VERBOSE("OPERATIONAL");
 
-  return uavcan_node_Mode_1_0_OPERATIONAL;
+  return uavcan::node::Mode_1_0::OPERATIONAL;
 }
 
 uint8_t handle_MAINTENANCE()
 {
   DBG_VERBOSE("MAINTENANCE");
 
-  return uavcan_node_Mode_1_0_INITIALIZATION;
+  return uavcan::node::Mode_1_0::INITIALIZATION;
 }
 
 uint8_t handle_SOFTWARE_UPDATE()
 {
   DBG_VERBOSE("SOFTWARE_UPDATE");
 
-  return uavcan_node_Mode_1_0_INITIALIZATION;
+  return uavcan::node::Mode_1_0::INITIALIZATION;
 }

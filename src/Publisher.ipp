@@ -11,6 +11,10 @@
 
 #include <array>
 
+#undef max
+#undef min
+#include <nunavut/support/serialization.hpp>
+
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
@@ -38,14 +42,16 @@ bool Publisher<T>::publish(T const & msg)
 #pragma GCC diagnostic pop
 
   /* Serialize message into payload buffer. */
-  std::array<uint8_t, T::MAX_PAYLOAD_SIZE> payload_buf{};
-  size_t const payload_buf_size = msg.serialize(payload_buf.data());
+  std::array<uint8_t, T::SERIALIZATION_BUFFER_SIZE_BYTES> msg_buf{};
+  nunavut::support::bitspan msg_buf_bitspan{msg_buf};
+  auto const rc = msg.serialize(msg_buf_bitspan);
+  if (!rc) return false;
 
   /* Serialize transfer into a series of CAN frames */
   return _node_hdl.enqueue_transfer(_tx_timeout_usec,
                                     &transfer_metadata,
-                                    payload_buf_size,
-                                    payload_buf.data());
+                                    msg_buf_bitspan.size() / 8,
+                                    msg_buf_bitspan.aligned_ptr());
 }
 
 /**************************************************************************************
