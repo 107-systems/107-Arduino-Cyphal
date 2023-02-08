@@ -43,28 +43,43 @@ class RegisterBase
 {
 public:
   RegisterBase(std::string const &name,
-               Register::MicrosFunc const micros)
+               Register::Mutable const is_mutable,
+               Register::Persistent const is_persistent)
   : _name{vla::to_Name_1_0(name)}
+  , _is_mutable{is_mutable == Register::Mutable::Yes}
+  , _is_persistent{is_persistent == Register::Persistent::Yes}
   , _timestamp{}
-  , _micros{micros}
+  , _value{}
   { }
 
 
-  inline uavcan::_register::Name_1_0 const &name() const
+  uavcan::_register::Name_1_0 const &name() const
   { return _name; }
+
+  bool isMutable() const
+  { return _is_mutable; }
+
+  bool isPersistent() const
+  { return _is_persistent; }
 
   uavcan::time::SynchronizedTimestamp_1_0 const &timestamp() const
   { return _timestamp; }
 
+  uavcan::_register::Value_1_0 const &value() const
+  { return _value; }
 
-protected:
-  void updateTimestamp()
-  { _timestamp.microsecond = _micros(); }
+
+  virtual void read() = 0;
+
 
 private:
-  uavcan::_register::Name_1_0 _name;
+  uavcan::_register::Name_1_0 const _name;
+  bool const _is_mutable;
+  bool const _is_persistent;
+
+protected:
   uavcan::time::SynchronizedTimestamp_1_0 _timestamp;
-  Register::MicrosFunc const _micros;
+  uavcan::_register::Value_1_0 _value;
 };
 
 /**************************************************************************************

@@ -14,6 +14,7 @@
 
 #include <vector>
 #include <functional>
+#include <unordered_map>
 
 #include "RegisterDerived.hpp"
 
@@ -47,12 +48,14 @@ public:
       });
   }
 
-  template <typename T, Register::Mutable IsMutable, Register::Persistent IsPersistent>
-  std::shared_ptr<impl::RegisterDerived<T, IsMutable, IsPersistent>> create(std::string const &name, T const & val);
+  template <typename T>
+  std::shared_ptr<impl::RegisterDerivedReadOnly<T>> create_ro(std::string const &name,
+                                                              std::function<T()> const read_func);
 
 private:
   Register::MicrosFunc const _micros;
   std::vector<std::shared_ptr<impl::RegisterBase>> _reg_list;
+  std::unordered_map<std::string, std::shared_ptr<impl::RegisterBase>> _reg_map;
 
   typedef uavcan::_register::List::Request_1_0  TListRequest;
   typedef uavcan::_register::List::Response_1_0 TListResponse;
@@ -76,8 +79,21 @@ private:
 
   TAccessResponse onAccess_1_0_Request_Received(TAccessRequest const & req)
   {
-    /* TODO */
-    return {};
+    /* Retrieve the desired register. */
+    std::string const reg_name = vla::toStr(req.name);
+    auto iter = _reg_map.find(reg_name);
+    if (iter == std::end(_reg_map))
+      return {};
+
+    auto reg_base = iter->second;
+
+    if (req.value.is_empty())
+      reg_base->read();
+
+    return TAccessResponse{reg_base->timestamp(),
+                           reg_base->isMutable(),
+                           reg_base->isPersistent(),
+                           reg_base->value()};
   }
 };
 

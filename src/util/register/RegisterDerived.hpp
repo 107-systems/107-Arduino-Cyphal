@@ -25,30 +25,28 @@ namespace impl
  * CLASS DECLARATION
  **************************************************************************************/
 
-template<typename T, Register::Mutable IsMutable, Register::Persistent IsPersistent>
-class RegisterDerived : public RegisterBase
+template<typename T>
+class RegisterDerivedReadOnly : public RegisterBase
 {
 public:
-  static bool constexpr is_mutable    = (IsMutable == Register::Mutable::Yes);
-  static bool constexpr is_persistent = (IsPersistent == Register::Persistent::Yes);
-
-
-  RegisterDerived(std::string const &name,
-                  T const & val,
-                  Register::MicrosFunc const micros)
-  : RegisterBase{name, micros}
-  , _val{val}
+  RegisterDerivedReadOnly(std::string const &name,
+                          std::function<T()> const read_func,
+                          Register::MicrosFunc const micros)
+  : RegisterBase{name, Register::Mutable::No, Register::Persistent::No}
+  , _read_func{read_func}
+  , _micros{micros}
   { }
+  virtual ~RegisterDerivedReadOnly() { }
 
-
-  T get() const
-  { return _val; }
-
-  void set(T const &val)
-  { _val = val; updateTimestamp(); }
+  void read() override
+  {
+    _value.union_value.emplace(_read_func());
+    _timestamp.microsecond = _micros();
+  }
 
 private:
-  T _val;
+  std::function<T()> const _read_func;
+  Register::MicrosFunc const _micros;
 };
 
 /**************************************************************************************

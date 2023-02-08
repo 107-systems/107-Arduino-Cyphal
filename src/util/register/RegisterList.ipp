@@ -5,10 +5,14 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-template <typename T, Register::Mutable IsMutable, Register::Persistent IsPersistent>
-std::shared_ptr<impl::RegisterDerived<T, IsMutable, IsPersistent>> RegisterList::create(std::string const &name, T const & val)
+template <typename T>
+std::shared_ptr<impl::RegisterDerivedReadOnly<T>> RegisterList::create_ro(std::string const &name,
+                                                                          std::function<T()> const read_func)
 {
-  auto reg = std::make_shared<impl::RegisterDerived<T, IsMutable, IsPersistent>>(name, val, _micros);
+  auto reg = std::make_shared<impl::RegisterDerivedReadOnly<T>>(name, read_func, _micros);
+
   _reg_list.push_back(reg);
+  _reg_map.emplace(name, reg);
+
   return reg;
 }

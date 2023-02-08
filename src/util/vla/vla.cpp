@@ -55,6 +55,20 @@ uavcan::_register::Name_1_0 to_Name_1_0(char const * c_str)
   return out;
 }
 
+std::string toStr(uavcan::primitive::String_1_0 const & str)
+{
+  char buf[256 + 1] = {0};
+  memcpy(buf, str.value.data(), std::min(str.value.size(), sizeof(buf)));
+  return std::string(buf);
+}
+
+std::string toStr(uavcan::_register::Name_1_0 const & name)
+{
+  char buf[255 + 1] = {0};
+  memcpy(buf, name.name.data(), std::min(name.name.size(), sizeof(buf)));
+  return std::string(buf);
+}
+
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
