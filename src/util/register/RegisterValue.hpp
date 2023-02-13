@@ -36,6 +36,17 @@ private:
 public:
   DSDL_Value const & raw() { return _value; };
 
+  /* Assigns a numerically typed array value (ints, floats, bools, etc.) from multiple scalar arguments.
+   * Dimensionality and type correctness is checked at compile time, so the method cannot fail.
+   */
+  template <typename... Args>
+  auto set(Args&&... args)
+  -> std::enable_if_t<(sizeof...(Args) > 0) && std::is_arithmetic_v<std::decay_t<std::common_type_t<Args...>>>>
+  {
+    using T = std::decay_t<std::common_type_t<Args...>>;
+    this->set(std::array<T, sizeof...(Args)>{{static_cast<T>(args)...}});
+  }
+
   /* Assigns a numerically typed array value (ints, floats, bools, etc.) from std::array<>.
    * Dimensionality and type correctness is checked at compile time, so the method cannot fail.
    */

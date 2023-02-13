@@ -67,11 +67,11 @@ int main(int argc, char ** argv)
   /* REGISTER ***************************************************************************/
 
   RegisterList reg_list(node_hdl, micros);
-  auto reg_rw_node_id = reg_list.create_ro<std::array<uint8_t, 1>>
+  auto reg_rw_node_id = reg_list.create_ro<uint8_t>
     ("cyphal.node.id",
      [&node_hdl]()
      {
-        return std::array<uint8_t, 1>{{node_hdl.getNodeId()}};
+        return node_hdl.getNodeId();
      });
   auto reg_ro_node_description = reg_list.create_ro<std::string>
     ("cyphal.node.description",
@@ -79,11 +79,11 @@ int main(int argc, char ** argv)
      {
         return std::string("basic-cyphal-node");
      });
-  auto reg_rw_pub_temperature_id = reg_list.create_ro<std::array<uint16_t, 1>>
+  auto reg_rw_pub_temperature_id = reg_list.create_ro<uint16_t>
     ("cyphal.pub.temperature.id",
      []()
      {
-        return std::array<uint16_t, 1>{{DEFAULT_COUNTER_PORT_ID}};
+        return DEFAULT_COUNTER_PORT_ID;
      });
   auto reg_ro_pub_temperature_type = reg_list.create_ro<std::string>
     ("cyphal.pub.temperature.type",
@@ -91,11 +91,11 @@ int main(int argc, char ** argv)
      {
         return std::string("uavcan.primitive.scalar.Integer8.1.0");
      });
-  auto reg_rw_pub_temperature_update_period_ms = reg_list.create_ro<std::array<uint16_t, 1>>
+  auto reg_rw_pub_temperature_update_period_ms = reg_list.create_ro<uint16_t>
     ("cyphal.pub.temperature.update_period_ms",
      []()
      {
-       return std::array<uint16_t, 1>{{DEFAULT_TEMPERATURE_UPDATE_PERIOD_ms}};
+       return DEFAULT_TEMPERATURE_UPDATE_PERIOD_ms;
      });
 
   /* NODE INFO **************************************************************************/
