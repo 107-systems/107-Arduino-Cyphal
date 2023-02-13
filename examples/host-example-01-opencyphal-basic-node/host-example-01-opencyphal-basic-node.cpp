@@ -67,35 +67,35 @@ int main(int argc, char ** argv)
   /* REGISTER ***************************************************************************/
 
   RegisterList reg_list(node_hdl, micros);
-  auto reg_rw_node_id = reg_list.create_ro<uavcan::primitive::array::Natural8_1_0>
+  auto reg_rw_node_id = reg_list.create_ro<std::array<uint8_t, 1>>
     ("cyphal.node.id",
      [&node_hdl]()
      {
-        return uavcan::primitive::array::Natural8_1_0{{node_hdl.getNodeId()}};
+        return std::array<uint8_t, 1>{{node_hdl.getNodeId()}};
      });
-  auto reg_ro_node_description = reg_list.create_ro<uavcan::primitive::String_1_0>
+  auto reg_ro_node_description = reg_list.create_ro<std::string>
     ("cyphal.node.description",
      []()
      {
-        return vla::to_String_1_0("basic-cyphal-node");
+        return std::string("basic-cyphal-node");
      });
-  auto reg_rw_pub_temperature_id = reg_list.create_ro<uavcan::primitive::array::Natural16_1_0>
+  auto reg_rw_pub_temperature_id = reg_list.create_ro<std::array<uint16_t, 1>>
     ("cyphal.pub.temperature.id",
      []()
      {
-        return uavcan::primitive::array::Natural16_1_0{{DEFAULT_COUNTER_PORT_ID}};
+        return std::array<uint16_t, 1>{{DEFAULT_COUNTER_PORT_ID}};
      });
-  auto reg_ro_pub_temperature_type = reg_list.create_ro<uavcan::primitive::String_1_0>
+  auto reg_ro_pub_temperature_type = reg_list.create_ro<std::string>
     ("cyphal.pub.temperature.type",
      []()
      {
-        return vla::to_String_1_0("uavcan.primitive.scalar.Integer8.1.0");
+        return std::string("uavcan.primitive.scalar.Integer8.1.0");
      });
-  auto reg_rw_pub_temperature_update_period_ms = reg_list.create_ro<uavcan::primitive::array::Natural16_1_0>
+  auto reg_rw_pub_temperature_update_period_ms = reg_list.create_ro<std::array<uint16_t, 1>>
     ("cyphal.pub.temperature.update_period_ms",
      []()
      {
-       return uavcan::primitive::array::Natural16_1_0{{DEFAULT_TEMPERATURE_UPDATE_PERIOD_ms}};
+       return std::array<uint16_t, 1>{{DEFAULT_TEMPERATURE_UPDATE_PERIOD_ms}};
      });
 
   /* NODE INFO **************************************************************************/
@@ -169,7 +169,7 @@ int main(int argc, char ** argv)
       heartbeat_pub->publish(msg);
     }
 
-    if ((now - prev_counter) > reg_rw_pub_temperature_update_period_ms->value()[0])
+    if ((now - prev_counter) > reg_rw_pub_temperature_update_period_ms->value())
     {
       prev_counter = now;
       counter_pub->publish(counter_msg);

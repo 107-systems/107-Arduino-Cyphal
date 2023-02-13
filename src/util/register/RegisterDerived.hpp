@@ -40,7 +40,7 @@ public:
 
   void read() override
   {
-    _value.union_value.emplace(_read_func());
+    _value.set(_read_func());
     _timestamp.microsecond = _micros();
   }
 
