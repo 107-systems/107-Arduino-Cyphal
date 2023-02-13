@@ -12,6 +12,7 @@
  * INCLUDES
  **************************************************************************************/
 
+#include <optional>
 #include <type_traits>
 
 #include "../../DSDL_Types.h"
@@ -24,7 +25,40 @@ namespace registry
 {
 
 /**************************************************************************************
- * STRUCT DECLARATION
+ * FUNCTION DEFINITIONS
+ **************************************************************************************/
+
+/* Static dispatch helper, like std::visit() for std::variant<>.
+ * Takes an arbitrary number of values and calls the provided functor with their inner primitive values (i.e.,
+ * the outer object is peeled and the runtime type variability is eliminated).
+ * Naturally, this function generates the Cartesian product of all possible value combinations.
+ */
+template <typename Vis, typename Head>
+[[nodiscard]] auto visit(const Vis& visitor, Head&& head)
+{
+  //assert(head._tag_ < uavcan_register_Value_1_0_UNION_OPTION_COUNT_);
+
+  if (uavcan_register_Value_1_0_is_string_      (&head)) { return visitor(head._string     ); }
+  if (uavcan_register_Value_1_0_is_unstructured_(&head)) { return visitor(head.unstructured); }
+  if (uavcan_register_Value_1_0_is_bit_         (&head)) { return visitor(head.bit         ); }
+  if (uavcan_register_Value_1_0_is_integer64_   (&head)) { return visitor(head.integer64   ); }
+  if (uavcan_register_Value_1_0_is_integer32_   (&head)) { return visitor(head.integer32   ); }
+  if (uavcan_register_Value_1_0_is_integer16_   (&head)) { return visitor(head.integer16   ); }
+  if (uavcan_register_Value_1_0_is_integer8_    (&head)) { return visitor(head.integer8    ); }
+  if (uavcan_register_Value_1_0_is_natural64_   (&head)) { return visitor(head.natural64   ); }
+  if (uavcan_register_Value_1_0_is_natural32_   (&head)) { return visitor(head.natural32   ); }
+  if (uavcan_register_Value_1_0_is_natural16_   (&head)) { return visitor(head.natural16   ); }
+  if (uavcan_register_Value_1_0_is_natural8_    (&head)) { return visitor(head.natural8    ); }
+  if (uavcan_register_Value_1_0_is_real64_      (&head)) { return visitor(head.real64      ); }
+  if (uavcan_register_Value_1_0_is_real32_      (&head)) { return visitor(head.real32      ); }
+  if (uavcan_register_Value_1_0_is_real16_      (&head)) { return visitor(head.real16      ); }
+
+  assert(0 == head._tag_);  // Otherwise the object is malformed.
+  return visitor(head.empty);
+}
+
+/**************************************************************************************
+ * CLASS DECLARATION
  **************************************************************************************/
 
 class RegisterValue
@@ -122,6 +156,81 @@ public:
     uavcan::primitive::String_1_0 out;
     std::copy_n(str.begin(), std::min(str.length(), out.value.max_size()), std::back_inserter(out.value));
     _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::string>(out);
+  }
+
+  /* This is the inverse of set(). Applies best effort to convert the contained value to the specified type,
+   * which may be a scalar or an std::array<> or an Eigen matrix,
+   *  and return it by value (lifetime detached, values copied).
+   *
+   *  The elements will be converted as necessary (e.g., float to uint8), which may cause overflow or truncation.
+   *  For arrays, extra elements will be truncated and missing elements will be default-initialized (zeroed).
+   */
+  template <typename T>
+  [[nodiscard]] std::optional<T> get() const
+  {
+    T out{};
+    if (this->get(out))
+    {
+      return out;
+    }
+    return std::nullopt;
+  }
+
+private:
+  template <typename T, std::size_t N>
+  struct ToArrayConverter
+  {
+    template <typename S, typename = std::decay_t<decltype(std::declval<S>().value.elements[0])>>
+    std::optional<std::array<T, N>> operator()(const S& s) const
+    {
+      std::array<T, N> out;
+      if constexpr (N > 0)
+      {
+        for (std::size_t i = 0; i < N; i++)
+        {
+          // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-constant-array-index)
+          out.at(i) = (i < s.value.count) ? static_cast<T>(s.value.elements[i]) : T{};
+        }
+      }
+      (void) s;  //
+      return out;
+    }
+
+    std::optional<std::array<T, N>> operator()(const uavcan::primitive::Unstructured_1_0 & /*unused*/) const
+    {
+      return {};
+    }
+
+    std::optional<std::array<T, N>> operator()(const uavcan::primitive::String_1_0 & /*unused*/) const { return {}; }
+
+    template <typename... A>
+    std::optional<std::array<T, N>> operator()(A&&... /**/) const
+    {
+      return {};  // Catch-all sink -- variadic templates have the lowest priority.
+    }
+  };
+
+  template <typename T, std::size_t N>
+  [[nodiscard]] bool get(std::array<T, N>& out) const
+  {
+    if (const auto res = visit(ToArrayConverter<T, N>(), *this))
+    {
+      out = *res;
+      return true;
+    }
+    return false;
+  }
+
+  template <typename T>
+  [[nodiscard]] bool get(T& out) const
+  {
+    std::array<T, 1> tmp{};
+    if (this->get(tmp))
+    {
+      out = tmp.front();
+      return true;
+    }
+    return false;
   }
 };
 

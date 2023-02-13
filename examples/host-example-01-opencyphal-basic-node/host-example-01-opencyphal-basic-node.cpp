@@ -169,7 +169,10 @@ int main(int argc, char ** argv)
       heartbeat_pub->publish(msg);
     }
 
-    if ((now - prev_counter) > reg_rw_pub_temperature_update_period_ms->value())
+    auto const opt_pub_temperature_update_period_ms = reg_rw_pub_temperature_update_period_ms->get();
+    assert(opt_pub_temperature_update_period_ms.has_value());
+
+    if ((now - prev_counter) > opt_pub_temperature_update_period_ms.value())
     {
       prev_counter = now;
       counter_pub->publish(counter_msg);

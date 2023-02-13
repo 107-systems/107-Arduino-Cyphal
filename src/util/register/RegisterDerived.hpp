@@ -44,6 +44,11 @@ public:
     _timestamp.microsecond = _micros();
   }
 
+  [[nodiscard]] std::optional<T> get() const
+  {
+    return _value.get<T>();
+  }
+
 private:
   std::function<T()> const _read_func;
   Register::MicrosFunc const _micros;
