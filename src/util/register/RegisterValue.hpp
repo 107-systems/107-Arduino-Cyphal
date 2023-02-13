@@ -12,6 +12,7 @@
  * INCLUDES
  **************************************************************************************/
 
+#include <variant>
 #include <optional>
 #include <type_traits>
 
@@ -23,39 +24,6 @@
 
 namespace registry
 {
-
-/**************************************************************************************
- * FUNCTION DEFINITIONS
- **************************************************************************************/
-
-/* Static dispatch helper, like std::visit() for std::variant<>.
- * Takes an arbitrary number of values and calls the provided functor with their inner primitive values (i.e.,
- * the outer object is peeled and the runtime type variability is eliminated).
- * Naturally, this function generates the Cartesian product of all possible value combinations.
- */
-template <typename Vis, typename Head>
-[[nodiscard]] auto visit(const Vis& visitor, Head&& head)
-{
-  //assert(head._tag_ < uavcan_register_Value_1_0_UNION_OPTION_COUNT_);
-
-  if (uavcan_register_Value_1_0_is_string_      (&head)) { return visitor(head._string     ); }
-  if (uavcan_register_Value_1_0_is_unstructured_(&head)) { return visitor(head.unstructured); }
-  if (uavcan_register_Value_1_0_is_bit_         (&head)) { return visitor(head.bit         ); }
-  if (uavcan_register_Value_1_0_is_integer64_   (&head)) { return visitor(head.integer64   ); }
-  if (uavcan_register_Value_1_0_is_integer32_   (&head)) { return visitor(head.integer32   ); }
-  if (uavcan_register_Value_1_0_is_integer16_   (&head)) { return visitor(head.integer16   ); }
-  if (uavcan_register_Value_1_0_is_integer8_    (&head)) { return visitor(head.integer8    ); }
-  if (uavcan_register_Value_1_0_is_natural64_   (&head)) { return visitor(head.natural64   ); }
-  if (uavcan_register_Value_1_0_is_natural32_   (&head)) { return visitor(head.natural32   ); }
-  if (uavcan_register_Value_1_0_is_natural16_   (&head)) { return visitor(head.natural16   ); }
-  if (uavcan_register_Value_1_0_is_natural8_    (&head)) { return visitor(head.natural8    ); }
-  if (uavcan_register_Value_1_0_is_real64_      (&head)) { return visitor(head.real64      ); }
-  if (uavcan_register_Value_1_0_is_real32_      (&head)) { return visitor(head.real32      ); }
-  if (uavcan_register_Value_1_0_is_real16_      (&head)) { return visitor(head.real16      ); }
-
-  assert(0 == head._tag_);  // Otherwise the object is malformed.
-  return visitor(head.empty);
-}
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -213,7 +181,7 @@ private:
   template <typename T, std::size_t N>
   [[nodiscard]] bool get(std::array<T, N>& out) const
   {
-    if (const auto res = visit(ToArrayConverter<T, N>(), *this))
+    if (const auto res = std::visit(ToArrayConverter<T, N>(), _value))
     {
       out = *res;
       return true;
