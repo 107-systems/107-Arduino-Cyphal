@@ -43,34 +43,54 @@ public:
   auto set(const std::array<T, N> &ar) -> std::enable_if_t<std::is_arithmetic_v<T> && !std::is_same_v<T, bool>>
   {
     if constexpr (std::is_same_v<T, std::int64_t>) {
-      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::integer64>(ar);
+      uavcan::primitive::array::Integer64_1_0 int_ar;
+      std::copy_n(ar.begin(), std::min(N, int_ar.value.max_size()), std::back_inserter(int_ar.value));
+      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::integer64>(int_ar);
     }
     else if constexpr (std::is_same_v<T, std::int32_t>) {
-      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::integer32>(ar);
+      uavcan::primitive::array::Integer32_1_0 int_ar;
+      std::copy_n(ar.begin(), std::min(N, int_ar.value.max_size()), std::back_inserter(int_ar.value));
+      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::integer32>(int_ar);
     }
     else if constexpr (std::is_same_v<T, std::int16_t>) {
-      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::integer16>(ar);
+      uavcan::primitive::array::Integer16_1_0 int_ar;
+      std::copy_n(ar.begin(), std::min(N, int_ar.value.max_size()), std::back_inserter(int_ar.value));
+      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::integer16>(int_ar);
     }
     else if constexpr (std::is_same_v<T, std::int8_t>) {
-      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::integer8>(ar);
+      uavcan::primitive::array::Integer8_1_0 int_ar;
+      std::copy_n(ar.begin(), std::min(N, int_ar.value.max_size()), std::back_inserter(int_ar.value));
+      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::integer8>(int_ar);
     }
     else if constexpr (std::is_same_v<T, std::uint64_t>) {
-      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::natural64>(ar);
+      uavcan::primitive::array::Natural64_1_0 uint_ar;
+      std::copy_n(ar.begin(), std::min(N, uint_ar.value.max_size()), std::back_inserter(uint_ar.value));
+      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::natural64>(uint_ar);
     }
     else if constexpr (std::is_same_v<T, std::uint32_t>) {
-      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::natural32>(ar);
+      uavcan::primitive::array::Natural32_1_0 uint_ar;
+      std::copy_n(ar.begin(), std::min(N, uint_ar.value.max_size()), std::back_inserter(uint_ar.value));
+      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::natural32>(uint_ar);
     }
     else if constexpr (std::is_same_v<T, std::uint16_t>) {
-      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::natural16>(ar);
+      uavcan::primitive::array::Natural16_1_0 uint_ar;
+      std::copy_n(ar.begin(), std::min(N, uint_ar.value.max_size()), std::back_inserter(uint_ar.value));
+      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::natural16>(uint_ar);
     }
     else if constexpr (std::is_same_v<T, std::uint8_t>) {
-      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::natural8>(ar);
+      uavcan::primitive::array::Natural8_1_0 uint_ar;
+      std::copy_n(ar.begin(), std::min(N, uint_ar.value.max_size()), std::back_inserter(uint_ar.value));
+      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::natural8>(uint_ar);
     }
     else if constexpr (std::is_same_v<T, float>) {
-      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::real32>(ar);
+      uavcan::primitive::array::Real32_1_0 flt_ar{ar};
+      std::copy_n(ar.begin(), std::min(N, flt_ar.value.max_size()), std::back_inserter(flt_ar.value));
+      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::real32>(flt_ar);
     }
     else if constexpr (std::is_same_v<T, double>) {
-      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::real64>(ar);
+      uavcan::primitive::array::Real64_1_0 dbl_ar;
+      std::copy_n(ar.begin(), std::min(N, dbl_ar.value.max_size()), std::back_inserter(dbl_ar.value));
+      _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::real64>(dbl_ar);
     }
     else
     {
@@ -88,12 +108,9 @@ public:
    */
   void set(std::string const & str)
   {
-    /*uavcan_register_Value_1_0_select_string_(this);
-    _string.value.count = std::min<std::size_t>(uavcan_primitive_String_1_0_value_ARRAY_CAPACITY_, str.size());
-    std::memmove(&_string.value.elements[0], str.begin(), _string.value.count);
-    // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-    std::fill(std::begin(_string.value.elements) + _string.value.count, std::end(_string.value.elements), 0);
-     */
+    uavcan::primitive::String_1_0 out;
+    std::copy_n(str.begin(), std::min(str.length(), out.value.max_size()), std::back_inserter(out.value));
+    _value.union_value.emplace<DSDL_Value::VariantType::IndexOf::string>(out);
   }
 };
 
