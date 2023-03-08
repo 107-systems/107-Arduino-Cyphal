@@ -11,6 +11,7 @@ git clone https://github.com/OpenCyphal/public_regulated_data_types
 
 echo "Generating code..."
 nnvg --experimental-languages \
+     --language-standard=c++17 \
      --target-language cpp \
      --pp-max-emptylines=1  \
      --pp-trim-trailing-whitespace \
@@ -19,6 +20,7 @@ nnvg --experimental-languages \
      --outdir public_regulated_data_types/uavcan-header \
      public_regulated_data_types/uavcan
 nnvg --experimental-languages \
+     --language-standard=c++17 \
      --target-language cpp \
      --pp-max-emptylines=1  \
      --pp-trim-trailing-whitespace \
