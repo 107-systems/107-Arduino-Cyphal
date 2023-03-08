@@ -90,10 +90,11 @@ private:
     if (req.value.is_empty())
       reg_base->read();
 
+    uavcan::_register::Value_1_0 tmp_val;
     return TAccessResponse{reg_base->timestamp(),
                            reg_base->isMutable(),
                            reg_base->isPersistent(),
-                           reg_base->value()};
+                           tmp_val};
   }
 };
 

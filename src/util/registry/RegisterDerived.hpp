@@ -14,6 +14,8 @@
 
 #include "RegisterBase.h"
 
+#include <optional>
+
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
@@ -40,13 +42,14 @@ public:
 
   void read() override
   {
-    _value.set(_read_func());
+    //_value.set(_read_func());
     _timestamp.microsecond = _micros();
   }
 
   [[nodiscard]] std::optional<T> get() const
   {
-    return _value.get<T>();
+    //return _value.get<T>();
+    return std::nullopt;
   }
 
 private:

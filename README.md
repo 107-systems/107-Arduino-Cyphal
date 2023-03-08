@@ -30,7 +30,7 @@ This library works for
 ```
 or
 ```bash
-cmake -DBUILD_EXAMPLES=ON .. && make
+cmake -DBUILD_EXAMPLES=ON -DBUILD_TEST=ON .. && make
 ```
 
 ### Reference-Implementations

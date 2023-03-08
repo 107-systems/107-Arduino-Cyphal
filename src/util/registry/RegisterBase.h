@@ -15,8 +15,6 @@
 #include "../../DSDL_Types.h"
 #include "../vla/vla.h"
 
-#include "RegisterValue.hpp"
-
 /**************************************************************************************
  * TYPEDEF
  **************************************************************************************/
@@ -49,7 +47,6 @@ public:
   , _is_mutable{is_mutable == Register::Mutable::Yes}
   , _is_persistent{is_persistent == Register::Persistent::Yes}
   , _timestamp{}
-  , _value{}
   { }
 
 
@@ -65,9 +62,6 @@ public:
   uavcan::time::SynchronizedTimestamp_1_0 const &timestamp() const
   { return _timestamp; }
 
-  uavcan::_register::Value_1_0 const &value()
-  { return _value.raw(); }
-
 
   virtual void read() = 0;
 
@@ -79,7 +73,6 @@ private:
 
 protected:
   uavcan::time::SynchronizedTimestamp_1_0 _timestamp;
-  registry::RegisterValue _value;
 };
 
 /**************************************************************************************
