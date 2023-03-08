@@ -20,7 +20,6 @@ This Arduino library implements the [OpenCyphal](https://opencyphal.org/) ([v1.0
 </p>
 
 This library works for
-* [ArduinoCore-mbed](https://github.com/arduino/ArduinoCore-mbed): [`Portenta H7`](https://store.arduino.cc/portenta-h7), [`Nano 33 BLE`](https://store.arduino.cc/arduino-nano-33-ble), [`Nano RP2040 Connect`](https://store.arduino.cc/nano-rp2040-connect), [`Edge Control`](https://store.arduino.cc/edge-control) :heavy_check_mark:
 * [arduino-pico](https://github.com/earlephilhower/arduino-pico): [`Raspberry Pi Pico`](https://www.raspberrypi.org/products/raspberry-pi-pico), `Adafruit Feather RP2040`, ... :heavy_check_mark:
 * **Host** (x86/x64/...): Using the CMake build system this library can be cross-compiled to a static C++ library and linked against any C++ executable. This is possible because the code itself is pure C/C++ without and dependencies to the Arduino framework.
 ```bash
