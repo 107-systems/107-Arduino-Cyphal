@@ -37,8 +37,8 @@ cp -R public_regulated_data_types/reg-header/reg "$HEADER_DIR"
 
 echo "Fixing include paths"
 cd $HEADER_DIR
-find . -type f -exec sed -i 's/"reg/<types\/reg/g' {} +
-find . -type f -exec sed -i 's/"uavcan/<types\/uavcan/g' {} +
+find . -type f -exec sed -i 's/"reg\//<types\/reg\//g' {} +
+find . -type f -exec sed -i 's/"uavcan\//<types\/uavcan\//g' {} +
 find . -type f -exec sed -i 's/"nunavut/<nunavut/g' {} +
 find . -type f -exec sed -i 's/.hpp"/.hpp>/g' {} +
 
