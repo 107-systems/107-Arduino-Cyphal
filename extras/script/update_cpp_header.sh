@@ -16,7 +16,6 @@ nnvg --experimental-languages \
      --pp-max-emptylines=1  \
      --pp-trim-trailing-whitespace \
      --target-endianness=any \
-     --enable-serialization-asserts \
      --outdir public_regulated_data_types/uavcan-header \
      public_regulated_data_types/uavcan
 nnvg --experimental-languages \
@@ -25,7 +24,6 @@ nnvg --experimental-languages \
      --pp-max-emptylines=1  \
      --pp-trim-trailing-whitespace \
      --target-endianness=any \
-     --enable-serialization-asserts \
      --lookup public_regulated_data_types/uavcan \
      --outdir public_regulated_data_types/reg-header \
      public_regulated_data_types/reg
