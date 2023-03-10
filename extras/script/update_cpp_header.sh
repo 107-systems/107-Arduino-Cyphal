@@ -9,6 +9,10 @@ cd /tmp
 rm -rf public_regulated_data_types
 git clone https://github.com/OpenCyphal/public_regulated_data_types
 
+echo "nnvg version: "
+nnvg --version
+echo ""
+
 echo "Generating code..."
 nnvg --experimental-languages \
      --language-standard=c++17 \
