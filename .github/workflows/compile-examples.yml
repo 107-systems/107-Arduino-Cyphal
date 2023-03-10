@@ -49,6 +49,9 @@ jobs:
         uses: arduino/compile-sketches@main
         with:
           fqbn: ${{ matrix.board.fqbn }}
+          with:
+            cli-compile-flags: |
+              - --build-property compiler.cpp.extra_flags="-ftemplate-depth=0"
           platforms: ${{ matrix.board.platforms }}
           libraries: ${{ env.LIBRARIES }}
           enable-deltas-report: true
