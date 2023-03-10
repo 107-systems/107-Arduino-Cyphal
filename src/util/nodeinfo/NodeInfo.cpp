@@ -51,7 +51,7 @@ NodeInfo::NodeInfo(Node & node_hdl,
   typedef uavcan::node::GetInfo::Response_1_0 TGetInfoResponse;
 
   _node_info_srv = node_hdl.create_service_server<TGetInfoRequest, TGetInfoResponse>(
-    TGetInfoRequest::FixedPortId,
+    TGetInfoRequest::_traits_::FixedPortId,
     2*1000*1000UL,
     [this](TGetInfoRequest const &) -> TGetInfoResponse
     {

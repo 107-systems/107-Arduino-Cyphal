@@ -22,7 +22,7 @@ template <typename T>
 Publisher<T> Node::create_publisher(CanardPortID const port_id,
                                     CanardMicrosecond const tx_timeout_usec)
 {
-  static_assert(!T::IsServiceType, "T is not message type");
+  static_assert(!T::_traits_::IsServiceType, "T is not message type");
 
   return std::make_shared<impl::Publisher<T>>(
     *this,
@@ -36,7 +36,7 @@ Subscription Node::create_subscription(CanardPortID const port_id,
                                        CanardMicrosecond const rx_timeout_usec,
                                        OnReceiveCb&& on_receive_cb)
 {
-  static_assert(!T::IsServiceType, "T is not message type");
+  static_assert(!T::_traits_::IsServiceType, "T is not message type");
 
   auto sub = std::make_shared<impl::Subscription<T, OnReceiveCb>>(
     *this,
@@ -47,7 +47,7 @@ Subscription Node::create_subscription(CanardPortID const port_id,
   int8_t const rc = canardRxSubscribe(&_canard_hdl,
                                       CanardTransferKindMessage,
                                       port_id,
-                                      T::EXTENT_BYTES,
+                                      T::_traits_::ExtentBytes,
                                       rx_timeout_usec,
                                       &(sub->canard_rx_subscription()));
   if (rc < 0)
@@ -61,8 +61,8 @@ ServiceServer Node::create_service_server(CanardPortID const port_id,
                                           CanardMicrosecond const tx_timeout_usec,
                                           OnRequestCb&& on_request_cb)
 {
-  static_assert(T_REQ::IsRequest, "T_REQ is not a request");
-  static_assert(T_RSP::IsResponse, "T_RSP is not a response");
+  static_assert(T_REQ::_traits_::IsRequest, "T_REQ is not a request");
+  static_assert(T_RSP::_traits_::IsResponse, "T_RSP is not a response");
 
   auto srv = std::make_shared<impl::ServiceServer<T_REQ, T_RSP, OnRequestCb>>(
     *this,
@@ -74,7 +74,7 @@ ServiceServer Node::create_service_server(CanardPortID const port_id,
   int8_t const rc = canardRxSubscribe(&_canard_hdl,
                                       CanardTransferKindRequest,
                                       port_id,
-                                      T_REQ::EXTENT_BYTES,
+                                      T_REQ::_traits_::ExtentBytes,
                                       CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC,
                                       &(srv->canard_rx_subscription()));
   if (rc < 0)
@@ -88,8 +88,8 @@ ServiceClient<T_REQ> Node::create_service_client(CanardPortID const port_id,
                                                  CanardMicrosecond const tx_timeout_usec,
                                                  OnResponseCb&& on_response_cb)
 {
-  static_assert(T_REQ::IsRequest, "T_REQ is not a request");
-  static_assert(T_RSP::IsResponse, "T_RSP is not a response");
+  static_assert(T_REQ::_traits_::IsRequest, "T_REQ is not a request");
+  static_assert(T_RSP::_traits_::IsResponse, "T_RSP is not a response");
 
   auto clt = std::make_shared<impl::ServiceClient<T_REQ, T_RSP, OnResponseCb>>(
     *this,
@@ -101,7 +101,7 @@ ServiceClient<T_REQ> Node::create_service_client(CanardPortID const port_id,
   int8_t const rc = canardRxSubscribe(&_canard_hdl,
                                       CanardTransferKindResponse,
                                       port_id,
-                                      T_RSP::EXTENT_BYTES,
+                                      T_RSP::_traits_::ExtentBytes,
                                       CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC,
                                       &(clt->canard_rx_subscription()));
   if (rc < 0)

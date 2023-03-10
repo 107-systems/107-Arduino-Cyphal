@@ -32,7 +32,7 @@ public:
   : _micros{micros}
   {
     _reg_list_srv = node_hdl.create_service_server<TListRequest, TListResponse>(
-      TListRequest::FixedPortId,
+      TListRequest::_traits_::FixedPortId,
       2*1000*1000UL,
       [this](TListRequest const & req)
       {
@@ -40,7 +40,7 @@ public:
       });
 
     _reg_access_srv = node_hdl.create_service_server<TAccessRequest, TAccessResponse>(
-      TAccessRequest::FixedPortId,
+      TAccessRequest::_traits_::FixedPortId,
       2*1000*1000UL,
       [this](TAccessRequest const & req)
       {

@@ -51,9 +51,9 @@ bool ServiceClient<T_REQ, T_RSP, OnResponseCb>::request(CanardNodeID const remot
 #pragma GCC diagnostic pop
 
   /* Serialize message into payload buffer. */
-  std::array<uint8_t, T_REQ::SERIALIZATION_BUFFER_SIZE_BYTES> req_buf{};
+  std::array<uint8_t, T_REQ::_traits_::SerializationBufferSizeBytes> req_buf{};
   nunavut::support::bitspan req_buf_bitspan{req_buf};
-  auto const rc = req.serialize(req_buf_bitspan);
+  auto const rc = serialize(req, req_buf_bitspan);
   if (!rc) return false;
 
   /* Serialize transfer into a series of CAN frames. */
@@ -69,7 +69,7 @@ bool ServiceClient<T_REQ, T_RSP, OnResponseCb>::onTransferReceived(CanardRxTrans
   /* Deserialize the response message. */
   T_RSP rsp{};
   nunavut::support::const_bitspan rsp_bitspan(static_cast<uint8_t *>(transfer.payload), transfer.payload_size);
-  auto const rc = rsp.deserialize(rsp_bitspan);
+  auto const rc = deserialize(rsp, rsp_bitspan);
   if (!rc) return false;
 
   /* Invoke the user registered callback. */
