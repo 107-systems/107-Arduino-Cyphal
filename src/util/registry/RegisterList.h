@@ -12,14 +12,11 @@
  * INCLUDES
  **************************************************************************************/
 
-#include <vector>
-#include <functional>
-#include <unordered_map>
-
-#include "RegisterDerived.hpp"
-
+#include "../vla/vla.h"
 #include "../../Node.hpp"
 #include "../../DSDL_Types.h"
+
+#include "registry_impl.hpp"
 
 /**************************************************************************************
  * CLASS DECLARATION
@@ -28,7 +25,8 @@
 class RegisterList
 {
 public:
-  RegisterList(Node & node_hdl, Register::MicrosFunc const micros)
+  typedef std::function<uint64_t(void)> MicrosFunc;
+  RegisterList(Node & node_hdl, MicrosFunc const micros)
   : _micros{micros}
   {
     _reg_list_srv = node_hdl.create_service_server<TListRequest, TListResponse>(
@@ -48,14 +46,10 @@ public:
       });
   }
 
-  template <typename T>
-  std::shared_ptr<impl::RegisterDerivedReadOnly<T>> create_ro(std::string const &name,
-                                                              std::function<T()> const read_func);
+  registry::Registry registry;
 
 private:
-  Register::MicrosFunc const _micros;
-  std::vector<std::shared_ptr<impl::RegisterBase>> _reg_list;
-  std::unordered_map<std::string, std::shared_ptr<impl::RegisterBase>> _reg_map;
+  MicrosFunc const _micros;
 
   typedef uavcan::_register::List::Request_1_0  TListRequest;
   typedef uavcan::_register::List::Response_1_0 TListResponse;
@@ -65,9 +59,9 @@ private:
   {
     TListResponse rsp{};
 
-    if (req.index < _reg_list.size())
-      std::copy(_reg_list[req.index]->name().name.cbegin(),
-                _reg_list[req.index]->name().name.cend(),
+    if (req.index < registry.size())
+      std::copy(registry.index(req.index).name.cbegin(),
+                registry.index(req.index).name.cend(),
                 std::back_inserter(rsp.name.name));
 
     return rsp;
@@ -79,29 +73,9 @@ private:
 
   TAccessResponse onAccess_1_0_Request_Received(TAccessRequest const & req)
   {
-    /* Retrieve the desired register. */
-    std::string const reg_name = vla::toStr(req.name);
-    auto iter = _reg_map.find(reg_name);
-    if (iter == std::end(_reg_map))
-      return {};
-
-    auto reg_base = iter->second;
-
-    if (req.value.is_empty())
-      reg_base->read();
-
-    uavcan::_register::Value_1_0 tmp_val;
-    return TAccessResponse{reg_base->timestamp(),
-                           reg_base->isMutable(),
-                           reg_base->isPersistent(),
-                           tmp_val};
+    if (!registry.get(vla::toStr(req.name)))
+      return TAccessResponse{};
   }
 };
-
-/**************************************************************************************
- * TEMPLATE IMPLEMENTATION
- **************************************************************************************/
-
-#include "RegisterList.ipp"
 
 #endif /* REGISTER_LIST_H_ */

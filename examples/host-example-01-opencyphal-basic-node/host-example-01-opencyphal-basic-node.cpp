@@ -27,7 +27,7 @@
  **************************************************************************************/
 
 static CanardPortID const DEFAULT_COUNTER_PORT_ID = 1001U;
-static uint16_t const DEFAULT_TEMPERATURE_UPDATE_PERIOD_ms = 5*1000UL;
+static uint16_t const DEFAULT_COUNTER_UPDATE_PERIOD_ms = 5*1000UL;
 
 /**************************************************************************************
  * TYPEDEF
@@ -66,37 +66,17 @@ int main(int argc, char ** argv)
 
   /* REGISTER ***************************************************************************/
 
+  CanardNodeID node_id = node_hdl.getNodeId();
+  CanardPortID counter_port_id = DEFAULT_COUNTER_PORT_ID;
+  uint16_t counter_update_period_ms = DEFAULT_COUNTER_UPDATE_PERIOD_ms;
+
   RegisterList reg_list(node_hdl, micros);
-  auto reg_rw_node_id = reg_list.create_ro<uint8_t>
-    ("cyphal.node.id",
-     [&node_hdl]()
-     {
-        return node_hdl.getNodeId();
-     });
-  auto reg_ro_node_description = reg_list.create_ro<std::string>
-    ("cyphal.node.description",
-     []()
-     {
-        return std::string("basic-cyphal-node");
-     });
-  auto reg_rw_pub_temperature_id = reg_list.create_ro<uint16_t>
-    ("cyphal.pub.temperature.id",
-     []()
-     {
-        return DEFAULT_COUNTER_PORT_ID;
-     });
-  auto reg_ro_pub_temperature_type = reg_list.create_ro<std::string>
-    ("cyphal.pub.temperature.type",
-     []()
-     {
-        return std::string("uavcan.primitive.scalar.Integer8.1.0");
-     });
-  auto reg_rw_pub_temperature_update_period_ms = reg_list.create_ro<uint16_t>
-    ("cyphal.pub.temperature.update_period_ms",
-     []()
-     {
-       return DEFAULT_TEMPERATURE_UPDATE_PERIOD_ms;
-     });
+
+  const auto reg_ro_node_description = reg_list.registry.route("cyphal.node.description", {true}, []() { return std::string_view("basic-cyphal-node"); });
+  const auto reg_ro_pub_counter_type = reg_list.registry.route("cyphal.pub.counter.type", {true}, []() { return std::string_view("uavcan.primitive.scalar.Integer8.1.0"); });
+  const auto reg_rw_node_id = reg_list.registry.expose("cyphal.node.id", {}, node_id);
+  const auto reg_rw_pub_counter_id = reg_list.registry.expose("cyphal.pub.counter.id", {}, counter_port_id);
+  const auto reg_rw_pub_counter_update_period_ms = reg_list.registry.expose("cyphal.pub.counter.update_period_ms", {}, counter_update_period_ms);
 
   /* NODE INFO **************************************************************************/
 
@@ -148,6 +128,9 @@ int main(int argc, char ** argv)
 
   for (;;)
   {
+    /* Update node configuration from register values. */
+    node_hdl.setNodeId(node_id);
+
     {
       std::lock_guard<std::mutex> lock(node_mtx);
       node_hdl.spinSome();
@@ -169,10 +152,7 @@ int main(int argc, char ** argv)
       heartbeat_pub->publish(msg);
     }
 
-    auto const opt_pub_temperature_update_period_ms = reg_rw_pub_temperature_update_period_ms->get();
-    assert(opt_pub_temperature_update_period_ms.has_value());
-
-    if ((now - prev_counter) > opt_pub_temperature_update_period_ms.value())
+    if ((now - prev_counter) > counter_update_period_ms)
     {
       prev_counter = now;
       counter_pub->publish(counter_msg);

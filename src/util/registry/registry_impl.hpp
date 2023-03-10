@@ -3,7 +3,7 @@
 #pragma once
 
 #include "registry.hpp"
-#include <cavl.hpp>  // Copy from https://github.com/pavel-kirienko/cavl/blob/main/c%2B%2B/cavl.hpp
+#include "cavl.hpp"  // Copy from https://github.com/pavel-kirienko/cavl/blob/main/c%2B%2B/cavl.hpp
 #include <memory>
 
 namespace registry
