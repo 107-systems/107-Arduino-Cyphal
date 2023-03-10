@@ -25,4 +25,4 @@ jobs:
         run: sudo apt-get install cmake
 
       - name: Create build directory, run CMake and Make
-        run: mkdir build && cd build && cmake -DBUILD_EXAMPLES=ON .. && make
+        run: mkdir build && cd build && cmake -DBUILD_EXAMPLES=ON -DBUILD_TEST=ON .. && make

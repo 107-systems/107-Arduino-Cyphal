@@ -5,8 +5,6 @@
 [![Arduino Library Badge](https://www.ardu-badge.com/badge/107-Arduino-Cyphal.svg?)](https://www.ardu-badge.com/107-Arduino-Cyphal)
 [![Compile Examples](https://github.com/107-systems/107-Arduino-Cyphal/workflows/Compile%20Examples/badge.svg)](https://github.com/107-systems/107-Arduino-Cyphal/actions?workflow=Compile+Examples)
 [![Smoke test status](https://github.com/107-systems/107-Arduino-Cyphal/actions/workflows/smoke-test.yml/badge.svg)](https://github.com/107-systems/107-Arduino-Cyphal/actions/workflows/smoke-test.yml)
-[![Unit Tests](https://github.com/107-systems/107-Arduino-Cyphal/workflows/Unit%20Tests/badge.svg)](https://github.com/107-systems/107-Arduino-Cyphal/actions?workflow=Unit+Tests)
-[![Code Coverage](https://codecov.io/gh/107-systems/107-Arduino-Cyphal/branch/main/graph/badge.svg)](https://codecov.io/gh/107-systems/107-Arduino-Cyphal)
 [![Arduino Lint](https://github.com/107-systems/107-Arduino-Cyphal/workflows/Arduino%20Lint/badge.svg)](https://github.com/107-systems/107-Arduino-Cyphal/actions?workflow=Arduino+Lint)
 [![keywords.txt Checks](https://github.com/107-systems/107-Arduino-Cyphal/workflows/Extra%20Library%20Checks/badge.svg)](https://github.com/107-systems/107-Arduino-Cyphal/actions?workflow=Extra+Library+Checks)
 [![General Formatting Checks](https://github.com/107-systems/107-Arduino-Cyphal/workflows/General%20Formatting%20Checks/badge.svg)](https://github.com/107-systems/107-Arduino-Cyphal/actions?workflow=General+Formatting+Checks)
