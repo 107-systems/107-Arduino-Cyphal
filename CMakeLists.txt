@@ -18,7 +18,7 @@ add_library(${PROJECT_NAME} STATIC
   src/Node.cpp
 )
 ##########################################################################
-target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror -Wno-error=deprecated-declarations -ftemplate-backtrace-limit=0)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
 ##########################################################################
 target_include_directories(${PROJECT_NAME} PUBLIC src extras/cyphal++/include)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)

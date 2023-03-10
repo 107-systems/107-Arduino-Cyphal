@@ -13,7 +13,7 @@ add_executable(${TEST_TARGET}
   src/test_registry_value.cpp
 )
 ##########################################################################
-target_compile_options(${TEST_TARGET} PRIVATE -Wall -Wextra -Wpedantic -Werror -Wno-error=deprecated-declarations -ftemplate-backtrace-limit=0)
+target_compile_options(${TEST_TARGET} PRIVATE -Wall -Wextra -Wpedantic -Werror)
 ##########################################################################
 target_compile_features(${TEST_TARGET} PRIVATE cxx_std_17)
 ##########################################################################
