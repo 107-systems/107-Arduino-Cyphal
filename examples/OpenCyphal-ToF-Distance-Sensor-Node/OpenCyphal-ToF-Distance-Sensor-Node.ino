@@ -163,27 +163,18 @@ DEBUG_INSTANCE(120, Serial);
 
 /* REGISTER ***************************************************************************/
 
+static CanardNodeID node_id = DEFAULT_OPEN_CYPHAL_NODE_ID;
+static CanardPortID distance_data_port_id = DEFAULT_OPEN_CYPHAL_ID_DISTANCE_DATA;
+
 RegisterList reg_list(node_hdl, micros);
-auto reg_rw_cyphal_node_id = reg_list.create<
-  uavcan::primitive::array::Natural8_1_0,
-  Register::Mutable::Yes,
-  Register::Persistent::No>
-  ("cyphal.node.id", uavcan::primitive::array::Natural8_1_0{{DEFAULT_OPEN_CYPHAL_NODE_ID}});
-auto reg_ro_cyphal_node_description = reg_list.create<
-  uavcan::primitive::String_1_0,
-  Register::Mutable::No,
-  Register::Persistent::No>
-  ("cyphal.node.description", vla::to_String_1_0("OpenCyphal-ToF-Distance-Sensor-Node"));
-auto reg_rw_cyphal_pub_distance_id = reg_list.create<
-  uavcan::primitive::array::Natural16_1_0,
-  Register::Mutable::Yes,
-  Register::Persistent::No>
-  ("cyphal.pub.distance.id", uavcan::primitive::array::Natural16_1_0{{DEFAULT_OPEN_CYPHAL_ID_DISTANCE_DATA}});
-auto reg_ro_cyphal_pub_distance_type = reg_list.create<
-  uavcan::primitive::String_1_0,
-  Register::Mutable::No,
-  Register::Persistent::No>
-  ("cyphal.pub.distance.type", vla::to_String_1_0("cyphal.primitive.scalar.Real32.1.0"));
+const auto reg_rw_cyphal_node_id = reg_list.registry.expose
+  ("cyphal.node.id", {}, node_id);
+const auto reg_ro_cyphal_node_description = reg_list.registry.route
+  ("cyphal.node.description", {true}, []() { return std::string_view("OpenCyphal-ToF-Distance-Sensor-Node"); });
+const auto reg_rw_cyphal_pub_distance_id = reg_list.registry.expose
+  ("cyphal.pub.distance.id", {true}, distance_data_port_id);
+const auto reg_ro_cyphal_pub_distance_type = reg_list.registry.route
+  ("cyphal.pub.distance.type", {true}, []() { return std::string_view("cyphal.primitive.scalar.Real32.1.0"); });
 
 /* NODE INFO **************************************************************************/
 
