@@ -75,6 +75,8 @@ private:
   {
     if (!registry.get(vla::toStr(req.name)))
       return TAccessResponse{};
+
+    return TAccessResponse{}; // TODO: FIXME: This is just to quell Werror=return-type .
   }
 };
 
