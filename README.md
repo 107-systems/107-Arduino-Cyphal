@@ -47,7 +47,7 @@ Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
 Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { /* ... */ });
 
 Publisher<Heartbeat_1_0> heartbeat_pub = node_hdl.create_publisher<Heartbeat_1_0>
-  (Heartbeat_1_0::FixedPortId, 1*1000*1000UL /* = 1 sec in usecs. */);
+  (Heartbeat_1_0::_traits_::FixedPortId, 1*1000*1000UL /* = 1 sec in usecs. */);
 /* ... */
 void loop() {
   /* Process all pending OpenCyphal actions. */
@@ -73,7 +73,7 @@ Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
 Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { /* ... */ });
 
 Subscription heartbeat_subscription = node_hdl.create_subscription<Heartbeat_1_0>
-  (Heartbeat_1_0::FixedPortId, CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC, onHeartbeat_1_0_Received);
+  (Heartbeat_1_0::_traits_::FixedPortId, CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC, onHeartbeat_1_0_Received);
 /* ... */
 void loop() {
   /* Process all pending OpenCyphal actions. */
@@ -98,7 +98,7 @@ Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
 Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { /* ... */ });
 
 ServiceServer execute_command_srv = node_hdl.create_service_server<ExecuteCommand::Request_1_1, ExecuteCommand::Response_1_1>(
-  ExecuteCommand::Request_1_1::FixedPortId,
+  ExecuteCommand::Request_1_1::_traits_::FixedPortId,
   2*1000*1000UL,
   onExecuteCommand_1_1_Request_Received);
 /* ... */
@@ -123,7 +123,7 @@ Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
 Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { /* ... */ });
 
 ServiceClient<ExecuteCommand::Request_1_1> srv_client = node_hdl.create_service_client<ExecuteCommand::Request_1_1, ExecuteCommand::Response_1_1>(
-  ExecuteCommand::Request_1_1::FixedPortId,
+  ExecuteCommand::Request_1_1::_traits_::FixedPortId,
   2*1000*1000UL,
   onExecuteCommand_1_1_Response_Received);
 /* ... */
