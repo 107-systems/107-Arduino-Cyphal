@@ -13,9 +13,7 @@ add_executable(${TEST_TARGET}
   src/test_registry_value.cpp
 )
 ##########################################################################
-if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  target_compile_options(${TEST_TARGET} PRIVATE -Wall -Wextra -Wpedantic -Werror)
-endif()
+target_compile_options(${TEST_TARGET} PRIVATE -Wall -Wextra -Wpedantic -Werror -Wno-error=deprecated-declarations -ftemplate-backtrace-limit=0)
 ##########################################################################
-target_compile_features(${TEST_TARGET} PUBLIC cxx_std_17)
+target_compile_features(${TEST_TARGET} PRIVATE cxx_std_17)
 ##########################################################################
