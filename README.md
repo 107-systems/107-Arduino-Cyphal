@@ -20,7 +20,7 @@ This Arduino library implements the [OpenCyphal](https://opencyphal.org/) ([v1.0
 This library works for
 * [arduino-pico](https://github.com/earlephilhower/arduino-pico): [`Raspberry Pi Pico`](https://www.raspberrypi.org/products/raspberry-pi-pico), `Adafruit Feather RP2040`, ... :heavy_check_mark:
 ```bash
-arduino-cli compile -b rp2040:rp2040:rpipico -v --build-property compiler.cpp.extra_flags="-ftemplate-depth=10000" examples/OpenCyphal-ToF-Distance-Sensor-Node
+arduino-cli compile -b rp2040:rp2040:rpipico -v examples/OpenCyphal-ToF-Distance-Sensor-Node -u -p /dev/ttyACM0
 ```
 * **Host** (x86/x64/...): Using the CMake build system this library can be cross-compiled to a static C++ library and linked against any C++ executable. This is possible because the code itself is pure C/C++ without and dependencies to the Arduino framework.
 ```bash
