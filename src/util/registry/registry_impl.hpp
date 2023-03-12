@@ -184,7 +184,7 @@ using RegisterPtr = detail::UniquePtr<Register>;
 
 /// Each register occupies one small fragment on the heap to facilitate type erasure.
 /// Worst-case access complexity is log(n) where n is the number of registers.
-class Registry final : public IIntrospectableRegistry
+class Registry : public IIntrospectableRegistry
 {
 public:
     Registry() = default;

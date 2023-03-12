@@ -24,7 +24,7 @@
  * CLASS DECLARATION
  **************************************************************************************/
 
-class RegisterList
+class RegisterList final : public registry::Registry
 {
 public:
   typedef std::function<uint64_t(void)> MicrosFunc;
@@ -48,8 +48,6 @@ public:
       });
   }
 
-  registry::Registry registry;
-
 private:
   MicrosFunc const _micros;
 
@@ -61,9 +59,9 @@ private:
   {
     TListResponse rsp{};
 
-    if (req.index < registry.size())
-      std::copy(registry.index(req.index).name.cbegin(),
-                registry.index(req.index).name.cend(),
+    if (req.index < size())
+      std::copy(index(req.index).name.cbegin(),
+                index(req.index).name.cend(),
                 std::back_inserter(rsp.name.name));
 
     return rsp;
@@ -75,7 +73,7 @@ private:
 
   TAccessResponse onAccess_1_0_Request_Received(TAccessRequest const & req)
   {
-    if (!registry.get(vla::toStr(req.name)))
+    if (!get(vla::toStr(req.name)))
       return TAccessResponse{};
 
     return TAccessResponse{}; // TODO: FIXME: This is just to quell Werror=return-type .
