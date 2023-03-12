@@ -24,5 +24,7 @@ add_executable(${PROJECT_NAME}
 ##########################################################################
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror --coverage)
 ##########################################################################
+target_link_libraries(${PROJECT_NAME} PRIVATE gcov)
+##########################################################################
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 ##########################################################################
