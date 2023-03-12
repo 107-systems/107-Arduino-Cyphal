@@ -33,6 +33,9 @@ uavcan::primitive::String_1_0 to_String_1_0(char const * c_str);
 uavcan::_register::Name_1_0 to_Name_1_0(std::string const & str);
 uavcan::_register::Name_1_0 to_Name_1_0(char const * c_str);
 
+std::string toStr(uavcan::primitive::String_1_0 const & str);
+std::string toStr(uavcan::_register::Name_1_0 const & name);
+
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/

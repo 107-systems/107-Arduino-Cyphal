@@ -7,9 +7,9 @@
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
-//     enable_serialization_asserts:  True
+//     enable_serialization_asserts:  False
 //     enable_override_variable_array_capacity:  False
-//     std:  c++14
+//     std:  c++17
 //     variable_array_type_template:
 //     variable_array_type_include:
 //     cast_format:  static_cast<{type}>({value})
@@ -26,13 +26,6 @@
 static_assert(__cplusplus >= 201402L,
               "Unsupported language: ISO C11, C++14, or a newer version of either is required.");
 
-#ifndef NUNAVUT_ASSERT
-// By default Nunavut does not generate assert statements since the logic to halt a program is platform
-// dependent and because this header requires an absolute minimum from a platform and from the C standard library.
-// Most platforms can simply define "NUNAVUT_ASSERT(x)=assert(x)" (<assert.h> is always included by Nunavut).
-#   error "You must either define NUNAVUT_ASSERT or you need to disable assertions" \
-          " when generating serialization support code using Nunavut language options"
-#endif
 #include <cstring> // for std::size_t
 #include <cmath>  // For isfinite().
 #include <climits>
@@ -78,11 +71,11 @@ public:
     T* data() const { return ptr_;}
     std::size_t size() const{ return size_; }
     T& operator[](std::size_t index){
-        NUNAVUT_ASSERT(index < size_);
+
         return ptr_[index];
     }
     T& operator[](std::size_t index) const {
-        NUNAVUT_ASSERT(index < size_);
+
         return ptr_[index];
     }
 };
@@ -94,12 +87,11 @@ using const_bytespan = span<const uint8_t> ;
 /// (128 is not used). Error code 1 is currently also not used to avoid conflicts with 3rd-party software.
 enum class Error{
     // API usage errors:
-    SERIALIZATION_INVALID_ARGUMENT = 2,
-    SERIALIZATION_BUFFER_TOO_SMALL = 3,
+    SerializationBufferTooSmall = 3,
     // Invalid representation (caused by bad input data, not API misuse):
-    REPRESENTATION_BAD_ARRAY_LENGTH=10,
-    REPRESENTATION_BAD_UNION_TAG=11,
-    REPRESENTATION_BAD_DELIMITER_HEADER=12
+    SerializationBadArrayLength=10,
+    RepresentationBadUnionTag=11,
+    RepresentationBadDelimiterHeader=12
 };
 
 template<typename Err>
@@ -151,14 +143,14 @@ public:
         else{ error_ptr()->~Error(); }
     }
 
-    Ret& value(){ NUNAVUT_ASSERT(is_expected_); return *ret_ptr(); }
-    const Ret& value() const { NUNAVUT_ASSERT(is_expected_); return *ret_ptr(); }
+    Ret& value(){  return *ret_ptr(); }
+    const Ret& value() const {  return *ret_ptr(); }
     Ret& operator*(){ return value(); }
     const Ret& operator*()const { return value(); }
-    Ret* operator->(){ NUNAVUT_ASSERT(is_expected_); return ret_ptr(); }
-    const Ret* operator->() const { NUNAVUT_ASSERT(is_expected_); return ret_ptr(); }
-    Error& error(){ NUNAVUT_ASSERT(not is_expected_); return *error_ptr(); }
-    const Error& error() const { NUNAVUT_ASSERT(not is_expected_); return *error_ptr(); }
+    Ret* operator->(){  return ret_ptr(); }
+    const Ret* operator->() const {  return ret_ptr(); }
+    Error& error(){  return *error_ptr(); }
+    const Error& error() const {  return *error_ptr(); }
 
     bool has_value() const { return is_expected_; }
     operator bool() const { return has_value(); }
@@ -171,7 +163,7 @@ class expected<void> final{
 public:
     expected():e(0){}
     expected(unexpected<Error> err):e(static_cast<underlying_type>(err.value)){ }
-    Error error() const { NUNAVUT_ASSERT(not has_value()); return static_cast<Error>(e); }
+    Error error() const {  return static_cast<Error>(e); }
 
     bool has_value() const { return e == 0; }
     operator bool() const { return has_value(); }
@@ -191,9 +183,9 @@ namespace options
 {
 constexpr std::uint32_t target_endianness = 1693710260;
 constexpr std::uint32_t omit_float_serialization_support = 0;
-constexpr std::uint32_t enable_serialization_asserts = 1;
+constexpr std::uint32_t enable_serialization_asserts = 0;
 constexpr std::uint32_t enable_override_variable_array_capacity = 0;
-constexpr std::uint32_t std = 3161622713;
+constexpr std::uint32_t std = 628873475;
 constexpr std::uint32_t variable_array_type_template = 0;
 constexpr std::uint32_t variable_array_type_include = 0;
 constexpr std::uint32_t cast_format = 1407868567;
@@ -284,14 +276,14 @@ public:
     uint8_t& aligned_ref(std::size_t plus_offset_bits=0U) noexcept {
         auto& self  = *static_cast<derived_bitspan*>(this);
         const std::size_t offset_bytes = ((self.offset_bits_ + plus_offset_bits) / 8U);
-        NUNAVUT_ASSERT(offset_bytes <= self.data_.size());
+
         return self.data_[offset_bytes];
     }
 
     const uint8_t& aligned_ref(std::size_t plus_offset_bits=0U) const noexcept {
         auto& self  = *static_cast<const derived_bitspan*>(this);
         const std::size_t offset_bytes = ((self.offset_bits_ + plus_offset_bits) / 8U);
-        NUNAVUT_ASSERT(offset_bytes <= self.data_.size());
+
         return self.data_[offset_bytes];
     }
 
@@ -391,16 +383,14 @@ public:
     ///     length_bits The number of bits to copy. Both source and destination shall be large enough.
     void copyTo(bitspan dst){copyTo(dst, size());}
     void copyTo(bitspan dst,std::size_t length_bits) const noexcept {
-        NUNAVUT_ASSERT(data_.data() != nullptr);
-        NUNAVUT_ASSERT(dst.data_.data() != nullptr);
-        NUNAVUT_ASSERT(data_.data() != dst.data_.data());
+
         if(length_bits > size()){
             length_bits = size();
         }
         if(length_bits == 0){
             return;
         }
-        NUNAVUT_ASSERT(length_bits <= dst.size());
+
         if ((0U == (offset_bits_ % 8U)) && (0U == (dst.offset_bits_ % 8U)))  // Aligned copy, optimized, most common case.
         {
             const std::size_t length_bytes = static_cast<std::size_t>(length_bits / 8U);
@@ -409,7 +399,7 @@ public:
             const uint8_t length_mod = static_cast<uint8_t>(length_bits % 8U);
             if (0U != length_mod)  // If the length is unaligned, the last byte requires special treatment.
             {
-                NUNAVUT_ASSERT(length_mod < 8U);
+
                 const uint8_t mask = static_cast<uint8_t>((1U << length_mod) - 1U);
                 //dst.data_[length_bytes] = (dst.data_[length_bytes] & static_cast<uint8_t>(~mask)) | (data_[length_bytes] & mask);
                 dst.aligned_ref(length_bits) = (dst.aligned_ref(length_bits) & static_cast<uint8_t>(~mask)) | (aligned_ref(length_bits) & mask);
@@ -423,8 +413,7 @@ public:
             std::size_t       src_off  = offset_bits_;
             std::size_t       dst_off  = dst.offset_bits_;
             const std::size_t last_bit = src_off + length_bits;
-            NUNAVUT_ASSERT(((aligned_ptr() < dst.aligned_ptr()) ? (unchecked_aligned_ptr(length_bits) <= dst.aligned_ptr()) : true));
-            NUNAVUT_ASSERT(((aligned_ptr() > dst.aligned_ptr()) ? (dst.unchecked_aligned_ptr(length_bits) <= aligned_ptr()) : true));
+
             while (last_bit > src_off)
             {
                 const uint8_t src_mod = (src_off % 8U);
@@ -433,17 +422,16 @@ public:
                 const std::size_t max_mod_inv = 8U - max_mod;
                 const std::size_t last_off = last_bit - src_off;
                 const uint8_t size = static_cast<uint8_t>(std::min(max_mod_inv, last_off));
-                NUNAVUT_ASSERT(size > 0U);
-                NUNAVUT_ASSERT(size <= 8U);
+
                 // Suppress a false warning from Clang-Tidy & Sonar that size is being over-shifted. It's not.
                 const uint8_t mask = ((((1U << size) - 1U) << dst_mod) & 0xFFU);  // NOLINT NOSONAR
-                NUNAVUT_ASSERT(mask > 0U);
+
                 // Intentional violation of MISRA: indexing on a pointer.
                 // This simplifies the implementation greatly and avoids pointer arithmetics.
                 const uint8_t in = static_cast<uint8_t>(static_cast<uint8_t>(data_[src_off / 8U] >> src_mod) << dst_mod) & 0xFFU;  // NOSONAR
                 // Intentional violation of MISRA: indexing on a pointer.
                 // This simplifies the implementation greatly and avoids pointer arithmetics.
-                const uint8_t a = dst.data_[dst_off / 8U] & (static_cast<uint8_t>((~mask) & 0xFFU));  // NOSONAR
+                const uint8_t a = dst.data_[dst_off / 8U] & (static_cast<uint8_t>(static_cast<uint8_t>(~mask) & 0xFFU));  // NOSONAR
                 const uint8_t b = in & mask;
                 // Intentional violation of MISRA: indexing on a pointer.
                 // This simplifies the implementation greatly and avoids pointer arithmetics.
@@ -451,7 +439,7 @@ public:
                 src_off += size;
                 dst_off += size;
             }
-            NUNAVUT_ASSERT(last_bit == src_off);
+
         }
     }
 
@@ -487,10 +475,9 @@ public:
     /// algorithm is employed. See @ref nunavutCopyBits() for further details.
     void getBits(bytespan output, const std::size_t len_bits)
     {
-        NUNAVUT_ASSERT(output.data() != nullptr);
-        NUNAVUT_ASSERT(data_.data() != nullptr);
+
         const std::size_t len_bytes = (len_bits + 7U) / 8U;
-        NUNAVUT_ASSERT(output.size() >= len_bytes);
+
         const std::size_t sat_bits = saturateBufferFragmentBitLength(len_bits);
         // Apply implicit zero extension. Normally, this is a no-op unless (len_bits > sat_bits) or (len_bits % 8 != 0).
         // The former case ensures that if we're copying <8 bits, the MSB in the destination will be zeroed out.
@@ -543,7 +530,7 @@ public:
 
 inline VoidResult bitspan::setZeros(std::size_t length){
     if(length > size()){
-        return -Error::SERIALIZATION_BUFFER_TOO_SMALL;
+        return -Error::SerializationBufferTooSmall;
     }
     if(length == 0){
         return {};
@@ -551,7 +538,7 @@ inline VoidResult bitspan::setZeros(std::size_t length){
     const std::size_t offset_bytes = offset_bits_ / 8U;
     const std::size_t offset_bits_mod = offset_bits_ % 8U;
     const std::size_t length_bytes_ceil = (length + 7U) / 8U;
-    NUNAVUT_ASSERT(offset_bits_mod < 8U);
+
     const auto first_byte_temp = data_[offset_bytes] & static_cast<uint8_t>(0xFF >> (8U - offset_bits_mod));
     memset(&data_[offset_bytes], 0, length_bytes_ceil);
     data_[offset_bytes] =  static_cast<uint8_t>(data_[offset_bytes] | first_byte_temp);
@@ -562,13 +549,13 @@ inline VoidResult bitspan::padAndMoveToAlignment(std::size_t n_bits){
     const auto padding = static_cast<uint8_t>(n_bits - offset_misalignment(n_bits));
     if (padding != n_bits)  // Pad to n_bits bits. TODO: Eliminate redundant padding checks.
     {
-        NUNAVUT_ASSERT(padding > 0);
+
         auto ref_result = setZeros(padding);
         if(not ref_result){
             return ref_result;
         }
         add_offset( padding);
-        NUNAVUT_ASSERT(offset_alings_to(n_bits));
+
     }
     return {};
 }
@@ -577,14 +564,14 @@ inline Result<bitspan> bitspan::subspan(std::size_t bits_at, std::size_t size_bi
     const std::size_t offset_bits = offset_bits_ + bits_at;
     const std::size_t offset_bytes = offset_bits / 8U;
     const std::size_t new_offset_bits = offset_bits % 8U;
-    NUNAVUT_ASSERT(offset_bytes * 8U <= offset_bits);
+
     if(offset_bytes > data_.size()){
-        return -Error::SERIALIZATION_BUFFER_TOO_SMALL;
+        return -Error::SerializationBufferTooSmall;
     }
     const std::size_t new_size_bits = new_offset_bits + size_bits;
     const std::size_t size_available_bits = (data_.size() - offset_bytes) * 8U;
     if(new_size_bits > size_available_bits){
-        return -Error::SERIALIZATION_BUFFER_TOO_SMALL;
+        return -Error::SerializationBufferTooSmall;
     }
     const std::size_t new_size_bytes = new_size_bits / 8U;
     return bitspan( data_.data() + offset_bytes, new_size_bytes, new_offset_bits);
@@ -592,9 +579,9 @@ inline Result<bitspan> bitspan::subspan(std::size_t bits_at, std::size_t size_bi
 
 inline uint8_t const_bitspan::getU8(const uint8_t len_bits) const noexcept
 {
-    NUNAVUT_ASSERT(data_.data() != nullptr);
+
     const std::size_t bits = saturateBufferFragmentBitLength(std::min<uint8_t>(len_bits, 8U));
-    NUNAVUT_ASSERT(bits <= (sizeof(uint8_t) * 8U));
+
     uint8_t val = 0;
     copyTo(bitspan{ &val, 1U }, bits);
     return val;
@@ -602,9 +589,9 @@ inline uint8_t const_bitspan::getU8(const uint8_t len_bits) const noexcept
 
 inline uint16_t const_bitspan::getU16(const uint8_t len_bits) const noexcept
 {
-    NUNAVUT_ASSERT(data_.data() != nullptr);
+
     const std::size_t bits = saturateBufferFragmentBitLength(std::min<uint8_t>(len_bits, 16U));
-    NUNAVUT_ASSERT(bits <= (sizeof(uint16_t) * 8U));
+
     uint8_t tmp[sizeof(uint16_t)] = {0};
     copyTo(tmp, bits);
     return static_cast<uint16_t>(static_cast<uint16_t>(tmp[0]) | ((static_cast<uint16_t>(tmp[1])) << 8U));
@@ -612,9 +599,9 @@ inline uint16_t const_bitspan::getU16(const uint8_t len_bits) const noexcept
 
 inline uint32_t const_bitspan::getU32(const uint8_t len_bits) const noexcept
 {
-    NUNAVUT_ASSERT(data_.data() != nullptr);
+
     const std::size_t bits = saturateBufferFragmentBitLength(std::min<uint8_t>(len_bits, 32U));
-    NUNAVUT_ASSERT(bits <= (sizeof(uint32_t) * 8U));
+
     uint8_t tmp[sizeof(uint32_t)] = {0};
     copyTo(tmp, bits);
     return static_cast<uint32_t>(
@@ -626,9 +613,9 @@ inline uint32_t const_bitspan::getU32(const uint8_t len_bits) const noexcept
 
 inline uint64_t const_bitspan::getU64(const uint8_t len_bits) const noexcept
 {
-    NUNAVUT_ASSERT(data_.data() != nullptr);
+
     const std::size_t bits = saturateBufferFragmentBitLength(std::min<uint8_t>(len_bits, 64U));
-    NUNAVUT_ASSERT(bits <= (sizeof(uint64_t) * 8U));
+
     uint8_t tmp[sizeof(uint64_t)] = {0};
     copyTo(tmp, bits);
     return static_cast<uint64_t>(static_cast<uint64_t>(tmp[0]) |
@@ -681,7 +668,7 @@ inline VoidResult bitspan::setBit(const bool value)
 {
     if ((data_.size() * 8U) <= offset_bits_)
     {
-        return -Error::SERIALIZATION_BUFFER_TOO_SMALL;
+        return -Error::SerializationBufferTooSmall;
     }
     const uint8_t val = value ? 1U : 0U;
     const_bitspan{ &val, 1U }.copyTo(*this, 1U);
@@ -693,7 +680,7 @@ inline VoidResult bitspan::setUxx(const uint64_t value, const uint8_t len_bits)
     static_assert(64U == (sizeof(uint64_t) * 8U), "Unexpected size of uint64_t");
     if ((data_.size() * 8) < (offset_bits_ + len_bits))
     {
-        return -Error::SERIALIZATION_BUFFER_TOO_SMALL;
+        return -Error::SerializationBufferTooSmall;
     }
     const std::size_t saturated_len_bits = std::min<std::size_t>(len_bits, 64U);
     const std::array<const uint8_t, 8> tmp{

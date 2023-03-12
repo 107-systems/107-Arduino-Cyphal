@@ -27,7 +27,7 @@
  **************************************************************************************/
 
 static CanardPortID const DEFAULT_COUNTER_PORT_ID = 1001U;
-static uint16_t const DEFAULT_TEMPERATURE_UPDATE_PERIOD_ms = 5*1000UL;
+static uint16_t const DEFAULT_COUNTER_UPDATE_PERIOD_ms = 5*1000UL;
 
 /**************************************************************************************
  * TYPEDEF
@@ -59,39 +59,24 @@ int main(int argc, char ** argv)
   std::mutex node_mtx;
 
   Publisher<uavcan::node::Heartbeat_1_0> heartbeat_pub = node_hdl.create_publisher<uavcan::node::Heartbeat_1_0>
-    (uavcan::node::Heartbeat_1_0::FixedPortId, 1*1000*1000UL /* = 1 sec in usecs. */);
+    (uavcan::node::Heartbeat_1_0::_traits_::FixedPortId, 1*1000*1000UL /* = 1 sec in usecs. */);
 
   Publisher<CounterMsg> counter_pub = node_hdl.create_publisher<CounterMsg>
     (DEFAULT_COUNTER_PORT_ID, 1*1000*1000UL /* = 1 sec in usecs. */);
 
   /* REGISTER ***************************************************************************/
 
-  RegisterList reg_list(node_hdl, micros);
-  auto reg_rw_node_id = reg_list.create<
-    uavcan::primitive::array::Natural8_1_0,
-    Register::Mutable::Yes,
-    Register::Persistent::No>
-    ("cyphal.node.id", uavcan::primitive::array::Natural8_1_0{{node_hdl.getNodeId()}});
-  auto reg_ro_node_description = reg_list.create<
-    uavcan::primitive::String_1_0,
-    Register::Mutable::No,
-    Register::Persistent::No>
-    ("cyphal.node.description", vla::to_String_1_0("basic-cyphal-node"));
-  auto reg_rw_pub_temperature_id = reg_list.create<
-    uavcan::primitive::array::Natural16_1_0,
-    Register::Mutable::Yes,
-    Register::Persistent::No>
-    ("cyphal.pub.temperature.id", uavcan::primitive::array::Natural16_1_0{{DEFAULT_COUNTER_PORT_ID}});
-  auto reg_ro_pub_temperature_type = reg_list.create<
-    uavcan::primitive::String_1_0,
-    Register::Mutable::No,
-    Register::Persistent::No>
-    ("cyphal.pub.temperature.type", vla::to_String_1_0("uavcan.primitive.scalar.Integer8.1.0"));
-  auto reg_rw_pub_temperature_update_period_ms = reg_list.create<
-    uavcan::primitive::array::Natural16_1_0,
-    Register::Mutable::Yes,
-    Register::Persistent::No>
-    ("cyphal.pub.temperature.update_period_ms", uavcan::primitive::array::Natural16_1_0{{DEFAULT_TEMPERATURE_UPDATE_PERIOD_ms}});
+  CanardNodeID node_id = node_hdl.getNodeId();
+  CanardPortID counter_port_id = DEFAULT_COUNTER_PORT_ID;
+  uint16_t counter_update_period_ms = DEFAULT_COUNTER_UPDATE_PERIOD_ms;
+
+  Registry reg(node_hdl, micros);
+
+  const auto reg_ro_node_description = reg.route("cyphal.node.description", {true}, []() { return "basic-cyphal-node"; });
+  const auto reg_ro_pub_counter_type = reg.route("cyphal.pub.counter.type", {true}, []() { return "uavcan.primitive.scalar.Integer8.1.0"; });
+  const auto reg_rw_node_id = reg.expose("cyphal.node.id", {}, node_id);
+  const auto reg_rw_pub_counter_id = reg.expose("cyphal.pub.counter.id", {}, counter_port_id);
+  const auto reg_rw_pub_counter_update_period_ms = reg.expose("cyphal.pub.counter.update_period_ms", {}, counter_update_period_ms);
 
   /* NODE INFO **************************************************************************/
 
@@ -143,6 +128,9 @@ int main(int argc, char ** argv)
 
   for (;;)
   {
+    /* Update node configuration from register values. */
+    node_hdl.setNodeId(node_id);
+
     {
       std::lock_guard<std::mutex> lock(node_mtx);
       node_hdl.spinSome();
@@ -164,7 +152,7 @@ int main(int argc, char ** argv)
       heartbeat_pub->publish(msg);
     }
 
-    if ((now - prev_counter) > reg_rw_pub_temperature_update_period_ms->get().value[0])
+    if ((now - prev_counter) > counter_update_period_ms)
     {
       prev_counter = now;
       counter_pub->publish(counter_msg);

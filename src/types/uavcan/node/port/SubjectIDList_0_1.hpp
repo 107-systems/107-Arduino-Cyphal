@@ -5,10 +5,10 @@
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-2.0.0 (serialization was enabled)
+// Generator:     nunavut-2.0.9 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/node/port/SubjectIDList.0.1.dsdl
-// Generated at:  2023-01-29 16:46:55.692880 UTC
-// Is deprecated: no
+// Generated at:  2023-03-10 05:17:53.889313 UTC
+// Is deprecated: yes
 // Fixed port-ID: None
 // Full name:     uavcan.node.port.SubjectIDList
 // Type Version:  0.1
@@ -27,19 +27,27 @@
 //     python_compiler:  GCC 11.3.0
 //     python_revision:
 //     python_xoptions:  {}
-//     runtime_platform:  Linux-5.15.0-58-generic-x86_64-with-glibc2.35
+//     runtime_platform:  Linux-5.19.0-35-generic-x86_64-with-glibc2.35
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
-//     enable_serialization_asserts:  True
+//     enable_serialization_asserts:  False
 //     enable_override_variable_array_capacity:  False
-//     std:  c++14
+//     std:  c++17
 //     variable_array_type_template:
 //     variable_array_type_include:
 //     cast_format:  static_cast<{type}>({value})
 //     enable_allocator_support:  False
 // Uses Language Features
-//     Uses std_variant:no
+//     Uses std_variant:yes
+//           _____  ______ _____  _____  ______ _____       _______ ______ _____
+//          |  __ `|  ____|  __ `|  __ `|  ____/ ____|   /`|__   __|  ____|  __ `
+//          | |  | | |__  | |__) | |__) | |__ | |       /  `  | |  | |__  | |  | |
+//          | |  | |  __| |  ___/|  _  /|  __|| |      / /` ` | |  |  __| | |  | |
+//          | |__| | |____| |    | | ` `| |___| |____ / ____ `| |  | |____| |__| |
+//          |_____/|______|_|    |_|  `_`______`_____/_/    `_`_|  |______|_____/
+//
+// WARNING: this data type is deprecated and is nearing the end of its life cycle. Seek replacement.
 #ifndef UAVCAN_NODE_PORT_SUBJECT_ID_LIST_0_1_HPP_INCLUDED
 #define UAVCAN_NODE_PORT_SUBJECT_ID_LIST_0_1_HPP_INCLUDED
 
@@ -47,8 +55,9 @@
 #include <nunavut/support/variable_length_array.hpp>
 #include <types/uavcan/node/port/SubjectID_1_0.hpp>
 #include <types/uavcan/primitive/Empty_1_0.hpp>
-#include <array>
+#include <bitset>
 #include <cstdint>
+#include <limits>
 
 namespace uavcan
 {
@@ -72,7 +81,7 @@ static_assert( nunavut::support::options::omit_float_serialization_support == 0,
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
-static_assert( nunavut::support::options::enable_serialization_asserts == 1,
+static_assert( nunavut::support::options::enable_serialization_asserts == 0,
               "/tmp/public_regulated_data_types/uavcan/node/port/SubjectIDList.0.1.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
@@ -82,7 +91,7 @@ static_assert( nunavut::support::options::enable_override_variable_array_capacit
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
-static_assert( nunavut::support::options::std == 3161622713,
+static_assert( nunavut::support::options::std == 628873475,
               "/tmp/public_regulated_data_types/uavcan/node/port/SubjectIDList.0.1.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
@@ -109,18 +118,10 @@ static_assert( nunavut::support::options::enable_allocator_support == 0,
               "allowed." );
 
 // +-------------------------------------------------------------------------------------------------------------------+
-// | This implementation uses a minimal variant implementation that is forward-compatible with the same types generated
-// | using the C++17 variant type in the standard library. This minimal variant implementation is limited in the
-// | following ways:
-// |    1. Supports only emplace and get_if.
-// |    2. Only support access by index (see the IndexOf property of the VariantType).
-// |    3. This object cannot be copy-constructed nor move-constructed.
-// |    4. There is an O(n) lookup in this object's destructor and in the
-// |       emplace method.
-// |
-// | The C++17 version of this object will define the same emplace and get_if wrappers so code written against this
-// | version will be fully-forward compatible, but the C++17 version exposes the variant type directly allowing full
-// | use of that standard library feature – it is therefore not backwards-compatible.
+// | This implementation uses the C++17 standard library variant type with wrappers for the emplace and
+// | get_if methods to support forward-compatibility with the C++14 version of this object. The union_value type
+// | extends std::variant and can be used with the entire set of variant methods. Using std::variant directly does mean
+// | your code will not be backwards compatible with the C++14 version of this object.
 // +-------------------------------------------------------------------------------------------------------------------+
 ///
 /// A list of subject identifiers.
@@ -128,184 +129,60 @@ static_assert( nunavut::support::options::enable_allocator_support == 0,
 /// resource-constrained systems. To address that, we provide two extra options: a simple variable-length list,
 /// and a special case that indicates that every subject-ID is in use.
 ///
+[[deprecated("uavcan.node.port.SubjectIDList.0.1 is reaching the end of its life; there may be a newer version available")]]
 struct SubjectIDList_0_1 final
 {
-    // +---------------------------------------------------------------------------------------------------------------+
-    // | PORT IDENTIFIERS
-    // +---------------------------------------------------------------------------------------------------------------+
-    /// This type does not have a fixed port-ID. See https://forum.opencyphal.org/t/choosing-message-and-service-ids/889
-    static constexpr bool HasFixedPortID = false;
+    struct _traits_  // The name is surrounded with underscores to avoid collisions with DSDL attributes.
+    {
+        _traits_() = delete;
+        /// This type does not have a fixed port-ID. See https://forum.opencyphal.org/t/choosing-message-and-service-ids/889
+        static constexpr bool HasFixedPortID = false;
 
-    static constexpr bool IsServiceType = false;
+        static constexpr bool IsServiceType = false;
 
-    /// Extent is the minimum amount of memory required to hold any serialized representation of any compatible
-    /// version of the data type; or, on other words, it is the the maximum possible size of received objects of this type.
-    /// The size is specified in bytes (rather than bits) because by definition, extent is an integer number of bytes long.
-    /// When allocating a deserialization (RX) buffer for this data type, it should be at least extent bytes large.
-    /// When allocating a serialization (TX) buffer, it is safe to use the size of the largest serialized representation
-    /// instead of the extent because it provides a tighter bound of the object size; it is safe because the concrete type
-    /// is always known during serialization (unlike deserialization). If not sure, use extent everywhere.
-
-    static constexpr std::size_t EXTENT_BYTES                    =4097UL;
-    static constexpr std::size_t SERIALIZATION_BUFFER_SIZE_BYTES =1025UL;
-    static_assert(EXTENT_BYTES >= SERIALIZATION_BUFFER_SIZE_BYTES, "Internal constraint violation");
-    static_assert(EXTENT_BYTES < (std::numeric_limits<std::size_t>::max() /8U), "This message is too large to be handled by current types!");
+        /// Extent is the minimum amount of memory required to hold any serialized representation of any compatible
+        /// version of the data type; or, on other words, it is the the maximum possible size of received objects of this type.
+        /// The size is specified in bytes (rather than bits) because by definition, extent is an integer number of bytes long.
+        /// When allocating a deserialization (RX) buffer for this data type, it should be at least extent bytes large.
+        /// When allocating a serialization (TX) buffer, it is safe to use the size of the largest serialized representation
+        /// instead of the extent because it provides a tighter bound of the object size; it is safe because the concrete type
+        /// is always known during serialization (unlike deserialization). If not sure, use extent everywhere.
+        static constexpr std::size_t ExtentBytes                  = 4097UL;
+        static constexpr std::size_t SerializationBufferSizeBytes = 1025UL;
+        static_assert(ExtentBytes >= SerializationBufferSizeBytes, "Internal constraint violation");
+        static_assert(ExtentBytes < (std::numeric_limits<std::size_t>::max() / 8U), "This message is too large to be handled by the selected types");
+        struct TypeOf
+        {
+            TypeOf() = delete;
+            using mask = std::bitset<8192>;
+            using sparse_list = nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>;
+            using total = uavcan::primitive::Empty_1_0;
+        };
+    };
 
     // +---------------------------------------------------------------------------------------------------------------+
     // | CONSTANTS
     // +---------------------------------------------------------------------------------------------------------------+
 
     static constexpr std::uint16_t CAPACITY = 8192U;
-    class VariantType final
+    class VariantType final : public std::variant<
+        ///
+        /// The index represents the identifier value. True -- present/used. False -- absent/unused.
+        ///
+        _traits_::TypeOf::mask,
+        ///
+        /// A list of identifiers that can be used instead of the mask if most of the identifiers are unused.
+        ///
+        _traits_::TypeOf::sparse_list,
+        ///
+        /// A special case indicating that all identifiers are in use.
+        ///
+        _traits_::TypeOf::total
+    >
     {
-        std::size_t tag_;
-
-        union internal_union_t
-        {
-            ///
-            /// The index represents the identifier value. True -- present/used. False -- absent/unused.
-            ///
-            std::aligned_storage<sizeof(std::array<bool,8192>), alignof(std::array<bool,8192>)>::type mask;
-            ///
-            /// A list of identifiers that can be used instead of the mask if most of the identifiers are unused.
-            ///
-            std::aligned_storage<sizeof(nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>), alignof(nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>)>::type sparse_list;
-            ///
-            /// A special case indicating that all identifiers are in use.
-            ///
-            std::aligned_storage<sizeof(uavcan::primitive::Empty_1_0), alignof(uavcan::primitive::Empty_1_0)>::type total;
-        } internal_union_value_;
-
     public:
-        static const constexpr std::size_t variant_npos = -1;
 
-        VariantType()
-            : tag_(0)
-            , internal_union_value_()
-        {
-            // This is how the C++17 standard library does it; default initialization as the 0th index.
-            emplace<0>();
-        }
-
-        VariantType(const VariantType& rhs)
-            : tag_(variant_npos)
-            , internal_union_value_()
-        {
-            if(rhs.tag_ == 0)
-            {
-                do_copy<0>(
-                    *reinterpret_cast<std::add_pointer<const std::array<bool,8192>>::type>(&rhs.internal_union_value_.mask)
-                );
-            }
-            else if(rhs.tag_ == 1)
-            {
-                do_copy<1>(
-                    *reinterpret_cast<std::add_pointer<const nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>::type>(&rhs.internal_union_value_.sparse_list)
-                );
-            }
-            else if(rhs.tag_ == 2)
-            {
-                do_copy<2>(
-                    *reinterpret_cast<std::add_pointer<const uavcan::primitive::Empty_1_0>::type>(&rhs.internal_union_value_.total)
-                );
-            }
-            tag_ = rhs.tag_;
-        }
-
-        VariantType(VariantType&& rhs)
-            : tag_(variant_npos)
-            , internal_union_value_()
-        {
-            if(rhs.tag_ == 0)
-            {
-                do_emplace<0>(
-                    std::forward<std::array<bool,8192>>(
-                        *reinterpret_cast<std::add_pointer<std::array<bool,8192>>::type>(&rhs.internal_union_value_.mask)
-                    )
-                );
-            }
-            else if(rhs.tag_ == 1)
-            {
-                do_emplace<1>(
-                    std::forward<nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>(
-                        *reinterpret_cast<std::add_pointer<nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>::type>(&rhs.internal_union_value_.sparse_list)
-                    )
-                );
-            }
-            else if(rhs.tag_ == 2)
-            {
-                do_emplace<2>(
-                    std::forward<uavcan::primitive::Empty_1_0>(
-                        *reinterpret_cast<std::add_pointer<uavcan::primitive::Empty_1_0>::type>(&rhs.internal_union_value_.total)
-                    )
-                );
-            }
-            tag_ = rhs.tag_;
-        }
-        VariantType& operator=(const VariantType& rhs)
-        {
-            destroy_current();
-            if(rhs.tag_ == 0)
-            {
-                do_copy<0>(
-                    *reinterpret_cast<std::add_pointer<const std::array<bool,8192>>::type>(&rhs.internal_union_value_.mask)
-                );
-            }
-            else if(rhs.tag_ == 1)
-            {
-                do_copy<1>(
-                    *reinterpret_cast<std::add_pointer<const nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>::type>(&rhs.internal_union_value_.sparse_list)
-                );
-            }
-            else if(rhs.tag_ == 2)
-            {
-                do_copy<2>(
-                    *reinterpret_cast<std::add_pointer<const uavcan::primitive::Empty_1_0>::type>(&rhs.internal_union_value_.total)
-                );
-            }
-            tag_ = rhs.tag_;
-            return *this;
-        }
-
-        VariantType& operator=(VariantType&& rhs)
-        {
-            destroy_current();
-            if(rhs.tag_ == 0)
-            {
-                do_emplace<0>(
-                    std::forward<std::array<bool,8192>>(
-                        *reinterpret_cast<std::add_pointer<std::array<bool,8192>>::type>(&rhs.internal_union_value_.mask)
-                    )
-                );
-            }
-            else if(rhs.tag_ == 1)
-            {
-                do_emplace<1>(
-                    std::forward<nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>(
-                        *reinterpret_cast<std::add_pointer<nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>::type>(&rhs.internal_union_value_.sparse_list)
-                    )
-                );
-            }
-            else if(rhs.tag_ == 2)
-            {
-                do_emplace<2>(
-                    std::forward<uavcan::primitive::Empty_1_0>(
-                        *reinterpret_cast<std::add_pointer<uavcan::primitive::Empty_1_0>::type>(&rhs.internal_union_value_.total)
-                    )
-                );
-            }
-            tag_ = rhs.tag_;
-            return *this;
-        }
-
-        ~VariantType()
-        {
-            destroy_current();
-        }
-
-        size_t index() const{
-            return tag_;
-        }
+        static const constexpr std::size_t variant_npos = std::variant_npos;
 
         struct IndexOf final
         {
@@ -316,81 +193,31 @@ struct SubjectIDList_0_1 final
         };
         static constexpr const std::size_t MAX_INDEX = 3U;
 
-        template<std::size_t I, class...Types> struct alternative;
+        template<size_t I, typename T>
+        struct alternative;
 
-        template<class...Types> struct alternative<0U, Types...>
+        template<size_t I, typename... Types>
+        struct alternative<I, std::variant<Types...>> final
         {
-            using type = std::array<bool,8192>;
-            static constexpr auto pointer = &VariantType::internal_union_t::mask;
-        };
-        template<class...Types> struct alternative<1U, Types...>
-        {
-            using type = nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>;
-            static constexpr auto pointer = &VariantType::internal_union_t::sparse_list;
-        };
-        template<class...Types> struct alternative<2U, Types...>
-        {
-            using type = uavcan::primitive::Empty_1_0;
-            static constexpr auto pointer = &VariantType::internal_union_t::total;
+            using type = typename std::variant_alternative<I, std::variant<Types...>>::type;
         };
 
-        template<std::size_t I, class... Args> typename VariantType::alternative<I, VariantType>::type& emplace(Args&&... v)
+        template<size_t I, typename T>
+        struct alternative<I, const T> final
         {
-            destroy_current();
-            typename alternative<I>::type& result = do_emplace<I>(v...);
-            tag_ = I;
-            return result;
+            using type = std::add_const_t<typename std::variant_alternative<I, T>::type>;
+        };
+
+        template<std::size_t I, class... Types>
+        static constexpr typename alternative<I, std::variant<Types...>>::type* get_if(std::variant<Types...>* v) noexcept
+        {
+            return std::get_if<I, Types...>(v);
         }
 
         template<std::size_t I, class... Types>
-        static constexpr typename alternative<I, VariantType>::type* get_if(VariantType* v) noexcept
+        static constexpr const typename alternative<I, std::variant<Types...>>::type* get_if(const std::variant<Types...>* v) noexcept
         {
-            return (v) ? v->do_get_if<I>() : nullptr;
-        }
-
-        template<std::size_t I, class... Types>
-        static constexpr const typename alternative<I, VariantType>::type* get_if(const VariantType* v) noexcept
-        {
-            return (v) ? v->do_get_if_const<I>() : nullptr;
-        }
-
-    private:
-        template<std::size_t I, class... Args> typename VariantType::alternative<I, VariantType>::type& do_emplace(Args&&... v)
-        {
-            return *(new (&(internal_union_value_.*(alternative<I>::pointer)) ) typename alternative<I>::type(std::forward<Args>(v)...));
-        }
-
-        template<std::size_t I, class... Args> typename VariantType::alternative<I, VariantType>::type& do_copy(const Args&... v)
-        {
-            return *(new (&(internal_union_value_.*(alternative<I>::pointer)) ) typename alternative<I>::type(typename alternative<I>::type(v...)));
-        }
-
-        template<std::size_t I, class... Types>
-        constexpr typename VariantType::alternative<I, VariantType>::type* do_get_if() noexcept
-        {
-            return (tag_ == I) ? reinterpret_cast<typename std::add_pointer<typename VariantType::alternative<I>::type>::type>(&(internal_union_value_.*(alternative<I>::pointer))) : nullptr;
-        }
-
-        template<std::size_t I, class... Types>
-        constexpr const typename VariantType::alternative<I, VariantType>::type* do_get_if_const() const noexcept
-        {
-            return (tag_ == I) ? reinterpret_cast<typename std::add_pointer<const typename VariantType::alternative<I>::type>::type>(&(internal_union_value_.*(alternative<I>::pointer))) : nullptr;
-        }
-
-        void destroy_current()
-        {
-            if (tag_ == 0)
-            {
-                reinterpret_cast<std::array<bool,8192>*>(std::addressof(internal_union_value_.mask))->~array<bool,8192>();
-            }
-            else if (tag_ == 1)
-            {
-                reinterpret_cast<nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>*>(std::addressof(internal_union_value_.sparse_list))->~VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>();
-            }
-            else if (tag_ == 2)
-            {
-                reinterpret_cast<uavcan::primitive::Empty_1_0*>(std::addressof(internal_union_value_.total))->~Empty_1_0();
-            }
+            return std::get_if<I, Types...>(v);
         }
 
     };
@@ -401,25 +228,25 @@ struct SubjectIDList_0_1 final
         return VariantType::IndexOf::mask == union_value.index();
     }
 
-    typename std::add_pointer<std::array<bool,8192>>::type get_mask_if(){
+    typename std::add_pointer<_traits_::TypeOf::mask>::type get_mask_if(){
         return VariantType::get_if<VariantType::IndexOf::mask>(&union_value);
     }
 
-    typename std::add_pointer<const std::array<bool,8192>>::type get_mask_if() const{
+    typename std::add_pointer<const _traits_::TypeOf::mask>::type get_mask_if() const{
         return VariantType::get_if<VariantType::IndexOf::mask>(&union_value);
     }
 
-    typename std::add_lvalue_reference<std::array<bool,8192>>::type get_mask(){
-        NUNAVUT_ASSERT(is_mask());
+    typename std::add_lvalue_reference<_traits_::TypeOf::mask>::type get_mask(){
+
         return *VariantType::get_if<VariantType::IndexOf::mask>(&union_value);
     }
 
-    typename std::add_lvalue_reference<const std::array<bool,8192>>::type get_mask() const{
-        NUNAVUT_ASSERT(is_mask());
+    typename std::add_lvalue_reference<const _traits_::TypeOf::mask>::type get_mask() const{
+
         return *VariantType::get_if<VariantType::IndexOf::mask>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<std::array<bool,8192>>::type
+    template<class... Args> typename std::add_lvalue_reference<_traits_::TypeOf::mask>::type
     set_mask(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::mask>(v...);
     }
@@ -427,25 +254,25 @@ struct SubjectIDList_0_1 final
         return VariantType::IndexOf::sparse_list == union_value.index();
     }
 
-    typename std::add_pointer<nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>::type get_sparse_list_if(){
+    typename std::add_pointer<_traits_::TypeOf::sparse_list>::type get_sparse_list_if(){
         return VariantType::get_if<VariantType::IndexOf::sparse_list>(&union_value);
     }
 
-    typename std::add_pointer<const nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>::type get_sparse_list_if() const{
+    typename std::add_pointer<const _traits_::TypeOf::sparse_list>::type get_sparse_list_if() const{
         return VariantType::get_if<VariantType::IndexOf::sparse_list>(&union_value);
     }
 
-    typename std::add_lvalue_reference<nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>::type get_sparse_list(){
-        NUNAVUT_ASSERT(is_sparse_list());
+    typename std::add_lvalue_reference<_traits_::TypeOf::sparse_list>::type get_sparse_list(){
+
         return *VariantType::get_if<VariantType::IndexOf::sparse_list>(&union_value);
     }
 
-    typename std::add_lvalue_reference<const nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>::type get_sparse_list() const{
-        NUNAVUT_ASSERT(is_sparse_list());
+    typename std::add_lvalue_reference<const _traits_::TypeOf::sparse_list>::type get_sparse_list() const{
+
         return *VariantType::get_if<VariantType::IndexOf::sparse_list>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<nunavut::support::VariableLengthArray<uavcan::node::port::SubjectID_1_0, 255>>::type
+    template<class... Args> typename std::add_lvalue_reference<_traits_::TypeOf::sparse_list>::type
     set_sparse_list(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::sparse_list>(v...);
     }
@@ -453,215 +280,168 @@ struct SubjectIDList_0_1 final
         return VariantType::IndexOf::total == union_value.index();
     }
 
-    typename std::add_pointer<uavcan::primitive::Empty_1_0>::type get_total_if(){
+    typename std::add_pointer<_traits_::TypeOf::total>::type get_total_if(){
         return VariantType::get_if<VariantType::IndexOf::total>(&union_value);
     }
 
-    typename std::add_pointer<const uavcan::primitive::Empty_1_0>::type get_total_if() const{
+    typename std::add_pointer<const _traits_::TypeOf::total>::type get_total_if() const{
         return VariantType::get_if<VariantType::IndexOf::total>(&union_value);
     }
 
-    typename std::add_lvalue_reference<uavcan::primitive::Empty_1_0>::type get_total(){
-        NUNAVUT_ASSERT(is_total());
+    typename std::add_lvalue_reference<_traits_::TypeOf::total>::type get_total(){
+
         return *VariantType::get_if<VariantType::IndexOf::total>(&union_value);
     }
 
-    typename std::add_lvalue_reference<const uavcan::primitive::Empty_1_0>::type get_total() const{
-        NUNAVUT_ASSERT(is_total());
+    typename std::add_lvalue_reference<const _traits_::TypeOf::total>::type get_total() const{
+
         return *VariantType::get_if<VariantType::IndexOf::total>(&union_value);
     }
 
-    template<class... Args> typename std::add_lvalue_reference<uavcan::primitive::Empty_1_0>::type
+    template<class... Args> typename std::add_lvalue_reference<_traits_::TypeOf::total>::type
     set_total(Args&&...v){
         return union_value.emplace<VariantType::IndexOf::total>(v...);
     }
+};
 
-    nunavut::support::SerializeResult
-    serialize(nunavut::support::bitspan out_buffer) const
+inline nunavut::support::SerializeResult serialize(const SubjectIDList_0_1& obj,
+                                                   nunavut::support::bitspan out_buffer)
+{
+    const std::size_t capacity_bits = out_buffer.size();
+    if ((static_cast<std::size_t>(capacity_bits)) < 8200UL)
     {
-        const std::size_t capacity_bits = out_buffer.size();
-        if ((static_cast<std::size_t>(capacity_bits)) < 8200UL)
-        {
-            return -nunavut::support::Error::SERIALIZATION_BUFFER_TOO_SMALL;
+        return -nunavut::support::Error::SerializationBufferTooSmall;
+    }
+    // Notice that fields that are not an integer number of bytes long may overrun the space allocated for them
+    // in the serialization buffer up to the next byte boundary. This is by design and is guaranteed to be safe.
+    using VariantType = SubjectIDList_0_1::VariantType;
+    const auto _index0_ = obj.union_value.index();
+    {   // Union tag field: truncated uint8
+        const auto _result3_ = out_buffer.setUxx(_index0_, 8U);
+        if(not _result3_){
+            return -_result3_.error();
         }
-        // Notice that fields that are not an integer number of bytes long may overrun the space allocated for them
-        // in the serialization buffer up to the next byte boundary. This is by design and is guaranteed to be safe.
-        NUNAVUT_ASSERT(out_buffer.offset_alings_to_byte());
-        const auto _index0_ = union_value.index();
-        {   // Union tag field: truncated uint8
-            const auto _result3_ = out_buffer.setUxx(_index0_, 8U);
-            if(not _result3_){
-                return -_result3_.error();
-            }
-            out_buffer.add_offset(8U);
-        }
-        if (VariantType::IndexOf::mask == _index0_)
+        out_buffer.add_offset(8U);
+    }
+    if (VariantType::IndexOf::mask == _index0_)
+    {
+        auto _ptr0_ = obj.get_mask_if();
+        const std::size_t _origin0_ = out_buffer.offset();
+        for (std::size_t _index1_ = 0U; _index1_ < 8192UL; ++_index1_)
         {
-            auto _ptr0_ = get_mask_if();
-            NUNAVUT_ASSERT(out_buffer.offset_alings_to_byte());
-            NUNAVUT_ASSERT(8192ULL <= out_buffer.size());
-            const std::size_t _origin0_ = out_buffer.offset();
-            for (size_t _index1_ = 0U; _index1_ < 8192UL; ++_index1_)
-            {
-                NUNAVUT_ASSERT(1ULL <= out_buffer.size());
-                auto _result2_ = out_buffer.setBit((*_ptr0_)[_index1_]);
-                if(not _result2_){
-                    return -_result2_.error();
-                }
-                out_buffer.add_offset(1UL);
+            auto _result2_ = out_buffer.setBit((*_ptr0_)[_index1_]);
+            if(not _result2_){
+                return -_result2_.error();
             }
-            // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
-            NUNAVUT_ASSERT((out_buffer.offset() - _origin0_) == 8192ULL);
-            (void) _origin0_;
+            out_buffer.add_offset(1UL);
         }
-        else if (VariantType::IndexOf::sparse_list == _index0_)
+        // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
+        (void) _origin0_;
+    }
+    else if (VariantType::IndexOf::sparse_list == _index0_)
+    {
+        auto _ptr0_ = obj.get_sparse_list_if();
+        if ((*_ptr0_).size() > 255)
         {
-            auto _ptr0_ = get_sparse_list_if();
-            NUNAVUT_ASSERT(out_buffer.offset_alings_to(8U));
-            NUNAVUT_ASSERT(out_buffer.offset_alings_to_byte());
-            NUNAVUT_ASSERT(4088ULL <= out_buffer.size());
-            if ((*_ptr0_).size() > 255)
-            {
-                return -nunavut::support::Error::REPRESENTATION_BAD_ARRAY_LENGTH;
-            }
-            // Array length prefix: truncated uint8
-            const auto _result3_ = out_buffer.setUxx((*_ptr0_).size(), 8U);
-            if(not _result3_){
-                return -_result3_.error();
-            }
-            out_buffer.add_offset(8U);
-            NUNAVUT_ASSERT(out_buffer.offset_alings_to_byte());
-            for (size_t _index2_ = 0U; _index2_ < (*_ptr0_).size(); ++_index2_)
-            {
-                NUNAVUT_ASSERT(out_buffer.offset_alings_to(8U));
-                NUNAVUT_ASSERT(out_buffer.offset_alings_to_byte());
-                NUNAVUT_ASSERT(16ULL <= out_buffer.size());
-                std::size_t _size_bytes0_ = 2UL;  // Nested object (max) size, in bytes.
-                auto _subspan0_ = out_buffer.subspan(0U, _size_bytes0_ * 8U);
-                if(not _subspan0_){
-                    return -_subspan0_.error();
-                }
-                NUNAVUT_ASSERT(_subspan0_->offset_alings_to_byte());
-                auto _err0_ = (*_ptr0_)[_index2_].serialize(_subspan0_.value());
-                if (not _err0_)
-                {
-                    return _err0_;
-                }
-                _size_bytes0_ = _err0_.value();
-                // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
-                NUNAVUT_ASSERT((_size_bytes0_ * 8U) == 16ULL);
-                out_buffer.add_offset(_size_bytes0_ * 8U);
-                // NUNAVUT_ASSERT(out_buffer.size() >= 0);
-            }
+            return -nunavut::support::Error::SerializationBadArrayLength;
         }
-        else if (VariantType::IndexOf::total == _index0_)
+        // Array length prefix: truncated uint8
+        const auto _result3_ = out_buffer.setUxx((*_ptr0_).size(), 8U);
+        if(not _result3_){
+            return -_result3_.error();
+        }
+        out_buffer.add_offset(8U);
+        for (std::size_t _index2_ = 0U; _index2_ < (*_ptr0_).size(); ++_index2_)
         {
-            auto _ptr0_ = get_total_if();
-            NUNAVUT_ASSERT(out_buffer.offset_alings_to(8U));
-            NUNAVUT_ASSERT(out_buffer.offset_alings_to_byte());
-            std::size_t _size_bytes0_ = 0UL;  // Nested object (max) size, in bytes.
+            std::size_t _size_bytes0_ = 2UL;  // Nested object (max) size, in bytes.
             auto _subspan0_ = out_buffer.subspan(0U, _size_bytes0_ * 8U);
             if(not _subspan0_){
                 return -_subspan0_.error();
             }
-            NUNAVUT_ASSERT(_subspan0_->offset_alings_to_byte());
-            auto _err0_ = (*_ptr0_).serialize(_subspan0_.value());
+            auto _err0_ = serialize((*_ptr0_)[_index2_], _subspan0_.value());
             if (not _err0_)
             {
                 return _err0_;
             }
             _size_bytes0_ = _err0_.value();
             // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
-            NUNAVUT_ASSERT((_size_bytes0_ * 8U) == 0ULL);
             out_buffer.add_offset(_size_bytes0_ * 8U);
-            // NUNAVUT_ASSERT(out_buffer.size() >= 0);
+            //
         }
-        else
-        {
-            return -nunavut::support::Error::REPRESENTATION_BAD_UNION_TAG;
-        }
-        {
-            const auto _result0_ = out_buffer.padAndMoveToAlignment(8U);
-            if(not _result0_){
-                return -_result0_.error();
-            }
-        }
-        // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
-        NUNAVUT_ASSERT(out_buffer.offset() >= 8ULL);
-        NUNAVUT_ASSERT(out_buffer.offset() <= 8200ULL);
-        NUNAVUT_ASSERT(out_buffer.offset_alings_to_byte());
-        return out_buffer.offset_bytes_ceil();
     }
-
-    nunavut::support::SerializeResult
-    deserialize(nunavut::support::const_bitspan in_buffer)
+    else if (VariantType::IndexOf::total == _index0_)
     {
-        const auto capacity_bits = in_buffer.size();
-        // Union tag field: truncated uint8
-        auto _index3_ = union_value.index();
-        _index3_ = in_buffer.getU8(8U);
+        auto _ptr0_ = obj.get_total_if();
+        std::size_t _size_bytes0_ = 0UL;  // Nested object (max) size, in bytes.
+        auto _subspan0_ = out_buffer.subspan(0U, _size_bytes0_ * 8U);
+        if(not _subspan0_){
+            return -_subspan0_.error();
+        }
+        auto _err0_ = serialize((*_ptr0_), _subspan0_.value());
+        if (not _err0_)
+        {
+            return _err0_;
+        }
+        _size_bytes0_ = _err0_.value();
+        // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
+        out_buffer.add_offset(_size_bytes0_ * 8U);
+        //
+    }
+    else
+    {
+        return -nunavut::support::Error::RepresentationBadUnionTag;
+    }
+    {
+        const auto _result0_ = out_buffer.padAndMoveToAlignment(8U);
+        if(not _result0_){
+            return -_result0_.error();
+        }
+    }
+    // It is assumed that we know the exact type of the serialized entity, hence we expect the size to match.
+    return out_buffer.offset_bytes_ceil();
+}
+
+inline nunavut::support::SerializeResult deserialize(SubjectIDList_0_1& obj,
+                                                     nunavut::support::const_bitspan in_buffer)
+{
+    const auto capacity_bits = in_buffer.size();
+    using VariantType = SubjectIDList_0_1::VariantType;
+    // Union tag field: truncated uint8
+    auto _index3_ = obj.union_value.index();
+    _index3_ = in_buffer.getU8(8U);
+    in_buffer.add_offset(8U);
+    if (VariantType::IndexOf::mask == _index3_)
+    {
+        obj.set_mask();
+        auto _ptr1_ = obj.get_mask_if();
+        for (std::size_t _index4_ = 0U; _index4_ < 8192UL; ++_index4_)
+        {
+            (*_ptr1_)[_index4_] = in_buffer.getBit();
+            in_buffer.add_offset(1U);
+        }
+    }
+    else if (VariantType::IndexOf::sparse_list == _index3_)
+    {
+        obj.set_sparse_list();
+        auto _ptr1_ = obj.get_sparse_list_if();
+        {
+            // Array length prefix: truncated uint8
+        const std::size_t _size0_ = in_buffer.getU8(8U);
         in_buffer.add_offset(8U);
-        if (VariantType::IndexOf::mask == _index3_)
-        {
-            set_mask();
-            auto _ptr1_ = get_mask_if();
-            NUNAVUT_ASSERT(in_buffer.offset_alings_to_byte());
-            for (size_t _index4_ = 0U; _index4_ < 8192UL; ++_index4_)
+            if ( _size0_ > 255U)
             {
-                (*_ptr1_)[_index4_] = in_buffer.getBit();
-                in_buffer.add_offset(1U);
+                return -nunavut::support::Error::SerializationBadArrayLength;
             }
-        }
-        else if (VariantType::IndexOf::sparse_list == _index3_)
-        {
-            set_sparse_list();
-            auto _ptr1_ = get_sparse_list_if();
-            NUNAVUT_ASSERT(in_buffer.offset_alings_to(8U));
-            NUNAVUT_ASSERT(in_buffer.offset_alings_to_byte());
+            (*_ptr1_).reserve(_size0_);
+            for (std::size_t _index5_ = 0U; _index5_ < _size0_; ++_index5_)
             {
-                // Array length prefix: truncated uint8
-            const std::uint8_t _size0_ = in_buffer.getU8(8U);
-            in_buffer.add_offset(8U);
-                if ( _size0_ > 255U)
+                // TODO This is terribly inefficient. We need to completely refactor this template to use C++ emplace and
+                // move semantics instead of assuming C-style containers
+                (*_ptr1_).push_back();
                 {
-                    return -nunavut::support::Error::REPRESENTATION_BAD_ARRAY_LENGTH;
-                }
-                (*_ptr1_).reserve(_size0_);
-            NUNAVUT_ASSERT(in_buffer.offset_alings_to_byte());
-                for (size_t _index5_ = 0U; _index5_ < _size0_; ++_index5_)
-                {
-                    // TODO This is terribly inefficient. We need to completely refactor this template to use C++ emplace and
-                    // move semantics instead of assuming C-style containers
-                    (*_ptr1_).push_back();
-                    NUNAVUT_ASSERT(in_buffer.offset_alings_to(8U));
-                NUNAVUT_ASSERT(in_buffer.offset_alings_to_byte());
-                {
-                    std::size_t _size_bytes1_ = in_buffer.size() / 8U;
-                    NUNAVUT_ASSERT(in_buffer.offset_alings_to_byte());
-                    {
-                        const auto _err1_ = (*_ptr1_)[_index5_].deserialize(in_buffer.subspan());
-                        if(_err1_){
-                            _size_bytes1_ = _err1_.value();
-                        }else{
-                            return -_err1_.error();
-                        }
-                    }
-                    in_buffer.add_offset(_size_bytes1_ * 8U);  // Advance by the size of the nested serialized representation.
-                }
-                }
-            }
-        }
-        else if (VariantType::IndexOf::total == _index3_)
-        {
-            set_total();
-            auto _ptr1_ = get_total_if();
-            NUNAVUT_ASSERT(in_buffer.offset_alings_to(8U));
-            NUNAVUT_ASSERT(in_buffer.offset_alings_to_byte());
-            {
                 std::size_t _size_bytes1_ = in_buffer.size() / 8U;
-                NUNAVUT_ASSERT(in_buffer.offset_alings_to_byte());
                 {
-                    const auto _err1_ = (*_ptr1_).deserialize(in_buffer.subspan());
+                    const auto _err1_ = deserialize((*_ptr1_)[_index5_], in_buffer.subspan());
                     if(_err1_){
                         _size_bytes1_ = _err1_.value();
                     }else{
@@ -670,18 +450,34 @@ struct SubjectIDList_0_1 final
                 }
                 in_buffer.add_offset(_size_bytes1_ * 8U);  // Advance by the size of the nested serialized representation.
             }
+            }
         }
-        else
-        {
-            return -nunavut::support::Error::REPRESENTATION_BAD_UNION_TAG;
-        }
-        in_buffer.align_offset_to<8U>();
-        NUNAVUT_ASSERT(in_buffer.offset_alings_to_byte());
-        auto _bits_got_ = std::min<std::size_t>(in_buffer.offset(), capacity_bits);
-        NUNAVUT_ASSERT(capacity_bits >= _bits_got_);
-        return { static_cast<std::size_t>(_bits_got_ / 8U) };
     }
-};
+    else if (VariantType::IndexOf::total == _index3_)
+    {
+        obj.set_total();
+        auto _ptr1_ = obj.get_total_if();
+        {
+            std::size_t _size_bytes1_ = in_buffer.size() / 8U;
+            {
+                const auto _err1_ = deserialize((*_ptr1_), in_buffer.subspan());
+                if(_err1_){
+                    _size_bytes1_ = _err1_.value();
+                }else{
+                    return -_err1_.error();
+                }
+            }
+            in_buffer.add_offset(_size_bytes1_ * 8U);  // Advance by the size of the nested serialized representation.
+        }
+    }
+    else
+    {
+        return -nunavut::support::Error::RepresentationBadUnionTag;
+    }
+    in_buffer.align_offset_to<8U>();
+    auto _bits_got_ = std::min<std::size_t>(in_buffer.offset(), capacity_bits);
+    return { static_cast<std::size_t>(_bits_got_ / 8U) };
+}
 
 } // namespace port
 } // namespace node

@@ -12,26 +12,27 @@
  * INCLUDES
  **************************************************************************************/
 
-#include <vector>
-#include <functional>
-
-#include "RegisterDerived.hpp"
-
+#include "../vla/vla.h"
 #include "../../Node.hpp"
 #include "../../DSDL_Types.h"
+
+#include "registry_impl.hpp"
+
+#if __GNUC__ >= 11
 
 /**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
 
-class RegisterList
+class Registry final : public registry::Registry
 {
 public:
-  RegisterList(Node & node_hdl, Register::MicrosFunc const micros)
+  typedef std::function<uint64_t(void)> MicrosFunc;
+  Registry(Node & node_hdl, MicrosFunc const micros)
   : _micros{micros}
   {
     _reg_list_srv = node_hdl.create_service_server<TListRequest, TListResponse>(
-      TListRequest::FixedPortId,
+      TListRequest::_traits_::FixedPortId,
       2*1000*1000UL,
       [this](TListRequest const & req)
       {
@@ -39,7 +40,7 @@ public:
       });
 
     _reg_access_srv = node_hdl.create_service_server<TAccessRequest, TAccessResponse>(
-      TAccessRequest::FixedPortId,
+      TAccessRequest::_traits_::FixedPortId,
       2*1000*1000UL,
       [this](TAccessRequest const & req)
       {
@@ -47,12 +48,8 @@ public:
       });
   }
 
-  template <typename T, Register::Mutable IsMutable, Register::Persistent IsPersistent>
-  std::shared_ptr<impl::RegisterDerived<T, IsMutable, IsPersistent>> create(std::string const &name, T const & val);
-
 private:
-  Register::MicrosFunc const _micros;
-  std::vector<std::shared_ptr<impl::RegisterBase>> _reg_list;
+  MicrosFunc const _micros;
 
   typedef uavcan::_register::List::Request_1_0  TListRequest;
   typedef uavcan::_register::List::Response_1_0 TListResponse;
@@ -62,9 +59,9 @@ private:
   {
     TListResponse rsp{};
 
-    if (req.index < _reg_list.size())
-      std::copy(_reg_list[req.index]->name().name.cbegin(),
-                _reg_list[req.index]->name().name.cend(),
+    if (req.index < size())
+      std::copy(index(req.index).name.cbegin(),
+                index(req.index).name.cend(),
                 std::back_inserter(rsp.name.name));
 
     return rsp;
@@ -76,15 +73,13 @@ private:
 
   TAccessResponse onAccess_1_0_Request_Received(TAccessRequest const & req)
   {
-    /* TODO */
-    return {};
+    if (!get(vla::toStr(req.name)))
+      return TAccessResponse{};
+
+    return TAccessResponse{}; // TODO: FIXME: This is just to quell Werror=return-type .
   }
 };
 
-/**************************************************************************************
- * TEMPLATE IMPLEMENTATION
- **************************************************************************************/
-
-#include "RegisterList.ipp"
+#endif /* __GNUC__ >= 11 */
 
 #endif /* REGISTER_LIST_H_ */

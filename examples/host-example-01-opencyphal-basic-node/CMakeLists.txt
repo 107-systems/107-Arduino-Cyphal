@@ -7,5 +7,7 @@ add_executable(${EXAMPLE_01_TARGET}
         host-example-01-opencyphal-basic-node.cpp
         socketcan.c
         )
+##########################################################################
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 target_link_libraries(${EXAMPLE_01_TARGET} cyphal++ pthread)
 ##########################################################################

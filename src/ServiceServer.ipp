@@ -39,16 +39,16 @@ bool ServiceServer<T_REQ, T_RSP, OnRequestCb>::onTransferReceived(CanardRxTransf
   /* Deserialize the request message. */
   T_REQ req{};
   nunavut::support::const_bitspan req_buf_bitspan(static_cast<uint8_t *>(transfer.payload), transfer.payload_size);
-  auto const req_rc = req.deserialize(req_buf_bitspan);
+  auto const req_rc = deserialize(req, req_buf_bitspan);
   if (!req_rc) return false;
 
   /* Invoke the service callback and obtain the desired response. */
   T_RSP const rsp = _on_request_cb(req);
 
   /* Serialize the response message. */
-  std::array<uint8_t, T_RSP::SERIALIZATION_BUFFER_SIZE_BYTES> rsp_buf{};
+  std::array<uint8_t, T_RSP::_traits_::SerializationBufferSizeBytes> rsp_buf{};
   nunavut::support::bitspan rsp_buf_bitspan{rsp_buf};
-  auto const rsp_rc = rsp.serialize(rsp_buf_bitspan);
+  auto const rsp_rc = serialize(rsp, rsp_buf_bitspan);
   if (!rsp_rc) return false;
 
 #pragma GCC diagnostic push

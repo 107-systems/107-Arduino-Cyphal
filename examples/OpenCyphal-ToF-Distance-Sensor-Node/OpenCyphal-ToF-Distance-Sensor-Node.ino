@@ -123,10 +123,10 @@ ArduinoMCP2515 mcp2515([]()
                        nullptr);
 
 Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); }, DEFAULT_OPEN_CYPHAL_ID_DISTANCE_DATA);
+Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
 
 Publisher<Heartbeat_1_0> heartbeat_pub = node_hdl.create_publisher<Heartbeat_1_0>
-  (Heartbeat_1_0::FixedPortId, 1*1000*1000UL /* = 1 sec in usecs. */);
+  (Heartbeat_1_0::_traits_::FixedPortId, 1*1000*1000UL /* = 1 sec in usecs. */);
 Publisher<DistanceMessageType> tof_pub = node_hdl.create_publisher<DistanceMessageType>
   (DEFAULT_OPEN_CYPHAL_ID_DISTANCE_DATA, 1*1000*1000UL /* = 1 sec in usecs. */);
 
@@ -163,27 +163,19 @@ DEBUG_INSTANCE(120, Serial);
 
 /* REGISTER ***************************************************************************/
 
-RegisterList reg_list(node_hdl, micros);
-auto reg_rw_cyphal_node_id = reg_list.create<
-  uavcan::primitive::array::Natural8_1_0,
-  Register::Mutable::Yes,
-  Register::Persistent::No>
-  ("cyphal.node.id", uavcan::primitive::array::Natural8_1_0{{DEFAULT_OPEN_CYPHAL_NODE_ID}});
-auto reg_ro_cyphal_node_description = reg_list.create<
-  uavcan::primitive::String_1_0,
-  Register::Mutable::No,
-  Register::Persistent::No>
-  ("cyphal.node.description", vla::to_String_1_0("OpenCyphal-ToF-Distance-Sensor-Node"));
-auto reg_rw_cyphal_pub_distance_id = reg_list.create<
-  uavcan::primitive::array::Natural16_1_0,
-  Register::Mutable::Yes,
-  Register::Persistent::No>
-  ("cyphal.pub.distance.id", uavcan::primitive::array::Natural16_1_0{{DEFAULT_OPEN_CYPHAL_ID_DISTANCE_DATA}});
-auto reg_ro_cyphal_pub_distance_type = reg_list.create<
-  uavcan::primitive::String_1_0,
-  Register::Mutable::No,
-  Register::Persistent::No>
-  ("cyphal.pub.distance.type", vla::to_String_1_0("cyphal.primitive.scalar.Real32.1.0"));
+static CanardNodeID node_id = DEFAULT_OPEN_CYPHAL_NODE_ID;
+static CanardPortID distance_data_port_id = DEFAULT_OPEN_CYPHAL_ID_DISTANCE_DATA;
+
+#if __GNUC__ >= 11
+
+Registry reg(node_hdl, micros);
+
+const auto reg_rw_cyphal_node_id = reg.expose("cyphal.node.id", {}, node_id);
+const auto reg_ro_cyphal_node_description = reg.route("cyphal.node.description", {true}, []() { return "OpenCyphal-ToF-Distance-Sensor-Node"; });
+const auto reg_rw_cyphal_pub_distance_id = reg.expose("cyphal.pub.distance.id", {true}, distance_data_port_id);
+const auto reg_ro_cyphal_pub_distance_type = reg.route("cyphal.pub.distance.type", {true}, []() { return "cyphal.primitive.scalar.Real32.1.0"; });
+
+#endif /* __GNUC__ >= 11 */
 
 /* NODE INFO **************************************************************************/
 

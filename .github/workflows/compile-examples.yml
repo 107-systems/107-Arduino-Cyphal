@@ -36,18 +36,6 @@ jobs:
 
       matrix:
         board:
-          - fqbn: arduino:mbed_portenta:envie_m7
-            platforms: |
-              - name: arduino:mbed_portenta
-          - fqbn: arduino:mbed_nano:nano33ble
-            platforms: |
-              - name: arduino:mbed_nano
-          - fqbn: arduino:mbed_nano:nanorp2040connect
-            platforms: |
-              - name: arduino:mbed_nano
-          - fqbn: arduino:mbed_edge:edge_control
-            platforms: |
-              - name: arduino:mbed_edge
           - fqbn: rp2040:rp2040:rpipico
             platforms: |
               - name: rp2040:rp2040
