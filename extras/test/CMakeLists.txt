@@ -22,7 +22,7 @@ add_executable(${PROJECT_NAME}
   src/test_registry_value.cpp
 )
 ##########################################################################
-target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror --coverage)
 ##########################################################################
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 ##########################################################################
