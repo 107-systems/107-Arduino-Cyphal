@@ -24,11 +24,11 @@
  * CLASS DECLARATION
  **************************************************************************************/
 
-class RegisterList final : public registry::Registry
+class Registry final : public registry::Registry
 {
 public:
   typedef std::function<uint64_t(void)> MicrosFunc;
-  RegisterList(Node & node_hdl, MicrosFunc const micros)
+  Registry(Node & node_hdl, MicrosFunc const micros)
   : _micros{micros}
   {
     _reg_list_srv = node_hdl.create_service_server<TListRequest, TListResponse>(

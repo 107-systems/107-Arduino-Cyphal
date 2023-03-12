@@ -70,13 +70,13 @@ int main(int argc, char ** argv)
   CanardPortID counter_port_id = DEFAULT_COUNTER_PORT_ID;
   uint16_t counter_update_period_ms = DEFAULT_COUNTER_UPDATE_PERIOD_ms;
 
-  RegisterList reg_list(node_hdl, micros);
+  Registry reg(node_hdl, micros);
 
-  const auto reg_ro_node_description = reg_list.route("cyphal.node.description", {true}, []() { return "basic-cyphal-node"; });
-  const auto reg_ro_pub_counter_type = reg_list.route("cyphal.pub.counter.type", {true}, []() { return "uavcan.primitive.scalar.Integer8.1.0"; });
-  const auto reg_rw_node_id = reg_list.expose("cyphal.node.id", {}, node_id);
-  const auto reg_rw_pub_counter_id = reg_list.expose("cyphal.pub.counter.id", {}, counter_port_id);
-  const auto reg_rw_pub_counter_update_period_ms = reg_list.expose("cyphal.pub.counter.update_period_ms", {}, counter_update_period_ms);
+  const auto reg_ro_node_description = reg.route("cyphal.node.description", {true}, []() { return "basic-cyphal-node"; });
+  const auto reg_ro_pub_counter_type = reg.route("cyphal.pub.counter.type", {true}, []() { return "uavcan.primitive.scalar.Integer8.1.0"; });
+  const auto reg_rw_node_id = reg.expose("cyphal.node.id", {}, node_id);
+  const auto reg_rw_pub_counter_id = reg.expose("cyphal.pub.counter.id", {}, counter_port_id);
+  const auto reg_rw_pub_counter_update_period_ms = reg.expose("cyphal.pub.counter.update_period_ms", {}, counter_update_period_ms);
 
   /* NODE INFO **************************************************************************/
 
