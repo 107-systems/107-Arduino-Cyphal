@@ -18,6 +18,8 @@
 
 #include "registry_impl.hpp"
 
+#if __GNUC__ >= 11
+
 /**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
@@ -79,5 +81,7 @@ private:
     return TAccessResponse{}; // TODO: FIXME: This is just to quell Werror=return-type .
   }
 };
+
+#endif /* __GNUC__ >= 11 */
 
 #endif /* REGISTER_LIST_H_ */

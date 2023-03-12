@@ -13,6 +13,8 @@
 
 #include "../../DSDL_Types.h"
 
+#if __GNUC__ >= 11
+
 namespace registry
 {
 using Value = uavcan::_register::Value_1_0;
@@ -267,3 +269,5 @@ Value makeValue(const Ts&... src)
 }
 
 }  // namespace registry
+
+#endif /* __GNUC__ >= 11 */

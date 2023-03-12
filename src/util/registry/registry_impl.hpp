@@ -6,6 +6,8 @@
 #include "cavl.hpp"  // Copy from https://github.com/pavel-kirienko/cavl/blob/main/c%2B%2B/cavl.hpp
 #include <memory>
 
+#if __GNUC__ >= 11
+
 namespace registry
 {
 namespace detail
@@ -378,3 +380,5 @@ private:
 };
 
 }  // namespace registry
+
+#endif /* __GNUC__ >= 11 */

@@ -4,6 +4,8 @@
 
 #include "registry_value.hpp"
 
+#if __GNUC__ >= 11
+
 namespace registry
 {
 struct RegisterFlags final
@@ -70,3 +72,5 @@ public:
 };
 
 }  // namespace registry
+
+#endif /* __GNUC__ >= 11 */
