@@ -28,7 +28,7 @@ jobs:
       - uses: arduino/cpp-test-action@main
         with:
           runtime-paths: |
-            - build/bin/test_cyphal++
+            - extras/test/build/bin/test_cyphal++
           coverage-exclude-paths: |
             - '*/extras/test/*'
             - '/usr/*'
