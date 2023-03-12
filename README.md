@@ -26,13 +26,13 @@ arduino-cli compile -b rp2040:rp2040:rpipico -v examples/OpenCyphal-ToF-Distance
 ```
 * **Host** (x86/x64/...): Using the CMake build system this library can be cross-compiled to a static C++ library and linked against any C++ executable. This is possible because the code itself is pure C/C++ without and dependencies to the Arduino framework.
 ```bash
-* git clone https://github.com/107-systems/107-Arduino-Cyphal && cd 107-Arduino-Cyphal
-  mkdir build && cd build
-  cmake .. && make
+git clone https://github.com/107-systems/107-Arduino-Cyphal && cd 107-Arduino-Cyphal
+mkdir build && cd build
+cmake .. && make
 ```
 or
 ```bash
-cmake -DBUILD_EXAMPLES=ON -DBUILD_TEST=ON .. && make
+cmake -DBUILD_EXAMPLES=ON .. && make
 ```
 
 ### Reference-Implementations
