@@ -81,7 +81,7 @@ private:
     if (!reg_with_metadata.has_value())
       return TAccessResponse{};
 
-    /* Pepare the response for this access request. */
+    /* Prepare the response for this access request. */
     TAccessResponse rsp
     {
       _micros(),
