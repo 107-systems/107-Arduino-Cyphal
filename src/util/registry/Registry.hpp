@@ -79,7 +79,7 @@ private:
      * this call will fail with SetError::Mutability.
      */
     if (!req.value.is_empty())
-      (void)set(req_name, req.value);
+      (void)set(std::string_view(req_name), req.value);
 
     /* Return an empty response, if the repository with the desired
      * name can not be found.
