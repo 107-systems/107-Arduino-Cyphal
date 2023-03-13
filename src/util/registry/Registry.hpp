@@ -74,10 +74,33 @@ private:
 
   TAccessResponse onAccess_1_0_Request_Received(TAccessRequest const & req)
   {
-    if (!get(vla::toStr(req.name)))
+    auto const req_name = reinterpret_cast<const char *>(req.name.name.cbegin());
+    /* Return an empty response, if the repository with the desired
+     * name can not be found.
+     */
+    auto reg_with_metadata = get(std::string_view(req_name));
+    if (!reg_with_metadata.has_value())
       return TAccessResponse{};
 
-    return TAccessResponse{}; // TODO: FIXME: This is just to quell Werror=return-type .
+    /* Pepare the response for this access request. */
+    TAccessResponse rsp
+    {
+      _micros(),
+      reg_with_metadata.value().flags.mutable_,
+      reg_with_metadata.value().flags.persistent,
+      reg_with_metadata.value().value
+    };
+
+    /* Try to set the registers value. Note, if this is a RO register
+     * this call will fail with SetError::Mutability.
+     */
+    if (!req.value.is_empty()) {
+      if (set(req_name, req.value) == std::nullopt) {
+        rsp.value = req.value;
+      }
+    }
+
+    return rsp;
   }
 };
 
