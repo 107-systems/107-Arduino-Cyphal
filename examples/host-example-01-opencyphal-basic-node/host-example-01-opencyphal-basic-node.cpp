@@ -119,6 +119,7 @@ int main(int argc, char ** argv)
           node_hdl.onCanFrameReceived(rx_frame);
         }
 
+        std::this_thread::yield();
       }
     });
 
@@ -162,6 +163,8 @@ int main(int argc, char ** argv)
       counter_pub->publish(counter_msg);
       counter_msg.value++;
     }
+
+    std::this_thread::yield();
   }
 
   rx_thread_active = false;
