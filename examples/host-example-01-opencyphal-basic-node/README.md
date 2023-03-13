@@ -32,3 +32,15 @@ Read the register list of the node.
 yakut rl 42
 [cyphal.node.description, cyphal.node.id, cyphal.pub.temperature.id, cyphal.pub.temperature.type]
 ```
+
+Read/write register access:
+```bash
+$ y r 42 cyphal.node.description
+basic-cyphal-node
+
+$ y r 42 cyphal.node.id
+42
+
+$ y r 42 cyphal.node.id 12
+12
+```
