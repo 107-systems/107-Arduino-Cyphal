@@ -73,18 +73,18 @@ private:
 
   TAccessResponse onAccess_1_0_Request_Received(TAccessRequest const & req)
   {
-    auto const req_name = reinterpret_cast<const char *>(req.name.name.cbegin());
+    auto const req_name = std::string_view(reinterpret_cast<const char *>(req.name.name.cbegin()));
 
     /* Try to set the registers value. Note, if this is a RO register
      * this call will fail with SetError::Mutability.
      */
     if (!req.value.is_empty())
-      (void)set(std::string_view(req_name), req.value);
+      (void)set(req_name, req.value);
 
     /* Return an empty response, if the repository with the desired
      * name can not be found.
      */
-    auto reg_with_metadata = get(std::string_view(req_name));
+    auto reg_with_metadata = get(req_name);
     if (!reg_with_metadata.has_value())
       return TAccessResponse{};
 
