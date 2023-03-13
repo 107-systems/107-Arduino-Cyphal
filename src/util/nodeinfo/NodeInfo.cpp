@@ -43,9 +43,7 @@ NodeInfo::NodeInfo(Node & node_hdl,
 
   _node_info_rsp.unique_id = unique_id;
 
-  std::copy_n(name.begin(),
-              std::min(name.length(), _node_info_rsp.name.capacity()),
-              _node_info_rsp.name.begin());
+  std::copy(name.cbegin(), name.cend(), std::back_inserter(_node_info_rsp.name));
 
   typedef uavcan::node::GetInfo::Request_1_0 TGetInfoRequest;
   typedef uavcan::node::GetInfo::Response_1_0 TGetInfoResponse;
