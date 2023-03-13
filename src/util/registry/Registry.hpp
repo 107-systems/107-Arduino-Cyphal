@@ -74,6 +74,13 @@ private:
   TAccessResponse onAccess_1_0_Request_Received(TAccessRequest const & req)
   {
     auto const req_name = reinterpret_cast<const char *>(req.name.name.cbegin());
+
+    /* Try to set the registers value. Note, if this is a RO register
+     * this call will fail with SetError::Mutability.
+     */
+    if (!req.value.is_empty())
+      (void)set(req_name, req.value);
+
     /* Return an empty response, if the repository with the desired
      * name can not be found.
      */
@@ -82,24 +89,13 @@ private:
       return TAccessResponse{};
 
     /* Prepare the response for this access request. */
-    TAccessResponse rsp
+    return TAccessResponse
     {
       _micros(),
       reg_with_metadata.value().flags.mutable_,
       reg_with_metadata.value().flags.persistent,
       reg_with_metadata.value().value
     };
-
-    /* Try to set the registers value. Note, if this is a RO register
-     * this call will fail with SetError::Mutability.
-     */
-    if (!req.value.is_empty()) {
-      if (set(req_name, req.value) == std::nullopt) {
-        rsp.value = req.value;
-      }
-    }
-
-    return rsp;
   }
 };
 
