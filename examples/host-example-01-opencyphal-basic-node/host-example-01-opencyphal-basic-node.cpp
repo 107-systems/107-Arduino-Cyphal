@@ -90,7 +90,11 @@ int main(int argc, char ** argv)
     /* uavcan.node.Version.1.0 software_version */
     0, 1,
     /* saturated uint64 software_vcs_revision_id */
+#ifdef CYPHAL_NODE_INFO_GIT_VERSION
+    CYPHAL_NODE_INFO_GIT_VERSION,
+#else
     0,
+#endif
     /* saturated uint8[16] unique_id */
     std::array<uint8_t, 16>{0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F},
     /* saturated uint8[<=50] name */
