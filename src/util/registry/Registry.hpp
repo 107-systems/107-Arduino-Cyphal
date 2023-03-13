@@ -60,9 +60,10 @@ private:
     TListResponse rsp{};
 
     if (req.index < size())
-      std::copy(index(req.index).name.cbegin(),
-                index(req.index).name.cend(),
-                std::back_inserter(rsp.name.name));
+    {
+      auto const name = index(req.index);
+      std::copy(name.name.cbegin(), name.name.cend(), std::back_inserter(rsp.name.name));
+    }
 
     return rsp;
   }
