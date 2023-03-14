@@ -21,7 +21,6 @@ add_subdirectory(src/libo1heap)
 ##########################################################################
 add_library(${PROJECT_NAME} STATIC
   src/util/nodeinfo/NodeInfo.cpp
-  src/util/vla/vla.cpp
   src/Node.cpp
 )
 ##########################################################################

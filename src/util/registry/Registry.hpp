@@ -12,7 +12,6 @@
  * INCLUDES
  **************************************************************************************/
 
-#include "../vla/vla.h"
 #include "../../Node.hpp"
 #include "../../DSDL_Types.h"
 
@@ -60,9 +59,10 @@ private:
     TListResponse rsp{};
 
     if (req.index < size())
-      std::copy(index(req.index).name.cbegin(),
-                index(req.index).name.cend(),
-                std::back_inserter(rsp.name.name));
+    {
+      auto const name = index(req.index);
+      std::copy(name.name.cbegin(), name.name.cend(), std::back_inserter(rsp.name.name));
+    }
 
     return rsp;
   }
@@ -73,10 +73,29 @@ private:
 
   TAccessResponse onAccess_1_0_Request_Received(TAccessRequest const & req)
   {
-    if (!get(vla::toStr(req.name)))
+    auto const req_name = std::string_view(reinterpret_cast<const char *>(req.name.name.cbegin()));
+
+    /* Try to set the registers value. Note, if this is a RO register
+     * this call will fail with SetError::Mutability.
+     */
+    if (!req.value.is_empty())
+      (void)set(req_name, req.value);
+
+    /* Return an empty response, if the repository with the desired
+     * name can not be found.
+     */
+    auto reg_with_metadata = get(req_name);
+    if (!reg_with_metadata.has_value())
       return TAccessResponse{};
 
-    return TAccessResponse{}; // TODO: FIXME: This is just to quell Werror=return-type .
+    /* Prepare the response for this access request. */
+    return TAccessResponse
+    {
+      _micros(),
+      reg_with_metadata.value().flags.mutable_,
+      reg_with_metadata.value().flags.persistent,
+      reg_with_metadata.value().value
+    };
   }
 };
 

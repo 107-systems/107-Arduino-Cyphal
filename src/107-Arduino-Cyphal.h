@@ -20,6 +20,5 @@
 #include "ServiceServer.hpp"
 #include "util/nodeinfo/NodeInfo.h"
 #include "util/registry/Registry.hpp"
-#include "util/vla/vla.h"
 
 #endif /* _107_ARDUINO_CYPHAL_H_ */
