@@ -12,7 +12,7 @@ target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 target_link_libraries(${EXAMPLE_01_TARGET} cyphal++ pthread)
 ##########################################################################
 execute_process(
-        COMMAND git describe --always
+        COMMAND git rev-parse --short=16 HEAD
         WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}
         OUTPUT_VARIABLE GIT_HASH
         OUTPUT_STRIP_TRAILING_WHITESPACE
