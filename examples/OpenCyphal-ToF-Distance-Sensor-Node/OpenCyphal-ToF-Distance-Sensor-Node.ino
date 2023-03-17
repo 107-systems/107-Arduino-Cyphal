@@ -177,29 +177,6 @@ const auto reg_ro_cyphal_pub_distance_type = reg.route("cyphal.pub.distance.type
 
 #endif /* __GNUC__ >= 11 */
 
-/* NODE INFO **************************************************************************/
-
-static NodeInfo node_info
-(
-  node_hdl,
-  /* uavcan.node.Version.1.0 protocol_version */
-  1, 0,
-  /* uavcan.node.Version.1.0 hardware_version */
-  1, 0,
-  /* uavcan.node.Version.1.0 software_version */
-  0, 1,
-  /* saturated uint64 software_vcs_revision_id */
-#ifdef CYPHAL_NODE_INFO_GIT_VERSION
-  CYPHAL_NODE_INFO_GIT_VERSION,
-#else
-  0,
-#endif
-  /* saturated uint8[16] unique_id */
-  OpenCyphalUniqueId(),
-  /* saturated uint8[<=50] name */
-  "107-systems.tof-sensor-node"
-);
-
 /**************************************************************************************
  * SETUP/LOOP
  **************************************************************************************/
@@ -210,6 +187,28 @@ void setup()
    */
   Serial.begin(115200);
   while(!Serial) { }
+
+  /* NODE INFO ************************************************************************/
+
+  static auto node_info = node_hdl.create_node_info
+  (
+    /* uavcan.node.Version.1.0 protocol_version */
+    1, 0,
+    /* uavcan.node.Version.1.0 hardware_version */
+    1, 0,
+    /* uavcan.node.Version.1.0 software_version */
+    0, 1,
+    /* saturated uint64 software_vcs_revision_id */
+#ifdef CYPHAL_NODE_INFO_GIT_VERSION
+    CYPHAL_NODE_INFO_GIT_VERSION,
+#else
+    0,
+#endif
+    /* saturated uint8[16] unique_id */
+    OpenCyphalUniqueId(),
+    /* saturated uint8[<=50] name */
+    "107-systems.tof-sensor-node"
+  );
 
   /* I2C to which the TMF8801 is connected.
    */

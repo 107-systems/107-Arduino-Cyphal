@@ -13,6 +13,8 @@
 
 #include <cstring>
 
+#include "util/nodeinfo/NodeInfo.hpp"
+
 /**************************************************************************************
  * CTOR/DTOR
  **************************************************************************************/
@@ -40,6 +42,22 @@ Node::Node(uint8_t * heap_ptr,
 /**************************************************************************************
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
+
+NodeInfo Node::create_node_info(uint8_t const protocol_major, uint8_t const protocol_minor,
+                          uint8_t const hardware_major, uint8_t const hardware_minor,
+                          uint8_t const software_major, uint8_t const software_minor,
+                          uint64_t const software_vcs_revision_id,
+                          std::array<uint8_t, 16> const & unique_id,
+                          std::string const & name)
+{
+  return std::make_shared<impl::NodeInfo>(*this,
+                                          protocol_major, protocol_minor,
+                                          hardware_major, hardware_minor,
+                                          software_major, software_minor,
+                                          software_vcs_revision_id,
+                                          unique_id,
+                                          name);
+}
 
 void Node::spinSome()
 {
