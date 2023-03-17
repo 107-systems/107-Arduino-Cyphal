@@ -20,7 +20,6 @@ add_subdirectory(src/libcanard)
 add_subdirectory(src/libo1heap)
 ##########################################################################
 add_library(${PROJECT_NAME} STATIC
-  src/util/nodeinfo/NodeInfo.cpp
   src/Node.cpp
 )
 ##########################################################################

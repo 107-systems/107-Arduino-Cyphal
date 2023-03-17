@@ -26,6 +26,7 @@
 #include "ServiceClientBase.hpp"
 #include "ServiceServerBase.hpp"
 #include "CanRxQueueItem.hpp"
+#include "util/nodeinfo/NodeInfoBase.hpp"
 
 #include "libo1heap/o1heap.h"
 #include "libcanard/canard.h"
@@ -89,6 +90,13 @@ public:
   ServiceClient<T_REQ> create_service_client(CanardPortID const port_id,
                                              CanardMicrosecond const tx_timeout_usec,
                                              OnResponseCb&& on_response_cb);
+
+  NodeInfo create_node_info(uint8_t const protocol_major, uint8_t const protocol_minor,
+                            uint8_t const hardware_major, uint8_t const hardware_minor,
+                            uint8_t const software_major, uint8_t const software_minor,
+                            uint64_t const software_vcs_revision_id,
+                            std::array<uint8_t, 16> const & unique_id,
+                            std::string const & name);
 
   /* Must be called from the application to process
    * all received CAN frames.
