@@ -80,9 +80,8 @@ int main(int argc, char ** argv)
 
   /* NODE INFO **************************************************************************/
 
-  NodeInfo node_info
+  const auto node_info = node_hdl.create_node_info
   (
-    node_hdl,
     /* uavcan.node.Version.1.0 protocol_version */
     1, 0,
     /* uavcan.node.Version.1.0 hardware_version */
