@@ -14,6 +14,7 @@
 #include <cstring>
 
 #include "util/nodeinfo/NodeInfo.hpp"
+#include "util/registry/Registry.hpp"
 
 /**************************************************************************************
  * CTOR/DTOR
@@ -42,6 +43,13 @@ Node::Node(uint8_t * heap_ptr,
 /**************************************************************************************
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
+
+#if __GNUC__ >= 11
+Registry Node::create_registry()
+{
+  return std::make_shared<impl::Registry>(*this, _micros_func);
+}
+#endif
 
 NodeInfo Node::create_node_info(uint8_t const protocol_major, uint8_t const protocol_minor,
                           uint8_t const hardware_major, uint8_t const hardware_minor,

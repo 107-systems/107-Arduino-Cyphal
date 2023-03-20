@@ -20,6 +20,13 @@
 #if __GNUC__ >= 11
 
 /**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+namespace impl
+{
+
+/**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
 
@@ -27,21 +34,22 @@ class Registry final : public registry::Registry
 {
 public:
   typedef std::function<uint64_t(void)> MicrosFunc;
-  Registry(Node & node_hdl, MicrosFunc const micros)
-  : _micros{micros}
+
+  Registry(Node &node_hdl, MicrosFunc const micros)
+    : _micros{micros}
   {
     _reg_list_srv = node_hdl.create_service_server<TListRequest, TListResponse>(
       TListRequest::_traits_::FixedPortId,
-      2*1000*1000UL,
-      [this](TListRequest const & req)
+      2 * 1000 * 1000UL,
+      [this](TListRequest const &req)
       {
         return onList_1_0_Request_Received(req);
       });
 
     _reg_access_srv = node_hdl.create_service_server<TAccessRequest, TAccessResponse>(
       TAccessRequest::_traits_::FixedPortId,
-      2*1000*1000UL,
-      [this](TAccessRequest const & req)
+      2 * 1000 * 1000UL,
+      [this](TAccessRequest const &req)
       {
         return onAccess_1_0_Request_Received(req);
       });
@@ -50,11 +58,11 @@ public:
 private:
   MicrosFunc const _micros;
 
-  typedef uavcan::_register::List::Request_1_0  TListRequest;
+  typedef uavcan::_register::List::Request_1_0 TListRequest;
   typedef uavcan::_register::List::Response_1_0 TListResponse;
-  ServiceServer _reg_list_srv;
+  ::ServiceServer _reg_list_srv;
 
-  TListResponse onList_1_0_Request_Received(TListRequest const & req)
+  TListResponse onList_1_0_Request_Received(TListRequest const &req)
   {
     TListResponse rsp{};
 
@@ -67,11 +75,11 @@ private:
     return rsp;
   }
 
-  typedef uavcan::_register::Access::Request_1_0  TAccessRequest;
+  typedef uavcan::_register::Access::Request_1_0 TAccessRequest;
   typedef uavcan::_register::Access::Response_1_0 TAccessResponse;
-  ServiceServer _reg_access_srv;
+  ::ServiceServer _reg_access_srv;
 
-  TAccessResponse onAccess_1_0_Request_Received(TAccessRequest const & req)
+  TAccessResponse onAccess_1_0_Request_Received(TAccessRequest const &req)
   {
     auto const req_name = std::string_view(reinterpret_cast<const char *>(req.name.name.cbegin()));
 
@@ -79,7 +87,7 @@ private:
      * this call will fail with SetError::Mutability.
      */
     if (!req.value.is_empty())
-      (void)set(req_name, req.value);
+      (void) set(req_name, req.value);
 
     /* Return an empty response, if the repository with the desired
      * name can not be found.
@@ -90,14 +98,20 @@ private:
 
     /* Prepare the response for this access request. */
     return TAccessResponse
-    {
-      _micros(),
-      reg_with_metadata.value().flags.mutable_,
-      reg_with_metadata.value().flags.persistent,
-      reg_with_metadata.value().value
-    };
+      {
+        _micros(),
+        reg_with_metadata.value().flags.mutable_,
+        reg_with_metadata.value().flags.persistent,
+        reg_with_metadata.value().value
+      };
   }
 };
+
+/**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+} /* impl */
 
 #endif /* __GNUC__ >= 11 */
 

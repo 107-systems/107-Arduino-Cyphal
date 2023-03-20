@@ -381,4 +381,6 @@ private:
 
 }  // namespace registry
 
+using Registry = std::shared_ptr<registry::Registry>;
+
 #endif /* __GNUC__ >= 11 */
