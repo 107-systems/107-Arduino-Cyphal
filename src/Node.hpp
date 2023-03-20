@@ -27,6 +27,7 @@
 #include "ServiceServerBase.hpp"
 #include "CanRxQueueItem.hpp"
 #include "util/nodeinfo/NodeInfoBase.hpp"
+#include "util/registry/registry_impl.hpp"
 
 #include "libo1heap/o1heap.h"
 #include "libcanard/canard.h"
@@ -90,6 +91,10 @@ public:
   ServiceClient<T_REQ> create_service_client(CanardPortID const port_id,
                                              CanardMicrosecond const tx_timeout_usec,
                                              OnResponseCb&& on_response_cb);
+
+#if __GNUC__ >= 11
+  Registry create_registry();
+#endif
 
   NodeInfo create_node_info(uint8_t const protocol_major, uint8_t const protocol_minor,
                             uint8_t const hardware_major, uint8_t const hardware_minor,

@@ -18,6 +18,5 @@
 #include "Subscription.hpp"
 #include "ServiceClient.hpp"
 #include "ServiceServer.hpp"
-#include "util/registry/Registry.hpp"
 
 #endif /* _107_ARDUINO_CYPHAL_H_ */
