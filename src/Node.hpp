@@ -73,24 +73,26 @@ public:
   inline void setNodeId(CanardNodeID const node_id) { _canard_hdl.node_id = node_id; }
   inline CanardNodeID getNodeId() const { return _canard_hdl.node_id; }
 
+
   template <typename T>
-  Publisher<T> create_publisher(CanardPortID const port_id,
-                                CanardMicrosecond const tx_timeout_usec);
+  Publisher<T> create_publisher(CanardMicrosecond const tx_timeout_usec);
+  template <typename T>
+  Publisher<T> create_publisher(CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec);
 
   template <typename T, typename OnReceiveCb>
-  Subscription create_subscription(CanardPortID const port_id,
-                                   CanardMicrosecond const rx_timeout_usec,
-                                   OnReceiveCb&& on_receive_cb);
+  Subscription create_subscription(CanardMicrosecond const rx_timeout_usec, OnReceiveCb&& on_receive_cb);
+  template <typename T, typename OnReceiveCb>
+  Subscription create_subscription(CanardPortID const port_id, CanardMicrosecond const rx_timeout_usec, OnReceiveCb&& on_receive_cb);
 
   template <typename T_REQ, typename T_RSP, typename OnRequestCb>
-  ServiceServer create_service_server(CanardPortID const port_id,
-                                      CanardMicrosecond const tx_timeout_usec,
-                                      OnRequestCb&& on_request_cb);
+  ServiceServer create_service_server(CanardMicrosecond const tx_timeout_usec, OnRequestCb&& on_request_cb);
+  template <typename T_REQ, typename T_RSP, typename OnRequestCb>
+  ServiceServer create_service_server(CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, OnRequestCb&& on_request_cb);
 
   template <typename T_REQ, typename T_RSP, typename OnResponseCb>
-  ServiceClient<T_REQ> create_service_client(CanardPortID const port_id,
-                                             CanardMicrosecond const tx_timeout_usec,
-                                             OnResponseCb&& on_response_cb);
+  ServiceClient<T_REQ> create_service_client(CanardMicrosecond const tx_timeout_usec, OnResponseCb&& on_response_cb);
+  template <typename T_REQ, typename T_RSP, typename OnResponseCb>
+  ServiceClient<T_REQ> create_service_client(CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, OnResponseCb&& on_response_cb);
 
 #if __GNUC__ >= 11
   Registry create_registry();
