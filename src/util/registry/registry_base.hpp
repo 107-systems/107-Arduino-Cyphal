@@ -1,4 +1,9 @@
-// Copyright (c) 2021  Pavel Kirienko  <pavel@opencyphal.org>
+/**
+ * This software is distributed under the terms of the MIT License.
+ * Copyright (c) 2020-2023 LXRobotics.
+ * Author: Pavel Kirienko <pavel@opencyphal.org>
+ * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
+ */
 
 #pragma once
 
