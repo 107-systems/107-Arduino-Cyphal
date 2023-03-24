@@ -59,7 +59,7 @@ int main(int argc, char ** argv)
   std::mutex node_mtx;
 
   Publisher<uavcan::node::Heartbeat_1_0> heartbeat_pub = node_hdl.create_publisher<uavcan::node::Heartbeat_1_0>
-    (uavcan::node::Heartbeat_1_0::_traits_::FixedPortId, 1*1000*1000UL /* = 1 sec in usecs. */);
+    (1*1000*1000UL /* = 1 sec in usecs. */);
 
   Publisher<CounterMsg> counter_pub = node_hdl.create_publisher<CounterMsg>
     (DEFAULT_COUNTER_PORT_ID, 1*1000*1000UL /* = 1 sec in usecs. */);
