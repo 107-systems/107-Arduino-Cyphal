@@ -77,21 +77,21 @@ ServiceServer Node::create_service_server(CanardMicrosecond const tx_timeout_use
 }
 
 template <typename T_REQ, typename T_RSP, typename OnRequestCb>
-ServiceServer Node::create_service_server(CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, OnRequestCb&& on_request_cb)
+ServiceServer Node::create_service_server(CanardPortID const request_port_id, CanardMicrosecond const tx_timeout_usec, OnRequestCb&& on_request_cb)
 {
   static_assert(T_REQ::_traits_::IsRequest, "T_REQ is not a request");
   static_assert(T_RSP::_traits_::IsResponse, "T_RSP is not a response");
 
   auto srv = std::make_shared<impl::ServiceServer<T_REQ, T_RSP, OnRequestCb>>(
     *this,
-    port_id,
+    request_port_id,
     tx_timeout_usec,
     std::forward<OnRequestCb>(on_request_cb)
     );
 
   int8_t const rc = canardRxSubscribe(&_canard_hdl,
                                       CanardTransferKindRequest,
-                                      port_id,
+                                      request_port_id,
                                       T_REQ::_traits_::ExtentBytes,
                                       CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC,
                                       &(srv->canard_rx_subscription()));
@@ -111,21 +111,21 @@ ServiceClient<T_REQ> Node::create_service_client(CanardMicrosecond const tx_time
 }
 
 template <typename T_REQ, typename T_RSP, typename OnResponseCb>
-ServiceClient<T_REQ> Node::create_service_client(CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, OnResponseCb&& on_response_cb)
+ServiceClient<T_REQ> Node::create_service_client(CanardPortID const response_port_id, CanardMicrosecond const tx_timeout_usec, OnResponseCb&& on_response_cb)
 {
   static_assert(T_REQ::_traits_::IsRequest, "T_REQ is not a request");
   static_assert(T_RSP::_traits_::IsResponse, "T_RSP is not a response");
 
   auto clt = std::make_shared<impl::ServiceClient<T_REQ, T_RSP, OnResponseCb>>(
     *this,
-    port_id,
+    response_port_id,
     tx_timeout_usec,
     std::forward<OnResponseCb>(on_response_cb)
   );
 
   int8_t const rc = canardRxSubscribe(&_canard_hdl,
                                       CanardTransferKindResponse,
-                                      port_id,
+                                      response_port_id,
                                       T_RSP::_traits_::ExtentBytes,
                                       CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC,
                                       &(clt->canard_rx_subscription()));
