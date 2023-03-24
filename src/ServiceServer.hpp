@@ -31,9 +31,9 @@ template<typename T_REQ, typename T_RSP, typename OnRequestCb>
 class ServiceServer final : public ServiceServerBase
 {
 public:
-  ServiceServer(Node & node_hdl, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, OnRequestCb on_request_cb)
+  ServiceServer(Node & node_hdl, CanardPortID const request_port_id, CanardMicrosecond const tx_timeout_usec, OnRequestCb on_request_cb)
   : _node_hdl{node_hdl}
-  , _port_id{port_id}
+  , _request_port_id{request_port_id}
   , _tx_timeout_usec{tx_timeout_usec}
   , _on_request_cb{on_request_cb}
   { }
@@ -45,7 +45,7 @@ public:
 
 private:
   Node & _node_hdl;
-  CanardPortID const _port_id;
+  CanardPortID const _request_port_id;
   CanardMicrosecond const _tx_timeout_usec;
   OnRequestCb _on_request_cb;
 };

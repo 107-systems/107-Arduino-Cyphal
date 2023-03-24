@@ -52,7 +52,6 @@ Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
 Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
 
 ServiceServer execute_command_srv = node_hdl.create_service_server<ExecuteCommand::Request_1_1, ExecuteCommand::Response_1_1>(
-  ExecuteCommand::Request_1_1::_traits_::FixedPortId,
   2*1000*1000UL,
   onExecuteCommand_1_1_Request_Received);
 

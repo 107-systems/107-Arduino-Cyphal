@@ -28,7 +28,7 @@ namespace impl {
 template<typename T_REQ, typename T_RSP, typename OnResponseCb>
 ServiceClient<T_REQ, T_RSP, OnResponseCb>::~ServiceClient()
 {
-  _node_hdl.unsubscribe(_port_id, SubscriptionBase::canard_transfer_kind());
+  _node_hdl.unsubscribe(_response_port_id, SubscriptionBase::canard_transfer_kind());
 }
 
 /**************************************************************************************
@@ -44,7 +44,7 @@ bool ServiceClient<T_REQ, T_RSP, OnResponseCb>::request(CanardNodeID const remot
     {
       .priority       = CanardPriorityNominal,
       .transfer_kind  = CanardTransferKindRequest,
-      .port_id        = _port_id,
+      .port_id        = _response_port_id,
       .remote_node_id = remote_node_id,
       .transfer_id    = _transfer_id++,
     };

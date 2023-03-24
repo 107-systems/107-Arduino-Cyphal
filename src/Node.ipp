@@ -19,8 +19,14 @@
  **************************************************************************************/
 
 template <typename T>
-Publisher<T> Node::create_publisher(CanardPortID const port_id,
-                                    CanardMicrosecond const tx_timeout_usec)
+Publisher<T> Node::create_publisher(CanardMicrosecond const tx_timeout_usec)
+{
+  static_assert(T::_traits_::HasFixedPortID, "T does not have a fixed port id.");
+  return create_publisher<T>(T::_traits_::FixedPortId, tx_timeout_usec);
+}
+
+template <typename T>
+Publisher<T> Node::create_publisher(CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec)
 {
   static_assert(!T::_traits_::IsServiceType, "T is not message type");
 
@@ -32,9 +38,14 @@ Publisher<T> Node::create_publisher(CanardPortID const port_id,
 }
 
 template <typename T, typename OnReceiveCb>
-Subscription Node::create_subscription(CanardPortID const port_id,
-                                       CanardMicrosecond const rx_timeout_usec,
-                                       OnReceiveCb&& on_receive_cb)
+Subscription Node::create_subscription(CanardMicrosecond const rx_timeout_usec, OnReceiveCb&& on_receive_cb)
+{
+  static_assert(T::_traits_::HasFixedPortID, "T does not have a fixed port id.");
+  return create_subscription<T>(T::_traits_::FixedPortId, rx_timeout_usec, on_receive_cb);
+}
+
+template <typename T, typename OnReceiveCb>
+Subscription Node::create_subscription(CanardPortID const port_id, CanardMicrosecond const rx_timeout_usec, OnReceiveCb&& on_receive_cb)
 {
   static_assert(!T::_traits_::IsServiceType, "T is not message type");
 
@@ -57,23 +68,30 @@ Subscription Node::create_subscription(CanardPortID const port_id,
 }
 
 template <typename T_REQ, typename T_RSP, typename OnRequestCb>
-ServiceServer Node::create_service_server(CanardPortID const port_id,
-                                          CanardMicrosecond const tx_timeout_usec,
-                                          OnRequestCb&& on_request_cb)
+ServiceServer Node::create_service_server(CanardMicrosecond const tx_timeout_usec, OnRequestCb&& on_request_cb)
+{
+  static_assert(T_REQ::_traits_::HasFixedPortID, "T_REQ does not have a fixed port id.");
+  static_assert(T_RSP::_traits_::HasFixedPortID, "T_RSP does not have a fixed port id.");
+
+  return create_service_server<T_REQ, T_RSP>(T_REQ::_traits_::FixedPortId, tx_timeout_usec, on_request_cb);
+}
+
+template <typename T_REQ, typename T_RSP, typename OnRequestCb>
+ServiceServer Node::create_service_server(CanardPortID const request_port_id, CanardMicrosecond const tx_timeout_usec, OnRequestCb&& on_request_cb)
 {
   static_assert(T_REQ::_traits_::IsRequest, "T_REQ is not a request");
   static_assert(T_RSP::_traits_::IsResponse, "T_RSP is not a response");
 
   auto srv = std::make_shared<impl::ServiceServer<T_REQ, T_RSP, OnRequestCb>>(
     *this,
-    port_id,
+    request_port_id,
     tx_timeout_usec,
     std::forward<OnRequestCb>(on_request_cb)
     );
 
   int8_t const rc = canardRxSubscribe(&_canard_hdl,
                                       CanardTransferKindRequest,
-                                      port_id,
+                                      request_port_id,
                                       T_REQ::_traits_::ExtentBytes,
                                       CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC,
                                       &(srv->canard_rx_subscription()));
@@ -84,23 +102,30 @@ ServiceServer Node::create_service_server(CanardPortID const port_id,
 }
 
 template <typename T_REQ, typename T_RSP, typename OnResponseCb>
-ServiceClient<T_REQ> Node::create_service_client(CanardPortID const port_id,
-                                                 CanardMicrosecond const tx_timeout_usec,
-                                                 OnResponseCb&& on_response_cb)
+ServiceClient<T_REQ> Node::create_service_client(CanardMicrosecond const tx_timeout_usec, OnResponseCb&& on_response_cb)
+{
+  static_assert(T_REQ::_traits_::HasFixedPortID, "T_REQ does not have a fixed port id.");
+  static_assert(T_RSP::_traits_::HasFixedPortID, "T_RSP does not have a fixed port id.");
+
+  return create_service_client<T_REQ, T_RSP>(T_RSP::_traits_::FixedPortId, tx_timeout_usec, on_response_cb);
+}
+
+template <typename T_REQ, typename T_RSP, typename OnResponseCb>
+ServiceClient<T_REQ> Node::create_service_client(CanardPortID const response_port_id, CanardMicrosecond const tx_timeout_usec, OnResponseCb&& on_response_cb)
 {
   static_assert(T_REQ::_traits_::IsRequest, "T_REQ is not a request");
   static_assert(T_RSP::_traits_::IsResponse, "T_RSP is not a response");
 
   auto clt = std::make_shared<impl::ServiceClient<T_REQ, T_RSP, OnResponseCb>>(
     *this,
-    port_id,
+    response_port_id,
     tx_timeout_usec,
     std::forward<OnResponseCb>(on_response_cb)
   );
 
   int8_t const rc = canardRxSubscribe(&_canard_hdl,
                                       CanardTransferKindResponse,
-                                      port_id,
+                                      response_port_id,
                                       T_RSP::_traits_::ExtentBytes,
                                       CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC,
                                       &(clt->canard_rx_subscription()));

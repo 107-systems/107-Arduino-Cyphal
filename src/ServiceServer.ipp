@@ -26,7 +26,7 @@ namespace impl {
 template<typename T_REQ, typename T_RSP, typename OnRequestCb>
 ServiceServer<T_REQ, T_RSP, OnRequestCb>::~ServiceServer()
 {
-  _node_hdl.unsubscribe(_port_id, SubscriptionBase::canard_transfer_kind());
+  _node_hdl.unsubscribe(_request_port_id, SubscriptionBase::canard_transfer_kind());
 }
 
 /**************************************************************************************
