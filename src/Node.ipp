@@ -38,14 +38,14 @@ Publisher<T> Node::create_publisher(CanardPortID const port_id, CanardMicrosecon
 }
 
 template <typename T, typename OnReceiveCb>
-Subscription Node::create_subscription(CanardMicrosecond const rx_timeout_usec, OnReceiveCb&& on_receive_cb)
+Subscription Node::create_subscription(OnReceiveCb&& on_receive_cb, CanardMicrosecond const tid_timeout_usec)
 {
   static_assert(T::_traits_::HasFixedPortID, "T does not have a fixed port id.");
-  return create_subscription<T>(T::_traits_::FixedPortId, rx_timeout_usec, on_receive_cb);
+  return create_subscription<T>(T::_traits_::FixedPortId, on_receive_cb, tid_timeout_usec);
 }
 
 template <typename T, typename OnReceiveCb>
-Subscription Node::create_subscription(CanardPortID const port_id, CanardMicrosecond const rx_timeout_usec, OnReceiveCb&& on_receive_cb)
+Subscription Node::create_subscription(CanardPortID const port_id, OnReceiveCb&& on_receive_cb, CanardMicrosecond const tid_timeout_usec)
 {
   static_assert(!T::_traits_::IsServiceType, "T is not message type");
 
@@ -59,7 +59,7 @@ Subscription Node::create_subscription(CanardPortID const port_id, CanardMicrose
                                       CanardTransferKindMessage,
                                       port_id,
                                       T::_traits_::ExtentBytes,
-                                      rx_timeout_usec,
+                                      tid_timeout_usec,
                                       &(sub->canard_rx_subscription()));
   if (rc < 0)
     return nullptr;

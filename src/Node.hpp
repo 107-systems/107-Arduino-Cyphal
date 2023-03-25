@@ -80,9 +80,9 @@ public:
   Publisher<T> create_publisher(CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec);
 
   template <typename T, typename OnReceiveCb>
-  Subscription create_subscription(CanardMicrosecond const rx_timeout_usec, OnReceiveCb&& on_receive_cb);
+  Subscription create_subscription(OnReceiveCb&& on_receive_cb, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);
   template <typename T, typename OnReceiveCb>
-  Subscription create_subscription(CanardPortID const port_id, CanardMicrosecond const rx_timeout_usec, OnReceiveCb&& on_receive_cb);
+  Subscription create_subscription(CanardPortID const port_id, OnReceiveCb&& on_receive_cb, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);
 
   template <typename T_REQ, typename T_RSP, typename OnRequestCb>
   ServiceServer create_service_server(CanardMicrosecond const tx_timeout_usec, OnRequestCb&& on_request_cb);
