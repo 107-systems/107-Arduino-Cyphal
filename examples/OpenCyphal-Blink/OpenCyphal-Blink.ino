@@ -65,7 +65,7 @@ Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const 
 Publisher<Heartbeat_1_0> heartbeat_pub = node_hdl.create_publisher<Heartbeat_1_0>
   (1*1000*1000UL /* = 1 sec in usecs. */);
 Subscription bit_subscription = node_hdl.create_subscription<Bit_1_0>
-  (BIT_PORT_ID, CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC, onBit_1_0_Received);
+  (BIT_PORT_ID, onBit_1_0_Received);
 
 /**************************************************************************************
  * SETUP/LOOP
