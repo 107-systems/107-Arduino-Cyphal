@@ -67,6 +67,16 @@ public:
     _list_msg.subscribers.set_sparse_list(sparse_list);
   }
 
+  virtual void add_service_server(CanardPortID const request_port_id) override
+  {
+    _list_msg.servers.mask.set(request_port_id);
+  }
+
+  virtual void add_service_client(CanardPortID const response_port_id) override
+  {
+    _list_msg.clients.mask.set(response_port_id);
+  }
+
 private:
   ::Publisher<uavcan::node::port::List_1_0> _pub;
   Node::MicrosFunc const _micros_func;

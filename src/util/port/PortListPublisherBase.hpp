@@ -34,6 +34,8 @@ public:
   virtual void update() = 0;
   virtual void add_publisher(CanardPortID const port_id) = 0;
   virtual void add_subscriber(CanardPortID const port_id) = 0;
+  virtual void add_service_server(CanardPortID const request_port_id) = 0;
+  virtual void add_service_client(CanardPortID const response_port_id) = 0;
 };
 
 /**************************************************************************************

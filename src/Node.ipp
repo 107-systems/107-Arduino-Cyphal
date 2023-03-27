@@ -88,6 +88,9 @@ ServiceServer Node::create_service_server(CanardPortID const request_port_id, Ca
   static_assert(T_REQ::_traits_::IsRequest, "T_REQ is not a request");
   static_assert(T_RSP::_traits_::IsResponse, "T_RSP is not a response");
 
+  if (_opt_port_list_pub.has_value())
+    _opt_port_list_pub.value()->add_service_server(request_port_id);
+
   auto srv = std::make_shared<impl::ServiceServer<T_REQ, T_RSP, OnRequestCb>>(
     *this,
     request_port_id,
@@ -121,6 +124,9 @@ ServiceClient<T_REQ> Node::create_service_client(CanardPortID const response_por
 {
   static_assert(T_REQ::_traits_::IsRequest, "T_REQ is not a request");
   static_assert(T_RSP::_traits_::IsResponse, "T_RSP is not a response");
+
+  if (_opt_port_list_pub.has_value())
+    _opt_port_list_pub.value()->add_service_client(response_port_id);
 
   auto clt = std::make_shared<impl::ServiceClient<T_REQ, T_RSP, OnResponseCb>>(
     *this,
