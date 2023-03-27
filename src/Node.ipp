@@ -30,6 +30,9 @@ Publisher<T> Node::create_publisher(CanardPortID const port_id, CanardMicrosecon
 {
   static_assert(!T::_traits_::IsServiceType, "T is not message type");
 
+  if (_opt_port_list_pub.has_value())
+    _opt_port_list_pub.value()->add_publisher(port_id);
+
   return std::make_shared<impl::Publisher<T>>(
     *this,
     port_id,
@@ -48,6 +51,9 @@ template <typename T, typename OnReceiveCb>
 Subscription Node::create_subscription(CanardPortID const port_id, OnReceiveCb&& on_receive_cb, CanardMicrosecond const tid_timeout_usec)
 {
   static_assert(!T::_traits_::IsServiceType, "T is not message type");
+
+  if (_opt_port_list_pub.has_value())
+    _opt_port_list_pub.value()->add_subscriber(port_id);
 
   auto sub = std::make_shared<impl::Subscription<T, OnReceiveCb>>(
     *this,

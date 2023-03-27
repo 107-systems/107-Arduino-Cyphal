@@ -1,0 +1,83 @@
+/**
+ * This software is distributed under the terms of the MIT License.
+ * Copyright (c) 2020-2023 LXRobotics.
+ * Author: Alexander Entinger <alexander.entinger@lxrobotics.com>
+ * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
+ */
+
+#ifndef INC_107_ARDUINO_CYPHAL_LIST_HPP
+#define INC_107_ARDUINO_CYPHAL_LIST_HPP
+
+/**************************************************************************************
+ * INCLUDES
+ **************************************************************************************/
+
+#include "PortListPublisherBase.hpp"
+
+#include "../../Node.hpp"
+#include "../../DSDL_Types.h"
+
+/**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+namespace impl
+{
+
+/**************************************************************************************
+ * CLASS DECLARATION
+ **************************************************************************************/
+
+class PortListPublisher final : public PortListPublisherBase
+{
+public:
+  PortListPublisher(Node & node_hdl, Node::MicrosFunc const micros_func)
+  : _pub{node_hdl.create_publisher<uavcan::node::port::List_1_0>(1*1000*1000UL /* = 1 sec in usecs. */)}
+  , _micros_func{micros_func}
+  , _prev_pub{0}
+  , _list_msg{}
+  {
+    _list_msg.publishers.set_sparse_list();
+    _list_msg.subscribers.set_sparse_list();
+  }
+  virtual ~PortListPublisher() { }
+
+  virtual void update() override
+  {
+    static CanardMicrosecond const MAX_PUBLICATION_PERIOD_us = uavcan::node::port::List_1_0::MAX_PUBLICATION_PERIOD * 1000 * 1000UL;
+    auto const now = _micros_func();
+    if ((now - _prev_pub) > MAX_PUBLICATION_PERIOD_us)
+    {
+      _prev_pub = now;
+      _pub->publish(_list_msg);
+    }
+  }
+
+  virtual void add_publisher(CanardPortID const port_id) override
+  {
+    auto sparse_list = _list_msg.publishers.get_sparse_list();
+    sparse_list.push_back(uavcan::node::port::SubjectID_1_0{port_id});
+    _list_msg.publishers.set_sparse_list(sparse_list);
+  }
+
+  virtual void add_subscriber(CanardPortID const port_id) override
+  {
+    auto sparse_list = _list_msg.subscribers.get_sparse_list();
+    sparse_list.push_back(uavcan::node::port::SubjectID_1_0{port_id});
+    _list_msg.subscribers.set_sparse_list(sparse_list);
+  }
+
+private:
+  ::Publisher<uavcan::node::port::List_1_0> _pub;
+  Node::MicrosFunc const _micros_func;
+  CanardMicrosecond _prev_pub;
+  uavcan::node::port::List_1_0 _list_msg;
+};
+
+/**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+} /* impl */
+
+#endif /* INC_107_ARDUINO_CYPHAL_LIST_HPP */
