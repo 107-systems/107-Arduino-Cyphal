@@ -30,7 +30,13 @@ namespace impl
 class PortListPublisherBase
 {
 public:
+  PortListPublisherBase() = default;
   virtual ~PortListPublisherBase() { }
+  PortListPublisherBase(PortListPublisherBase const &) = delete;
+  PortListPublisherBase(PortListPublisherBase &&) = delete;
+  PortListPublisherBase &operator=(PortListPublisherBase const &) = delete;
+  PortListPublisherBase &operator=(PortListPublisherBase &&) = delete;
+
   virtual void update() = 0;
   virtual void add_publisher(CanardPortID const port_id) = 0;
   virtual void add_subscriber(CanardPortID const port_id) = 0;
