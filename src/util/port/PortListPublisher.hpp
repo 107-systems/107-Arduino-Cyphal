@@ -39,6 +39,11 @@ public:
   {
     _list_msg.publishers.set_sparse_list();
     _list_msg.subscribers.set_sparse_list();
+
+    /* This one won't be able automatically, as the object does not exist yet when
+     * this objects publisher is created.
+     */
+    add_publisher(uavcan::node::port::List_1_0::_traits_::FixedPortId);
   }
   virtual ~PortListPublisher() { }
 
