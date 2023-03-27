@@ -15,6 +15,7 @@
 
 #include "util/nodeinfo/NodeInfo.hpp"
 #include "util/registry/Registry.hpp"
+#include "util/port/PortListPublisher.hpp"
 
 /**************************************************************************************
  * CTOR/DTOR
@@ -35,6 +36,7 @@ Node::Node(uint8_t * heap_ptr,
 , _canard_tx_queue{canardTxInit(tx_queue_capacity, mtu_bytes)}
 , _canard_rx_queue{(mtu_bytes == CANARD_MTU_CAN_CLASSIC) ? static_cast<CircularBufferBase *>(new CircularBufferCan(rx_queue_capacity)) : static_cast<CircularBufferBase *>(new CircularBufferCanFd(rx_queue_capacity))}
 , _mtu_bytes{mtu_bytes}
+, _opt_port_list_pub{std::nullopt}
 {
   _canard_hdl.node_id = node_id;
   _canard_hdl.user_reference = static_cast<void *>(_o1heap_ins);
@@ -43,6 +45,12 @@ Node::Node(uint8_t * heap_ptr,
 /**************************************************************************************
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
+
+PortListPublisher Node::create_port_list_publisher()
+{
+  _opt_port_list_pub = std::make_shared<impl::PortListPublisher>(*this, _micros_func);
+  return _opt_port_list_pub.value();
+}
 
 #if __GNUC__ >= 11
 Registry Node::create_registry()
@@ -69,9 +77,17 @@ NodeInfo Node::create_node_info(uint8_t const protocol_major, uint8_t const prot
 
 void Node::spinSome()
 {
+  processPortList();
   processRxQueue();
   processTxQueue();
 }
+
+void Node::processPortList()
+{
+  if (_opt_port_list_pub.has_value())
+    _opt_port_list_pub.value()->update();
+}
+
 
 void Node::onCanFrameReceived(CanardFrame const & frame)
 {

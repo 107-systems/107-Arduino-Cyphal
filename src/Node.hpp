@@ -18,6 +18,7 @@
 #undef min
 #include <array>
 #include <memory>
+#include <optional>
 #include <functional>
 
 #include "PublisherBase.hpp"
@@ -28,6 +29,7 @@
 #include "CanRxQueueItem.hpp"
 #include "util/nodeinfo/NodeInfoBase.hpp"
 #include "util/registry/registry_impl.hpp"
+#include "util/port/PortListPublisherBase.hpp"
 
 #include "libo1heap/o1heap.h"
 #include "libcanard/canard.h"
@@ -72,6 +74,9 @@ public:
 
   inline void setNodeId(CanardNodeID const node_id) { _canard_hdl.node_id = node_id; }
   inline CanardNodeID getNodeId() const { return _canard_hdl.node_id; }
+
+
+  PortListPublisher create_port_list_publisher();
 
 
   template <typename T>
@@ -134,11 +139,14 @@ private:
   std::shared_ptr<CircularBufferBase> _canard_rx_queue;
   size_t const _mtu_bytes;
 
+  std::optional<PortListPublisher> _opt_port_list_pub;
+
   static void * o1heap_allocate(CanardInstance * const ins, size_t const amount);
   static void   o1heap_free    (CanardInstance * const ins, void * const pointer);
 
   void processRxQueue();
   void processTxQueue();
+  void processPortList();
   template<size_t MTU_BYTES>
   void processRxFrame(CanRxQueueItem<MTU_BYTES> const * const rx_queue_item);
 };

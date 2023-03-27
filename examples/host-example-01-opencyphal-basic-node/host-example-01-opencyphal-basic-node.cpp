@@ -58,6 +58,8 @@ int main(int argc, char ** argv)
   Node node_hdl(node_heap.data(), node_heap.size(), micros, [socket_can_fd] (CanardFrame const & frame) { return (socketcanPush(socket_can_fd, &frame, 1000*1000UL) > 0); });
   std::mutex node_mtx;
 
+  PortListPublisher port_list_pub = node_hdl.create_port_list_publisher();
+
   Publisher<uavcan::node::Heartbeat_1_0> heartbeat_pub = node_hdl.create_publisher<uavcan::node::Heartbeat_1_0>
     (1*1000*1000UL /* = 1 sec in usecs. */);
 

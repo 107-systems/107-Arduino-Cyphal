@@ -67,8 +67,8 @@ bool ServiceServer<T_REQ, T_RSP, OnRequestCb>::onTransferReceived(CanardRxTransf
   /* Serialize transfer into a series of CAN frames */
   return _node_hdl.enqueue_transfer(_tx_timeout_usec,
                                     &transfer_metadata,
-                                    rsp_buf_bitspan.size() / 8,
-                                    rsp_buf_bitspan.aligned_ptr());
+                                    *rsp_rc,
+                                    rsp_buf.data());
 }
 
 /**************************************************************************************

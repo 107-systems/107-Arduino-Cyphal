@@ -50,8 +50,8 @@ bool Publisher<T>::publish(T const & msg)
   /* Serialize transfer into a series of CAN frames */
   return _node_hdl.enqueue_transfer(_tx_timeout_usec,
                                     &transfer_metadata,
-                                    msg_buf_bitspan.size() / 8,
-                                    msg_buf_bitspan.aligned_ptr());
+                                    *rc,
+                                    msg_buf.data());
 }
 
 /**************************************************************************************

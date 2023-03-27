@@ -53,14 +53,14 @@ bool ServiceClient<T_REQ, T_RSP, OnResponseCb>::request(CanardNodeID const remot
   /* Serialize message into payload buffer. */
   std::array<uint8_t, T_REQ::_traits_::SerializationBufferSizeBytes> req_buf{};
   nunavut::support::bitspan req_buf_bitspan{req_buf};
-  auto const rc = serialize(req, req_buf_bitspan);
-  if (!rc) return false;
+  auto const req_rc = serialize(req, req_buf_bitspan);
+  if (!req_rc) return false;
 
   /* Serialize transfer into a series of CAN frames. */
   return _node_hdl.enqueue_transfer(_tx_timeout_usec,
                                     &transfer_metadata,
-                                    req_buf_bitspan.size() / 8,
-                                    req_buf_bitspan.aligned_ptr());
+                                    *req_rc,
+                                    req_buf.data());
 }
 
 template<typename T_REQ, typename T_RSP, typename OnResponseCb>
