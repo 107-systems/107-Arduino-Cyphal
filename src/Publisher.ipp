@@ -42,7 +42,7 @@ bool Publisher<T>::publish(T const & msg)
 #pragma GCC diagnostic pop
 
   /* Serialize message into payload buffer. */
-  std::array<uint8_t, T::_traits_::SerializationBufferSizeBytes> msg_buf{};
+  std::array<uint8_t, T::_traits_::SerializationBufferSizeBytes> msg_buf;
   nunavut::support::bitspan msg_buf_bitspan{msg_buf};
   auto const rc = serialize(msg, msg_buf_bitspan);
   if (!rc) return false;

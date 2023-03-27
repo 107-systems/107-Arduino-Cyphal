@@ -46,7 +46,7 @@ bool ServiceServer<T_REQ, T_RSP, OnRequestCb>::onTransferReceived(CanardRxTransf
   T_RSP const rsp = _on_request_cb(req);
 
   /* Serialize the response message. */
-  std::array<uint8_t, T_RSP::_traits_::SerializationBufferSizeBytes> rsp_buf{};
+  std::array<uint8_t, T_RSP::_traits_::SerializationBufferSizeBytes> rsp_buf;
   nunavut::support::bitspan rsp_buf_bitspan{rsp_buf};
   auto const rsp_rc = serialize(rsp, rsp_buf_bitspan);
   if (!rsp_rc) return false;
