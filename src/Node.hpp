@@ -76,9 +76,6 @@ public:
   inline CanardNodeID getNodeId() const { return _canard_hdl.node_id; }
 
 
-  PortListPublisher create_port_list_publisher();
-
-
   template <typename T>
   Publisher<T> create_publisher(CanardMicrosecond const tx_timeout_usec);
   template <typename T>
