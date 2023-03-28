@@ -40,17 +40,13 @@ Node::Node(uint8_t * heap_ptr,
 {
   _canard_hdl.node_id = node_id;
   _canard_hdl.user_reference = static_cast<void *>(_o1heap_ins);
+
+  _opt_port_list_pub = std::make_shared<impl::PortListPublisher>(*this, _micros_func);
 }
 
 /**************************************************************************************
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
-
-PortListPublisher Node::create_port_list_publisher()
-{
-  _opt_port_list_pub = std::make_shared<impl::PortListPublisher>(*this, _micros_func);
-  return _opt_port_list_pub.value();
-}
 
 #if __GNUC__ >= 11
 Registry Node::create_registry()
