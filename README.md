@@ -36,8 +36,6 @@ cmake -DBUILD_EXAMPLES=ON .. && make
 ```
 
 ### Reference-Implementations
-* [OpenCyphal-GNSS-Node](examples/OpenCyphal-GNSS-Node): A Cyphal node with a GNSS sensor providing location data.
-* [OpenCyphal-ToF-Distance-Sensor-Node](examples/OpenCyphal-ToF-Distance-Sensor-Node): A Cyphal node providing distance data measured with a TMF8801 ToF distance sensor.
 * [OpenCyphalPicoBase-firmware](https://github.com/107-systems/OpenCyphalPicoBase-firmware): Firmware for the [OpenCyphalPicoBase](https://github.com/generationmake/OpenCyphalPicoBase) board.
 * [l3xz-aux-ctrl-firmware](https://github.com/107-systems/l3xz-aux-ctrl-firmware): Firmware for the [L3X-Z](https://github.com/107-systems/l3xz) auxiliary controller ([OpenCyphalPicoBase](https://github.com/generationmake/OpenCyphalPicoBase)).
 * [l3xz-leg-ctrl-firmware](https://github.com/107-systems/l3xz-leg-ctrl-firmware): Firmware for the [L3X-Z](https://github.com/107-systems/l3xz) leg controller ([l3xz-leg-ctrl-hardware](https://github.com/107-systems/l3xz-leg-ctrl-hardware)).

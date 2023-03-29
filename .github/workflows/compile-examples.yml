@@ -22,12 +22,7 @@ jobs:
         # Install the library from the local path.
         - source-path: ./
         - name: 107-Arduino-Debug
-        - name: 107-Arduino-Sensor
         - name: 107-Arduino-MCP2515
-        - name: 107-Arduino-TMF8801
-        - name: Arduino_EdgeControl
-        - name: 107-Arduino-BoostUnits
-        - name: 107-Arduino-NMEA-Parser
         - name: 107-Arduino-UniqueId
         - name: 107-Arduino-CriticalSection
 
@@ -60,8 +55,6 @@ jobs:
             - examples/OpenCyphal-Heartbeat-Subscriber
             - examples/OpenCyphal-Service-Client
             - examples/OpenCyphal-Service-Server
-            - examples/OpenCyphal-GNSS-Node
-            - examples/OpenCyphal-ToF-Distance-Sensor-Node
 
       - name: Save memory usage change report as artifact
         if: github.event_name == 'pull_request'
