@@ -243,8 +243,7 @@ public:
     /// the callables are moved to the heap.
     ///
     /// The name object is moved to the heap as well; if this is an std::string_view or some other reference,
-    /// then it has to outlive the register. If this cannot be ensured, use some type that owns the string;
-    /// e.g., dyshlo::sitl::String.
+    /// then it has to outlive the register. If this cannot be ensured, use some type that owns the string.
     /// The name shall be convertible to std::string_view.
     ///
     /// The getter should simply return anything that can be converted to Value. It can be a primitive type as well.
