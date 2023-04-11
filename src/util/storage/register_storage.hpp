@@ -7,6 +7,8 @@
 
 #pragma once
 
+#if __GNUC__ >= 11
+
 #include "IKeyValue.hpp"
 
 #include <functional>
@@ -132,3 +134,5 @@ template <typename ResetPredicate>
 }
 
 } /* namespace cyphal::support */
+
+#endif /* __GNUC__ >= 11 */

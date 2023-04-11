@@ -7,6 +7,8 @@
 
 #pragma once
 
+#if __GNUC__ >= 11
+
 #include <string_view>
 #include <optional>
 #include <variant>
@@ -52,3 +54,5 @@ public:
 };
 
 } /* cyphal::support::platform::storage */
+
+#endif /* __GNUC__ >= 11 */
