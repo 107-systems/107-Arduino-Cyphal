@@ -9,7 +9,7 @@
 
 #if __GNUC__ >= 11
 
-#include "IKeyValue.hpp"
+#include "KeyValueStorageBase.hpp"
 
 #include <functional>
 
@@ -23,7 +23,7 @@ namespace cyphal::support
 /// Stored registers that are not present in the registry will not be loaded.
 /// The serialization format is simply the Cyphal DSDL.
 /// In case of error, only part of the registers may be loaded and the registry will be left in an inconsistent state.
-[[nodiscard]] inline std::optional<platform::storage::Error> load(const platform::storage::IKeyValue& kv,
+[[nodiscard]] inline std::optional<platform::storage::Error> load(const platform::storage::KeyValueStorageBase& kv,
                                                                   registry::IIntrospectableRegistry&  rgy)
 {
     for (std::size_t index = 0; index < rgy.size(); index++)
@@ -82,7 +82,7 @@ namespace cyphal::support
 /// The removal predicate, if provided, allows the caller to specify which registers need to be removed from the
 /// storage instead of being saved. This is useful for implementing the "factory reset" feature.
 template <typename ResetPredicate>
-[[nodiscard]] std::optional<platform::storage::Error> save(platform::storage::IKeyValue&            kv,
+[[nodiscard]] std::optional<platform::storage::Error> save(platform::storage::KeyValueStorageBase&            kv,
                                                            const registry::IIntrospectableRegistry& rgy,
                                                            ResetPredicate const reset_predicate)
 {
@@ -127,7 +127,7 @@ template <typename ResetPredicate>
     }
     return std::nullopt;
 }
-[[nodiscard]] inline std::optional<platform::storage::Error> save(platform::storage::IKeyValue&            kv,
+[[nodiscard]] inline std::optional<platform::storage::Error> save(platform::storage::KeyValueStorageBase&            kv,
                                                                   const registry::IIntrospectableRegistry& rgy)
 {
     return save(kv, rgy, [](std::string_view) { return false; });

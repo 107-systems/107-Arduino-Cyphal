@@ -30,15 +30,15 @@ enum class Error : std::uint8_t
 /// validate data integrity per key (e.g., using CRC and such).
 /// This interface is fully blocking and should only be used during initialization and shutdown,
 /// never during normal operation. Non-blocking adapters can be built on top of it.
-class IKeyValue
+class KeyValueStorageBase
 {
 public:
-    IKeyValue()                                    = default;
-    IKeyValue(const IKeyValue&)                    = delete;
-    IKeyValue(IKeyValue&&)                         = delete;
-    auto operator=(const IKeyValue&) -> IKeyValue& = delete;
-    auto operator=(IKeyValue&&) -> IKeyValue&      = delete;
-    virtual ~IKeyValue()                           = default;
+    KeyValueStorageBase()                                              = default;
+    KeyValueStorageBase(const KeyValueStorageBase&)                    = delete;
+    KeyValueStorageBase(KeyValueStorageBase&&)                         = delete;
+    auto operator=(const KeyValueStorageBase&) -> KeyValueStorageBase& = delete;
+    auto operator=(KeyValueStorageBase&&) -> KeyValueStorageBase&      = delete;
+    virtual ~KeyValueStorageBase()                                     = default;
 
     /// The return value is the number of bytes read into the buffer or the error.
     [[nodiscard]] virtual auto get(const std::string_view key, const std::size_t size, void* const data) const
