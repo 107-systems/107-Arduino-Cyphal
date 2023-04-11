@@ -30,7 +30,7 @@ namespace cyphal::support
     {
         // Find the next register in the registry.
         const auto reg_name_storage = rgy.index(index);  // This is a little suboptimal but we don't care.
-        const auto reg_name = std::string_view(reinterpret_cast<const char *>(reg_name_storage.name.cbegin()));
+        const auto reg_name = std::string_view(reinterpret_cast<const char *>(reg_name_storage.name.cbegin()), reg_name_storage.name.size());
         if (reg_name.empty())
         {
             break;  // No more registers to load.
@@ -89,7 +89,7 @@ template <typename ResetPredicate>
     for (std::size_t index = 0; index < rgy.size(); index++)
     {
         const auto reg_name_storage = rgy.index(index);  // This is a little suboptimal but we don't care.
-        const auto reg_name = std::string_view(reinterpret_cast<const char *>(reg_name_storage.name.cbegin()));
+        const auto reg_name = std::string_view(reinterpret_cast<const char *>(reg_name_storage.name.cbegin()), reg_name_storage.name.size());
         if (reg_name.empty())
         {
             break;  // No more registers to load.
