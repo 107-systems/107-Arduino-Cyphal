@@ -81,7 +81,7 @@ private:
 
   TAccessResponse onAccess_1_0_Request_Received(TAccessRequest const &req)
   {
-    auto const req_name = std::string_view(reinterpret_cast<const char *>(req.name.name.cbegin()));
+    auto const req_name = std::string_view(reinterpret_cast<const char *>(req.name.name.cbegin()), req.name.name.size());
 
     /* Try to set the registers value. Note, if this is a RO register
      * this call will fail with SetError::Mutability.

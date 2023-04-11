@@ -37,7 +37,7 @@ template<typename T_REQ, typename T_RSP, typename OnRequestCb>
 bool ServiceServer<T_REQ, T_RSP, OnRequestCb>::onTransferReceived(CanardRxTransfer const & transfer)
 {
   /* Deserialize the request message. */
-  T_REQ req{};
+  T_REQ req;
   nunavut::support::const_bitspan req_buf_bitspan(static_cast<uint8_t *>(transfer.payload), transfer.payload_size);
   auto const req_rc = deserialize(req, req_buf_bitspan);
   if (!req_rc) return false;

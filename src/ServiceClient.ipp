@@ -67,7 +67,7 @@ template<typename T_REQ, typename T_RSP, typename OnResponseCb>
 bool ServiceClient<T_REQ, T_RSP, OnResponseCb>::onTransferReceived(CanardRxTransfer const & transfer)
 {
   /* Deserialize the response message. */
-  T_RSP rsp{};
+  T_RSP rsp;
   nunavut::support::const_bitspan rsp_bitspan(static_cast<uint8_t *>(transfer.payload), transfer.payload_size);
   auto const rc = deserialize(rsp, rsp_bitspan);
   if (!rc) return false;
