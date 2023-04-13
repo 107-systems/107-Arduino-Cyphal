@@ -27,7 +27,7 @@
 #include <cstdint>
 #include <type_traits>
 
-#if __GNUC__ >= 11
+#if !defined(__GNUC__) || (__GNUC__ >= 11)
 
 /// If CAVL is used in throughput-critical code, then it is recommended to disable assertion checks as they may
 /// be costly in terms of execution time.
@@ -633,4 +633,4 @@ private:
 
 }  // namespace cavl
 
-#endif /* __GNUC__ >= 11 */
+#endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */

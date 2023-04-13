@@ -11,7 +11,7 @@
 #include "cavl.hpp"  // Copy from https://github.com/pavel-kirienko/cavl/blob/main/c%2B%2B/cavl.hpp
 #include <memory>
 
-#if __GNUC__ >= 11
+#if !defined(__GNUC__) || (__GNUC__ >= 11)
 
 namespace registry
 {
@@ -387,4 +387,4 @@ private:
 
 using Registry = std::shared_ptr<registry::Registry>;
 
-#endif /* __GNUC__ >= 11 */
+#endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */

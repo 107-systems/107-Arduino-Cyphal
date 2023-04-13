@@ -9,7 +9,7 @@
 
 #include "registry_value.hpp"
 
-#if __GNUC__ >= 11
+#if !defined(__GNUC__) || (__GNUC__ >= 11)
 
 namespace registry
 {
@@ -78,4 +78,4 @@ public:
 
 }  // namespace registry
 
-#endif /* __GNUC__ >= 11 */
+#endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */
