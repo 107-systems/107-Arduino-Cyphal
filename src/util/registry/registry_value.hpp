@@ -18,7 +18,7 @@
 
 #include "../../DSDL_Types.h"
 
-#if __GNUC__ >= 11
+#if !defined(__GNUC__) || (__GNUC__ >= 11)
 
 namespace registry
 {
@@ -275,4 +275,4 @@ Value makeValue(const Ts&... src)
 
 }  // namespace registry
 
-#endif /* __GNUC__ >= 11 */
+#endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */

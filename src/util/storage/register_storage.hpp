@@ -7,7 +7,7 @@
 
 #pragma once
 
-#if __GNUC__ >= 11
+#if !defined(__GNUC__) || (__GNUC__ >= 11)
 
 #include "KeyValueStorage.hpp"
 
@@ -135,4 +135,4 @@ template <typename ResetPredicate>
 
 } /* namespace cyphal::support */
 
-#endif /* __GNUC__ >= 11 */
+#endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */

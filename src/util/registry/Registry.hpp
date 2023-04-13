@@ -17,7 +17,7 @@
 
 #include "registry_impl.hpp"
 
-#if __GNUC__ >= 11
+#if !defined(__GNUC__) || (__GNUC__ >= 11)
 
 /**************************************************************************************
  * NAMESPACE
@@ -113,6 +113,6 @@ private:
 
 } /* impl */
 
-#endif /* __GNUC__ >= 11 */
+#endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */
 
 #endif /* REGISTER_LIST_H_ */
