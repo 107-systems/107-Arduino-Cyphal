@@ -26,8 +26,8 @@
  * CONSTANT
  **************************************************************************************/
 
-static CanardPortID const DEFAULT_COUNTER_PORT_ID = 1001U;
-static uint16_t const DEFAULT_COUNTER_UPDATE_PERIOD_ms = 5*1000UL;
+static uint16_t const COUNTER_UPDATE_PERIOD_ms = 5*1000UL;
+static uint16_t const HEARTBEAT_UPDATE_PERIOD_ms = 1000UL;
 
 /**************************************************************************************
  * TYPEDEF
@@ -58,17 +58,14 @@ int main(int argc, char ** argv)
   cyphal::Node node_hdl(node_heap.data(), node_heap.size(), micros, [socket_can_fd] (CanardFrame const & frame) { return (socketcanPush(socket_can_fd, &frame, 1000*1000UL) > 0); });
   std::mutex node_mtx;
 
-  cyphal::Publisher<uavcan::node::Heartbeat_1_0> heartbeat_pub = node_hdl.create_publisher<uavcan::node::Heartbeat_1_0>
-    (1*1000*1000UL /* = 1 sec in usecs. */);
+  cyphal::Publisher<uavcan::node::Heartbeat_1_0> heartbeat_pub = node_hdl.create_publisher<uavcan::node::Heartbeat_1_0>(1*1000*1000UL /* = 1 sec in usecs. */);
 
-  cyphal::Publisher<CounterMsg> counter_pub = node_hdl.create_publisher<CounterMsg>
-    (DEFAULT_COUNTER_PORT_ID, 1*1000*1000UL /* = 1 sec in usecs. */);
+  cyphal::Publisher<CounterMsg> counter_pub;
 
   /* REGISTER ***************************************************************************/
 
   CanardNodeID node_id = node_hdl.getNodeId();
-  CanardPortID counter_port_id = DEFAULT_COUNTER_PORT_ID;
-  uint16_t counter_update_period_ms = DEFAULT_COUNTER_UPDATE_PERIOD_ms;
+  CanardPortID counter_port_id = std::numeric_limits<CanardPortID>::max();
 
   const auto node_registry = node_hdl.create_registry();
 
@@ -76,7 +73,15 @@ int main(int argc, char ** argv)
   const auto reg_ro_pub_counter_type             = node_registry->route ("cyphal.pub.counter.type", {true}, []() { return "uavcan.primitive.scalar.Integer8.1.0"; });
   const auto reg_rw_node_id                      = node_registry->expose("cyphal.node.id", {}, node_id);
   const auto reg_rw_pub_counter_id               = node_registry->expose("cyphal.pub.counter.id", {}, counter_port_id);
-  const auto reg_rw_pub_counter_update_period_ms = node_registry->expose("cyphal.pub.counter.update_period_ms", {}, counter_update_period_ms);
+
+  /* Update node configuration from register value.
+   */
+  node_hdl.setNodeId(node_id);
+  if (counter_port_id !=  std::numeric_limits<CanardPortID>::max())
+    counter_pub = node_hdl.create_publisher<CounterMsg>(counter_port_id, 1*1000*1000UL /* = 1 sec in usecs. */);
+
+  std::cout << "Node #" << static_cast<int>(node_id) << std::endl
+            << "\tCounter Port ID: " << counter_port_id << std::endl;
 
   /* NODE INFO **************************************************************************/
   const auto node_info = node_hdl.create_node_info
@@ -131,9 +136,6 @@ int main(int argc, char ** argv)
 
   for (;;)
   {
-    /* Update node configuration from register values. */
-    node_hdl.setNodeId(node_id);
-
     {
       std::lock_guard<std::mutex> lock(node_mtx);
       node_hdl.spinSome();
@@ -141,7 +143,7 @@ int main(int argc, char ** argv)
 
     auto const now = millis();
 
-    if ((now - prev_heartbeat) > 1000UL)
+    if ((now - prev_heartbeat) > HEARTBEAT_UPDATE_PERIOD_ms)
     {
       prev_heartbeat = now;
 
@@ -155,10 +157,13 @@ int main(int argc, char ** argv)
       heartbeat_pub->publish(msg);
     }
 
-    if ((now - prev_counter) > counter_update_period_ms)
+    if ((now - prev_counter) > COUNTER_UPDATE_PERIOD_ms)
     {
       prev_counter = now;
-      counter_pub->publish(counter_msg);
+
+      if (counter_pub)
+        counter_pub->publish(counter_msg);
+
       counter_msg.value++;
     }
 
