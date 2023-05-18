@@ -14,7 +14,7 @@
 
 #include "PortListPublisherBase.hpp"
 
-#include "../../Node.hpp"
+#include "../../NodeBase.hpp"
 #include "../../DSDL_Types.h"
 
 /**************************************************************************************
@@ -31,7 +31,7 @@ namespace impl
 class PortListPublisher final : public PortListPublisherBase
 {
 public:
-  PortListPublisher(Node & node_hdl, Node::MicrosFunc const micros_func)
+  PortListPublisher(NodeBase & node_hdl, NodeBase::MicrosFunc const micros_func)
   : _pub{node_hdl.create_publisher<uavcan::node::port::List_1_0>(1*1000*1000UL /* = 1 sec in usecs. */)}
   , _micros_func{micros_func}
   , _prev_pub{0}
@@ -84,7 +84,7 @@ public:
 
 private:
   ::Publisher<uavcan::node::port::List_1_0> _pub;
-  Node::MicrosFunc const _micros_func;
+  NodeBase::MicrosFunc const _micros_func;
   CanardMicrosecond _prev_pub;
   uavcan::node::port::List_1_0 _list_msg;
 };

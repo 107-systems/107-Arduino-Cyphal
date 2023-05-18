@@ -12,7 +12,7 @@
  * INCLUDES
  **************************************************************************************/
 
-#include "../../Node.hpp"
+#include "../../NodeBase.hpp"
 #include "../../DSDL_Types.h"
 
 #include "registry_impl.hpp"
@@ -35,7 +35,7 @@ class Registry final : public registry::Registry
 public:
   typedef std::function<uint64_t(void)> MicrosFunc;
 
-  Registry(Node &node_hdl, MicrosFunc const micros)
+  Registry(NodeBase &node_hdl, MicrosFunc const micros)
     : _micros{micros}
   {
     _reg_list_srv = node_hdl.create_service_server<TListRequest, TListResponse>(

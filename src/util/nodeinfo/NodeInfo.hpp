@@ -16,7 +16,7 @@
 
 #include <string>
 
-#include "../../Node.hpp"
+#include "../../NodeBase.hpp"
 
 /**************************************************************************************
  * NAMESPACE
@@ -32,7 +32,7 @@ namespace impl
 class NodeInfo : public NodeInfoBase
 {
 public:
-  NodeInfo(Node & node_hdl,
+  NodeInfo(NodeBase & node_hdl,
            uint8_t const protocol_major,
            uint8_t const protocol_minor,
            uint8_t const hardware_major,

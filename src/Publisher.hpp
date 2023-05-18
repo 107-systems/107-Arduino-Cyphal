@@ -14,7 +14,7 @@
 
 #include "PublisherBase.hpp"
 
-#include "Node.hpp"
+#include "NodeBase.hpp"
 
 /**************************************************************************************
  * NAMESPACE
@@ -31,7 +31,7 @@ template <typename T>
 class Publisher final : public PublisherBase<T>
 {
 public:
-  Publisher(Node & node_hdl, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec)
+  Publisher(NodeBase & node_hdl, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec)
   : _node_hdl{node_hdl}
   , _port_id{port_id}
   , _tx_timeout_usec{tx_timeout_usec}
@@ -42,7 +42,7 @@ public:
   bool publish(T const & msg) override;
 
 private:
-  Node & _node_hdl;
+  NodeBase & _node_hdl;
   CanardPortID const _port_id;
   CanardMicrosecond const _tx_timeout_usec;
   CanardTransferID _transfer_id;
