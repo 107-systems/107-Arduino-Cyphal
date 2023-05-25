@@ -49,7 +49,7 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
                        nullptr);
 
 Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); }, 28);
 
 ServiceClient<ExecuteCommand::Request_1_1> srv_client = node_hdl.create_service_client<ExecuteCommand::Request_1_1, ExecuteCommand::Response_1_1>(
   2*1000*1000UL,
@@ -63,6 +63,8 @@ void setup()
 {
   Serial.begin(9600);
   while(!Serial) { }
+  delay(1000);
+  Serial.println("|---- OpenCyphal Service Client Example ----|");
 
   /* Setup SPI access */
   SPI.begin();
@@ -78,17 +80,7 @@ void setup()
   mcp2515.setBitRate(CanBitRate::BR_250kBPS_16MHZ);
   mcp2515.setNormalMode();
 
-  /* Request some coffee. */
-  std::string const cmd_param("I want a double espresso with cream!");
-  ExecuteCommand::Request_1_1 req;
-  req.command = 0xCAFE;
-  std::copy_n(cmd_param.begin(),
-              std::min(cmd_param.length(), req.parameter.capacity()),
-              req.parameter.begin());
-
-
-  if (!srv_client->request(27 /* remote node id */, req))
-    Serial.println("Coffee request failed.");
+  Serial.println("setup finished");
 }
 
 void loop()
@@ -98,6 +90,26 @@ void loop()
   {
     CriticalSection crit_sec;
     node_hdl.spinSome();
+  }
+
+  /* Publish the request once/second */
+  static unsigned long prev = 0;
+  unsigned long const now = millis();
+  if(now - prev > 1000)
+  {
+    prev = now;
+
+    /* Request some coffee. */
+    Serial.println("Requesting some coffee");
+    std::string const cmd_param("I want a double espresso with cream!");
+    ExecuteCommand::Request_1_1 req;
+    req.command = 0xCAFE;
+    std::copy(cmd_param.begin(), cmd_param.end(), std::back_inserter(req.parameter));
+
+
+    if (!srv_client->request(27 /* remote node id */, req)) {
+      Serial.println("Coffee request failed.");
+    }
   }
 }
 
