@@ -26,13 +26,9 @@ using namespace uavcan::node;
  * CONSTANTS
  **************************************************************************************/
 
-static int const MKRCAN_MCP2515_CS_PIN  = 21;
-static int const MKRCAN_MCP2515_INT_PIN = 22;
-#define SPI_ROBOT_INT 22
-#define SPI_ROBOT_CS 21
-#define SPI_ROBOT_MISO 16
-#define SPI_ROBOT_MOSI 19
-#define SPI_ROBOT_SCK 18
+static int const MKRCAN_MCP2515_CS_PIN  = 3;
+static int const MKRCAN_MCP2515_INT_PIN = 7;
+
 /**************************************************************************************
  * FUNCTION DECLARATION
  **************************************************************************************/
@@ -52,7 +48,7 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
                        nullptr);
 
 Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); }, 22);
+Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
 
 Subscription heartbeat_subscription = node_hdl.create_subscription<Heartbeat_1_0>(onHeartbeat_1_0_Received);
 /**************************************************************************************
@@ -67,21 +63,17 @@ void setup()
   Serial.println("|---- OpenCyphal Heartbeat Subscription With Metadata  Example ----|");
 
   /* Setup SPI access */
-  SPI.setRX(SPI_ROBOT_MISO);
-  SPI.setTX(SPI_ROBOT_MOSI);
-  SPI.setSCK(SPI_ROBOT_SCK);
-  SPI.setCS(SPI_ROBOT_CS);
   SPI.begin();
   pinMode(MKRCAN_MCP2515_CS_PIN, OUTPUT);
   digitalWrite(MKRCAN_MCP2515_CS_PIN, HIGH);
 
   /* Attach interrupt handler to register MCP2515 signaled by taking INT low */
   pinMode(MKRCAN_MCP2515_INT_PIN, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(MKRCAN_MCP2515_INT_PIN), []() { mcp2515.onExternalEventHandler(); }, FALLING);
+  attachInterrupt(digitalPinToInterrupt(MKRCAN_MCP2515_INT_PIN), []() { mcp2515.onExternalEventHandler(); }, LOW);
 
   /* Initialize MCP2515 */
   mcp2515.begin();
-  mcp2515.setBitRate(CanBitRate::BR_1000kBPS_16MHZ);
+  mcp2515.setBitRate(CanBitRate::BR_250kBPS_16MHZ);
   mcp2515.setNormalMode();
 
   Serial.println("setup finished");
