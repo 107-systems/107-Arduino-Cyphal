@@ -39,7 +39,6 @@ namespace impl
  **************************************************************************************/
 
 template <typename T>
-
 class Subscription final : public SubscriptionBase
 {
 
