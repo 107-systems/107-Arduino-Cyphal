@@ -58,7 +58,7 @@ public:
   , _port_id{port_id}
   , _on_receive_cb_ext{on_receive_cb_ext}
   {
-    output_meta = true;
+    return_metadata = true;
    }
   virtual ~Subscription();
 
@@ -71,7 +71,9 @@ private:
   CanardPortID const _port_id;
   OnReceiveCallback_Default _on_receive_cb;
   OnReceiveCallback_Ext _on_receive_cb_ext;
-  bool output_meta = false;
+  bool return_metadata = false;
+
+  TransferMetadata fillMetadata(CanardRxTransfer const & transfer);
 };
 
 /**************************************************************************************

@@ -41,10 +41,8 @@ bool Subscription<T>::onTransferReceived(CanardRxTransfer const & transfer)
   auto const rc = deserialize(msg, msg_bitspan);
   if (!rc) return false;
 
-  if(output_meta) {
-    TransferMetadata meta_data;
-    meta_data.node_id = static_cast<uint16_t>(transfer.metadata.remote_node_id);
-    _on_receive_cb_ext(msg, meta_data);
+  if(return_metadata) {
+    _on_receive_cb_ext(msg, fillMetadata(transfer));
   } else {
     _on_receive_cb(msg);
   }
@@ -53,6 +51,14 @@ bool Subscription<T>::onTransferReceived(CanardRxTransfer const & transfer)
   return true;
 }
 
+template<typename T>
+TransferMetadata Subscription<T>::fillMetadata(CanardRxTransfer const & transfer)
+{
+  TransferMetadata transfer_metadata;
+  transfer_metadata.node_id = static_cast<uint16_t>(transfer.metadata.remote_node_id);
+
+  return transfer_metadata;
+}
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
