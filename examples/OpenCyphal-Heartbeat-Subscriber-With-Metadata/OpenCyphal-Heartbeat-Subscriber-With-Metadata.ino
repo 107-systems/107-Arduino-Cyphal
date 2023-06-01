@@ -64,7 +64,7 @@ void setup()
   Serial.begin(9600);
   while(!Serial) { }
   delay(1000);
-  Serial.println("|---- OpenCyphal Heartbeat Subscription Example ----|");
+  Serial.println("|---- OpenCyphal Heartbeat Subscription With Metadata  Example ----|");
 
   /* Setup SPI access */
   SPI.setRX(SPI_ROBOT_MISO);
