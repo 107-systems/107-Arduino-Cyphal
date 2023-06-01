@@ -30,6 +30,7 @@
 #include "util/nodeinfo/NodeInfoBase.hpp"
 #include "util/registry/registry_impl.hpp"
 #include "util/port/PortListPublisherBase.hpp"
+#include "util/transfer_metadata.hpp"
 
 #include "libo1heap/o1heap.h"
 #include "libcanard/canard.h"
@@ -37,11 +38,6 @@
 /**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
-struct TransferMetadata final
-{
-    CanardNodeID node_id;
-    // More stuff may appear here in the future!
-};
 
 class Node
 {
