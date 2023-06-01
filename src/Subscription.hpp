@@ -16,6 +16,7 @@
 
 #include "Node.hpp"
 
+
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/
@@ -23,20 +24,42 @@
 namespace impl
 {
 
+// #if LIBCANARD
+// #define CanardNodeID CyphalNodeID;
+// #elif LIBUDPARD
+// #define UdpardNodeID CyphalNodeID;
+// #else
+// # error "We only support CAN or UDP as Cyphal transport layer"
+// #endif
+
+
 /**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
 
-template <typename T, typename OnReceiveCb>
+template <typename T>
+
 class Subscription final : public SubscriptionBase
 {
+
 public:
-  Subscription(Node & node_hdl, CanardPortID const port_id, OnReceiveCb const & on_receive_cb)
+  using OnReceiveCallback_Default= std::function<void(T const &)>;
+  using OnReceiveCallback_Ext = std::function<void(T const &, TransferMetadata const &)>;
+  Subscription(Node & node_hdl, CanardPortID const port_id, OnReceiveCallback_Default const & on_receive_cb)
   : SubscriptionBase{CanardTransferKindMessage}
   , _node_hdl{node_hdl}
   , _port_id{port_id}
   , _on_receive_cb{on_receive_cb}
   { }
+
+  Subscription(Node & node_hdl, CanardPortID const port_id, OnReceiveCallback_Ext const & on_receive_cb_ext)
+  : SubscriptionBase{CanardTransferKindMessage}
+  , _node_hdl{node_hdl}
+  , _port_id{port_id}
+  , _on_receive_cb_ext{on_receive_cb_ext}
+  {
+    output_meta = true;
+   }
   virtual ~Subscription();
 
 
@@ -46,7 +69,9 @@ public:
 private:
   Node & _node_hdl;
   CanardPortID const _port_id;
-  OnReceiveCb _on_receive_cb;
+  OnReceiveCallback_Default _on_receive_cb;
+  OnReceiveCallback_Ext _on_receive_cb_ext;
+  bool output_meta = false;
 };
 
 /**************************************************************************************

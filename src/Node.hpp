@@ -37,6 +37,11 @@
 /**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
+struct TransferMetadata final
+{
+    CanardNodeID node_id;
+    // More stuff may appear here in the future!
+};
 
 class Node
 {
@@ -81,10 +86,15 @@ public:
   template <typename T>
   Publisher<T> create_publisher(CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec);
 
-  template <typename T, typename OnReceiveCb>
-  Subscription create_subscription(OnReceiveCb&& on_receive_cb, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);
-  template <typename T, typename OnReceiveCb>
-  Subscription create_subscription(CanardPortID const port_id, OnReceiveCb&& on_receive_cb, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);
+  template <typename T>
+  Subscription create_subscription(std::function<void(T const &)>&& on_receive_cb, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);
+  template <typename T>
+  Subscription create_subscription(CanardPortID const port_id, std::function<void(T const &)>&& on_receive_cb, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);
+
+  template <typename T>
+  Subscription create_subscription(std::function<void(T const &, TransferMetadata const &)>&& on_receive_cb, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);
+  template <typename T>
+  Subscription create_subscription(CanardPortID const port_id, std::function<void(T const &, TransferMetadata const &)>&& on_receive_cb, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);
 
   template <typename T_REQ, typename T_RSP, typename OnRequestCb>
   ServiceServer create_service_server(CanardMicrosecond const tx_timeout_usec, OnRequestCb&& on_request_cb, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);

@@ -26,15 +26,20 @@ using namespace uavcan::node;
  * CONSTANTS
  **************************************************************************************/
 
-static int const MKRCAN_MCP2515_CS_PIN  = 3;
-static int const MKRCAN_MCP2515_INT_PIN = 7;
-
+static int const MKRCAN_MCP2515_CS_PIN  = 21;
+static int const MKRCAN_MCP2515_INT_PIN = 22;
+#define SPI_ROBOT_INT 22
+#define SPI_ROBOT_CS 21
+#define SPI_ROBOT_MISO 16
+#define SPI_ROBOT_MOSI 19
+#define SPI_ROBOT_SCK 18
 /**************************************************************************************
  * FUNCTION DECLARATION
  **************************************************************************************/
 
 void onReceiveBufferFull    (CanardFrame const &);
 void onHeartbeat_1_0_Received(Heartbeat_1_0 const & msg);
+void onHeartbeat_1_0_Received_meta(Heartbeat_1_0 const & msg, TransferMetadata const & metadata);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -48,10 +53,10 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
                        nullptr);
 
 Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
+Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); }, 22);
 
-Subscription heartbeat_subscription = node_hdl.create_subscription<Heartbeat_1_0>(onHeartbeat_1_0_Received);
-
+// Subscription heartbeat_subscription = node_hdl.create_subscription<Heartbeat_1_0>(onHeartbeat_1_0_Received);
+Subscription heartbeat_subscription = node_hdl.create_subscription<Heartbeat_1_0>(onHeartbeat_1_0_Received_meta);
 /**************************************************************************************
  * SETUP/LOOP
  **************************************************************************************/
@@ -60,20 +65,28 @@ void setup()
 {
   Serial.begin(9600);
   while(!Serial) { }
+  delay(1000);
+  Serial.println("|---- OpenCyphal Heartbeat Subscription Example ----|");
 
   /* Setup SPI access */
+  SPI.setRX(SPI_ROBOT_MISO);
+  SPI.setTX(SPI_ROBOT_MOSI);
+  SPI.setSCK(SPI_ROBOT_SCK);
+  SPI.setCS(SPI_ROBOT_CS);
   SPI.begin();
   pinMode(MKRCAN_MCP2515_CS_PIN, OUTPUT);
   digitalWrite(MKRCAN_MCP2515_CS_PIN, HIGH);
 
   /* Attach interrupt handler to register MCP2515 signaled by taking INT low */
   pinMode(MKRCAN_MCP2515_INT_PIN, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(MKRCAN_MCP2515_INT_PIN), []() { mcp2515.onExternalEventHandler(); }, LOW);
+  attachInterrupt(digitalPinToInterrupt(MKRCAN_MCP2515_INT_PIN), []() { mcp2515.onExternalEventHandler(); }, FALLING);
 
   /* Initialize MCP2515 */
   mcp2515.begin();
-  mcp2515.setBitRate(CanBitRate::BR_250kBPS_16MHZ);
+  mcp2515.setBitRate(CanBitRate::BR_1000kBPS_16MHZ);
   mcp2515.setNormalMode();
+
+  Serial.println("setup finished");
 }
 
 void loop()
@@ -103,4 +116,15 @@ void onHeartbeat_1_0_Received(Heartbeat_1_0 const & msg)
            msg.uptime, msg.health.value, msg.mode.value, msg.vendor_specific_status_code);
 
   Serial.println(msg_buf);
+}
+
+void onHeartbeat_1_0_Received_meta(Heartbeat_1_0 const & msg, TransferMetadata const & metadata)
+{
+  char msg_buf[64];
+  snprintf(msg_buf, sizeof(msg_buf),
+           "Uptime = %d, Health = %d, Mode = %d, VSSC = %d",
+           msg.uptime, msg.health.value, msg.mode.value, msg.vendor_specific_status_code);
+
+  Serial.println(msg_buf);
+  Serial.println(metadata.node_id, HEX);
 }
