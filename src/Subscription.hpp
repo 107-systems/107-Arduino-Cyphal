@@ -25,15 +25,6 @@
 namespace impl
 {
 
-// #if LIBCANARD
-// #define CanardNodeID CyphalNodeID;
-// #elif LIBUDPARD
-// #define UdpardNodeID CyphalNodeID;
-// #else
-// # error "We only support CAN or UDP as Cyphal transport layer"
-// #endif
-
-
 /**************************************************************************************
  * CLASS DECLARATION
  **************************************************************************************/
