@@ -60,7 +60,7 @@ public:
   , _on_receive_cb_ext{on_receive_cb_ext}
   {
     return_metadata = true;
-   }
+  }
   virtual ~Subscription();
 
 
