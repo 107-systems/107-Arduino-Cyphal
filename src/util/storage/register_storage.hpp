@@ -23,9 +23,10 @@ namespace cyphal::support
 /// Stored registers that are not present in the registry will not be loaded.
 /// The serialization format is simply the Cyphal DSDL.
 /// In case of error, only part of the registers may be loaded and the registry will be left in an inconsistent state.
-[[nodiscard]] inline std::optional<platform::storage::Error> load(const platform::storage::interface::KeyValueStorage& kv,
-                                                                  registry::IIntrospectableRegistry&  rgy,
-                                                                  std::function<void()> const feed_watchdog_func)
+[[nodiscard]] inline std::optional<platform::storage::Error> load(
+  const platform::storage::interface::KeyValueStorage & kv,
+  registry::IIntrospectableRegistry & rgy,
+  std::function<void()> const feed_watchdog_func)
 {
     for (std::size_t index = 0; index < rgy.size(); index++)
     {
@@ -73,8 +74,10 @@ namespace cyphal::support
     }
     return std::nullopt;
 }
-[[nodiscard]] inline std::optional<platform::storage::Error> load(const platform::storage::interface::KeyValueStorage& kv,
-                                                                  registry::IIntrospectableRegistry&  rgy)
+
+[[nodiscard]] inline std::optional<platform::storage::Error> load(
+  const platform::storage::interface::KeyValueStorage & kv,
+  registry::IIntrospectableRegistry & rgy)
 {
   return load(kv, rgy, nullptr);
 }
@@ -93,10 +96,11 @@ namespace cyphal::support
 /// The removal predicate, if provided, allows the caller to specify which registers need to be removed from the
 /// storage instead of being saved. This is useful for implementing the "factory reset" feature.
 template <typename ResetPredicate>
-[[nodiscard]] std::optional<platform::storage::Error> save(platform::storage::interface::KeyValueStorage&            kv,
-                                                           const registry::IIntrospectableRegistry& rgy,
-                                                           std::function<void()> const feed_watchdog_func,
-                                                           ResetPredicate const reset_predicate)
+[[nodiscard]] inline std::optional<platform::storage::Error> save(
+  platform::storage::interface::KeyValueStorage & kv,
+  const registry::IIntrospectableRegistry & rgy,
+  std::function<void()> const feed_watchdog_func,
+  ResetPredicate const reset_predicate)
 {
     for (std::size_t index = 0; index < rgy.size(); index++)
     {
@@ -144,19 +148,22 @@ template <typename ResetPredicate>
     }
     return std::nullopt;
 }
-template <typename ResetPredicate>
-[[nodiscard]] std::optional<platform::storage::Error> save(platform::storage::interface::KeyValueStorage& kv,
-                                                           const registry::IIntrospectableRegistry& rgy,
-                                                           std::function<void()> const feed_watchdog_func)
+
+[[nodiscard]] inline std::optional<platform::storage::Error> save(
+  platform::storage::interface::KeyValueStorage & kv,
+  const registry::IIntrospectableRegistry & rgy,
+  std::function<void()> const feed_watchdog_func)
 {
     return save(kv, rgy, feed_watchdog_func, [](std::string_view) { return false; });
 }
-[[nodiscard]] inline std::optional<platform::storage::Error> save(platform::storage::interface::KeyValueStorage& kv,
-                                                                  const registry::IIntrospectableRegistry& rgy)
+
+[[nodiscard]] inline std::optional<platform::storage::Error> save(
+  platform::storage::interface::KeyValueStorage & kv,
+  const registry::IIntrospectableRegistry & rgy)
 {
     return save(kv, rgy, nullptr, [](std::string_view) { return false; });
 }
 
-} /* namespace cyphal::support */
+} /* cyphal::support */
 
 #endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */
