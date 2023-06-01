@@ -23,17 +23,16 @@ namespace cyphal::support
 /// Stored registers that are not present in the registry will not be loaded.
 /// The serialization format is simply the Cyphal DSDL.
 /// In case of error, only part of the registers may be loaded and the registry will be left in an inconsistent state.
+template <typename FeedWatchdogFunc>
 [[nodiscard]] inline std::optional<platform::storage::Error> load(
   const platform::storage::interface::KeyValueStorage & kv,
   registry::IIntrospectableRegistry & rgy,
-  std::function<void()> const feed_watchdog_func)
+  FeedWatchdogFunc const & feed_watchdog_func)
 {
     for (std::size_t index = 0; index < rgy.size(); index++)
     {
         // Prevent timeout during slow persistent storage IO access
-        if (feed_watchdog_func) {
-          feed_watchdog_func();
-        }
+        feed_watchdog_func();
 
         // Find the next register in the registry.
         const auto reg_name_storage = rgy.index(index);  // This is a little suboptimal but we don't care.
@@ -79,7 +78,7 @@ namespace cyphal::support
   const platform::storage::interface::KeyValueStorage & kv,
   registry::IIntrospectableRegistry & rgy)
 {
-  return load(kv, rgy, nullptr);
+  return load(kv, rgy, []() { });
 }
 
 /// The register savior is the counterpart of load().
@@ -95,19 +94,17 @@ namespace cyphal::support
 ///
 /// The removal predicate, if provided, allows the caller to specify which registers need to be removed from the
 /// storage instead of being saved. This is useful for implementing the "factory reset" feature.
-template <typename ResetPredicate>
+template <typename ResetPredicate, typename FeedWatchdogFunc>
 [[nodiscard]] inline std::optional<platform::storage::Error> save(
   platform::storage::interface::KeyValueStorage & kv,
   const registry::IIntrospectableRegistry & rgy,
-  std::function<void()> const feed_watchdog_func,
+  FeedWatchdogFunc const & feed_watchdog_func,
   ResetPredicate const reset_predicate)
 {
     for (std::size_t index = 0; index < rgy.size(); index++)
     {
         // Prevent timeout during slow persistent storage IO access
-        if (feed_watchdog_func) {
-          feed_watchdog_func();
-        }
+        feed_watchdog_func();
 
         const auto reg_name_storage = rgy.index(index);  // This is a little suboptimal but we don't care.
         const auto reg_name = std::string_view(reinterpret_cast<const char *>(reg_name_storage.name.cbegin()), reg_name_storage.name.size());
@@ -149,10 +146,11 @@ template <typename ResetPredicate>
     return std::nullopt;
 }
 
+template <typename FeedWatchdogFunc>
 [[nodiscard]] inline std::optional<platform::storage::Error> save(
   platform::storage::interface::KeyValueStorage & kv,
   const registry::IIntrospectableRegistry & rgy,
-  std::function<void()> const feed_watchdog_func)
+  FeedWatchdogFunc const & feed_watchdog_func)
 {
     return save(kv, rgy, feed_watchdog_func, [](std::string_view) { return false; });
 }
@@ -161,7 +159,7 @@ template <typename ResetPredicate>
   platform::storage::interface::KeyValueStorage & kv,
   const registry::IIntrospectableRegistry & rgy)
 {
-    return save(kv, rgy, nullptr, [](std::string_view) { return false; });
+    return save(kv, rgy, []() { }, [](std::string_view) { return false; });
 }
 
 } /* cyphal::support */
