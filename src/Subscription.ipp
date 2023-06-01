@@ -41,12 +41,9 @@ bool Subscription<T, OnReceiveCb>::onTransferReceived(CanardRxTransfer const & t
   auto const rc = deserialize(msg, msg_bitspan);
   if (!rc) return false;
 
-  if constexpr (std::is_invocable_v<OnReceiveCb, T, TransferMetadata>)
-  {
+  if constexpr (std::is_invocable_v<OnReceiveCb, T, TransferMetadata>) {
     _on_receive_cb(msg, fillMetadata(transfer));
-  }
-  else
-  {
+  } else {
     _on_receive_cb(msg);
   }
 

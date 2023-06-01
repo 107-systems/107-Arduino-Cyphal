@@ -32,7 +32,6 @@ namespace impl
 template <typename T, typename OnReceiveCb>
 class Subscription final : public SubscriptionBase
 {
-
 public:
   Subscription(Node & node_hdl, CanardPortID const port_id, OnReceiveCb const & on_receive_cb)
   : SubscriptionBase{CanardTransferKindMessage}
