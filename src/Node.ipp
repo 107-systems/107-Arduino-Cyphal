@@ -40,58 +40,25 @@ Publisher<T> Node::create_publisher(CanardPortID const port_id, CanardMicrosecon
     );
 }
 
-template <typename T>
-Subscription Node::create_subscription(std::function<void(T const &)>&& on_receive_cb, CanardMicrosecond const tid_timeout_usec)
+template <typename T, typename OnReceiveCb>
+Subscription Node::create_subscription(OnReceiveCb&& on_receive_cb, CanardMicrosecond const tid_timeout_usec)
 {
   static_assert(T::_traits_::HasFixedPortID, "T does not have a fixed port id.");
-  return create_subscription<T>(T::_traits_::FixedPortId, std::forward<std::function<void(T const &)>>(on_receive_cb), tid_timeout_usec);
+  return create_subscription<T>(T::_traits_::FixedPortId, on_receive_cb, tid_timeout_usec);
 }
 
-template <typename T>
-Subscription Node::create_subscription(CanardPortID const port_id, std::function<void(T const &)>&& on_receive_cb, CanardMicrosecond const tid_timeout_usec)
+template <typename T, typename OnReceiveCb>
+Subscription Node::create_subscription(CanardPortID const port_id, OnReceiveCb&& on_receive_cb, CanardMicrosecond const tid_timeout_usec)
 {
   static_assert(!T::_traits_::IsServiceType, "T is not message type");
 
   if (_opt_port_list_pub.has_value())
     _opt_port_list_pub.value()->add_subscriber(port_id);
 
-  auto sub = std::make_shared<impl::Subscription<T>>(
+  auto sub = std::make_shared<impl::Subscription<T, OnReceiveCb>>(
     *this,
     port_id,
-    std::forward<std::function<void(T const &)>>(on_receive_cb)
-    );
-
-  int8_t const rc = canardRxSubscribe(&_canard_hdl,
-                                      CanardTransferKindMessage,
-                                      port_id,
-                                      T::_traits_::ExtentBytes,
-                                      tid_timeout_usec,
-                                      &(sub->canard_rx_subscription()));
-  if (rc < 0)
-    return nullptr;
-
-  return sub;
-}
-
-template <typename T>
-Subscription Node::create_subscription(std::function<void(T const &, TransferMetadata const &)>&& on_receive_cb, CanardMicrosecond const tid_timeout_usec)
-{
-  static_assert(T::_traits_::HasFixedPortID, "T does not have a fixed port id.");
-  return create_subscription<T>(T::_traits_::FixedPortId, std::forward<std::function<void(T const &, TransferMetadata const &)>>(on_receive_cb), tid_timeout_usec);
-}
-
-template <typename T>
-Subscription Node::create_subscription(CanardPortID const port_id, std::function<void(T const &, TransferMetadata const &)>&& on_receive_cb, CanardMicrosecond const tid_timeout_usec)
-{
-  static_assert(!T::_traits_::IsServiceType, "T is not message type");
-
-  if (_opt_port_list_pub.has_value())
-    _opt_port_list_pub.value()->add_subscriber(port_id);
-
-  auto sub = std::make_shared<impl::Subscription<T>>(
-    *this,
-    port_id,
-    std::forward<std::function<void(T const &, TransferMetadata const &)>>(on_receive_cb)
+    std::forward<OnReceiveCb>(on_receive_cb)
     );
 
   int8_t const rc = canardRxSubscribe(&_canard_hdl,

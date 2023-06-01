@@ -23,8 +23,8 @@ namespace impl {
  * CTOR/DTOR
  **************************************************************************************/
 
-template<typename T>
-Subscription<T>::~Subscription()
+template<typename T, typename OnReceiveCb>
+Subscription<T, OnReceiveCb>::~Subscription()
 {
   _node_hdl.unsubscribe(_port_id, SubscriptionBase::canard_transfer_kind());
 }
@@ -33,17 +33,20 @@ Subscription<T>::~Subscription()
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-template<typename T>
-bool Subscription<T>::onTransferReceived(CanardRxTransfer const & transfer)
+template<typename T, typename OnReceiveCb>
+bool Subscription<T, OnReceiveCb>::onTransferReceived(CanardRxTransfer const & transfer)
 {
   T msg;
   nunavut::support::const_bitspan msg_bitspan(static_cast<uint8_t *>(transfer.payload), transfer.payload_size);
   auto const rc = deserialize(msg, msg_bitspan);
   if (!rc) return false;
 
-  if(return_metadata) {
-    _on_receive_cb_ext(msg, fillMetadata(transfer));
-  } else {
+  if constexpr (std::is_invocable_v<OnReceiveCb, T, TransferMetadata>)
+  {
+    _on_receive_cb(msg, fillMetadata(transfer));
+  }
+  else
+  {
     _on_receive_cb(msg);
   }
 
@@ -51,8 +54,8 @@ bool Subscription<T>::onTransferReceived(CanardRxTransfer const & transfer)
   return true;
 }
 
-template<typename T>
-TransferMetadata Subscription<T>::fillMetadata(CanardRxTransfer const & transfer)
+template<typename T, typename OnReceiveCb>
+TransferMetadata Subscription<T, OnReceiveCb>::fillMetadata(CanardRxTransfer const & transfer)
 {
   TransferMetadata transfer_metadata;
   transfer_metadata.node_id = static_cast<uint16_t>(transfer.metadata.remote_node_id);
