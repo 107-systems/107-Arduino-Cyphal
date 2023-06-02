@@ -23,11 +23,17 @@ namespace cyphal::support
 /// Stored registers that are not present in the registry will not be loaded.
 /// The serialization format is simply the Cyphal DSDL.
 /// In case of error, only part of the registers may be loaded and the registry will be left in an inconsistent state.
-[[nodiscard]] inline std::optional<platform::storage::Error> load(const platform::storage::interface::KeyValueStorage& kv,
-                                                                  registry::IIntrospectableRegistry&  rgy)
+template <typename FeedWatchdogFunc>
+[[nodiscard]] inline std::optional<platform::storage::Error> load(
+  const platform::storage::interface::KeyValueStorage & kv,
+  registry::IIntrospectableRegistry & rgy,
+  FeedWatchdogFunc const & feed_watchdog_func)
 {
     for (std::size_t index = 0; index < rgy.size(); index++)
     {
+        // Prevent timeout during slow persistent storage IO access
+        feed_watchdog_func();
+
         // Find the next register in the registry.
         const auto reg_name_storage = rgy.index(index);  // This is a little suboptimal but we don't care.
         const auto reg_name = std::string_view(reinterpret_cast<const char *>(reg_name_storage.name.cbegin()), reg_name_storage.name.size());
@@ -68,6 +74,13 @@ namespace cyphal::support
     return std::nullopt;
 }
 
+[[nodiscard]] inline std::optional<platform::storage::Error> load(
+  const platform::storage::interface::KeyValueStorage & kv,
+  registry::IIntrospectableRegistry & rgy)
+{
+  return load(kv, rgy, []() { });
+}
+
 /// The register savior is the counterpart of load().
 /// Saves all persistent mutable registers from the registry to the storage.
 /// Registers that are not persistent OR not mutable will not be saved;
@@ -81,13 +94,18 @@ namespace cyphal::support
 ///
 /// The removal predicate, if provided, allows the caller to specify which registers need to be removed from the
 /// storage instead of being saved. This is useful for implementing the "factory reset" feature.
-template <typename ResetPredicate>
-[[nodiscard]] std::optional<platform::storage::Error> save(platform::storage::interface::KeyValueStorage&            kv,
-                                                           const registry::IIntrospectableRegistry& rgy,
-                                                           ResetPredicate const reset_predicate)
+template <typename ResetPredicate, typename FeedWatchdogFunc>
+[[nodiscard]] inline std::optional<platform::storage::Error> save(
+  platform::storage::interface::KeyValueStorage & kv,
+  const registry::IIntrospectableRegistry & rgy,
+  FeedWatchdogFunc const & feed_watchdog_func,
+  ResetPredicate const reset_predicate)
 {
     for (std::size_t index = 0; index < rgy.size(); index++)
     {
+        // Prevent timeout during slow persistent storage IO access
+        feed_watchdog_func();
+
         const auto reg_name_storage = rgy.index(index);  // This is a little suboptimal but we don't care.
         const auto reg_name = std::string_view(reinterpret_cast<const char *>(reg_name_storage.name.cbegin()), reg_name_storage.name.size());
         if (reg_name.empty())
@@ -127,12 +145,23 @@ template <typename ResetPredicate>
     }
     return std::nullopt;
 }
-[[nodiscard]] inline std::optional<platform::storage::Error> save(platform::storage::interface::KeyValueStorage&            kv,
-                                                                  const registry::IIntrospectableRegistry& rgy)
+
+template <typename FeedWatchdogFunc>
+[[nodiscard]] inline std::optional<platform::storage::Error> save(
+  platform::storage::interface::KeyValueStorage & kv,
+  const registry::IIntrospectableRegistry & rgy,
+  FeedWatchdogFunc const & feed_watchdog_func)
 {
-    return save(kv, rgy, [](std::string_view) { return false; });
+    return save(kv, rgy, feed_watchdog_func, [](std::string_view) { return false; });
 }
 
-} /* namespace cyphal::support */
+[[nodiscard]] inline std::optional<platform::storage::Error> save(
+  platform::storage::interface::KeyValueStorage & kv,
+  const registry::IIntrospectableRegistry & rgy)
+{
+    return save(kv, rgy, []() { }, [](std::string_view) { return false; });
+}
+
+} /* cyphal::support */
 
 #endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */
