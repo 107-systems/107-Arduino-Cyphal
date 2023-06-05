@@ -15,8 +15,6 @@
 #include "SubscriptionBase.h"
 
 #include "Node.hpp"
-#include "util/transfer_metadata.hpp"
-
 
 /**************************************************************************************
  * NAMESPACE
