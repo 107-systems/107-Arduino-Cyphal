@@ -15,6 +15,7 @@
 #include <memory>
 
 #include "libcanard/canard.h"
+#include "util/transfer_metadata.hpp"
 
 /**************************************************************************************
  * NAMESPACE
@@ -48,9 +49,17 @@ public:
   [[nodiscard]] CanardRxSubscription &canard_rx_subscription() { return _canard_rx_sub; }
 
 
+
 protected:
   [[nodiscard]] CanardTransferKind canard_transfer_kind() const { return _transfer_kind; }
 
+  [[nodiscard]] TransferMetadata fillMetadata(CanardRxTransfer const & transfer)
+  {
+    TransferMetadata transfer_metadata;
+    transfer_metadata.remote_node_id = static_cast<uint16_t>(transfer.metadata.remote_node_id);
+
+    return transfer_metadata;
+  }
 
 private:
   CanardTransferKind const _transfer_kind;

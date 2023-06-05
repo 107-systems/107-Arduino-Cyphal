@@ -33,8 +33,8 @@ static int const MKRCAN_MCP2515_INT_PIN = 7;
  * FUNCTION DECLARATION
  **************************************************************************************/
 
-void onReceiveBufferFull    (CanardFrame const &);
-void onHeartbeat_1_0_Received(Heartbeat_1_0 const & msg);
+void onReceiveBufferFull(CanardFrame const &);
+void onHeartbeat_1_0_Received(Heartbeat_1_0 const & msg, TransferMetadata const & metadata);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -51,7 +51,6 @@ Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
 Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { return mcp2515.transmit(frame); });
 
 Subscription heartbeat_subscription = node_hdl.create_subscription<Heartbeat_1_0>(onHeartbeat_1_0_Received);
-
 /**************************************************************************************
  * SETUP/LOOP
  **************************************************************************************/
@@ -61,7 +60,7 @@ void setup()
   Serial.begin(9600);
   while(!Serial) { }
   delay(1000);
-  Serial.println("|---- OpenCyphal Heartbeat Subscription Example ----|");
+  Serial.println("|---- OpenCyphal Heartbeat Subscription With Metadata  Example ----|");
 
   /* Setup SPI access */
   SPI.begin();
@@ -99,12 +98,18 @@ void onReceiveBufferFull(CanardFrame const & frame)
   node_hdl.onCanFrameReceived(frame);
 }
 
-void onHeartbeat_1_0_Received(Heartbeat_1_0 const & msg)
+void onHeartbeat_1_0_Received(Heartbeat_1_0 const & msg, TransferMetadata const & metadata)
 {
-  char msg_buf[64];
-  snprintf(msg_buf, sizeof(msg_buf),
-           "Uptime = %d, Health = %d, Mode = %d, VSSC = %d",
-           msg.uptime, msg.health.value, msg.mode.value, msg.vendor_specific_status_code);
+  char msg_buf[70];
+  snprintf(
+    msg_buf,
+    sizeof(msg_buf),
+    "Node ID= %d, Uptime = %d, Health = %d, Mode = %d, VSSC = %d",
+    metadata.remote_node_id,
+    msg.uptime,
+    msg.health.value,
+    msg.mode.value,
+    msg.vendor_specific_status_code);
 
   Serial.println(msg_buf);
 }
