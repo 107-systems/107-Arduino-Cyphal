@@ -49,8 +49,6 @@ private:
   Node & _node_hdl;
   CanardPortID const _port_id;
   OnReceiveCb _on_receive_cb;
-
-  TransferMetadata fillMetadata(CanardRxTransfer const & transfer);
 };
 
 /**************************************************************************************

@@ -51,14 +51,6 @@ bool Subscription<T, OnReceiveCb>::onTransferReceived(CanardRxTransfer const & t
   return true;
 }
 
-template<typename T, typename OnReceiveCb>
-TransferMetadata Subscription<T, OnReceiveCb>::fillMetadata(CanardRxTransfer const & transfer)
-{
-  TransferMetadata transfer_metadata;
-  transfer_metadata.node_id = static_cast<uint16_t>(transfer.metadata.remote_node_id);
-
-  return transfer_metadata;
-}
 /**************************************************************************************
  * NAMESPACE
  **************************************************************************************/

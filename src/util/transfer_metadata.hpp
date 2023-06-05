@@ -10,7 +10,7 @@
 
 struct TransferMetadata final
 {
-  uint16_t node_id;
+  uint16_t remote_node_id;
   // More stuff may appear here in the future!
 };
 

@@ -105,7 +105,7 @@ void onHeartbeat_1_0_Received(Heartbeat_1_0 const & msg, TransferMetadata const 
     msg_buf,
     sizeof(msg_buf),
     "Node ID= %d, Uptime = %d, Health = %d, Mode = %d, VSSC = %d",
-    metadata.node_id,
+    metadata.remote_node_id,
     msg.uptime,
     msg.health.value,
     msg.mode.value,
