@@ -20,6 +20,7 @@ add_subdirectory(src/libo1heap)
 ##########################################################################
 add_library(${PROJECT_NAME} STATIC
   src/Node.cpp
+  src/NodeBase.cpp
 )
 ##########################################################################
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
