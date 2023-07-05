@@ -206,6 +206,11 @@ inline void set(Value& dst, const std::string_view string)
         str.value.push_back(static_cast<std::uint8_t>(string[i]));
     }
 }
+/// Assigns string to the value, truncating if necessary.
+inline void set(Value& dst, const std::string& string)
+{
+  set(dst, std::string_view(string));
+}
 /// Assigns numerical arrays/vectors of various arithmetic types to the value.
 /// E.g., passing an std::array<float, 7> here will switch the value to real32[7].
 /// The existing contents of the value is discarded.
