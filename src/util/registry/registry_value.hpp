@@ -170,6 +170,15 @@ template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
     }
     return false;
 }
+[[nodiscard]] inline bool get(const Value& src, std::string& dst)
+{
+  if (const auto* const str = src.get_string_if())
+  {
+    dst = std::string{reinterpret_cast<const char*>(str->value.data()), str->value.size()};
+    return true;
+  }
+  return false;
+}
 }  // namespace detail
 
 /// Convert the value stored in source to the same type and dimensionality as destination; update destination in-place.
