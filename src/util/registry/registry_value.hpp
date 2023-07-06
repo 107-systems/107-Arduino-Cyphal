@@ -170,6 +170,15 @@ template <typename T, typename = std::enable_if_t<std::is_arithmetic_v<T>>>
     }
     return false;
 }
+[[nodiscard]] inline bool get(const Value& src, std::string& dst)
+{
+  if (const auto* const str = src.get_string_if())
+  {
+    dst = std::string{reinterpret_cast<const char*>(str->value.data()), str->value.size()};
+    return true;
+  }
+  return false;
+}
 }  // namespace detail
 
 /// Convert the value stored in source to the same type and dimensionality as destination; update destination in-place.
@@ -196,6 +205,16 @@ inline void set(Value& dst, const std::string_view string)
     {
         str.value.push_back(static_cast<std::uint8_t>(string[i]));
     }
+}
+/// Assigns string to the value, truncating if necessary.
+inline void set(Value& dst, const std::string& string)
+{
+  set(dst, std::string_view(string));
+}
+/// Assigns string to the value, truncating if necessary.
+inline void set(Value& dst, const char* const string)
+{
+  set(dst, std::string_view(string));
 }
 /// Assigns numerical arrays/vectors of various arithmetic types to the value.
 /// E.g., passing an std::array<float, 7> here will switch the value to real32[7].
