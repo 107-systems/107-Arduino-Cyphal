@@ -1,9 +1,5 @@
 /*
  * This example shows reception of a OpenCyphal heartbeat message via CAN.
- *
- * Hardware:
- *   - Arduino MKR family board, e.g. MKR VIDOR 4000
- *   - Arduino MKR CAN shield
  */
 
 /**************************************************************************************

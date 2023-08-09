@@ -1,10 +1,6 @@
 /*
  * This example shows how to use the OpenCyphal library to set up a service server
  * responding to requests from service clients.
- *
- * Hardware:
- *   - Arduino MKR family board, e.g. MKR VIDOR 4000
- *   - Arduino MKR CAN shield
  */
 
 /**************************************************************************************

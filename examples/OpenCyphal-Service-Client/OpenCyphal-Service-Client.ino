@@ -1,10 +1,6 @@
 /*
  * This example shows how to use the OpenCyphal library to request the performance of a
  * service from a service server.
- *
- * Hardware:
- *   - Arduino MKR family board, e.g. MKR VIDOR 4000
- *   - Arduino MKR CAN shield
  */
 
 /**************************************************************************************
