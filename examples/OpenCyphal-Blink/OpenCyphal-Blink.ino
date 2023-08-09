@@ -7,10 +7,6 @@
  *
  * switch built in LED off with
  *   yakut -i 'CAN(can.media.socketcan.SocketCANMedia("can0",8),59)' pub 1620.uavcan.primitive.scalar.Bit.1.0 'value: false'
- *
- * Hardware:
- *   - Arduino MKR family board, e.g. MKR VIDOR 4000
- *   - Arduino MKR CAN shield
  */
 
 /**************************************************************************************
