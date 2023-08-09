@@ -24,6 +24,10 @@ This library works for
 ```bash
 arduino-cli compile -b rp2040:rp2040:rpipico -v examples/OpenCyphal-Heartbeat-Publisher -u -p /dev/ttyACM0
 ```
+* [ArduinoCore-renesas](https://github.com/arduino/ArduinoCore-renesas): [`Portenta C33`](https://store.arduino.cc/products/portenta-c33), [`Uno R4 WiFi`](https://store.arduino.cc/products/uno-r4-wifi), [`Uno R4 Minima`](https://store.arduino.cc/products/uno-r4-minima), ... :heavy_check_mark:
+```bash
+arduino-cli compile -b arduino:renesas_portenta:portenta_c33 -v examples/OpenCyphal-Heartbeat-Publisher -u -p /dev/ttyACM0
+```
 * **Host** (x86/x64/...): Using the CMake build system this library can be cross-compiled to a static C++ library and linked against any C++ executable. This is possible because the code itself is pure C/C++ without and dependencies to the Arduino framework.
 ```bash
 git clone https://github.com/107-systems/107-Arduino-Cyphal && cd 107-Arduino-Cyphal
