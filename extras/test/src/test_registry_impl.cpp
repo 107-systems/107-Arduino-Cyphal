@@ -8,7 +8,7 @@
 #include <registry_impl.hpp>
 #include <catch2/catch.hpp>
 
-namespace registry::verification
+namespace cyphal::registry
 {
 
 TEST_CASE("Basic")
@@ -121,4 +121,4 @@ TEST_CASE("Basic")
     REQUIRE(0 == reg.size());
 }
 
-}  // namespace registry::verification
+}  // namespace cyphal::registry

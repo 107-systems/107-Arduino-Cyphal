@@ -18,6 +18,9 @@
  * NAMESPACE
  **************************************************************************************/
 
+namespace cyphal
+{
+
 namespace impl
 {
 
@@ -51,5 +54,11 @@ public:
 
 template <typename T>
 using Publisher = std::shared_ptr<impl::PublisherBase<T>>;
+
+/**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+} /* cyphal */
 
 #endif /* INC_107_ARDUINO_CYPHAL_PUBLISHER_BASE_H */

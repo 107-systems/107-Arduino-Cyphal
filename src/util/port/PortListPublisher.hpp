@@ -21,6 +21,9 @@
  * NAMESPACE
  **************************************************************************************/
 
+namespace cyphal
+{
+
 namespace impl
 {
 
@@ -31,11 +34,9 @@ namespace impl
 class PortListPublisher final : public PortListPublisherBase
 {
 public:
-  PortListPublisher(Node & node_hdl, Node::MicrosFunc const micros_func)
-  : _pub{node_hdl.create_publisher<uavcan::node::port::List_1_0>(1*1000*1000UL /* = 1 sec in usecs. */)}
-  , _micros_func{micros_func}
-  , _prev_pub{0}
-  , _list_msg{}
+  PortListPublisher(Node &node_hdl, cyphal::Node::MicrosFunc const micros_func)
+    : _pub{node_hdl.create_publisher<uavcan::node::port::List_1_0>(1 * 1000 * 1000UL /* = 1 sec in usecs. */)},
+      _micros_func{micros_func}, _prev_pub{0}, _list_msg{}
   {
     _list_msg.publishers.set_sparse_list();
     _list_msg.subscribers.set_sparse_list();
@@ -45,11 +46,14 @@ public:
      */
     add_publisher(uavcan::node::port::List_1_0::_traits_::FixedPortId);
   }
-  virtual ~PortListPublisher() { }
+
+  virtual ~PortListPublisher()
+  {}
 
   virtual void update() override
   {
-    static CanardMicrosecond const MAX_PUBLICATION_PERIOD_us = uavcan::node::port::List_1_0::MAX_PUBLICATION_PERIOD * 1000 * 1000UL;
+    static CanardMicrosecond const MAX_PUBLICATION_PERIOD_us =
+      uavcan::node::port::List_1_0::MAX_PUBLICATION_PERIOD * 1000 * 1000UL;
     auto const now = _micros_func();
     if ((now - _prev_pub) > MAX_PUBLICATION_PERIOD_us)
     {
@@ -83,8 +87,8 @@ public:
   }
 
 private:
-  ::Publisher<uavcan::node::port::List_1_0> _pub;
-  Node::MicrosFunc const _micros_func;
+  cyphal::Publisher<uavcan::node::port::List_1_0> _pub;
+  cyphal::Node::MicrosFunc const _micros_func;
   CanardMicrosecond _prev_pub;
   uavcan::node::port::List_1_0 _list_msg;
 };
@@ -94,5 +98,6 @@ private:
  **************************************************************************************/
 
 } /* impl */
+} /* cyphal */
 
 #endif /* INC_107_ARDUINO_CYPHAL_LIST_HPP */

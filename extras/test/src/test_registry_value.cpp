@@ -8,7 +8,7 @@
 #include <registry_value.hpp>
 #include <catch2/catch.hpp>
 
-namespace registry::verification
+namespace cyphal::registry
 {
 TEST_CASE("makeName")
 {
@@ -251,4 +251,4 @@ TEST_CASE("Coerce")
     REQUIRE(Approx(-123.0F) == v->get_real32().value[0]);
 }
 
-}  // namespace registry::verification
+}  // namespace cyphal::registry

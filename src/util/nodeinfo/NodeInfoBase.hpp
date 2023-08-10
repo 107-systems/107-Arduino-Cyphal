@@ -20,6 +20,9 @@
  * NAMESPACE
  **************************************************************************************/
 
+namespace cyphal
+{
+
 namespace impl
 {
 
@@ -31,8 +34,8 @@ class NodeInfoBase
 {
 public:
   NodeInfoBase()
-  : _node_info_rsp{}
-  { }
+    : _node_info_rsp{}
+  {}
 
 protected:
   uavcan::node::GetInfo::Response_1_0 _node_info_rsp;
@@ -49,5 +52,11 @@ protected:
  **************************************************************************************/
 
 using NodeInfo = std::shared_ptr<impl::NodeInfoBase>;
+
+/**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+} /* cyphal */
 
 #endif /* ARDUINO_OPENCYPHAL_NODE_INFO_BASE_H_ */

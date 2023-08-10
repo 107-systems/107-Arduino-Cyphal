@@ -20,6 +20,9 @@
  * NAMESPACE
  **************************************************************************************/
 
+namespace cyphal
+{
+
 namespace impl
 {
 
@@ -48,5 +51,11 @@ public:
 
 template <typename T_REQ>
 using ServiceClient = std::shared_ptr<impl::ServiceClientBase<T_REQ>>;
+
+/**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+} /* cyphal */
 
 #endif /* INC_107_ARDUINO_CYPHAL_SERVICE_CLIENT_BASE_HPP */

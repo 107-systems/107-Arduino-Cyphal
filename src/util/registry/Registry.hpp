@@ -23,6 +23,9 @@
  * NAMESPACE
  **************************************************************************************/
 
+namespace cyphal
+{
+
 namespace impl
 {
 
@@ -30,7 +33,7 @@ namespace impl
  * CLASS DECLARATION
  **************************************************************************************/
 
-class Registry final : public registry::Registry
+class Registry final : public cyphal::registry::Registry
 {
 public:
   typedef std::function<uint64_t(void)> MicrosFunc;
@@ -60,7 +63,7 @@ private:
 
   typedef uavcan::_register::List::Request_1_0 TListRequest;
   typedef uavcan::_register::List::Response_1_0 TListResponse;
-  ::ServiceServer _reg_list_srv;
+  cyphal::ServiceServer _reg_list_srv;
 
   TListResponse onList_1_0_Request_Received(TListRequest const &req)
   {
@@ -77,11 +80,12 @@ private:
 
   typedef uavcan::_register::Access::Request_1_0 TAccessRequest;
   typedef uavcan::_register::Access::Response_1_0 TAccessResponse;
-  ::ServiceServer _reg_access_srv;
+  cyphal::ServiceServer _reg_access_srv;
 
   TAccessResponse onAccess_1_0_Request_Received(TAccessRequest const &req)
   {
-    auto const req_name = std::string_view(reinterpret_cast<const char *>(req.name.name.cbegin()), req.name.name.size());
+    auto const req_name = std::string_view(reinterpret_cast<const char *>(req.name.name.cbegin()),
+                                           req.name.name.size());
 
     /* Try to set the registers value. Note, if this is a RO register
      * this call will fail with SetError::Mutability.
@@ -112,6 +116,7 @@ private:
  **************************************************************************************/
 
 } /* impl */
+} /* cyphal */
 
 #endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */
 
