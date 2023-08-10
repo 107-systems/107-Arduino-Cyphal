@@ -11,26 +11,28 @@
 
 #if !defined(__GNUC__) || (__GNUC__ >= 11)
 
+namespace cyphal
+{
 namespace registry
 {
 struct RegisterFlags final
 {
-    bool mutable_   = false;
-    bool persistent = false;
+  bool mutable_ = false;
+  bool persistent = false;
 };
 
 struct ValueWithMetadata final
 {
-    Value         value;
-    RegisterFlags flags;
+  Value value;
+  RegisterFlags flags;
 };
 
 enum class SetError : std::uint8_t
 {
-    Existence,   ///< Register does not exist.
-    Mutability,  ///< Register is immutable.
-    Coercion,    ///< Value cannot be coerced to the register type.
-    Semantics,   ///< Rejected by the register semantics (e.g. out of range, inappropriate value, bad state, etc).
+  Existence,   ///< Register does not exist.
+  Mutability,  ///< Register is immutable.
+  Coercion,    ///< Value cannot be coerced to the register type.
+  Semantics,   ///< Rejected by the register semantics (e.g. out of range, inappropriate value, bad state, etc).
 };
 
 /// This is the main, basic interface for the application to its registers.
@@ -46,36 +48,42 @@ enum class SetError : std::uint8_t
 class IRegistry
 {
 public:
-    IRegistry()                            = default;
-    virtual ~IRegistry()                   = default;
-    IRegistry(const IRegistry&)            = delete;
-    IRegistry(IRegistry&&)                 = delete;
-    IRegistry& operator=(const IRegistry&) = delete;
-    IRegistry& operator=(IRegistry&&)      = delete;
+  IRegistry() = default;
 
-    /// Reads the current value of the register. Empty if nonexistent.
-    /// The worst-case complexity is log(n), where n is the number of registers.
-    [[nodiscard]] virtual std::optional<ValueWithMetadata> get(const std::string_view nm) const = 0;
+  virtual ~IRegistry() = default;
 
-    /// Assign the register with the specified value.
-    /// The worst-case complexity is log(n), where n is the number of registers.
-    [[nodiscard]] virtual std::optional<SetError> set(const std::string_view nm, const Value& val) = 0;
+  IRegistry(const IRegistry &) = delete;
+
+  IRegistry(IRegistry &&) = delete;
+
+  IRegistry &operator=(const IRegistry &) = delete;
+
+  IRegistry &operator=(IRegistry &&) = delete;
+
+  /// Reads the current value of the register. Empty if nonexistent.
+  /// The worst-case complexity is log(n), where n is the number of registers.
+  [[nodiscard]] virtual std::optional <ValueWithMetadata> get(const std::string_view nm) const = 0;
+
+  /// Assign the register with the specified value.
+  /// The worst-case complexity is log(n), where n is the number of registers.
+  [[nodiscard]] virtual std::optional <SetError> set(const std::string_view nm, const Value &val) = 0;
 };
 
 /// Extends the basic registry interface with additional methods that enable introspection.
 class IIntrospectableRegistry : public IRegistry
 {
 public:
-    /// Gets the name of the register at the specified index. Empty name if the index is out of range.
-    /// The ordering is arbitrary but stable as long as the register set is not modified.
-    /// The worst-case complexity may be up to linear of the number of registers.
-    /// Keep in mind that the register may cease to exist at any time (this is why the name is returned by value).
-    [[nodiscard]] virtual Name index(const std::size_t index) const = 0;
+  /// Gets the name of the register at the specified index. Empty name if the index is out of range.
+  /// The ordering is arbitrary but stable as long as the register set is not modified.
+  /// The worst-case complexity may be up to linear of the number of registers.
+  /// Keep in mind that the register may cease to exist at any time (this is why the name is returned by value).
+  [[nodiscard]] virtual Name index(const std::size_t index) const = 0;
 
-    /// The worst-case complexity may be up to linear of the number of registers.
-    [[nodiscard]] virtual std::size_t size() const = 0;
+  /// The worst-case complexity may be up to linear of the number of registers.
+  [[nodiscard]] virtual std::size_t size() const = 0;
 };
 
 }  // namespace registry
+} // cyphal
 
 #endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */

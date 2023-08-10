@@ -13,6 +13,8 @@
 
 #if !defined(__GNUC__) || (__GNUC__ >= 11)
 
+namespace cyphal
+{
 namespace registry
 {
 namespace detail
@@ -386,5 +388,7 @@ private:
 }  // namespace registry
 
 using Registry = std::shared_ptr<registry::Registry>;
+
+} // cyphal
 
 #endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */

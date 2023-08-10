@@ -19,6 +19,8 @@
 
 #if !defined(__GNUC__) || (__GNUC__ >= 11)
 
+namespace cyphal
+{
 namespace registry
 {
 using Value = uavcan::_register::Value_1_0;
@@ -292,5 +294,6 @@ Value makeValue(const Ts&... src)
 }
 
 }  // namespace registry
+} // cyphal
 
 #endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */

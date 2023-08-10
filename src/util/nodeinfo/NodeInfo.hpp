@@ -22,6 +22,9 @@
  * NAMESPACE
  **************************************************************************************/
 
+namespace cyphal
+{
+
 namespace impl
 {
 
@@ -68,7 +71,7 @@ public:
 
 
 private:
-  ::ServiceServer _node_info_srv;
+  cyphal::ServiceServer _node_info_srv;
 };
 
 /**************************************************************************************
@@ -76,5 +79,6 @@ private:
  **************************************************************************************/
 
 } /* impl */
+} /* cyphal */
 
 #endif /* ARDUINO_OPENCYPHAL_NODE_INFO_H_ */

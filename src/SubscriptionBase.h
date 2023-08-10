@@ -21,6 +21,9 @@
  * NAMESPACE
  **************************************************************************************/
 
+namespace cyphal
+{
+
 namespace impl
 {
 
@@ -78,5 +81,10 @@ private:
 
 using Subscription = std::shared_ptr<impl::SubscriptionBase>;
 
+/**************************************************************************************
+ * NAMESPACE
+ **************************************************************************************/
+
+} /* cyphal */
 
 #endif /* INC_107_ARDUINO_CYPHAL_CANARDSUBSCRIPTION_H */
