@@ -30,7 +30,7 @@ static int const MKRCAN_MCP2515_INT_PIN = 7;
  **************************************************************************************/
 
 void onReceiveBufferFull(CanardFrame const &);
-void onHeartbeat_1_0_Received(Heartbeat_1_0 const & msg, TransferMetadata const & metadata);
+void onHeartbeat_1_0_Received(Heartbeat_1_0 const & msg, cyphal::TransferMetadata const & metadata);
 
 /**************************************************************************************
  * GLOBAL VARIABLES
@@ -95,7 +95,7 @@ void onReceiveBufferFull(CanardFrame const & frame)
   node_hdl.onCanFrameReceived(frame);
 }
 
-void onHeartbeat_1_0_Received(Heartbeat_1_0 const & msg, TransferMetadata const & metadata)
+void onHeartbeat_1_0_Received(Heartbeat_1_0 const & msg, cyphal::TransferMetadata const & metadata)
 {
   char msg_buf[70];
   snprintf(
