@@ -5,13 +5,10 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef ARDUINO_CYPHAL_TRANSFER_METADATA_HPP_
-#define ARDUINO_CYPHAL_TRANSFER_METADATA_HPP_
+#pragma once
 
 struct TransferMetadata final
 {
   uint16_t remote_node_id;
   // More stuff may appear here in the future!
 };
-
-#endif // ARDUINO_CYPHAL_TRANSFER_METADATA_HPP_

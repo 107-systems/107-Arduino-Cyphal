@@ -5,8 +5,7 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef INC_107_ARDUINO_CYPHAL_SERVICE_SERVER_BASE_HPP
-#define INC_107_ARDUINO_CYPHAL_SERVICE_SERVER_BASE_HPP
+#pragma once
 
 /**************************************************************************************
  * INCLUDE
@@ -53,5 +52,3 @@ using ServiceServer = std::shared_ptr<impl::ServiceServerBase>;
  **************************************************************************************/
 
 } /* cyphal */
-
-#endif /* INC_107_ARDUINO_CYPHAL_SERVICE_SERVER_BASE_HPP */

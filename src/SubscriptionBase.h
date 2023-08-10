@@ -5,8 +5,7 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef INC_107_ARDUINO_CYPHAL_CANARDSUBSCRIPTION_H
-#define INC_107_ARDUINO_CYPHAL_CANARDSUBSCRIPTION_H
+#pragma once
 
 /**************************************************************************************
  * INCLUDE
@@ -86,5 +85,3 @@ using Subscription = std::shared_ptr<impl::SubscriptionBase>;
  **************************************************************************************/
 
 } /* cyphal */
-
-#endif /* INC_107_ARDUINO_CYPHAL_CANARDSUBSCRIPTION_H */

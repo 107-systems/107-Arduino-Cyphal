@@ -5,13 +5,10 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef INC_107_ARDUINO_CYPHAL_CYPHALCAN_H
-#define INC_107_ARDUINO_CYPHAL_CYPHALCAN_H
+#pragma once
 
 /**************************************************************************************
  * INCLUDE
  **************************************************************************************/
 
 #include "107-Arduino-Cyphal.h"
-
-#endif /* INC_107_ARDUINO_CYPHAL_CYPHALCAN_H */

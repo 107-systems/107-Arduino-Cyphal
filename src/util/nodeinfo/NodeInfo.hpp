@@ -5,8 +5,7 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef ARDUINO_OPENCYPHAL_NODE_INFO_H_
-#define ARDUINO_OPENCYPHAL_NODE_INFO_H_
+#pragma once
 
 /**************************************************************************************
  * INCLUDES
@@ -80,5 +79,3 @@ private:
 
 } /* impl */
 } /* cyphal */
-
-#endif /* ARDUINO_OPENCYPHAL_NODE_INFO_H_ */

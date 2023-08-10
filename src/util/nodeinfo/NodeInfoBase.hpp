@@ -5,8 +5,7 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef ARDUINO_OPENCYPHAL_NODE_INFO_BASE_H_
-#define ARDUINO_OPENCYPHAL_NODE_INFO_BASE_H_
+#pragma once
 
 /**************************************************************************************
  * INCLUDES
@@ -58,5 +57,3 @@ using NodeInfo = std::shared_ptr<impl::NodeInfoBase>;
  **************************************************************************************/
 
 } /* cyphal */
-
-#endif /* ARDUINO_OPENCYPHAL_NODE_INFO_BASE_H_ */

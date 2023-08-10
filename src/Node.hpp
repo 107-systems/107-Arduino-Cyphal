@@ -5,8 +5,7 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef ARDUINO_CYPHAL_NODE_HPP_
-#define ARDUINO_CYPHAL_NODE_HPP_
+#pragma once
 
 /**************************************************************************************
  * INCLUDE
@@ -166,5 +165,3 @@ private:
  **************************************************************************************/
 
 #include "Node.ipp"
-
-#endif /* ARDUINO_CYPHAL_NODE_HPP_ */

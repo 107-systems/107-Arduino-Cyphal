@@ -5,8 +5,7 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef ARDUINO_CYPHAL_UTILITY_RINGBUFFER_H_
-#define ARDUINO_CYPHAL_UTILITY_RINGBUFFER_H_
+#pragma once
 
 /**************************************************************************************
  * INCLUDE
@@ -73,5 +72,3 @@ private:
  **************************************************************************************/
 
 #include "CircularBuffer.ipp"
-
-#endif /* ARDUINO_CYPHAL_UTILITY_RINGBUFFER_H_ */
