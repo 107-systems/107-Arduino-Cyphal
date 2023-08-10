@@ -5,8 +5,7 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef INC_107_ARDUINO_CYPHAL_SERVICE_HPP
-#define INC_107_ARDUINO_CYPHAL_SERVICE_HPP
+#pragma once
 
 /**************************************************************************************
  * INCLUDE
@@ -65,5 +64,3 @@ private:
  **************************************************************************************/
 
 #include "ServiceServer.ipp"
-
-#endif /* INC_107_ARDUINO_CYPHAL_SERVICE_HPP */

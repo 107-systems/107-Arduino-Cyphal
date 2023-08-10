@@ -5,8 +5,7 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef INC_107_ARDUINO_CYPHAL_CANARDRXQUEUEITEM_HPP
-#define INC_107_ARDUINO_CYPHAL_CANARDRXQUEUEITEM_HPP
+#pragma once
 
 /**************************************************************************************
  * INCLUDE
@@ -80,5 +79,3 @@ private:
  **************************************************************************************/
 
 } /* cyphal */
-
-#endif /* INC_107_ARDUINO_CYPHAL_CANARDRXQUEUEITEM_HPP */

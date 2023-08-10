@@ -5,8 +5,7 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef INC_107_ARDUINO_CYPHAL_PUBLISHER_H
-#define INC_107_ARDUINO_CYPHAL_PUBLISHER_H
+#pragma once
 
 /**************************************************************************************
  * INCLUDE
@@ -63,5 +62,3 @@ private:
  **************************************************************************************/
 
 #include "Publisher.ipp"
-
-#endif /* INC_107_ARDUINO_CYPHAL_PUBLISHER_H */

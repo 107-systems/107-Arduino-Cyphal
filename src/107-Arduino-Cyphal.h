@@ -5,8 +5,7 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef _107_ARDUINO_CYPHAL_H_
-#define _107_ARDUINO_CYPHAL_H_
+#pragma once
 
 /**************************************************************************************
  * INCLUDE
@@ -19,5 +18,3 @@
 #include "ServiceClient.hpp"
 #include "ServiceServer.hpp"
 #include "util/storage/register_storage.hpp"
-
-#endif /* _107_ARDUINO_CYPHAL_H_ */

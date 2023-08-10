@@ -5,8 +5,7 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef ARDUINO_UAVCAN_WRAPPERS_H_
-#define ARDUINO_UAVCAN_WRAPPERS_H_
+#pragma once
 
 /**************************************************************************************
  * INCLUDE
@@ -19,5 +18,3 @@
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 #include "DSDL_Types.h.impl"
 #pragma GCC diagnostic pop
-
-#endif /* ARDUINO_UAVCAN_WRAPPERS_H_ */

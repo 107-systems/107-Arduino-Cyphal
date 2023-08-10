@@ -5,8 +5,7 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef REGISTER_LIST_H_
-#define REGISTER_LIST_H_
+#pragma once
 
 /**************************************************************************************
  * INCLUDES
@@ -119,5 +118,3 @@ private:
 } /* cyphal */
 
 #endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */
-
-#endif /* REGISTER_LIST_H_ */

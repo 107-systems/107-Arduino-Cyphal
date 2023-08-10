@@ -5,8 +5,7 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef INC_107_ARDUINO_CYPHAL_SUBSCRIPTION_HPP
-#define INC_107_ARDUINO_CYPHAL_SUBSCRIPTION_HPP
+#pragma once
 
 /**************************************************************************************
  * INCLUDE
@@ -64,5 +63,3 @@ private:
  **************************************************************************************/
 
 #include "Subscription.ipp"
-
-#endif /* INC_107_ARDUINO_CYPHAL_SUBSCRIPTION_HPP */

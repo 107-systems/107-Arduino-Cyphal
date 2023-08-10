@@ -5,8 +5,7 @@
  * Contributors: https://github.com/107-systems/107-Arduino-Cyphal/graphs/contributors.
  */
 
-#ifndef INC_107_ARDUINO_CYPHAL_LIST_BASE_HPP
-#define INC_107_ARDUINO_CYPHAL_LIST_BASE_HPP
+#pragma once
 
 /**************************************************************************************
  * INCLUDES
@@ -64,5 +63,3 @@ using PortListPublisher = std::shared_ptr<impl::PortListPublisherBase>;
  **************************************************************************************/
 
 } /* cyphal */
-
-#endif /* INC_107_ARDUINO_CYPHAL_LIST_BASE_HPP */
