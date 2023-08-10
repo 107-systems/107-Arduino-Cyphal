@@ -51,10 +51,10 @@ cmake -DBUILD_EXAMPLES=ON .. && make
 ```C++
 #include <107-Arduino-Cyphal.h>
 /* ... */
-Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { /* ... */ });
+cyphal::Node::Heap<cyphal::Node::DEFAULT_O1HEAP_SIZE> node_heap;
+cyphal::Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { /* ... */ });
 
-Publisher<Heartbeat_1_0> heartbeat_pub = node_hdl.create_publisher<Heartbeat_1_0>
+cyphal::Publisher<Heartbeat_1_0> heartbeat_pub = node_hdl.create_publisher<Heartbeat_1_0>
   (1*1000*1000UL /* = 1 sec in usecs. */);
 /* ... */
 void loop() {
@@ -77,10 +77,10 @@ void loop() {
 ```C++
 #include <107-Arduino-Cyphal.h>
 /* ... */
-Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { /* ... */ });
+cyphal::Node::Heap<cyphal::Node::DEFAULT_O1HEAP_SIZE> node_heap;
+cyphal::Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { /* ... */ });
 
-Subscription heartbeat_subscription = node_hdl.create_subscription<Heartbeat_1_0>(onHeartbeat_1_0_Received);
+cyphal::Subscription heartbeat_subscription = node_hdl.create_subscription<Heartbeat_1_0>(onHeartbeat_1_0_Received);
 /* ... */
 void loop() {
   /* Process all pending OpenCyphal actions. */
@@ -101,10 +101,10 @@ void onHeartbeat_1_0_Received(Heartbeat_1_0 const & msg)
 ```C++
 #include <107-Arduino-Cyphal.h>
 /* ... */
-Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { /* ... */ });
+cyphal::Node::Heap<cyphal::Node::DEFAULT_O1HEAP_SIZE> node_heap;
+cyphal::Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { /* ... */ });
 
-ServiceServer execute_command_srv = node_hdl.create_service_server<ExecuteCommand::Request_1_1, ExecuteCommand::Response_1_1>
+cyphal::ServiceServer execute_command_srv = node_hdl.create_service_server<ExecuteCommand::Request_1_1, ExecuteCommand::Response_1_1>
   (2*1000*1000UL, onExecuteCommand_1_1_Request_Received);
 /* ... */
 void loop() {
@@ -124,10 +124,10 @@ ExecuteCommand::Response_1_1 onExecuteCommand_1_1_Request_Received(ExecuteComman
 ```C++
 #include <107-Arduino-Cyphal.h>
 /* ... */
-Node::Heap<Node::DEFAULT_O1HEAP_SIZE> node_heap;
-Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { /* ... */ });
+cyphal::Node::Heap<cyphal::Node::DEFAULT_O1HEAP_SIZE> node_heap;
+cyphal::Node node_hdl(node_heap.data(), node_heap.size(), micros, [] (CanardFrame const & frame) { /* ... */ });
 
-ServiceClient<ExecuteCommand::Request_1_1> srv_client = node_hdl.create_service_client<ExecuteCommand::Request_1_1, ExecuteCommand::Response_1_1>
+cyphal::ServiceClient<ExecuteCommand::Request_1_1> srv_client = node_hdl.create_service_client<ExecuteCommand::Request_1_1, ExecuteCommand::Response_1_1>
   (2*1000*1000UL, onExecuteCommand_1_1_Response_Received);
 /* ... */
 void setup() {
