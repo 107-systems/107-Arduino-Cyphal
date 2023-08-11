@@ -45,7 +45,7 @@ $ y r 42 cyphal.node.id 12
 12
 
 $ y r 42 cyphal.pub.counter.id
-65535                            
+65535
 
 $ y r 42 cyphal.pub.counter.id 1001
 1001
