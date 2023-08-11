@@ -44,3 +44,9 @@ $ y r 42 cyphal.node.id
 $ y r 42 cyphal.node.id 12
 12
 ```
+
+Store changed configuration and restart node:
+```bash
+$ y cmd 42 store
+$ y cmd 42 restart
+```

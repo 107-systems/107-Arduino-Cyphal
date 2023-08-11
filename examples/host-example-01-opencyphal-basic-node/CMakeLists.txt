@@ -6,6 +6,7 @@ set(EXAMPLE_01_TARGET host-example-01-basic-cyphal-node)
 add_executable(${EXAMPLE_01_TARGET}
         host-example-01-opencyphal-basic-node.cpp
         socketcan.c
+        kv_host.cpp
         )
 ##########################################################################
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
