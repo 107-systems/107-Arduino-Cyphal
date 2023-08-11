@@ -42,6 +42,14 @@ typedef uavcan::primitive::scalar::Integer8_1_0 CounterMsg;
 
 extern "C" CanardMicrosecond micros();
 extern "C" unsigned long millis();
+uavcan::node::ExecuteCommand::Response_1_1 onExecuteCommand_1_1_Request_Received(uavcan::node::ExecuteCommand::Request_1_1 const &);
+
+/**************************************************************************************
+ * GLOBAL VARIABLES
+ **************************************************************************************/
+
+static cyphal::support::platform::storage::host::KeyValueStorage kv_storage;
+static std::shared_ptr<cyphal::registry::Registry> node_registry;
 
 /**************************************************************************************
  * MAIN
@@ -68,65 +76,27 @@ int main(int argc, char ** argv)
   CanardNodeID node_id = node_hdl.getNodeId();
   CanardPortID counter_port_id = std::numeric_limits<CanardPortID>::max();
 
-  const auto node_registry = node_hdl.create_registry();
+  node_registry = node_hdl.create_registry();
 
   const auto reg_ro_node_description             = node_registry->route ("cyphal.node.description", {true}, []() { return "basic-cyphal-node"; });
   const auto reg_ro_pub_counter_type             = node_registry->route ("cyphal.pub.counter.type", {true}, []() { return "uavcan.primitive.scalar.Integer8.1.0"; });
-  const auto reg_rw_node_id                      = node_registry->expose("cyphal.node.id", {}, node_id);
-  const auto reg_rw_pub_counter_id               = node_registry->expose("cyphal.pub.counter.id", {}, counter_port_id);
+  const auto reg_rw_node_id                      = node_registry->expose("cyphal.node.id", {true}, node_id);
+  const auto reg_rw_pub_counter_id               = node_registry->expose("cyphal.pub.counter.id", {true}, counter_port_id);
 
   /* Configure service server for storing persistent
    * states upon command request.
    */
-#if __GNUC__ >= 11
-  cyphal::support::platform::storage::host::KeyValueStorage kv_storage;
   auto const rc_load = cyphal::support::load(kv_storage, *node_registry);
   if (rc_load.has_value()) {
     std::cerr << "cyphal::support::load failed with " << static_cast<int>(rc_load.value()) << std::endl;
     return EXIT_FAILURE;
   }
-#endif /* __GNUC__ >= 11 */
 
-  auto weak_node_registry = std::weak_ptr<cyphal::registry::Registry>(node_registry);
   cyphal::ServiceServer execute_command_srv = node_hdl.create_service_server<
     uavcan::node::ExecuteCommand::Request_1_1,
     uavcan::node::ExecuteCommand::Response_1_1>(
     2*1000*1000UL,
-    [&kv_storage, weak_node_registry](uavcan::node::ExecuteCommand::Request_1_1 const & req)
-    {
-      uavcan::node::ExecuteCommand::Response_1_1 rsp;
-
-      if (req.command == uavcan::node::ExecuteCommand::Request_1_1::COMMAND_RESTART)
-      {
-        rsp.status = uavcan::node::ExecuteCommand::Response_1_1::STATUS_SUCCESS;
-        exit(0);
-      }
-      else if (req.command == uavcan::node::ExecuteCommand::Request_1_1::COMMAND_STORE_PERSISTENT_STATES)
-      {
-#if __GNUC__ >= 11
-        auto node_registry = weak_node_registry.lock();
-        if (!node_registry)
-        {
-          std::cerr << "invalid reference to node registry" << std::endl;
-          rsp.status = uavcan::node::ExecuteCommand::Response_1_1::STATUS_FAILURE;
-          return rsp;
-        }
-        auto const rc_save = cyphal::support::save(kv_storage, *node_registry, []() { /* watchdog function */ });
-        if (rc_save.has_value())
-        {
-          std::cerr << "cyphal::support::save failed with " << static_cast<int>(rc_save.value()) << std::endl;
-          rsp.status = uavcan::node::ExecuteCommand::Response_1_1::STATUS_FAILURE;
-          return rsp;
-        }
-#endif /* __GNUC__ >= 11 */
-        rsp.status = uavcan::node::ExecuteCommand::Response_1_1::STATUS_SUCCESS;
-      }
-      else {
-        rsp.status = uavcan::node::ExecuteCommand::Response_1_1::STATUS_BAD_COMMAND;
-      }
-
-      return rsp;
-    });
+    onExecuteCommand_1_1_Request_Received);
 
   /* Update node configuration from register value.
    */
@@ -251,4 +221,31 @@ CanardMicrosecond micros()
 unsigned long millis()
 {
   return micros() / 1000;
+}
+
+uavcan::node::ExecuteCommand::Response_1_1 onExecuteCommand_1_1_Request_Received(uavcan::node::ExecuteCommand::Request_1_1 const & req)
+{
+  uavcan::node::ExecuteCommand::Response_1_1 rsp;
+
+  if (req.command == uavcan::node::ExecuteCommand::Request_1_1::COMMAND_RESTART)
+  {
+    rsp.status = uavcan::node::ExecuteCommand::Response_1_1::STATUS_SUCCESS;
+    exit(0);
+  }
+  else if (req.command == uavcan::node::ExecuteCommand::Request_1_1::COMMAND_STORE_PERSISTENT_STATES)
+  {
+    auto const rc_save = cyphal::support::save(kv_storage, *node_registry, []() { /* watchdog function */ });
+    if (rc_save.has_value())
+    {
+      std::cerr << "cyphal::support::save failed with " << static_cast<int>(rc_save.value()) << std::endl;
+      rsp.status = uavcan::node::ExecuteCommand::Response_1_1::STATUS_FAILURE;
+      return rsp;
+    }
+    rsp.status = uavcan::node::ExecuteCommand::Response_1_1::STATUS_SUCCESS;
+  }
+  else {
+    rsp.status = uavcan::node::ExecuteCommand::Response_1_1::STATUS_BAD_COMMAND;
+  }
+
+  return rsp;
 }
