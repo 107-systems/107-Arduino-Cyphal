@@ -56,6 +56,7 @@ Store changed configuration and restart node:
 $ y cmd 42 store
 $ y cmd 42 restart
 ```
+**Note**: `restart` is implemented in this example as `exit(0)`, hence you need to restart the application yourself.
 
 Subscribe to counter subject:
 ```bash
