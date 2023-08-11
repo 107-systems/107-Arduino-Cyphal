@@ -29,6 +29,7 @@ namespace cyphal::support::platform::storage::host
 class KeyValueStorage final : public interface::KeyValueStorage
 {
 public:
+  KeyValueStorage() { }
   virtual ~KeyValueStorage() { }
 
   /// The return value is the number of bytes read into the buffer or the error.

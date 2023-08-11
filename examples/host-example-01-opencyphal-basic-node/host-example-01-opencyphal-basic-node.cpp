@@ -87,11 +87,12 @@ int main(int argc, char ** argv)
   }
 #endif /* __GNUC__ >= 11 */
 
+  auto weak_node_registry = std::weak_ptr<cyphal::registry::Registry>(node_registry);
   cyphal::ServiceServer execute_command_srv = node_hdl.create_service_server<
     uavcan::node::ExecuteCommand::Request_1_1,
     uavcan::node::ExecuteCommand::Response_1_1>(
     2*1000*1000UL,
-    [&kv_storage, node_registry](uavcan::node::ExecuteCommand::Request_1_1 const & req)
+    [&kv_storage, weak_node_registry](uavcan::node::ExecuteCommand::Request_1_1 const & req)
     {
       uavcan::node::ExecuteCommand::Response_1_1 rsp;
 
@@ -103,13 +104,20 @@ int main(int argc, char ** argv)
       else if (req.command == uavcan::node::ExecuteCommand::Request_1_1::COMMAND_STORE_PERSISTENT_STATES)
       {
 #if __GNUC__ >= 11
-//        auto const rc_save = cyphal::support::save(kv_storage, *node_registry, []() { /* watchdog function */ });
-//        if (rc_save.has_value())
-//        {
-//          std::cerr << "cyphal::support::save failed with " << static_cast<int>(rc_save.value()) << std::endl;
-//          rsp.status = uavcan::node::ExecuteCommand::Response_1_1::STATUS_FAILURE;
-//          return rsp;
-//        }
+        auto node_registry = weak_node_registry.lock();
+        if (!node_registry)
+        {
+          std::cerr << "invalid reference to node registry" << std::endl;
+          rsp.status = uavcan::node::ExecuteCommand::Response_1_1::STATUS_FAILURE;
+          return rsp;
+        }
+        auto const rc_save = cyphal::support::save(kv_storage, *node_registry, []() { /* watchdog function */ });
+        if (rc_save.has_value())
+        {
+          std::cerr << "cyphal::support::save failed with " << static_cast<int>(rc_save.value()) << std::endl;
+          rsp.status = uavcan::node::ExecuteCommand::Response_1_1::STATUS_FAILURE;
+          return rsp;
+        }
 #endif /* __GNUC__ >= 11 */
         rsp.status = uavcan::node::ExecuteCommand::Response_1_1::STATUS_SUCCESS;
       }
@@ -123,7 +131,7 @@ int main(int argc, char ** argv)
   /* Update node configuration from register value.
    */
   node_hdl.setNodeId(node_id);
-  if (counter_port_id !=  std::numeric_limits<CanardPortID>::max())
+  if (counter_port_id != std::numeric_limits<CanardPortID>::max())
     counter_pub = node_hdl.create_publisher<CounterMsg>(counter_port_id, 1*1000*1000UL /* = 1 sec in usecs. */);
 
   std::cout << "Node #" << static_cast<int>(node_id) << std::endl
