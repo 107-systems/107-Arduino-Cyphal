@@ -43,4 +43,31 @@ $ y r 42 cyphal.node.id
 
 $ y r 42 cyphal.node.id 12
 12
+
+$ y r 42 cyphal.pub.counter.id
+65535
+
+$ y r 42 cyphal.pub.counter.id 1001
+1001
+```
+
+Store changed configuration and restart node:
+```bash
+$ y cmd 42 store
+$ y cmd 42 restart
+```
+**Note**: `restart` is implemented in this example as `exit(0)`, hence you need to restart the application yourself.
+
+Subscribe to counter subject:
+```bash
+y sub 1001:uavcan.primitive.scalar.Integer8.1.0 --with-metadata
+---
+1001:
+  _meta_: {ts_system: 1691741133.026175, ts_monotonic: 25484.463219, source_node_id: 12, transfer_id: 1, priority: nominal, dtype: uavcan.primitive.scalar.Integer8.1.0}
+  value: 1
+---
+1001:
+  _meta_: {ts_system: 1691741138.027977, ts_monotonic: 25489.465034, source_node_id: 12, transfer_id: 2, priority: nominal, dtype: uavcan.primitive.scalar.Integer8.1.0}
+  value: 2
+...
 ```
