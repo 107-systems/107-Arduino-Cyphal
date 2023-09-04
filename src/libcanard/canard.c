@@ -3,7 +3,7 @@
 /// Author: Pavel Kirienko <pavel@opencyphal.org>
 
 #include "canard.h"
-#include "cavl.h"
+#include "_canard_cavl.h"
 #include <string.h>
 
 // --------------------------------------------- BUILD CONFIGURATION ---------------------------------------------
@@ -299,7 +299,7 @@ CANARD_PRIVATE TxItem* txAllocateQueueItem(CanardInstance* const   ins,
 {
     CANARD_ASSERT(ins != NULL);
     CANARD_ASSERT(payload_size > 0U);
-    TxItem* const out = (TxItem*) ins->memory_allocate(ins, sizeof(TxItem) - CANARD_MTU_MAX + payload_size);
+    TxItem* const out = (TxItem*) ins->memory_allocate(ins, (sizeof(TxItem) - CANARD_MTU_MAX) + payload_size);
     if (out != NULL)
     {
         out->base.base.up    = NULL;
@@ -324,7 +324,7 @@ CANARD_PRIVATE int8_t txAVLPredicate(void* const user_reference,  // NOSONAR Cav
                                      const CanardTreeNode* const node)
 {
     const CanardTxQueueItem* const target = (const CanardTxQueueItem*) user_reference;
-    const CanardTxQueueItem* const other  = (const CanardTxQueueItem*) node;
+    const CanardTxQueueItem* const other  = (const CanardTxQueueItem*) (const void*) node;
     CANARD_ASSERT((target != NULL) && (other != NULL));
     return (target->frame.extended_can_id >= other->frame.extended_can_id) ? +1 : -1;
 }
@@ -410,7 +410,9 @@ CANARD_PRIVATE TxChain txGenerateMultiFrameChain(CanardInstance* const   ins,
         }
         else
         {
-            out.tail->base.next_in_transfer = &tqi->base;
+            // C std, 6.7.2.1.15: A pointer to a structure object <...> points to its initial member, and vice versa.
+            // Can't just read tqi->base because tqi may be NULL; https://github.com/OpenCyphal/libcanard/issues/203.
+            out.tail->base.next_in_transfer = (CanardTxQueueItem*) tqi;
         }
         out.tail = tqi;
         if (NULL == out.tail)
@@ -556,7 +558,7 @@ typedef struct CanardInternalRxSession
     uint8_t*          payload;                  ///< Dynamically allocated and handed off to the application when done.
     TransferCRC       calculated_crc;           ///< Updated with the received payload in real time.
     CanardTransferID  transfer_id;
-    uint8_t           redundant_transport_index;  ///< Arbitrary value in [0, 255].
+    uint8_t           redundant_iface_index;  ///< Arbitrary value in [0, 255].
     bool              toggle;
 } CanardInternalRxSession;
 
@@ -800,6 +802,53 @@ CANARD_PRIVATE int8_t rxSessionAcceptFrame(CanardInstance* const          ins,
     return out;
 }
 
+/// Evaluates the state of the RX session with respect to time and the new frame, and restarts it if necessary.
+/// The next step is to accept the frame if the transfer-ID, toggle but, and transport index match; reject otherwise.
+/// The logic of this function is simple: it restarts the reassembler if the start-of-transfer flag is set and
+/// any two of the three conditions are met:
+///
+///     - The frame has arrived over the same interface as the previous transfer.
+///     - New transfer-ID is detected.
+///     - The transfer-ID timeout has expired.
+///
+/// Notice that mere TID-timeout is not enough to restart to prevent the interface index oscillation;
+/// while this is not visible at the application layer, it may delay the transfer arrival.
+CANARD_PRIVATE void rxSessionSynchronize(CanardInternalRxSession* const rxs,
+                                         const RxFrameModel* const      frame,
+                                         const uint8_t                  redundant_iface_index,
+                                         const CanardMicrosecond        transfer_id_timeout_usec)
+{
+    CANARD_ASSERT(rxs != NULL);
+    CANARD_ASSERT(frame != NULL);
+    CANARD_ASSERT(rxs->transfer_id <= CANARD_TRANSFER_ID_MAX);
+    CANARD_ASSERT(frame->transfer_id <= CANARD_TRANSFER_ID_MAX);
+
+    const bool same_transport = rxs->redundant_iface_index == redundant_iface_index;
+    // Examples: rxComputeTransferIDDifference(2, 3)==31
+    //           rxComputeTransferIDDifference(2, 2)==0
+    //           rxComputeTransferIDDifference(2, 1)==1
+    const bool tid_new = rxComputeTransferIDDifference(rxs->transfer_id, frame->transfer_id) > 1;
+    // The transfer ID timeout is measured relative to the timestamp of the last start-of-transfer frame.
+    const bool tid_timeout = (frame->timestamp_usec > rxs->transfer_timestamp_usec) &&
+                             ((frame->timestamp_usec - rxs->transfer_timestamp_usec) > transfer_id_timeout_usec);
+
+    const bool restartable = (same_transport && tid_new) ||      //
+                             (same_transport && tid_timeout) ||  //
+                             (tid_new && tid_timeout);
+    // Restarting the transfer reassembly only makes sense if the new frame is a start of transfer.
+    // Otherwise, the new transfer would be impossible to reassemble anyway since the first frame is lost.
+    if (frame->start_of_transfer && restartable)
+    {
+        CANARD_ASSERT(frame->start_of_transfer);
+        rxs->total_payload_size    = 0U;
+        rxs->payload_size          = 0U;  // The buffer is not released because we still need it.
+        rxs->calculated_crc        = CRC_INITIAL;
+        rxs->transfer_id           = frame->transfer_id;
+        rxs->toggle                = INITIAL_TOGGLE_STATE;
+        rxs->redundant_iface_index = redundant_iface_index;
+    }
+}
+
 /// RX session state machine update is the most intricate part of any Cyphal transport implementation.
 /// The state model used here is derived from the reference pseudocode given in the original UAVCAN v0 specification.
 /// The Cyphal/CAN v1 specification, which this library is an implementation of, does not provide any reference
@@ -810,7 +859,7 @@ CANARD_PRIVATE int8_t rxSessionAcceptFrame(CanardInstance* const          ins,
 CANARD_PRIVATE int8_t rxSessionUpdate(CanardInstance* const          ins,
                                       CanardInternalRxSession* const rxs,
                                       const RxFrameModel* const      frame,
-                                      const uint8_t                  redundant_transport_index,
+                                      const uint8_t                  redundant_iface_index,
                                       const CanardMicrosecond        transfer_id_timeout_usec,
                                       const size_t                   extent,
                                       CanardRxTransfer* const        out_transfer)
@@ -821,39 +870,26 @@ CANARD_PRIVATE int8_t rxSessionUpdate(CanardInstance* const          ins,
     CANARD_ASSERT(out_transfer != NULL);
     CANARD_ASSERT(rxs->transfer_id <= CANARD_TRANSFER_ID_MAX);
     CANARD_ASSERT(frame->transfer_id <= CANARD_TRANSFER_ID_MAX);
-
-    const bool tid_timed_out = (frame->timestamp_usec > rxs->transfer_timestamp_usec) &&
-                               ((frame->timestamp_usec - rxs->transfer_timestamp_usec) > transfer_id_timeout_usec);
-
-    const bool not_previous_tid = rxComputeTransferIDDifference(rxs->transfer_id, frame->transfer_id) > 1;
-
-    const bool need_restart = tid_timed_out || ((rxs->redundant_transport_index == redundant_transport_index) &&
-                                                frame->start_of_transfer && not_previous_tid);
-
-    if (need_restart)
-    {
-        rxs->total_payload_size        = 0U;
-        rxs->payload_size              = 0U;
-        rxs->calculated_crc            = CRC_INITIAL;
-        rxs->transfer_id               = frame->transfer_id;
-        rxs->toggle                    = INITIAL_TOGGLE_STATE;
-        rxs->redundant_transport_index = redundant_transport_index;
-    }
-
+    rxSessionSynchronize(rxs, frame, redundant_iface_index, transfer_id_timeout_usec);
     int8_t out = 0;
-    if (need_restart && (!frame->start_of_transfer))
+    // The purpose of the correct_start check is to reduce the possibility of accepting a malformed multi-frame
+    // transfer in the event of a CRC collision. The scenario where this failure mode would manifest is as follows:
+    // 1. A valid transfer (whether single- or multi-frame) is accepted with TID=X.
+    // 2. All frames of the subsequent multi-frame transfer with TID=X+1 are lost except for the last one.
+    // 3. The CRC of said multi-frame transfer happens to yield the correct residue when applied to the fragment
+    //    of the payload contained in the last frame of the transfer (a CRC collision is in effect).
+    // 4. The last frame of the multi-frame transfer is erroneously accepted even though it is malformed.
+    // The correct_start check eliminates this failure mode by ensuring that the first frame is observed.
+    // See https://github.com/OpenCyphal/libcanard/issues/189.
+    const bool correct_iface  = (rxs->redundant_iface_index == redundant_iface_index);
+    const bool correct_toggle = (frame->toggle == rxs->toggle);
+    const bool correct_tid    = (frame->transfer_id == rxs->transfer_id);
+    const bool correct_start  = frame->start_of_transfer  //
+                                    ? (0 == rxs->total_payload_size)
+                                    : (rxs->total_payload_size > 0);
+    if (correct_iface && correct_toggle && correct_tid && correct_start)
     {
-        rxSessionRestart(ins, rxs);  // SOT-miss, no point going further.
-    }
-    else
-    {
-        const bool correct_transport = (rxs->redundant_transport_index == redundant_transport_index);
-        const bool correct_toggle    = (frame->toggle == rxs->toggle);
-        const bool correct_tid       = (frame->transfer_id == rxs->transfer_id);
-        if (correct_transport && correct_toggle && correct_tid)
-        {
-            out = rxSessionAcceptFrame(ins, rxs, frame, extent, out_transfer);
-        }
+        out = rxSessionAcceptFrame(ins, rxs, frame, extent, out_transfer);
     }
     return out;
 }
@@ -861,7 +897,7 @@ CANARD_PRIVATE int8_t rxSessionUpdate(CanardInstance* const          ins,
 CANARD_PRIVATE int8_t rxAcceptFrame(CanardInstance* const       ins,
                                     CanardRxSubscription* const subscription,
                                     const RxFrameModel* const   frame,
-                                    const uint8_t               redundant_transport_index,
+                                    const uint8_t               redundant_iface_index,
                                     CanardRxTransfer* const     out_transfer)
 {
     CANARD_ASSERT(ins != NULL);
@@ -885,14 +921,14 @@ CANARD_PRIVATE int8_t rxAcceptFrame(CanardInstance* const       ins,
             subscription->sessions[frame->source_node_id] = rxs;
             if (rxs != NULL)
             {
-                rxs->transfer_timestamp_usec   = frame->timestamp_usec;
-                rxs->total_payload_size        = 0U;
-                rxs->payload_size              = 0U;
-                rxs->payload                   = NULL;
-                rxs->calculated_crc            = CRC_INITIAL;
-                rxs->transfer_id               = frame->transfer_id;
-                rxs->redundant_transport_index = redundant_transport_index;
-                rxs->toggle                    = INITIAL_TOGGLE_STATE;
+                rxs->transfer_timestamp_usec = frame->timestamp_usec;
+                rxs->total_payload_size      = 0U;
+                rxs->payload_size            = 0U;
+                rxs->payload                 = NULL;
+                rxs->calculated_crc          = CRC_INITIAL;
+                rxs->transfer_id             = frame->transfer_id;
+                rxs->redundant_iface_index   = redundant_iface_index;
+                rxs->toggle                  = INITIAL_TOGGLE_STATE;
             }
             else
             {
@@ -906,7 +942,7 @@ CANARD_PRIVATE int8_t rxAcceptFrame(CanardInstance* const       ins,
             out = rxSessionUpdate(ins,
                                   subscription->sessions[frame->source_node_id],
                                   frame,
-                                  redundant_transport_index,
+                                  redundant_iface_index,
                                   subscription->transfer_id_timeout_usec,
                                   subscription->extent,
                                   out_transfer);
@@ -945,7 +981,7 @@ rxSubscriptionPredicateOnPortID(void* const user_reference,  // NOSONAR Cavl API
                                 const CanardTreeNode* const node)
 {
     const CanardPortID  sought    = *((const CanardPortID*) user_reference);
-    const CanardPortID  other     = ((const CanardRxSubscription*) node)->port_id;
+    const CanardPortID  other     = ((const CanardRxSubscription*) (const void*) node)->port_id;
     static const int8_t NegPos[2] = {-1, +1};
     // Clang-Tidy mistakenly identifies a narrowing cast to int8_t here, which is incorrect.
     return (sought == other) ? 0 : NegPos[sought > other];  // NOLINT no narrowing conversion is taking place here
@@ -1052,7 +1088,7 @@ const CanardTxQueueItem* canardTxPeek(const CanardTxQueue* const que)
     {
         // Paragraph 6.7.2.1.15 of the C standard says:
         //     A pointer to a structure object, suitably converted, points to its initial member, and vice versa.
-        out = (const CanardTxQueueItem*) cavlFindExtremum(que->root, false);
+        out = (const CanardTxQueueItem*) (void*) cavlFindExtremum(que->root, false);
     }
     return out;
 }
@@ -1079,7 +1115,7 @@ CanardTxQueueItem* canardTxPop(CanardTxQueue* const que, const CanardTxQueueItem
 int8_t canardRxAccept(CanardInstance* const        ins,
                       const CanardMicrosecond      timestamp_usec,
                       const CanardFrame* const     frame,
-                      const uint8_t                redundant_transport_index,
+                      const uint8_t                redundant_iface_index,
                       CanardRxTransfer* const      out_transfer,
                       CanardRxSubscription** const out_subscription)
 {
@@ -1096,10 +1132,10 @@ int8_t canardRxAccept(CanardInstance* const        ins,
                 // Note also that this one of the two variable-complexity operations in the RX pipeline; the other one
                 // is memcpy(). Excepting these two cases, the entire RX pipeline contains neither loops nor recursion.
                 CanardRxSubscription* const sub =
-                    (CanardRxSubscription*) cavlSearch(&ins->rx_subscriptions[(size_t) model.transfer_kind],
-                                                       &model.port_id,
-                                                       &rxSubscriptionPredicateOnPortID,
-                                                       NULL);
+                    (CanardRxSubscription*) (void*) cavlSearch(&ins->rx_subscriptions[(size_t) model.transfer_kind],
+                                                               &model.port_id,
+                                                               &rxSubscriptionPredicateOnPortID,
+                                                               NULL);
                 if (out_subscription != NULL)
                 {
                     *out_subscription = sub;  // Expose selected instance to the caller.
@@ -1107,7 +1143,7 @@ int8_t canardRxAccept(CanardInstance* const        ins,
                 if (sub != NULL)
                 {
                     CANARD_ASSERT(sub->port_id == model.port_id);
-                    out = rxAcceptFrame(ins, sub, &model, redundant_transport_index, out_transfer);
+                    out = rxAcceptFrame(ins, sub, &model, redundant_iface_index, out_transfer);
                 }
                 else
                 {
@@ -1176,7 +1212,7 @@ int8_t canardRxUnsubscribe(CanardInstance* const    ins,
     if ((ins != NULL) && (tk < CANARD_NUM_TRANSFER_KINDS))
     {
         CanardPortID                port_id_mutable = port_id;
-        CanardRxSubscription* const sub             = (CanardRxSubscription*)
+        CanardRxSubscription* const sub             = (CanardRxSubscription*) (void*)
             cavlSearch(&ins->rx_subscriptions[tk], &port_id_mutable, &rxSubscriptionPredicateOnPortID, NULL);
         if (sub != NULL)
         {

@@ -15,18 +15,18 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 ##########################################################################
 option(BUILD_EXAMPLES "Build all examples provided with this library" OFF)
 ##########################################################################
-add_subdirectory(src/libcanard)
 add_subdirectory(src/libo1heap)
 ##########################################################################
 add_library(${PROJECT_NAME} STATIC
   src/Node.cpp
+  src/libcanard/canard.c
 )
 ##########################################################################
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
 ##########################################################################
-target_include_directories(${PROJECT_NAME} PUBLIC src extras/cyphal++/include)
+target_include_directories(${PROJECT_NAME} PUBLIC src extras/cyphal++/include src/libcanard)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
-target_link_libraries(${PROJECT_NAME} canard o1heap)
+target_link_libraries(${PROJECT_NAME} o1heap)
 ##########################################################################
 if(BUILD_EXAMPLES)
   add_subdirectory(examples/host-example-01-opencyphal-basic-node)
