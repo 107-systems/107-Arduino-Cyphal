@@ -27,6 +27,6 @@ target_include_directories(${PROJECT_NAME} PUBLIC src extras/cyphal++/include sr
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
 ##########################################################################
 if(BUILD_EXAMPLES)
-  add_subdirectory(examples/host-example-01-opencyphal-basic-node)
+  add_subdirectory(examples/CAN/host-example-01-opencyphal-basic-node)
 endif()
 ##########################################################################

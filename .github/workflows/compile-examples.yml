@@ -60,11 +60,11 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
           sketch-paths: |
-            - examples/OpenCyphal-Blink
-            - examples/OpenCyphal-Heartbeat-Publisher
-            - examples/OpenCyphal-Heartbeat-Subscriber
-            - examples/OpenCyphal-Service-Client
-            - examples/OpenCyphal-Service-Server
+            - examples/CAN/OpenCyphal-Blink
+            - examples/CAN/OpenCyphal-Heartbeat-Publisher
+            - examples/CAN/OpenCyphal-Heartbeat-Subscriber
+            - examples/CAN/OpenCyphal-Service-Client
+            - examples/CAN/OpenCyphal-Service-Server
 
       - name: Save memory usage change report as artifact
         if: github.event_name == 'pull_request'
