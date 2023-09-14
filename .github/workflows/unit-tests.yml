@@ -35,7 +35,7 @@ jobs:
           coverage-data-path: ${{ env.COVERAGE_DATA_PATH }}
 
       - name: Upload coverage report to Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           file: "${{ env.COVERAGE_DATA_PATH }}"
           fail_ci_if_error: true
