@@ -47,6 +47,7 @@ cmake -DBUILD_EXAMPLES=ON .. && make
 * [l3xz-aux-ctrl-firmware](https://github.com/107-systems/l3xz-aux-ctrl-firmware): Firmware for the [L3X-Z](https://github.com/107-systems/l3xz) auxiliary controller ([CyphalPicoBase/CAN](https://github.com/generationmake/CyphalPicoBase-CAN)).
 * [l3xz-leg-ctrl-firmware](https://github.com/107-systems/l3xz-leg-ctrl-firmware): Firmware for the [L3X-Z](https://github.com/107-systems/l3xz) leg controller ([l3xz-leg-ctrl-hardware](https://github.com/107-systems/l3xz-leg-ctrl-hardware)).
 * [l3xz-radiation-sensor-firmware](https://github.com/107-systems/l3xz-radiation-sensor-firmware): Firmware for the [L3X-Z](https://github.com/107-systems/l3xz) radiation sensor ([CyphalPicoBase/CAN](https://github.com/generationmake/CyphalPicoBase-CAN)).
+* [l3xz-pressure-sensor-firmware](https://github.com/107-systems/l3xz-pressure-sensor-firmware): Firmware for the [L3X-Z](https://github.com/107-systems/l3xz) pressure sensor ([CyphalPicoBase/CAN](https://github.com/generationmake/CyphalPicoBase-CAN)).
 
 ### Examples
 #### Publisher
