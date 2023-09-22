@@ -43,7 +43,7 @@ cmake -DBUILD_EXAMPLES=ON .. && make
 
 ### Reference-Implementations
 * [CyphalPicoBase/CAN-firmware](https://github.com/107-systems/CyphalPicoBase/CAN-firmware): Firmware for the [CyphalPicoBase/CAN](https://github.com/generationmake/CyphalPicoBase-CAN) board.
-* [OpenCyphalServoController12-firmware](https://github.com/107-systems/OpenCyphalServoController12-firmware): Firmware for the [OpenCyphalServoController12](https://github.com/generationmake/OpenCyphalServoController12) board.
+* [CyphalServoController12/CAN-firmware](https://github.com/107-systems/CyphalServoController12-CAN-firmware): Firmware for the [CyphalServoController12/CAN](https://github.com/generationmake/OpenCyphalServoController12) board.
 * [l3xz-aux-ctrl-firmware](https://github.com/107-systems/l3xz-aux-ctrl-firmware): Firmware for the [L3X-Z](https://github.com/107-systems/l3xz) auxiliary controller ([CyphalPicoBase/CAN](https://github.com/generationmake/CyphalPicoBase-CAN)).
 * [l3xz-leg-ctrl-firmware](https://github.com/107-systems/l3xz-leg-ctrl-firmware): Firmware for the [L3X-Z](https://github.com/107-systems/l3xz) leg controller ([l3xz-leg-ctrl-hardware](https://github.com/107-systems/l3xz-leg-ctrl-hardware)).
 * [l3xz-radiation-sensor-firmware](https://github.com/107-systems/l3xz-radiation-sensor-firmware): Firmware for the [L3X-Z](https://github.com/107-systems/l3xz) radiation sensor ([CyphalPicoBase/CAN](https://github.com/generationmake/CyphalPicoBase-CAN)).
