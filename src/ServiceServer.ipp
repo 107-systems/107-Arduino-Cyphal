@@ -47,7 +47,12 @@ bool ServiceServer<T_REQ, T_RSP, OnRequestCb>::onTransferReceived(CanardRxTransf
   if (!req_rc) return false;
 
   /* Invoke the service callback and obtain the desired response. */
-  T_RSP const rsp = _on_request_cb(req);
+  T_RSP rsp;
+  if constexpr (std::is_invocable_v<OnRequestCb, T_REQ, TransferMetadata>) {
+    rsp = _on_request_cb(req, fillMetadata(transfer));
+  } else {
+    rsp = _on_request_cb(req);
+  }
 
   /* Serialize the response message. */
   std::array<uint8_t, T_RSP::_traits_::SerializationBufferSizeBytes> rsp_buf;

@@ -78,6 +78,23 @@ NodeInfo Node::create_node_info(uint8_t const protocol_major, uint8_t const prot
                                           name);
 }
 
+NodeInfo Node::create_node_info(uint8_t const protocol_major, uint8_t const protocol_minor,
+                          uint8_t const hardware_major, uint8_t const hardware_minor,
+                          uint8_t const software_major, uint8_t const software_minor,
+                          uint64_t const software_vcs_revision_id,
+                          std::array<uint8_t, 16> const & unique_id,
+                          std::string const & name,
+                          uint64_t const image_crc)
+{
+  return std::make_shared<impl::NodeInfo>(*this,
+                                          protocol_major, protocol_minor,
+                                          hardware_major, hardware_minor,
+                                          software_major, software_minor,
+                                          software_vcs_revision_id,
+                                          unique_id,
+                                          name, image_crc);
+}
+
 void Node::spinSome()
 {
   processPortList();

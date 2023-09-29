@@ -43,6 +43,29 @@ public:
            uint8_t const software_minor,
            uint64_t const software_vcs_revision_id,
            std::array<uint8_t, 16> const & unique_id,
+           std::string const & name,
+           std::uint64_t const software_image_crc)
+  : NodeInfo{node_hdl,
+             protocol_major, protocol_minor,
+             hardware_major, hardware_minor,
+             software_major, software_minor,
+             software_vcs_revision_id,
+             unique_id,
+             name}
+  {
+    std::array<std::uint64_t, 1> const crc = {software_image_crc};
+    std::copy(crc.cbegin(), crc.cend(), std::back_inserter(_node_info_rsp.software_image_crc));
+  }
+
+  NodeInfo(Node & node_hdl,
+           uint8_t const protocol_major,
+           uint8_t const protocol_minor,
+           uint8_t const hardware_major,
+           uint8_t const hardware_minor,
+           uint8_t const software_major,
+           uint8_t const software_minor,
+           uint64_t const software_vcs_revision_id,
+           std::array<uint8_t, 16> const & unique_id,
            std::string const & name)
   : NodeInfoBase{}
   {
