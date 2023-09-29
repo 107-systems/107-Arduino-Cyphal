@@ -113,6 +113,14 @@ public:
                             std::array<uint8_t, 16> const & unique_id,
                             std::string const & name);
 
+  NodeInfo create_node_info(uint8_t const protocol_major, uint8_t const protocol_minor,
+                            uint8_t const hardware_major, uint8_t const hardware_minor,
+                            uint8_t const software_major, uint8_t const software_minor,
+                            uint64_t const software_vcs_revision_id,
+                            std::array<uint8_t, 16> const & unique_id,
+                            std::string const & name,
+                            uint64_t const image_crc);
+
   /* Must be called from the application to process
    * all received CAN frames.
    */
