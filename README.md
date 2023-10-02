@@ -14,7 +14,7 @@
 
 This Arduino library implements the [Cyphal](https://opencyphal.org/) protocol ([v1.0-beta](https://opencyphal.org/specification/Cyphal_Specification.pdf)) utilizing [libcanard](https://github.com/OpenCyphal/libcanard).
 
-**Note**: For commercial support, customisation or contract development work contact consulting@lxrobotics.com.
+**Note**: For commercial support, customisation or contract development contact consulting@lxrobotics.com.
 
 <p align="center">
   <a href="https://github.com/107-systems/l3xz"><img src="https://raw.githubusercontent.com/107-systems/.github/main/logo/l3xz-logo-memento-mori-github.png" width="30%"></a>
