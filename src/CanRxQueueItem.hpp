@@ -31,8 +31,7 @@ namespace cyphal
 template<size_t MTU_BYTES>
 class CanRxQueueItem
 {
-  static_assert((MTU_BYTES
-  == CANARD_MTU_CAN_CLASSIC) || (MTU_BYTES == CANARD_MTU_CAN_FD),
+  static_assert((MTU_BYTES == CANARD_MTU_CAN_CLASSIC) || (MTU_BYTES == CANARD_MTU_CAN_FD),
   "CanRxQueueItem can only have an MTU size of either 8 (CANARD_MTU_CAN_CLASSIC) or 64 (CANARD_MTU_CAN_FD).");
 public:
   CanRxQueueItem()
