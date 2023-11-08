@@ -116,7 +116,7 @@ void Node::onCanFrameReceived(CanardFrame const & frame)
     CanRxQueueItem<CANARD_MTU_CAN_CLASSIC> const rx_queue_item(&frame, _micros_func());
     static_cast<CircularBufferCan *>(_canard_rx_queue.get())->enqueue(rx_queue_item);
   }
-  else
+  else if (_mtu_bytes == CANARD_MTU_CAN_FD)
   {
     CanRxQueueItem<CANARD_MTU_CAN_FD> const rx_queue_item(&frame, _micros_func());
     static_cast<CircularBufferCanFd *>(_canard_rx_queue.get())->enqueue(rx_queue_item);
@@ -172,7 +172,7 @@ void Node::processRxQueue()
     processRxFrame(rx_queue_item);
     can_rx_queue_ptr->pop();
   }
-  else
+  else if (_mtu_bytes == CANARD_MTU_CAN_FD)
   {
     CircularBufferCanFd * canfd_rx_queue_ptr = static_cast<CircularBufferCanFd *>(_canard_rx_queue.get());
     CanRxQueueItem<CANARD_MTU_CAN_FD> const * rx_queue_item = canfd_rx_queue_ptr->peek();
