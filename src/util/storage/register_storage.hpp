@@ -36,7 +36,7 @@ template <typename FeedWatchdogFunc>
 
         // Find the next register in the registry.
         const auto reg_name_storage = rgy.index(index);  // This is a little suboptimal but we don't care.
-        const auto reg_name = std::string_view(reinterpret_cast<const char *>(reg_name_storage.name.cbegin()), reg_name_storage.name.size());
+        const auto reg_name = std::string_view(reinterpret_cast<const char *>(reg_name_storage.name.data()), reg_name_storage.name.size());
         if (reg_name.empty())
         {
             break;  // No more registers to load.
@@ -107,7 +107,7 @@ template <typename ResetPredicate, typename FeedWatchdogFunc>
         feed_watchdog_func();
 
         const auto reg_name_storage = rgy.index(index);  // This is a little suboptimal but we don't care.
-        const auto reg_name = std::string_view(reinterpret_cast<const char *>(reg_name_storage.name.cbegin()), reg_name_storage.name.size());
+        const auto reg_name = std::string_view(reinterpret_cast<const char *>(reg_name_storage.name.data()), reg_name_storage.name.size());
         if (reg_name.empty())
         {
             break;  // No more registers to load.
