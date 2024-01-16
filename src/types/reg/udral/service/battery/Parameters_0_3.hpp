@@ -5,9 +5,9 @@
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-2.0.9 (serialization was enabled)
+// Generator:     nunavut-2.3.1 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/service/battery/Parameters.0.3.dsdl
-// Generated at:  2023-03-10 05:17:54.660411 UTC
+// Generated at:  2024-01-12 03:09:36.000063 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.service.battery.Parameters
@@ -21,30 +21,33 @@
 //    version:  (1, 0, 0)
 // Platform
 //     python_implementation:  CPython
-//     python_version:  3.10.6
+//     python_version:  3.10.12
 //     python_release_level:  final
-//     python_build:  ('main', 'Nov 14 2022 16:10:14')
-//     python_compiler:  GCC 11.3.0
+//     python_build:  ('main', 'Nov 20 2023 15:14:05')
+//     python_compiler:  GCC 11.4.0
 //     python_revision:
 //     python_xoptions:  {}
-//     runtime_platform:  Linux-5.19.0-35-generic-x86_64-with-glibc2.35
+//     runtime_platform:  Linux-5.15.0-91-generic-aarch64-with-glibc2.35
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
 //     enable_serialization_asserts:  False
 //     enable_override_variable_array_capacity:  False
 //     std:  c++17
-//     variable_array_type_template:
-//     variable_array_type_include:
 //     cast_format:  static_cast<{type}>({value})
-//     enable_allocator_support:  False
+//     variable_array_type_include:  <vector>
+//     variable_array_type_template:  std::vector<{TYPE}>
+//     variable_array_type_constructor_args:
+//     allocator_include:
+//     allocator_type:
+//     allocator_is_default_constructible:  True
+//     ctor_convention:  default
 // Uses Language Features
 //     Uses std_variant:yes
 #ifndef REG_UDRAL_SERVICE_BATTERY_PARAMETERS_0_3_HPP_INCLUDED
 #define REG_UDRAL_SERVICE_BATTERY_PARAMETERS_0_3_HPP_INCLUDED
 
 #include <nunavut/support/serialization.hpp>
-#include <nunavut/support/variable_length_array.hpp>
 #include <types/reg/udral/service/battery/Technology_0_1.hpp>
 #include <types/uavcan/si/unit/electric_charge/Scalar_1_0.hpp>
 #include <types/uavcan/si/unit/electric_current/Scalar_1_0.hpp>
@@ -53,6 +56,7 @@
 #include <array>
 #include <cstdint>
 #include <limits>
+#include <vector>
 
 namespace reg
 {
@@ -93,22 +97,42 @@ static_assert( nunavut::support::options::std == 628873475,
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
-static_assert( nunavut::support::options::variable_array_type_template == 0,
-              "/tmp/public_regulated_data_types/reg/udral/service/battery/Parameters.0.3.dsdl "
-              "is trying to use a serialization library that was compiled with "
-              "different language options. This is dangerous and therefore not "
-              "allowed." );
-static_assert( nunavut::support::options::variable_array_type_include == 0,
-              "/tmp/public_regulated_data_types/reg/udral/service/battery/Parameters.0.3.dsdl "
-              "is trying to use a serialization library that was compiled with "
-              "different language options. This is dangerous and therefore not "
-              "allowed." );
 static_assert( nunavut::support::options::cast_format == 1407868567,
               "/tmp/public_regulated_data_types/reg/udral/service/battery/Parameters.0.3.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
-static_assert( nunavut::support::options::enable_allocator_support == 0,
+static_assert( nunavut::support::options::variable_array_type_include == 3320664631,
+              "/tmp/public_regulated_data_types/reg/udral/service/battery/Parameters.0.3.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::variable_array_type_template == 4227611599,
+              "/tmp/public_regulated_data_types/reg/udral/service/battery/Parameters.0.3.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::variable_array_type_constructor_args == 0,
+              "/tmp/public_regulated_data_types/reg/udral/service/battery/Parameters.0.3.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::allocator_include == 0,
+              "/tmp/public_regulated_data_types/reg/udral/service/battery/Parameters.0.3.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::allocator_type == 0,
+              "/tmp/public_regulated_data_types/reg/udral/service/battery/Parameters.0.3.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::allocator_is_default_constructible == 1,
+              "/tmp/public_regulated_data_types/reg/udral/service/battery/Parameters.0.3.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::ctor_convention == 3814588639,
               "/tmp/public_regulated_data_types/reg/udral/service/battery/Parameters.0.3.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
@@ -151,6 +175,7 @@ struct Parameters_0_3 final
         static constexpr std::size_t SerializationBufferSizeBytes = 128UL;
         static_assert(ExtentBytes >= SerializationBufferSizeBytes, "Internal constraint violation");
         static_assert(ExtentBytes < (std::numeric_limits<std::size_t>::max() / 8U), "This message is too large to be handled by the selected types");
+
         struct TypeOf
         {
             TypeOf() = delete;
@@ -170,7 +195,7 @@ struct Parameters_0_3 final
             using technology = reg::udral::service::battery::Technology_0_1;
             using nominal_voltage = uavcan::si::unit::voltage::Scalar_1_0;
             using unix_manufacture_time = std::uint64_t;
-            using name = nunavut::support::VariableLengthArray<std::uint8_t, 64>;
+            using name = std::vector<std::uint8_t>;
         };
     };
 
@@ -196,11 +221,11 @@ struct Parameters_0_3 final
     /// May be used for predicting the kinematic parameters of the vehicle.
     /// NaN if unknown.
     ///
-    _traits_::TypeOf::mass mass;
+    _traits_::TypeOf::mass mass{};
     ///
     /// The maximum total charge of the pack, at 100% SoH, specified by the manufacturer.
     ///
-    _traits_::TypeOf::design_capacity design_capacity;
+    _traits_::TypeOf::design_capacity design_capacity{};
     ///
     /// The minimum (end of discharge) and the maximum (end of charge) resting cell voltage specified by the
     /// manufacturer
@@ -216,28 +241,28 @@ struct Parameters_0_3 final
     ///
     /// Recommended continuous discharge current of the battery.
     ///
-    _traits_::TypeOf::discharge_current discharge_current;
+    _traits_::TypeOf::discharge_current discharge_current{};
     ///
     /// Maximum current that may be safely discharged at least for 5 seconds.
     ///
-    _traits_::TypeOf::discharge_current_burst discharge_current_burst;
+    _traits_::TypeOf::discharge_current_burst discharge_current_burst{};
     ///
     /// Recommended continuous charge current of the battery.
     ///
-    _traits_::TypeOf::charge_current charge_current;
+    _traits_::TypeOf::charge_current charge_current{};
     ///
     /// Recommended safest highest continuous charge current for the battery.
     /// This may cause accelerated aging of the battery.
     ///
-    _traits_::TypeOf::charge_current_fast charge_current_fast;
+    _traits_::TypeOf::charge_current_fast charge_current_fast{};
     ///
     /// End-of-charging current threshold. Charging may be terminated when the current falls below this threshold.
     ///
-    _traits_::TypeOf::charge_termination_threshold charge_termination_threshold;
+    _traits_::TypeOf::charge_termination_threshold charge_termination_threshold{};
     ///
     /// The total voltage (not per-cell) that may be used by the charger to charge the battery pack.
     ///
-    _traits_::TypeOf::charge_voltage charge_voltage;
+    _traits_::TypeOf::charge_voltage charge_voltage{};
     ///
     /// The number of charge-discharge cycles. Zero if the battery is new. May increase at runtime.
     /// What constitutes a charge-discharge cycle is implementation-defined.
@@ -255,12 +280,12 @@ struct Parameters_0_3 final
     ///
     /// The battery technology information may be leveraged by the charger to choose the appropriate charging strategy.
     ///
-    _traits_::TypeOf::technology technology;
+    _traits_::TypeOf::technology technology{};
     ///
     /// The nominal voltage of the battery pack (not per-cell) as defined by the vendor.
     /// E.g., a typical 22S LiCoO2 pack would usually report 81.4 V here.
     ///
-    _traits_::TypeOf::nominal_voltage nominal_voltage;
+    _traits_::TypeOf::nominal_voltage nominal_voltage{};
     ///
     /// The approximate UNIX Epoch time when the battery was manufactured, zero if unknown.
     ///
@@ -809,11 +834,10 @@ inline nunavut::support::SerializeResult deserialize(Parameters_0_3& obj,
         obj.name.reserve(_size0_);
         for (std::size_t _index5_ = 0U; _index5_ < _size0_; ++_index5_)
         {
-            // TODO This is terribly inefficient. We need to completely refactor this template to use C++ emplace and
-            // move semantics instead of assuming C-style containers
-            obj.name.push_back();
-            obj.name[_index5_] = in_buffer.getU8(8U);
+            std::uint8_t _tmp0_ = std::uint8_t();
+            _tmp0_ = in_buffer.getU8(8U);
         in_buffer.add_offset(8U);
+            obj.name.push_back(std::move(_tmp0_));
         }
     }
     in_buffer.align_offset_to<8U>();
