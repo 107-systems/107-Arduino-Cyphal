@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-2.3.1 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/reg/udral/service/actuator/esc/_.0.1.dsdl
-// Generated at:  2024-01-12 03:09:35.826615 UTC
+// Generated at:  2024-01-29 05:34:31.880019 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     reg.udral.service.actuator.esc._
@@ -27,7 +27,7 @@
 //     python_compiler:  GCC 11.4.0
 //     python_revision:
 //     python_xoptions:  {}
-//     runtime_platform:  Linux-5.15.0-91-generic-aarch64-with-glibc2.35
+//     runtime_platform:  Linux-6.5.0-15-generic-x86_64-with-glibc2.35
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
