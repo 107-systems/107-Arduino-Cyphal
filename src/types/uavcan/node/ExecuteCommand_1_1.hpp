@@ -7,8 +7,8 @@
 //
 // Generator:     nunavut-2.3.1 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.1.dsdl
-// Generated at:  2024-01-12 03:09:35.181013 UTC
-// Is deprecated: no
+// Generated at:  2024-01-29 05:34:31.028393 UTC
+// Is deprecated: yes
 // Fixed port-ID: 435
 // Full name:     uavcan.node.ExecuteCommand
 // Type Version:  1.1
@@ -27,7 +27,7 @@
 //     python_compiler:  GCC 11.4.0
 //     python_revision:
 //     python_xoptions:  {}
-//     runtime_platform:  Linux-5.15.0-91-generic-aarch64-with-glibc2.35
+//     runtime_platform:  Linux-6.5.0-15-generic-x86_64-with-glibc2.35
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
@@ -44,6 +44,14 @@
 //     ctor_convention:  default
 // Uses Language Features
 //     Uses std_variant:yes
+//           _____  ______ _____  _____  ______ _____       _______ ______ _____
+//          |  __ `|  ____|  __ `|  __ `|  ____/ ____|   /`|__   __|  ____|  __ `
+//          | |  | | |__  | |__) | |__) | |__ | |       /  `  | |  | |__  | |  | |
+//          | |  | |  __| |  ___/|  _  /|  __|| |      / /` ` | |  |  __| | |  | |
+//          | |__| | |____| |    | | ` `| |___| |____ / ____ `| |  | |____| |__| |
+//          |_____/|______|_|    |_|  `_`______`_____/_/    `_`_|  |______|_____/
+//
+// WARNING: this data type is deprecated and is nearing the end of its life cycle. Seek replacement.
 #ifndef UAVCAN_NODE_EXECUTE_COMMAND_1_1_HPP_INCLUDED
 #define UAVCAN_NODE_EXECUTE_COMMAND_1_1_HPP_INCLUDED
 
@@ -141,7 +149,7 @@ namespace ExecuteCommand
 /// Instructs the server node to execute or commence execution of a simple predefined command.
 /// All standard commands are optional; i.e., not guaranteed to be supported by all nodes.
 ///
-struct Request_1_1 final
+struct [[deprecated("uavcan.node.ExecuteCommand.Request.1.1 is reaching the end of its life; there may be a newer version available")]]Request_1_1 final
 {
     struct _traits_  // The name is surrounded with underscores to avoid collisions with DSDL attributes.
     {
@@ -344,7 +352,7 @@ inline nunavut::support::SerializeResult deserialize(Request_1_1& obj,
 // | your code will not be backwards compatible with the C++14 version of this object.
 // +-------------------------------------------------------------------------------------------------------------------+
 
-struct Response_1_1 final
+struct [[deprecated("uavcan.node.ExecuteCommand.Response.1.1 is reaching the end of its life; there may be a newer version available")]]Response_1_1 final
 {
     struct _traits_  // The name is surrounded with underscores to avoid collisions with DSDL attributes.
     {
