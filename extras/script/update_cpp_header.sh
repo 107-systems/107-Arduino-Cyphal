@@ -9,6 +9,9 @@ cd /tmp
 rm -rf public_regulated_data_types
 git clone https://github.com/OpenCyphal/public_regulated_data_types
 
+rm -rf zubax_dsdl
+git clone https://github.com/Zubax/zubax_dsdl
+
 echo "nnvg version: "
 nnvg --version
 echo ""
@@ -31,16 +34,27 @@ nnvg --experimental-languages \
      --lookup public_regulated_data_types/uavcan \
      --outdir public_regulated_data_types/reg-header \
      public_regulated_data_types/reg
+nnvg --experimental-languages \
+     --language-standard=c++17 \
+     --target-language cpp \
+     --pp-max-emptylines=1  \
+     --pp-trim-trailing-whitespace \
+     --target-endianness=any \
+     --lookup public_regulated_data_types/uavcan \
+     --outdir zubax_dsdl/zubax/zubax-header \
+     zubax_dsdl/zubax
 
 echo "Copying code to destination"
 cp -R public_regulated_data_types/uavcan-header/nunavut/* "$NUNAVUT_DIR"
 cp -R public_regulated_data_types/uavcan-header/uavcan "$HEADER_DIR"
 cp -R public_regulated_data_types/reg-header/reg "$HEADER_DIR"
+cp -R zubax_dsdl/zubax/zubax-header/zubax "$HEADER_DIR"
 
 echo "Fixing include paths"
 cd $HEADER_DIR
 find . -type f -exec sed -i 's/"reg\//<types\/reg\//g' {} +
 find . -type f -exec sed -i 's/"uavcan\//<types\/uavcan\//g' {} +
+find . -type f -exec sed -i 's/"zubax\//<types\/zubax\//g' {} +
 find . -type f -exec sed -i 's/"nunavut/<nunavut/g' {} +
 find . -type f -exec sed -i 's/.hpp"/.hpp>/g' {} +
 
