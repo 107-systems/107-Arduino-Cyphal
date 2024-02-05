@@ -35,20 +35,20 @@ jobs:
             platforms: |
               - name: rp2040:rp2040
                 source-url: https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
-            artifact-name-suffix: rp2040:arduino_nano_connect
+            artifact-name-suffix: rp2040-arduino-nano-connect
           - fqbn: rp2040:rp2040:rpipico
             platforms: |
               - name: rp2040:rp2040
                 source-url: https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
-            artifact-name-suffix: rp2040:rpipico
+            artifact-name-suffix: rp2040-rpipico
           - fqbn: arduino:renesas_portenta:portenta_c33
             platforms: |
               - name: arduino:renesas_portenta
-            artifact-name-suffix: renesas_portenta:portenta_c33
+            artifact-name-suffix: renesas-portenta-portenta-c33
           - fqbn: arduino:renesas_uno:minima
             platforms: |
               - name: arduino:renesas_uno
-            artifact-name-suffix: renesas_uno:minima
+            artifact-name-suffix: renesas-uno-minima
 
     steps:
       - name: Checkout
