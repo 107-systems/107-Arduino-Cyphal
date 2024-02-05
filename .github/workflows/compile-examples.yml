@@ -56,10 +56,19 @@ jobs:
           fqbn: ${{ matrix.board.fqbn }}
           platforms: ${{ matrix.board.platforms }}
           libraries: ${{ env.LIBRARIES }}
+          enable-deltas-report: true
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          sketches-report-path: ${{ env.SKETCHES_REPORTS_PATH }}
           sketch-paths: |
             - examples/CAN/OpenCyphal-Blink
             - examples/CAN/OpenCyphal-Heartbeat-Publisher
             - examples/CAN/OpenCyphal-Heartbeat-Subscriber
             - examples/CAN/OpenCyphal-Service-Client
             - examples/CAN/OpenCyphal-Service-Server
+
+      - name: Save memory usage change report as artifact
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.SKETCHES_REPORTS_PATH }}
+          path: ${{ env.SKETCHES_REPORTS_PATH }}
