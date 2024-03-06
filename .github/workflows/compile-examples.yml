@@ -55,7 +55,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Compile examples
-        uses: arduino/compile-sketches@main
+        uses: arduino/compile-sketches@v1
         with:
           fqbn: ${{ matrix.board.fqbn }}
           platforms: ${{ matrix.board.platforms }}
