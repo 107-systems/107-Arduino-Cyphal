@@ -6,12 +6,12 @@
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
 // Generator:     nunavut-2.0.9 (serialization was enabled)
-// Source file:   /tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.2.dsdl
-// Generated at:  2024-03-22 12:34:31.311325 UTC
-// Is deprecated: yes
+// Source file:   /tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.3.dsdl
+// Generated at:  2024-03-22 12:34:31.301465 UTC
+// Is deprecated: no
 // Fixed port-ID: 435
 // Full name:     uavcan.node.ExecuteCommand
-// Type Version:  1.2
+// Type Version:  1.3
 // Support
 //    Support Namespace: nunavut.lang.cpp.support
 //    Support Version:   (1, 0, 0)
@@ -40,16 +40,8 @@
 //     enable_allocator_support:  False
 // Uses Language Features
 //     Uses std_variant:yes
-//           _____  ______ _____  _____  ______ _____       _______ ______ _____
-//          |  __ `|  ____|  __ `|  __ `|  ____/ ____|   /`|__   __|  ____|  __ `
-//          | |  | | |__  | |__) | |__) | |__ | |       /  `  | |  | |__  | |  | |
-//          | |  | |  __| |  ___/|  _  /|  __|| |      / /` ` | |  |  __| | |  | |
-//          | |__| | |____| |    | | ` `| |___| |____ / ____ `| |  | |____| |__| |
-//          |_____/|______|_|    |_|  `_`______`_____/_/    `_`_|  |______|_____/
-//
-// WARNING: this data type is deprecated and is nearing the end of its life cycle. Seek replacement.
-#ifndef UAVCAN_NODE_EXECUTE_COMMAND_1_2_HPP_INCLUDED
-#define UAVCAN_NODE_EXECUTE_COMMAND_1_2_HPP_INCLUDED
+#ifndef UAVCAN_NODE_EXECUTE_COMMAND_1_3_HPP_INCLUDED
+#define UAVCAN_NODE_EXECUTE_COMMAND_1_3_HPP_INCLUDED
 
 #include <nunavut/support/serialization.hpp>
 #include <nunavut/support/variable_length_array.hpp>
@@ -67,47 +59,47 @@ namespace node
 // | options in effect when that support code was generated.
 // +-------------------------------------------------------------------------------------------------------------------+
 static_assert( nunavut::support::options::target_endianness == 1693710260,
-              "/tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.2.dsdl "
+              "/tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.3.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
 static_assert( nunavut::support::options::omit_float_serialization_support == 0,
-              "/tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.2.dsdl "
+              "/tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.3.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
 static_assert( nunavut::support::options::enable_serialization_asserts == 0,
-              "/tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.2.dsdl "
+              "/tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.3.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
 static_assert( nunavut::support::options::enable_override_variable_array_capacity == 0,
-              "/tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.2.dsdl "
+              "/tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.3.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
 static_assert( nunavut::support::options::std == 628873475,
-              "/tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.2.dsdl "
+              "/tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.3.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
 static_assert( nunavut::support::options::variable_array_type_template == 0,
-              "/tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.2.dsdl "
+              "/tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.3.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
 static_assert( nunavut::support::options::variable_array_type_include == 0,
-              "/tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.2.dsdl "
+              "/tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.3.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
 static_assert( nunavut::support::options::cast_format == 1407868567,
-              "/tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.2.dsdl "
+              "/tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.3.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
 static_assert( nunavut::support::options::enable_allocator_support == 0,
-              "/tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.2.dsdl "
+              "/tmp/public_regulated_data_types/uavcan/node/435.ExecuteCommand.1.3.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
@@ -125,8 +117,7 @@ namespace ExecuteCommand
 /// Instructs the server node to execute or commence execution of a simple predefined command.
 /// All standard commands are optional; i.e., not guaranteed to be supported by all nodes.
 ///
-[[deprecated("uavcan.node.ExecuteCommand.Request.1.2 is reaching the end of its life; there may be a newer version available")]]
-struct Request_1_2 final
+struct Request_1_3 final
 {
     struct _traits_  // The name is surrounded with underscores to avoid collisions with DSDL attributes.
     {
@@ -248,7 +239,7 @@ struct Request_1_2 final
     _traits_::TypeOf::parameter parameter{};
 };
 
-inline nunavut::support::SerializeResult serialize(const Request_1_2& obj,
+inline nunavut::support::SerializeResult serialize(const Request_1_3& obj,
                                                    nunavut::support::bitspan out_buffer)
 {
     const std::size_t capacity_bits = out_buffer.size();
@@ -297,7 +288,7 @@ inline nunavut::support::SerializeResult serialize(const Request_1_2& obj,
     return out_buffer.offset_bytes_ceil();
 }
 
-inline nunavut::support::SerializeResult deserialize(Request_1_2& obj,
+inline nunavut::support::SerializeResult deserialize(Request_1_3& obj,
                                                      nunavut::support::const_bitspan in_buffer)
 {
     const auto capacity_bits = in_buffer.size();
@@ -335,8 +326,7 @@ inline nunavut::support::SerializeResult deserialize(Request_1_2& obj,
 // | your code will not be backwards compatible with the C++14 version of this object.
 // +-------------------------------------------------------------------------------------------------------------------+
 
-[[deprecated("uavcan.node.ExecuteCommand.Response.1.2 is reaching the end of its life; there may be a newer version available")]]
-struct Response_1_2 final
+struct Response_1_3 final
 {
     struct _traits_  // The name is surrounded with underscores to avoid collisions with DSDL attributes.
     {
@@ -355,13 +345,14 @@ struct Response_1_2 final
         /// instead of the extent because it provides a tighter bound of the object size; it is safe because the concrete type
         /// is always known during serialization (unlike deserialization). If not sure, use extent everywhere.
         static constexpr std::size_t ExtentBytes                  = 48UL;
-        static constexpr std::size_t SerializationBufferSizeBytes = 1UL;
+        static constexpr std::size_t SerializationBufferSizeBytes = 48UL;
         static_assert(ExtentBytes >= SerializationBufferSizeBytes, "Internal constraint violation");
         static_assert(ExtentBytes < (std::numeric_limits<std::size_t>::max() / 8U), "This message is too large to be handled by the selected types");
         struct TypeOf
         {
             TypeOf() = delete;
             using status = std::uint8_t;
+            using output = nunavut::support::VariableLengthArray<std::uint8_t, 46>;
         };
     };
 
@@ -404,13 +395,20 @@ struct Response_1_2 final
     /// The result of the request.
     ///
     _traits_::TypeOf::status status{};
+    ///
+    /// Any output that could be useful that has the capability to convey detailed information.
+    /// Users can send commands and receive specific data, like device status or measurements back in a streamlined
+    /// manner.
+    /// The standard commands should leave this field empty unless explicitly specified otherwise.
+    ///
+    _traits_::TypeOf::output output{};
 };
 
-inline nunavut::support::SerializeResult serialize(const Response_1_2& obj,
+inline nunavut::support::SerializeResult serialize(const Response_1_3& obj,
                                                    nunavut::support::bitspan out_buffer)
 {
     const std::size_t capacity_bits = out_buffer.size();
-    if ((static_cast<std::size_t>(capacity_bits)) < 8UL)
+    if ((static_cast<std::size_t>(capacity_bits)) < 384UL)
     {
         return -nunavut::support::Error::SerializationBufferTooSmall;
     }
@@ -424,6 +422,27 @@ inline nunavut::support::SerializeResult serialize(const Response_1_2& obj,
         }
         out_buffer.add_offset(8U);
     }
+    {   // saturated uint8[<=46] output
+        if (obj.output.size() > 46)
+        {
+            return -nunavut::support::Error::SerializationBadArrayLength;
+        }
+        // Array length prefix: truncated uint8
+        const auto _result3_ = out_buffer.setUxx(obj.output.size(), 8U);
+        if(not _result3_){
+            return -_result3_.error();
+        }
+        out_buffer.add_offset(8U);
+        for (std::size_t _index2_ = 0U; _index2_ < obj.output.size(); ++_index2_)
+        {
+            // Saturation code not emitted -- native representation matches the serialized representation.
+            const auto _result3_ = out_buffer.setUxx(obj.output[_index2_], 8U);
+            if(not _result3_){
+                return -_result3_.error();
+            }
+            out_buffer.add_offset(8U);
+        }
+    }
     {
         const auto _result0_ = out_buffer.padAndMoveToAlignment(8U);
         if(not _result0_){
@@ -434,13 +453,32 @@ inline nunavut::support::SerializeResult serialize(const Response_1_2& obj,
     return out_buffer.offset_bytes_ceil();
 }
 
-inline nunavut::support::SerializeResult deserialize(Response_1_2& obj,
+inline nunavut::support::SerializeResult deserialize(Response_1_3& obj,
                                                      nunavut::support::const_bitspan in_buffer)
 {
     const auto capacity_bits = in_buffer.size();
     // saturated uint8 status
     obj.status = in_buffer.getU8(8U);
     in_buffer.add_offset(8U);
+    // saturated uint8[<=46] output
+    {
+        // Array length prefix: truncated uint8
+    const std::size_t _size0_ = in_buffer.getU8(8U);
+    in_buffer.add_offset(8U);
+        if ( _size0_ > 46U)
+        {
+            return -nunavut::support::Error::SerializationBadArrayLength;
+        }
+        obj.output.reserve(_size0_);
+        for (std::size_t _index5_ = 0U; _index5_ < _size0_; ++_index5_)
+        {
+            // TODO This is terribly inefficient. We need to completely refactor this template to use C++ emplace and
+            // move semantics instead of assuming C-style containers
+            obj.output.push_back();
+            obj.output[_index5_] = in_buffer.getU8(8U);
+        in_buffer.add_offset(8U);
+        }
+    }
     in_buffer.align_offset_to<8U>();
     auto _bits_got_ = std::min<std::size_t>(in_buffer.offset(), capacity_bits);
     return { static_cast<std::size_t>(_bits_got_ / 8U) };
@@ -448,12 +486,12 @@ inline nunavut::support::SerializeResult deserialize(Response_1_2& obj,
 
 }  // namespace ExecuteCommand
 
-struct ExecuteCommand_1_2
+struct ExecuteCommand_1_3
 {
-    ExecuteCommand_1_2() = delete;
+    ExecuteCommand_1_3() = delete;
 
-    using Request  = ExecuteCommand::Request_1_2;
-    using Response = ExecuteCommand::Response_1_2;
+    using Request  = ExecuteCommand::Request_1_3;
+    using Response = ExecuteCommand::Response_1_3;
 
     struct _traits_
     {
@@ -469,4 +507,4 @@ struct ExecuteCommand_1_2
 } // namespace node
 } // namespace uavcan
 
-#endif // UAVCAN_NODE_EXECUTE_COMMAND_1_2_HPP_INCLUDED
+#endif // UAVCAN_NODE_EXECUTE_COMMAND_1_3_HPP_INCLUDED

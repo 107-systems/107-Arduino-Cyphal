@@ -5,9 +5,9 @@
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-2.3.1 (serialization was enabled)
+// Generator:     nunavut-2.0.9 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/metatransport/can/DataClassic.0.1.dsdl
-// Generated at:  2024-01-29 05:34:30.861253 UTC
+// Generated at:  2024-03-22 12:34:30.970443 UTC
 // Is deprecated: no
 // Fixed port-ID: None
 // Full name:     uavcan.metatransport.can.DataClassic
@@ -21,37 +21,33 @@
 //    version:  (1, 0, 0)
 // Platform
 //     python_implementation:  CPython
-//     python_version:  3.10.12
+//     python_version:  3.8.10
 //     python_release_level:  final
-//     python_build:  ('main', 'Nov 20 2023 15:14:05')
-//     python_compiler:  GCC 11.4.0
+//     python_build:  ('default', 'Nov 22 2023 10:22:35')
+//     python_compiler:  GCC 9.4.0
 //     python_revision:
 //     python_xoptions:  {}
-//     runtime_platform:  Linux-6.5.0-15-generic-x86_64-with-glibc2.35
+//     runtime_platform:  Linux-5.15.0-100-generic-x86_64-with-glibc2.29
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
 //     enable_serialization_asserts:  False
 //     enable_override_variable_array_capacity:  False
 //     std:  c++17
+//     variable_array_type_template:
+//     variable_array_type_include:
 //     cast_format:  static_cast<{type}>({value})
-//     variable_array_type_include:  <vector>
-//     variable_array_type_template:  std::vector<{TYPE}>
-//     variable_array_type_constructor_args:
-//     allocator_include:
-//     allocator_type:
-//     allocator_is_default_constructible:  True
-//     ctor_convention:  default
+//     enable_allocator_support:  False
 // Uses Language Features
 //     Uses std_variant:yes
 #ifndef UAVCAN_METATRANSPORT_CAN_DATA_CLASSIC_0_1_HPP_INCLUDED
 #define UAVCAN_METATRANSPORT_CAN_DATA_CLASSIC_0_1_HPP_INCLUDED
 
 #include <nunavut/support/serialization.hpp>
+#include <nunavut/support/variable_length_array.hpp>
 #include <types/uavcan/metatransport/can/ArbitrationID_0_1.hpp>
 #include <cstdint>
 #include <limits>
-#include <vector>
 
 namespace uavcan
 {
@@ -90,42 +86,22 @@ static_assert( nunavut::support::options::std == 628873475,
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
+static_assert( nunavut::support::options::variable_array_type_template == 0,
+              "/tmp/public_regulated_data_types/uavcan/metatransport/can/DataClassic.0.1.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::variable_array_type_include == 0,
+              "/tmp/public_regulated_data_types/uavcan/metatransport/can/DataClassic.0.1.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
 static_assert( nunavut::support::options::cast_format == 1407868567,
               "/tmp/public_regulated_data_types/uavcan/metatransport/can/DataClassic.0.1.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
-static_assert( nunavut::support::options::variable_array_type_include == 3320664631,
-              "/tmp/public_regulated_data_types/uavcan/metatransport/can/DataClassic.0.1.dsdl "
-              "is trying to use a serialization library that was compiled with "
-              "different language options. This is dangerous and therefore not "
-              "allowed." );
-static_assert( nunavut::support::options::variable_array_type_template == 4227611599,
-              "/tmp/public_regulated_data_types/uavcan/metatransport/can/DataClassic.0.1.dsdl "
-              "is trying to use a serialization library that was compiled with "
-              "different language options. This is dangerous and therefore not "
-              "allowed." );
-static_assert( nunavut::support::options::variable_array_type_constructor_args == 0,
-              "/tmp/public_regulated_data_types/uavcan/metatransport/can/DataClassic.0.1.dsdl "
-              "is trying to use a serialization library that was compiled with "
-              "different language options. This is dangerous and therefore not "
-              "allowed." );
-static_assert( nunavut::support::options::allocator_include == 0,
-              "/tmp/public_regulated_data_types/uavcan/metatransport/can/DataClassic.0.1.dsdl "
-              "is trying to use a serialization library that was compiled with "
-              "different language options. This is dangerous and therefore not "
-              "allowed." );
-static_assert( nunavut::support::options::allocator_type == 0,
-              "/tmp/public_regulated_data_types/uavcan/metatransport/can/DataClassic.0.1.dsdl "
-              "is trying to use a serialization library that was compiled with "
-              "different language options. This is dangerous and therefore not "
-              "allowed." );
-static_assert( nunavut::support::options::allocator_is_default_constructible == 1,
-              "/tmp/public_regulated_data_types/uavcan/metatransport/can/DataClassic.0.1.dsdl "
-              "is trying to use a serialization library that was compiled with "
-              "different language options. This is dangerous and therefore not "
-              "allowed." );
-static_assert( nunavut::support::options::ctor_convention == 3814588639,
+static_assert( nunavut::support::options::enable_allocator_support == 0,
               "/tmp/public_regulated_data_types/uavcan/metatransport/can/DataClassic.0.1.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
@@ -161,12 +137,11 @@ struct DataClassic_0_1 final
         static constexpr std::size_t SerializationBufferSizeBytes = 14UL;
         static_assert(ExtentBytes >= SerializationBufferSizeBytes, "Internal constraint violation");
         static_assert(ExtentBytes < (std::numeric_limits<std::size_t>::max() / 8U), "This message is too large to be handled by the selected types");
-
         struct TypeOf
         {
             TypeOf() = delete;
             using arbitration_id = uavcan::metatransport::can::ArbitrationID_0_1;
-            using data = std::vector<std::uint8_t>;
+            using data = nunavut::support::VariableLengthArray<std::uint8_t, 8>;
         };
     };
 
@@ -174,7 +149,7 @@ struct DataClassic_0_1 final
     // | FIELDS
     // +----------------------------------------------------------------------+
 
-    _traits_::TypeOf::arbitration_id arbitration_id{};
+    _traits_::TypeOf::arbitration_id arbitration_id;
 
     _traits_::TypeOf::data data{};
 };
@@ -265,10 +240,11 @@ inline nunavut::support::SerializeResult deserialize(DataClassic_0_1& obj,
         obj.data.reserve(_size0_);
         for (std::size_t _index5_ = 0U; _index5_ < _size0_; ++_index5_)
         {
-            std::uint8_t _tmp0_ = std::uint8_t();
-            _tmp0_ = in_buffer.getU8(8U);
+            // TODO This is terribly inefficient. We need to completely refactor this template to use C++ emplace and
+            // move semantics instead of assuming C-style containers
+            obj.data.push_back();
+            obj.data[_index5_] = in_buffer.getU8(8U);
         in_buffer.add_offset(8U);
-            obj.data.push_back(std::move(_tmp0_));
         }
     }
     in_buffer.align_offset_to<8U>();

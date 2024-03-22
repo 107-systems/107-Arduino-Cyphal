@@ -10,14 +10,10 @@
 //     enable_serialization_asserts:  False
 //     enable_override_variable_array_capacity:  False
 //     std:  c++17
+//     variable_array_type_template:
+//     variable_array_type_include:
 //     cast_format:  static_cast<{type}>({value})
-//     variable_array_type_include:  <vector>
-//     variable_array_type_template:  std::vector<{TYPE}>
-//     variable_array_type_constructor_args:
-//     allocator_include:
-//     allocator_type:
-//     allocator_is_default_constructible:  True
-//     ctor_convention:  default
+//     enable_allocator_support:  False
 
 #ifndef NUNAVUT_SUPPORT_SERIALIZATION_HPP_INCLUDED
 #define NUNAVUT_SUPPORT_SERIALIZATION_HPP_INCLUDED
@@ -190,14 +186,10 @@ constexpr std::uint32_t omit_float_serialization_support = 0;
 constexpr std::uint32_t enable_serialization_asserts = 0;
 constexpr std::uint32_t enable_override_variable_array_capacity = 0;
 constexpr std::uint32_t std = 628873475;
+constexpr std::uint32_t variable_array_type_template = 0;
+constexpr std::uint32_t variable_array_type_include = 0;
 constexpr std::uint32_t cast_format = 1407868567;
-constexpr std::uint32_t variable_array_type_include = 3320664631;
-constexpr std::uint32_t variable_array_type_template = 4227611599;
-constexpr std::uint32_t variable_array_type_constructor_args = 0;
-constexpr std::uint32_t allocator_include = 0;
-constexpr std::uint32_t allocator_type = 0;
-constexpr std::uint32_t allocator_is_default_constructible = 1;
-constexpr std::uint32_t ctor_convention = 3814588639;
+constexpr std::uint32_t enable_allocator_support = 0;
 
 } // end namespace options
 
