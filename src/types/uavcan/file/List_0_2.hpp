@@ -5,9 +5,9 @@
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-2.0.9 (serialization was enabled)
+// Generator:     nunavut-2.3.1 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/file/406.List.0.2.dsdl
-// Generated at:  2024-03-22 12:34:31.016080 UTC
+// Generated at:  2024-03-22 13:17:26.710145 UTC
 // Is deprecated: no
 // Fixed port-ID: 406
 // Full name:     uavcan.file.List
@@ -21,23 +21,27 @@
 //    version:  (1, 0, 0)
 // Platform
 //     python_implementation:  CPython
-//     python_version:  3.8.10
+//     python_version:  3.10.12
 //     python_release_level:  final
-//     python_build:  ('default', 'Nov 22 2023 10:22:35')
-//     python_compiler:  GCC 9.4.0
+//     python_build:  ('main', 'Nov 20 2023 15:14:05')
+//     python_compiler:  GCC 11.4.0
 //     python_revision:
 //     python_xoptions:  {}
-//     runtime_platform:  Linux-5.15.0-100-generic-x86_64-with-glibc2.29
+//     runtime_platform:  Linux-5.15.0-100-generic-x86_64-with-glibc2.35
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
 //     enable_serialization_asserts:  False
 //     enable_override_variable_array_capacity:  False
 //     std:  c++17
-//     variable_array_type_template:
-//     variable_array_type_include:
 //     cast_format:  static_cast<{type}>({value})
-//     enable_allocator_support:  False
+//     variable_array_type_include:  <vector>
+//     variable_array_type_template:  std::vector<{TYPE}>
+//     variable_array_type_constructor_args:
+//     allocator_include:
+//     allocator_type:
+//     allocator_is_default_constructible:  True
+//     ctor_convention:  default
 // Uses Language Features
 //     Uses std_variant:yes
 #ifndef UAVCAN_FILE_LIST_0_2_HPP_INCLUDED
@@ -83,22 +87,42 @@ static_assert( nunavut::support::options::std == 628873475,
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
-static_assert( nunavut::support::options::variable_array_type_template == 0,
-              "/tmp/public_regulated_data_types/uavcan/file/406.List.0.2.dsdl "
-              "is trying to use a serialization library that was compiled with "
-              "different language options. This is dangerous and therefore not "
-              "allowed." );
-static_assert( nunavut::support::options::variable_array_type_include == 0,
-              "/tmp/public_regulated_data_types/uavcan/file/406.List.0.2.dsdl "
-              "is trying to use a serialization library that was compiled with "
-              "different language options. This is dangerous and therefore not "
-              "allowed." );
 static_assert( nunavut::support::options::cast_format == 1407868567,
               "/tmp/public_regulated_data_types/uavcan/file/406.List.0.2.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
-static_assert( nunavut::support::options::enable_allocator_support == 0,
+static_assert( nunavut::support::options::variable_array_type_include == 3320664631,
+              "/tmp/public_regulated_data_types/uavcan/file/406.List.0.2.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::variable_array_type_template == 4227611599,
+              "/tmp/public_regulated_data_types/uavcan/file/406.List.0.2.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::variable_array_type_constructor_args == 0,
+              "/tmp/public_regulated_data_types/uavcan/file/406.List.0.2.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::allocator_include == 0,
+              "/tmp/public_regulated_data_types/uavcan/file/406.List.0.2.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::allocator_type == 0,
+              "/tmp/public_regulated_data_types/uavcan/file/406.List.0.2.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::allocator_is_default_constructible == 1,
+              "/tmp/public_regulated_data_types/uavcan/file/406.List.0.2.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::ctor_convention == 3814588639,
               "/tmp/public_regulated_data_types/uavcan/file/406.List.0.2.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
@@ -152,6 +176,7 @@ struct Request_0_2 final
         static constexpr std::size_t SerializationBufferSizeBytes = 264UL;
         static_assert(ExtentBytes >= SerializationBufferSizeBytes, "Internal constraint violation");
         static_assert(ExtentBytes < (std::numeric_limits<std::size_t>::max() / 8U), "This message is too large to be handled by the selected types");
+
         struct TypeOf
         {
             TypeOf() = delete;
@@ -166,7 +191,7 @@ struct Request_0_2 final
 
     _traits_::TypeOf::entry_index entry_index{};
 
-    _traits_::TypeOf::directory_path directory_path;
+    _traits_::TypeOf::directory_path directory_path{};
 };
 
 inline nunavut::support::SerializeResult serialize(const Request_0_2& obj,
@@ -283,6 +308,7 @@ struct Response_0_2 final
         static constexpr std::size_t SerializationBufferSizeBytes = 260UL;
         static_assert(ExtentBytes >= SerializationBufferSizeBytes, "Internal constraint violation");
         static_assert(ExtentBytes < (std::numeric_limits<std::size_t>::max() / 8U), "This message is too large to be handled by the selected types");
+
         struct TypeOf
         {
             TypeOf() = delete;
@@ -303,7 +329,7 @@ struct Response_0_2 final
     /// at the end is optional) at the index 0 will return "baz.bin". Listing the same directory at the index 1 (or any
     /// higher) will return an empty name "", indicating that the caller has reached the end of the list.
     ///
-    _traits_::TypeOf::entry_base_name entry_base_name;
+    _traits_::TypeOf::entry_base_name entry_base_name{};
 };
 
 inline nunavut::support::SerializeResult serialize(const Response_0_2& obj,

@@ -5,9 +5,9 @@
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-2.0.9 (serialization was enabled)
+// Generator:     nunavut-2.3.1 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/internet/udp/8174.OutgoingPacket.0.1.dsdl
-// Generated at:  2024-03-22 12:34:30.887625 UTC
+// Generated at:  2024-03-22 13:17:26.180604 UTC
 // Is deprecated: yes
 // Fixed port-ID: 8174
 // Full name:     uavcan.internet.udp.OutgoingPacket
@@ -21,23 +21,27 @@
 //    version:  (1, 0, 0)
 // Platform
 //     python_implementation:  CPython
-//     python_version:  3.8.10
+//     python_version:  3.10.12
 //     python_release_level:  final
-//     python_build:  ('default', 'Nov 22 2023 10:22:35')
-//     python_compiler:  GCC 9.4.0
+//     python_build:  ('main', 'Nov 20 2023 15:14:05')
+//     python_compiler:  GCC 11.4.0
 //     python_revision:
 //     python_xoptions:  {}
-//     runtime_platform:  Linux-5.15.0-100-generic-x86_64-with-glibc2.29
+//     runtime_platform:  Linux-5.15.0-100-generic-x86_64-with-glibc2.35
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
 //     enable_serialization_asserts:  False
 //     enable_override_variable_array_capacity:  False
 //     std:  c++17
-//     variable_array_type_template:
-//     variable_array_type_include:
 //     cast_format:  static_cast<{type}>({value})
-//     enable_allocator_support:  False
+//     variable_array_type_include:  <vector>
+//     variable_array_type_template:  std::vector<{TYPE}>
+//     variable_array_type_constructor_args:
+//     allocator_include:
+//     allocator_type:
+//     allocator_is_default_constructible:  True
+//     ctor_convention:  default
 // Uses Language Features
 //     Uses std_variant:yes
 //           _____  ______ _____  _____  ______ _____       _______ ______ _____
@@ -52,9 +56,9 @@
 #define UAVCAN_INTERNET_UDP_OUTGOING_PACKET_0_1_HPP_INCLUDED
 
 #include <nunavut/support/serialization.hpp>
-#include <nunavut/support/variable_length_array.hpp>
 #include <cstdint>
 #include <limits>
+#include <vector>
 
 namespace uavcan
 {
@@ -93,22 +97,42 @@ static_assert( nunavut::support::options::std == 628873475,
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
-static_assert( nunavut::support::options::variable_array_type_template == 0,
-              "/tmp/public_regulated_data_types/uavcan/internet/udp/8174.OutgoingPacket.0.1.dsdl "
-              "is trying to use a serialization library that was compiled with "
-              "different language options. This is dangerous and therefore not "
-              "allowed." );
-static_assert( nunavut::support::options::variable_array_type_include == 0,
-              "/tmp/public_regulated_data_types/uavcan/internet/udp/8174.OutgoingPacket.0.1.dsdl "
-              "is trying to use a serialization library that was compiled with "
-              "different language options. This is dangerous and therefore not "
-              "allowed." );
 static_assert( nunavut::support::options::cast_format == 1407868567,
               "/tmp/public_regulated_data_types/uavcan/internet/udp/8174.OutgoingPacket.0.1.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
-static_assert( nunavut::support::options::enable_allocator_support == 0,
+static_assert( nunavut::support::options::variable_array_type_include == 3320664631,
+              "/tmp/public_regulated_data_types/uavcan/internet/udp/8174.OutgoingPacket.0.1.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::variable_array_type_template == 4227611599,
+              "/tmp/public_regulated_data_types/uavcan/internet/udp/8174.OutgoingPacket.0.1.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::variable_array_type_constructor_args == 0,
+              "/tmp/public_regulated_data_types/uavcan/internet/udp/8174.OutgoingPacket.0.1.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::allocator_include == 0,
+              "/tmp/public_regulated_data_types/uavcan/internet/udp/8174.OutgoingPacket.0.1.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::allocator_type == 0,
+              "/tmp/public_regulated_data_types/uavcan/internet/udp/8174.OutgoingPacket.0.1.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::allocator_is_default_constructible == 1,
+              "/tmp/public_regulated_data_types/uavcan/internet/udp/8174.OutgoingPacket.0.1.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::ctor_convention == 3814588639,
               "/tmp/public_regulated_data_types/uavcan/internet/udp/8174.OutgoingPacket.0.1.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
@@ -212,8 +236,7 @@ static_assert( nunavut::support::options::enable_allocator_support == 0,
 /// unlikely to be practical because the latency and throughput limitations introduced by the on-board radio
 /// communication equipment are likely to vastly exceed those of the local CAN bus.
 ///
-[[deprecated("uavcan.internet.udp.OutgoingPacket.0.1 is reaching the end of its life; there may be a newer version available")]]
-struct OutgoingPacket_0_1 final
+struct [[deprecated("uavcan.internet.udp.OutgoingPacket.0.1 is reaching the end of its life; there may be a newer version available")]]OutgoingPacket_0_1 final
 {
     struct _traits_  // The name is surrounded with underscores to avoid collisions with DSDL attributes.
     {
@@ -233,15 +256,16 @@ struct OutgoingPacket_0_1 final
         static constexpr std::size_t SerializationBufferSizeBytes = 313UL;
         static_assert(ExtentBytes >= SerializationBufferSizeBytes, "Internal constraint violation");
         static_assert(ExtentBytes < (std::numeric_limits<std::size_t>::max() / 8U), "This message is too large to be handled by the selected types");
+
         struct TypeOf
         {
             TypeOf() = delete;
             using session_id = std::uint16_t;
             using destination_port = std::uint16_t;
-            using destination_address = nunavut::support::VariableLengthArray<std::uint8_t, 45>;
+            using destination_address = std::vector<std::uint8_t>;
             using use_masquerading = bool;
             using use_dtls = bool;
-            using payload = nunavut::support::VariableLengthArray<std::uint8_t, 260>;
+            using payload = std::vector<std::uint8_t>;
         };
     };
 
@@ -427,11 +451,10 @@ inline nunavut::support::SerializeResult deserialize(OutgoingPacket_0_1& obj,
         obj.destination_address.reserve(_size0_);
         for (std::size_t _index5_ = 0U; _index5_ < _size0_; ++_index5_)
         {
-            // TODO This is terribly inefficient. We need to completely refactor this template to use C++ emplace and
-            // move semantics instead of assuming C-style containers
-            obj.destination_address.push_back();
-            obj.destination_address[_index5_] = in_buffer.getU8(8U);
+            std::uint8_t _tmp0_ = std::uint8_t();
+            _tmp0_ = in_buffer.getU8(8U);
         in_buffer.add_offset(8U);
+            obj.destination_address.push_back(std::move(_tmp0_));
         }
     }
     // saturated bool use_masquerading
@@ -454,11 +477,10 @@ inline nunavut::support::SerializeResult deserialize(OutgoingPacket_0_1& obj,
         obj.payload.reserve(_size0_);
         for (std::size_t _index5_ = 0U; _index5_ < _size0_; ++_index5_)
         {
-            // TODO This is terribly inefficient. We need to completely refactor this template to use C++ emplace and
-            // move semantics instead of assuming C-style containers
-            obj.payload.push_back();
-            obj.payload[_index5_] = in_buffer.getU8(8U);
+            std::uint8_t _tmp0_ = std::uint8_t();
+            _tmp0_ = in_buffer.getU8(8U);
         in_buffer.add_offset(8U);
+            obj.payload.push_back(std::move(_tmp0_));
         }
     }
     in_buffer.align_offset_to<8U>();

@@ -5,9 +5,9 @@
 // Checking this file under version control is not recommended since metadata in this header will change for each
 // build invocation. TODO: add --reproducible option to prevent any volatile metadata from being generated.
 //
-// Generator:     nunavut-2.0.9 (serialization was enabled)
+// Generator:     nunavut-2.3.1 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.dsdl
-// Generated at:  2024-03-22 12:34:31.331447 UTC
+// Generated at:  2024-03-22 13:17:26.585224 UTC
 // Is deprecated: no
 // Fixed port-ID: 430
 // Full name:     uavcan.node.GetInfo
@@ -21,34 +21,38 @@
 //    version:  (1, 0, 0)
 // Platform
 //     python_implementation:  CPython
-//     python_version:  3.8.10
+//     python_version:  3.10.12
 //     python_release_level:  final
-//     python_build:  ('default', 'Nov 22 2023 10:22:35')
-//     python_compiler:  GCC 9.4.0
+//     python_build:  ('main', 'Nov 20 2023 15:14:05')
+//     python_compiler:  GCC 11.4.0
 //     python_revision:
 //     python_xoptions:  {}
-//     runtime_platform:  Linux-5.15.0-100-generic-x86_64-with-glibc2.29
+//     runtime_platform:  Linux-5.15.0-100-generic-x86_64-with-glibc2.35
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
 //     enable_serialization_asserts:  False
 //     enable_override_variable_array_capacity:  False
 //     std:  c++17
-//     variable_array_type_template:
-//     variable_array_type_include:
 //     cast_format:  static_cast<{type}>({value})
-//     enable_allocator_support:  False
+//     variable_array_type_include:  <vector>
+//     variable_array_type_template:  std::vector<{TYPE}>
+//     variable_array_type_constructor_args:
+//     allocator_include:
+//     allocator_type:
+//     allocator_is_default_constructible:  True
+//     ctor_convention:  default
 // Uses Language Features
 //     Uses std_variant:yes
 #ifndef UAVCAN_NODE_GET_INFO_1_0_HPP_INCLUDED
 #define UAVCAN_NODE_GET_INFO_1_0_HPP_INCLUDED
 
 #include <nunavut/support/serialization.hpp>
-#include <nunavut/support/variable_length_array.hpp>
 #include <types/uavcan/node/Version_1_0.hpp>
 #include <array>
 #include <cstdint>
 #include <limits>
+#include <vector>
 
 namespace uavcan
 {
@@ -85,22 +89,42 @@ static_assert( nunavut::support::options::std == 628873475,
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
-static_assert( nunavut::support::options::variable_array_type_template == 0,
-              "/tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.dsdl "
-              "is trying to use a serialization library that was compiled with "
-              "different language options. This is dangerous and therefore not "
-              "allowed." );
-static_assert( nunavut::support::options::variable_array_type_include == 0,
-              "/tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.dsdl "
-              "is trying to use a serialization library that was compiled with "
-              "different language options. This is dangerous and therefore not "
-              "allowed." );
 static_assert( nunavut::support::options::cast_format == 1407868567,
               "/tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
               "allowed." );
-static_assert( nunavut::support::options::enable_allocator_support == 0,
+static_assert( nunavut::support::options::variable_array_type_include == 3320664631,
+              "/tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::variable_array_type_template == 4227611599,
+              "/tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::variable_array_type_constructor_args == 0,
+              "/tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::allocator_include == 0,
+              "/tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::allocator_type == 0,
+              "/tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::allocator_is_default_constructible == 1,
+              "/tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.dsdl "
+              "is trying to use a serialization library that was compiled with "
+              "different language options. This is dangerous and therefore not "
+              "allowed." );
+static_assert( nunavut::support::options::ctor_convention == 3814588639,
               "/tmp/public_regulated_data_types/uavcan/node/430.GetInfo.1.0.dsdl "
               "is trying to use a serialization library that was compiled with "
               "different language options. This is dangerous and therefore not "
@@ -142,7 +166,9 @@ struct Request_1_0 final
         static constexpr std::size_t SerializationBufferSizeBytes = 0UL;
         static_assert(ExtentBytes >= SerializationBufferSizeBytes, "Internal constraint violation");
         static_assert(ExtentBytes < (std::numeric_limits<std::size_t>::max() / 8U), "This message is too large to be handled by the selected types");
+
     };
+
 };
 
 inline nunavut::support::SerializeResult serialize(const Request_1_0& obj,
@@ -190,6 +216,7 @@ struct Response_1_0 final
         static constexpr std::size_t SerializationBufferSizeBytes = 313UL;
         static_assert(ExtentBytes >= SerializationBufferSizeBytes, "Internal constraint violation");
         static_assert(ExtentBytes < (std::numeric_limits<std::size_t>::max() / 8U), "This message is too large to be handled by the selected types");
+
         struct TypeOf
         {
             TypeOf() = delete;
@@ -198,9 +225,9 @@ struct Response_1_0 final
             using software_version = uavcan::node::Version_1_0;
             using software_vcs_revision_id = std::uint64_t;
             using unique_id = std::array<std::uint8_t,16>;
-            using name = nunavut::support::VariableLengthArray<std::uint8_t, 50>;
-            using software_image_crc = nunavut::support::VariableLengthArray<std::uint64_t, 1>;
-            using certificate_of_authenticity = nunavut::support::VariableLengthArray<std::uint8_t, 222>;
+            using name = std::vector<std::uint8_t>;
+            using software_image_crc = std::vector<std::uint64_t>;
+            using certificate_of_authenticity = std::vector<std::uint8_t>;
         };
     };
 
@@ -211,9 +238,9 @@ struct Response_1_0 final
     /// The Cyphal protocol version implemented on this node, both major and minor.
     /// Not to be changed while the node is running.
     ///
-    _traits_::TypeOf::protocol_version protocol_version;
+    _traits_::TypeOf::protocol_version protocol_version{};
 
-    _traits_::TypeOf::hardware_version hardware_version;
+    _traits_::TypeOf::hardware_version hardware_version{};
     ///
     /// The version information shall not be changed while the node is running.
     /// The correct hardware version shall be reported at all times, excepting software-only nodes, in which
@@ -221,7 +248,7 @@ struct Response_1_0 final
     /// If the node is equipped with a Cyphal-capable bootloader, the bootloader should report the software
     /// version of the installed application, if there is any; if no application is found, zeros should be reported.
     ///
-    _traits_::TypeOf::software_version software_version;
+    _traits_::TypeOf::software_version software_version{};
     ///
     /// A version control system (VCS) revision number or hash. Not to be changed while the node is running.
     /// For example, this field can be used for reporting the short git commit hash of the current
@@ -501,11 +528,10 @@ inline nunavut::support::SerializeResult deserialize(Response_1_0& obj,
         obj.name.reserve(_size0_);
         for (std::size_t _index5_ = 0U; _index5_ < _size0_; ++_index5_)
         {
-            // TODO This is terribly inefficient. We need to completely refactor this template to use C++ emplace and
-            // move semantics instead of assuming C-style containers
-            obj.name.push_back();
-            obj.name[_index5_] = in_buffer.getU8(8U);
+            std::uint8_t _tmp0_ = std::uint8_t();
+            _tmp0_ = in_buffer.getU8(8U);
         in_buffer.add_offset(8U);
+            obj.name.push_back(std::move(_tmp0_));
         }
     }
     // saturated uint64[<=1] software_image_crc
@@ -520,11 +546,10 @@ inline nunavut::support::SerializeResult deserialize(Response_1_0& obj,
         obj.software_image_crc.reserve(_size0_);
         for (std::size_t _index5_ = 0U; _index5_ < _size0_; ++_index5_)
         {
-            // TODO This is terribly inefficient. We need to completely refactor this template to use C++ emplace and
-            // move semantics instead of assuming C-style containers
-            obj.software_image_crc.push_back();
-            obj.software_image_crc[_index5_] = in_buffer.getU64(64U);
+            std::uint64_t _tmp0_ = std::uint64_t();
+            _tmp0_ = in_buffer.getU64(64U);
         in_buffer.add_offset(64U);
+            obj.software_image_crc.push_back(std::move(_tmp0_));
         }
     }
     // saturated uint8[<=222] certificate_of_authenticity
@@ -539,11 +564,10 @@ inline nunavut::support::SerializeResult deserialize(Response_1_0& obj,
         obj.certificate_of_authenticity.reserve(_size0_);
         for (std::size_t _index5_ = 0U; _index5_ < _size0_; ++_index5_)
         {
-            // TODO This is terribly inefficient. We need to completely refactor this template to use C++ emplace and
-            // move semantics instead of assuming C-style containers
-            obj.certificate_of_authenticity.push_back();
-            obj.certificate_of_authenticity[_index5_] = in_buffer.getU8(8U);
+            std::uint8_t _tmp0_ = std::uint8_t();
+            _tmp0_ = in_buffer.getU8(8U);
         in_buffer.add_offset(8U);
+            obj.certificate_of_authenticity.push_back(std::move(_tmp0_));
         }
     }
     in_buffer.align_offset_to<8U>();
