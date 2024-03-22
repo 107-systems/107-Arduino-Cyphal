@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-2.3.1 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/file/407.Modify.1.1.dsdl
-// Generated at:  2024-01-29 05:34:30.964933 UTC
+// Generated at:  2024-03-22 13:17:26.721818 UTC
 // Is deprecated: no
 // Fixed port-ID: 407
 // Full name:     uavcan.file.Modify
@@ -27,7 +27,7 @@
 //     python_compiler:  GCC 11.4.0
 //     python_revision:
 //     python_xoptions:  {}
-//     runtime_platform:  Linux-6.5.0-15-generic-x86_64-with-glibc2.35
+//     runtime_platform:  Linux-5.15.0-100-generic-x86_64-with-glibc2.35
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
