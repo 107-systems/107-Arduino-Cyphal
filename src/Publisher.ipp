@@ -36,7 +36,7 @@ bool Publisher<T>::publish(T const & msg)
 #pragma GCC diagnostic ignored "-Wpedantic"
   CanardTransferMetadata const transfer_metadata =
   {
-    .priority       = CanardPriorityNominal,
+    .priority       = _tx_priority,
     .transfer_kind  = CanardTransferKindMessage,
     .port_id        = _port_id,
     .remote_node_id = CANARD_NODE_ID_UNSET,

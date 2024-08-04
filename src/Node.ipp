@@ -29,7 +29,14 @@ template <typename T>
 Publisher<T> Node::create_publisher(CanardMicrosecond const tx_timeout_usec)
 {
   static_assert(T::_traits_::HasFixedPortID, "T does not have a fixed port id.");
-  return create_publisher<T>(T::_traits_::FixedPortId, tx_timeout_usec);
+  return create_publisher<T>(T::_traits_::FixedPortId, tx_timeout_usec, CanardPriorityNominal);
+}
+
+template <typename T>
+Publisher<T> Node::create_publisher(CanardMicrosecond const tx_timeout_usec, CanardPriority const tx_priority)
+{
+  static_assert(T::_traits_::HasFixedPortID, "T does not have a fixed port id.");
+  return create_publisher<T>(T::_traits_::FixedPortId, tx_timeout_usec, tx_priority);
 }
 
 template <typename T>
@@ -43,7 +50,24 @@ Publisher<T> Node::create_publisher(CanardPortID const port_id, CanardMicrosecon
   return std::make_shared<impl::Publisher<T>>(
     *this,
     port_id,
-    tx_timeout_usec
+    tx_timeout_usec,
+    CanardPriorityNominal
+    );
+}
+
+template <typename T>
+Publisher<T> Node::create_publisher(CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, CanardPriority const tx_priority)
+{
+  static_assert(!T::_traits_::IsServiceType, "T is not message type");
+
+  if (_opt_port_list_pub.has_value())
+    _opt_port_list_pub.value()->add_publisher(port_id);
+
+  return std::make_shared<impl::Publisher<T>>(
+    *this,
+    port_id,
+    tx_timeout_usec,
+    tx_priority
     );
 }
 
