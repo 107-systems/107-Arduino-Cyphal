@@ -33,10 +33,11 @@ template<typename T_REQ, typename T_RSP, typename OnRequestCb>
 class ServiceServer final : public ServiceServerBase
 {
 public:
-  ServiceServer(Node & node_hdl, CanardPortID const request_port_id, CanardMicrosecond const tx_timeout_usec, OnRequestCb on_request_cb)
+  ServiceServer(Node & node_hdl, CanardPortID const request_port_id, CanardMicrosecond const tx_timeout_usec, CanardPriority const tx_priority, OnRequestCb on_request_cb)
   : _node_hdl{node_hdl}
   , _request_port_id{request_port_id}
   , _tx_timeout_usec{tx_timeout_usec}
+  , _tx_priority{tx_priority}
   , _on_request_cb{on_request_cb}
   { }
   virtual ~ServiceServer();
@@ -49,6 +50,7 @@ private:
   Node & _node_hdl;
   CanardPortID const _request_port_id;
   CanardMicrosecond const _tx_timeout_usec;
+  CanardPriority const _tx_priority;
   OnRequestCb _on_request_cb;
 };
 

@@ -65,7 +65,7 @@ bool ServiceServer<T_REQ, T_RSP, OnRequestCb>::onTransferReceived(CanardRxTransf
   /* Enqueue the transfer. */
   CanardTransferMetadata const transfer_metadata =
   {
-    .priority       = CanardPriorityNominal,
+    .priority       = _tx_priority,
     .transfer_kind  = CanardTransferKindResponse,
     .port_id        = transfer.metadata.port_id,
     .remote_node_id = transfer.metadata.remote_node_id,

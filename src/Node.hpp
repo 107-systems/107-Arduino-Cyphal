@@ -85,7 +85,11 @@ public:
   template <typename T>
   Publisher<T> create_publisher(CanardMicrosecond const tx_timeout_usec);
   template <typename T>
+  Publisher<T> create_publisher(CanardMicrosecond const tx_timeout_usec, CanardPriority const tx_priority);
+  template <typename T>
   Publisher<T> create_publisher(CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec);
+  template <typename T>
+  Publisher<T> create_publisher(CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, CanardPriority const tx_priority);
 
   template <typename T, typename OnReceiveCb>
   Subscription create_subscription(OnReceiveCb&& on_receive_cb, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);
@@ -95,12 +99,20 @@ public:
   template <typename T_REQ, typename T_RSP, typename OnRequestCb>
   ServiceServer create_service_server(CanardMicrosecond const tx_timeout_usec, OnRequestCb&& on_request_cb, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);
   template <typename T_REQ, typename T_RSP, typename OnRequestCb>
+  ServiceServer create_service_server(CanardMicrosecond const tx_timeout_usec, OnRequestCb&& on_request_cb, CanardPriority const tx_priority, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);
+  template <typename T_REQ, typename T_RSP, typename OnRequestCb>
   ServiceServer create_service_server(CanardPortID const request_port_id, CanardMicrosecond const tx_timeout_usec, OnRequestCb&& on_request_cb, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);
+  template <typename T_REQ, typename T_RSP, typename OnRequestCb>
+  ServiceServer create_service_server(CanardPortID const request_port_id, CanardMicrosecond const tx_timeout_usec, OnRequestCb&& on_request_cb, CanardPriority const tx_priority, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);
 
   template <typename T_REQ, typename T_RSP, typename OnResponseCb>
   ServiceClient<T_REQ> create_service_client(CanardMicrosecond const tx_timeout_usec, OnResponseCb&& on_response_cb, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);
   template <typename T_REQ, typename T_RSP, typename OnResponseCb>
+  ServiceClient<T_REQ> create_service_client(CanardMicrosecond const tx_timeout_usec, OnResponseCb&& on_response_cb, CanardPriority const tx_priority, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);
+  template <typename T_REQ, typename T_RSP, typename OnResponseCb>
   ServiceClient<T_REQ> create_service_client(CanardPortID const response_port_id, CanardMicrosecond const tx_timeout_usec, OnResponseCb&& on_response_cb, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);
+  template <typename T_REQ, typename T_RSP, typename OnResponseCb>
+  ServiceClient<T_REQ> create_service_client(CanardPortID const response_port_id, CanardMicrosecond const tx_timeout_usec, OnResponseCb&& on_response_cb, CanardPriority const tx_priority, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);
 
 #if !defined(__GNUC__) || (__GNUC__ >= 11)
   Registry create_registry();

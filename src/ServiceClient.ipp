@@ -45,7 +45,7 @@ bool ServiceClient<T_REQ, T_RSP, OnResponseCb>::request(CanardNodeID const remot
 #pragma GCC diagnostic ignored "-Wpedantic"
   CanardTransferMetadata const transfer_metadata =
     {
-      .priority       = CanardPriorityNominal,
+      .priority       = _tx_priority,
       .transfer_kind  = CanardTransferKindRequest,
       .port_id        = _response_port_id,
       .remote_node_id = remote_node_id,

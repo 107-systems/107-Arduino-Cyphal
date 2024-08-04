@@ -33,9 +33,10 @@ template <typename T>
 class Publisher final : public PublisherBase<T>
 {
 public:
-  Publisher(Node & node_hdl, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec)
+  Publisher(Node & node_hdl, CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, CanardPriority const tx_priority)
   : _node_hdl{node_hdl}
   , _port_id{port_id}
+  , _tx_priority{tx_priority}
   , _tx_timeout_usec{tx_timeout_usec}
   , _transfer_id{0}
   { }
@@ -46,6 +47,7 @@ public:
 private:
   Node & _node_hdl;
   CanardPortID const _port_id;
+  CanardPriority const _tx_priority;
   CanardMicrosecond const _tx_timeout_usec;
   CanardTransferID _transfer_id;
 };
