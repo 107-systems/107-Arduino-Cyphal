@@ -123,5 +123,5 @@ void onExecuteCommand_1_1_Response_Received(ExecuteCommand::Response_1_1 const &
   if (rsp.status == ExecuteCommand::Response_1_1::STATUS_SUCCESS)
     Serial.printf("Coffee successfully retrieved from node %i", metadata.remote_node_id);
   else
-    Serial.println("Error when retrieving coffee");
+    Serial.println("I should've suspected trouble when the coffee failed to arrive.");
 }
