@@ -76,7 +76,11 @@ bool ServiceClient<T_REQ, T_RSP, OnResponseCb>::onTransferReceived(CanardRxTrans
   if (!rc) return false;
 
   /* Invoke the user registered callback. */
-  _on_response_cb(rsp);
+  if constexpr (std::is_invocable_v<OnResponseCb, T_RSP, TransferMetadata>) {
+    _on_response_cb(rsp, SubscriptionBase::fillMetadata(transfer));
+  } else {
+    _on_response_cb(rsp);
+  }
 
   return true;
 }
