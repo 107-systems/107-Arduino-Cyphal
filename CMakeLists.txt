@@ -1,5 +1,5 @@
 ##########################################################################
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.8)
 ##########################################################################
 project("cyphal++")
 ##########################################################################
@@ -24,7 +24,7 @@ add_library(${PROJECT_NAME} STATIC
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
 ##########################################################################
 target_include_directories(${PROJECT_NAME} PUBLIC src extras/cyphal++/include src/libcanard src/libo1heap)
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_17)
+target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 ##########################################################################
 if(BUILD_EXAMPLES)
   add_subdirectory(examples/CAN/host-example-01-opencyphal-basic-node)

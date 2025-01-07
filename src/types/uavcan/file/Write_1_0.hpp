@@ -7,7 +7,7 @@
 //
 // Generator:     nunavut-2.3.1 (serialization was enabled)
 // Source file:   /tmp/public_regulated_data_types/uavcan/file/409.Write.1.0.dsdl
-// Generated at:  2024-01-29 05:34:30.997461 UTC
+// Generated at:  2024-03-22 13:17:26.755268 UTC
 // Is deprecated: yes
 // Fixed port-ID: 409
 // Full name:     uavcan.file.Write
@@ -27,7 +27,7 @@
 //     python_compiler:  GCC 11.4.0
 //     python_revision:
 //     python_xoptions:  {}
-//     runtime_platform:  Linux-6.5.0-15-generic-x86_64-with-glibc2.35
+//     runtime_platform:  Linux-5.15.0-100-generic-x86_64-with-glibc2.35
 // Language Options
 //     target_endianness:  any
 //     omit_float_serialization_support:  False
