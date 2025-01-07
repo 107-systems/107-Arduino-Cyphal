@@ -11,7 +11,7 @@
 
 #include "kv_host.h"
 
-#if !defined(__GNUC__) || (__GNUC__ >= 11) || defined(__clang__)
+ || defined(__clang__)
 
 #include <cstdio>
 #include <fstream>
@@ -91,4 +91,3 @@ auto KeyValueStorage::drop(const std::string_view key) -> std::optional<Error> {
 
 }  // namespace cyphal::support::platform::storage::host
 
-#endif /* !defined(__GNUC__) || (__GNUC__ >= 11) || defined(__clang__) */

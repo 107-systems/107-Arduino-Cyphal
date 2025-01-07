@@ -55,7 +55,7 @@ Node::Node(uint8_t * heap_ptr,
  * PUBLIC MEMBER FUNCTIONS
  **************************************************************************************/
 
-#if !defined(__GNUC__) || (__GNUC__ >= 11)
+
 Registry Node::create_registry()
 {
   return std::make_shared<impl::Registry>(*this, _micros_func);

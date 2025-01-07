@@ -11,7 +11,7 @@
 #include "cavl.hpp"  // Copy from https://github.com/pavel-kirienko/cavl/blob/main/c%2B%2B/cavl.hpp
 #include <memory>
 
-#if !defined(__GNUC__) || (__GNUC__ >= 11)
+
 
 namespace cyphal
 {
@@ -391,4 +391,4 @@ using Registry = std::shared_ptr<registry::Registry>;
 
 } // cyphal
 
-#endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */
+

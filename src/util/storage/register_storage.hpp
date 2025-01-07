@@ -7,7 +7,7 @@
 
 #pragma once
 
-#if !defined(__GNUC__) || (__GNUC__ >= 11)
+
 
 #include "KeyValueStorage.hpp"
 
@@ -164,4 +164,4 @@ template <typename FeedWatchdogFunc>
 
 } /* cyphal::support */
 
-#endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */
+

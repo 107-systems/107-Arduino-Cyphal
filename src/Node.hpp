@@ -102,7 +102,7 @@ public:
   template <typename T_REQ, typename T_RSP, typename OnResponseCb>
   ServiceClient<T_REQ> create_service_client(CanardPortID const response_port_id, CanardMicrosecond const tx_timeout_usec, OnResponseCb&& on_response_cb, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);
 
-#if !defined(__GNUC__) || (__GNUC__ >= 11)
+
   Registry create_registry();
 #endif
 

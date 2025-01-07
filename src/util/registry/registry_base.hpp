@@ -9,7 +9,7 @@
 
 #include "registry_value.hpp"
 
-#if !defined(__GNUC__) || (__GNUC__ >= 11)
+
 
 namespace cyphal
 {
@@ -86,4 +86,4 @@ public:
 }  // namespace registry
 } // cyphal
 
-#endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */
+

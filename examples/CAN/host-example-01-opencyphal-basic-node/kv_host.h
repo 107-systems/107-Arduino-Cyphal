@@ -13,7 +13,7 @@
 
 #include <107-Arduino-Cyphal.h>
 
-#if !defined(__GNUC__) || (__GNUC__ >= 11) || (__clang__)
+ || (__clang__)
 
 /**************************************************************************************
  * NAMESPACE
@@ -51,4 +51,4 @@ public:
 
 } /* cyphal::support::platform::storage::host */
 
-#endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */
+

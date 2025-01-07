@@ -7,7 +7,7 @@
 
 #pragma once
 
-#if !defined(__GNUC__) || (__GNUC__ >= 11)
+
 
 #include <string_view>
 #include <optional>
@@ -60,4 +60,4 @@ public:
 
 } /* cyphal::support::platform::storage */
 
-#endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */
+

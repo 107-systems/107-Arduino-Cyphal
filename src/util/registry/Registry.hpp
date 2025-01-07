@@ -16,7 +16,7 @@
 
 #include "registry_impl.hpp"
 
-#if !defined(__GNUC__) || (__GNUC__ >= 11)
+
 
 /**************************************************************************************
  * NAMESPACE
@@ -117,4 +117,4 @@ private:
 } /* impl */
 } /* cyphal */
 
-#endif /* !defined(__GNUC__) || (__GNUC__ >= 11) */
+
