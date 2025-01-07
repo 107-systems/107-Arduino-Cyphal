@@ -104,7 +104,6 @@ public:
 
 
   Registry create_registry();
-#endif
 
   NodeInfo create_node_info(uint8_t const protocol_major, uint8_t const protocol_minor,
                             uint8_t const hardware_major, uint8_t const hardware_minor,

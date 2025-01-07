@@ -11,8 +11,6 @@
 
 #include "kv_host.h"
 
- || defined(__clang__)
-
 #include <cstdio>
 #include <fstream>
 #include <sstream>
