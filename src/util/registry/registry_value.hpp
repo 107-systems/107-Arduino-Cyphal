@@ -96,6 +96,17 @@ struct ArraySelector final
 {
     static constexpr std::size_t Index = ArraySelector<T, N + 1>::Index;
 };
+
+template <>
+struct ArraySelector<std::string> final {
+  static constexpr std::size_t Index = Value::VariantType::IndexOf::string;
+};
+
+template <>
+struct ArraySelector<char> final {
+  static constexpr std::size_t Index = Value::VariantType::IndexOf::natural8;
+};
+
 template <typename T, std::size_t N>
 struct ArraySelector<
     T,
@@ -109,6 +120,7 @@ struct ArraySelector<
     static constexpr std::size_t Index = N;
 };
 static_assert(ArraySelector<bool>::Index == Value::VariantType::IndexOf::bit);
+static_assert(ArraySelector<std::string>::Index == Value::VariantType::IndexOf::string);
 static_assert(ArraySelector<std::uint8_t>::Index == Value::VariantType::IndexOf::natural8);
 static_assert(ArraySelector<std::uint32_t>::Index == Value::VariantType::IndexOf::natural32);
 static_assert(ArraySelector<std::int8_t>::Index == Value::VariantType::IndexOf::integer8);
