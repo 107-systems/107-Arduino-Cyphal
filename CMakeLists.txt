@@ -23,7 +23,8 @@ add_library(${PROJECT_NAME} STATIC
 ##########################################################################
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Werror)
 ##########################################################################
-target_include_directories(${PROJECT_NAME} PUBLIC src extras/cyphal++/include src/libcanard src/libo1heap)
+target_include_directories(${PROJECT_NAME} PRIVATE src extras/cyphal++/include src/libcanard src/libo1heap)
+target_include_directories(${PROJECT_NAME} SYSTEM INTERFACE src extras/cyphal++/include src/libcanard src/libo1heap)
 target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_20)
 ##########################################################################
 if(BUILD_EXAMPLES)
