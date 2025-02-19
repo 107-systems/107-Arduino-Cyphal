@@ -35,7 +35,7 @@ jobs:
           coverage-data-path: ${{ env.COVERAGE_DATA_PATH }}
 
       - name: Upload coverage report to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: "${{ env.COVERAGE_DATA_PATH }}"
