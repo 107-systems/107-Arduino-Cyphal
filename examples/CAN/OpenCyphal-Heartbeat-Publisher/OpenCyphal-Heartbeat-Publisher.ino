@@ -33,6 +33,9 @@ ArduinoMCP2515 mcp2515([]() { digitalWrite(MKRCAN_MCP2515_CS_PIN, LOW); },
                        []() { digitalWrite(MKRCAN_MCP2515_CS_PIN, HIGH); },
                        [](uint8_t const data) { return SPI.transfer(data); },
                        micros,
+                       millis,
+                       nullptr,
+                       nullptr,
                        nullptr,
                        nullptr);
 
