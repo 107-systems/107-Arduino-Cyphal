@@ -49,15 +49,22 @@ typedef int SocketCANFD;
  *
  * @param[in] iface_name name of the CAN interface, e.g., "can0, vcan0"
  * @param[in] can_fd true for CAN FD mode, false if only classic CAN frames are to be supported.
+ * @param[in] en_rx_timestamping enable reception timestamping if true.
+ * @param[in] en_tx_timestamping enable transmission timestamping if true.
+ * @param[in] enable_frame_reception enable frame reception if true. Otherwise, only transmission is possible.
  *
  * @return socket handle on success, negated errno on error.
  */
-SocketCANFD socketcanOpen(const char* const iface_name, const bool can_fd);
+SocketCANFD socketcanOpen(const char* const iface_name,
+                          const bool can_fd,
+                          const bool en_rx_timestamping,
+                          const bool en_tx_timestamping,
+                          const bool enable_frame_reception);
 
 /**
  * @brief Enqueue a new extended CAN data frame for transmission.
  * Block until the frame is enqueued or until the timeout is expired.
- * 
+ *
  * @param fd the socket handle.
  * @param[in] frame the frame to be transmitted. Zero timeout makes the operation non-blocking.
  * @param timeout_usec timeout in microseconds.
@@ -94,6 +101,25 @@ int16_t socketcanPop(const SocketCANFD        fd,
                      const CanardMicrosecond  timeout_usec,
                      bool* const              loopback);
 
+/**
+ * @brief Fetch one new TX timestamp notification from the errqueue.
+ * Returns the software- and hardware-domain timestamp (fallback to CLOCK_REALTIME).
+ * Call this repeatedly to drain the errqueue.
+ *
+ * @param fd the socket handle.
+ * @param timeout_usec the timeout in microseconds. Zero timeout makes the operation non-blocking.
+ * @param[out] out_tx_id A unique identifier of the transmitted frame associated with this timestamp.
+ *                       The identifier is derived from a per-socket u32 counter (that wraps). Starts with 0.
+ * @param[out] sw_timestamp_usec Software-domain timestamp in microseconds.
+ * @param[out] raw_hw_timestamp_usec Raw hardware-domain timestamp in microseconds. Not aligned to system clock.
+ *
+ * @return 1 if an entry was read, 0 if none (EAGAIN), or negative errno.
+ */
+int16_t socketcanPopTimestamp(const SocketCANFD        fd,
+                              const CanardMicrosecond  timeout_usec,
+                              uint32_t* const          out_tx_id,
+                              CanardMicrosecond* const sw_timestamp_usec,
+                              CanardMicrosecond* const raw_hw_timestamp_usec);
 /**
  * @brief Apply the specified acceptance filter configuration.
  *        Note that it is only possible to accept extended-format data frames.

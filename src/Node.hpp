@@ -83,9 +83,9 @@ public:
 
 
   template <typename T>
-  Publisher<T> create_publisher(CanardMicrosecond const tx_timeout_usec);
+  Publisher<T> create_publisher(CanardMicrosecond const tx_timeout_usec, CanardPriority const priority = CanardPriorityNominal);
   template <typename T>
-  Publisher<T> create_publisher(CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec);
+  Publisher<T> create_publisher(CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, CanardPriority const priority);
 
   template <typename T, typename OnReceiveCb>
   Subscription create_subscription(OnReceiveCb&& on_receive_cb, CanardMicrosecond const tid_timeout_usec = CANARD_DEFAULT_TRANSFER_ID_TIMEOUT_USEC);

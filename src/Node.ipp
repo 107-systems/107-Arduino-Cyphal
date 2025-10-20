@@ -26,14 +26,14 @@ namespace cyphal
  **************************************************************************************/
 
 template <typename T>
-Publisher<T> Node::create_publisher(CanardMicrosecond const tx_timeout_usec)
+Publisher<T> Node::create_publisher(CanardMicrosecond const tx_timeout_usec, CanardPriority const priority)
 {
   static_assert(T::_traits_::HasFixedPortID, "T does not have a fixed port id.");
-  return create_publisher<T>(T::_traits_::FixedPortId, tx_timeout_usec);
+  return create_publisher<T>(T::_traits_::FixedPortId, tx_timeout_usec, priority);
 }
 
 template <typename T>
-Publisher<T> Node::create_publisher(CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec)
+Publisher<T> Node::create_publisher(CanardPortID const port_id, CanardMicrosecond const tx_timeout_usec, CanardPriority const priority)
 {
   static_assert(!T::_traits_::IsServiceType, "T is not message type");
 
@@ -43,7 +43,8 @@ Publisher<T> Node::create_publisher(CanardPortID const port_id, CanardMicrosecon
   return std::make_shared<impl::Publisher<T>>(
     *this,
     port_id,
-    tx_timeout_usec
+    tx_timeout_usec,
+    priority
     );
 }
 
