@@ -13,7 +13,7 @@
 
 #include <memory>
 
-#include "../../DSDL_Types.h"
+#include <uavcan/node/GetInfo_1_0.hpp>
 
 /**************************************************************************************
  * NAMESPACE

@@ -14,7 +14,8 @@
 #include "PortListPublisherBase.hpp"
 
 #include "../../Node.hpp"
-#include "../../DSDL_Types.h"
+#include <uavcan/node/port/List_1_0.hpp>
+#include <uavcan/node/port/SubjectID_1_0.hpp>
 
 /**************************************************************************************
  * NAMESPACE

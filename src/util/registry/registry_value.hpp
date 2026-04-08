@@ -15,7 +15,11 @@
 #include <utility>
 #include <string_view>
 
-#include "../../DSDL_Types.h"
+#include <uavcan/_register/Value_1_0.hpp>
+#include <uavcan/_register/Name_1_0.hpp>
+#include <uavcan/primitive/String_1_0.hpp>
+#include <uavcan/primitive/Unstructured_1_0.hpp>
+#include <uavcan/primitive/Empty_1_0.hpp>
 
 
 

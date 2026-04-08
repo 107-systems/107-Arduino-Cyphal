@@ -12,7 +12,8 @@
  **************************************************************************************/
 
 #include "../../Node.hpp"
-#include "../../DSDL_Types.h"
+#include <uavcan/_register/List_1_0.hpp>
+#include <uavcan/_register/Access_1_0.hpp>
 
 #include "registry_impl.hpp"
 

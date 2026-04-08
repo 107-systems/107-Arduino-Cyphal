@@ -12,7 +12,6 @@
  **************************************************************************************/
 
 #include "Node.hpp"
-#include "DSDL_Types.h"
 #include "Publisher.hpp"
 #include "Subscription.hpp"
 #include "ServiceClient.hpp"
